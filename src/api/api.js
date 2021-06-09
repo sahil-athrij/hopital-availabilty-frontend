@@ -1,13 +1,5 @@
 export async function get(url, kwargs = {}) {
-    const response = await fetch(url + "?" + new URLSearchParams(kwargs), {
-            // mode: 'no-cors',
-            method: 'get',
-            referrerPolicy: 'no-referrer',
-            headers: {
-                "accept": "*/*",
-                "Content-Type":"",
-            },
-        }
+    const response = await fetch(url + "?" + new URLSearchParams(kwargs), {}
     );
     return response.json()
 }
