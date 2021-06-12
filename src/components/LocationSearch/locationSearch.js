@@ -8,23 +8,60 @@ import {get} from "../../api/api"
 
 class SearchBox extends Component {
 
+
     state = {
         suggestions: [],
         displaySuggestions: "none",
         selected: 0,
-        loc: '',
         value: '',
+        mousedOver: false
     }
+
+    componentDidMount() {
+        let newValue = localStorage.getItem(this.props.name)
+        this.setState({value: newValue})
+    }
+
+    setPersistence() {
+        localStorage.setItem(this.props.name, this.state.value)
+    }
+
+
     async SuggestLocations(event) {
-        this.setState({loc: event.target.value})
-        const values = await get('https://api.locationiq.com/v1/autocomplete.php',
-            {key: 'pk.760f1338e289bacc788f9e0ae4a4951e', q: event.target.value, limit: 5, countrycodes: 'in'})
+        this.setState({value: event.target.value})
+        this.setPersistence()
+        let url;
+
+        url = this.props.type === 'location' ? 'https://api.locationiq.com/v1/autocomplete.php' : 'http://127.0.0.1:8000/api/marker/';
+        const values = await get(url, {
+            key: 'pk.760f1338e289bacc788f9e0ae4a4951e',
+            q: event.target.value,
+            search: event.target.value,
+            limit: 5,
+            countrycodes: 'in'
+        })
         console.log(values)
         let {error} = values
         if (!error) {
-            this.setState({displaySuggestions: "Block", suggestions: values})
+            let {results} = values
+            if (results) {
+                this.setState({displaySuggestions: "Block", suggestions: results})
+            } else {
+                this.setState({displaySuggestions: "Block", suggestions: values})
+            }
         }
     }
+
+    handleEnter(e) {
+        let newSelected = this.state.suggestions[this.state.selected]
+        let newValue = this.props.type === 'location' ? newSelected.address.name : newSelected.name
+        this.setState({
+            value: newValue,
+            displaySuggestions: "None"
+        })
+        this.setPersistence()
+    }
+
 
     handleKeyDown(e) {
         const {selected, suggestions} = this.state
@@ -41,30 +78,41 @@ class SearchBox extends Component {
             }))
         } else if (e.key === "Enter") {
             e.preventDefault()
-            this.setState({
-                loc: this.state.suggestions[this.state.selected].address.name,
-                displaySuggestions: "None"
-            })
+            this.handleEnter(e)
         }
     }
 
-    displaySuggestions(list) {
+    displaySuggestions(list, type) {
         return list.map((item, i) => {
                 return (
                     <li className={(i === this.state.selected) ? "active" : ''} key={i}
                         onClick={(event) => {
-                            this.setState({loc: item.address.name})
+                            let newValue = type === 'location' ? item.address.name : item.name
+                            this.setState({
+                                value: newValue,
+                                displaySuggestions: "None"
+                            })
+                            this.setPersistence()
                         }}
-                    >
+                        onMouseOver={(event) => {
+                            this.setState({mousedOver: true})
+                        }}
+                        onMouseLeave={() => {
+                            this.setState({mousedOver: false})
+                        }}>
                         <a>
                             <div className="mapboxgl-ctrl-geocoder--suggestion">
-                                <div className="mapboxgl-ctrl-geocoder--suggestion-title">{item.address.name}</div>
+                                <div className="mapboxgl-ctrl-geocoder--suggestion-title">
+                                    {type === 'location' ? item.address.name : item.name}
+                                </div>
                                 <div
-                                    className="mapboxgl-ctrl-geocoder--suggestion-address">{item.display_address}
+                                    className="mapboxgl-ctrl-geocoder--suggestion-address">
+                                    {type === 'location' ? item.display_address : item.display_address}
                                 </div>
                             </div>
                         </a>
-                    </li>)
+                    </li>
+                )
             }
         )
     }
@@ -73,32 +121,37 @@ class SearchBox extends Component {
         return (
             <>
                 <input type="text" className="mapboxgl-ctrl-geocoder--input"
-                       placeholder="Location (Auto)"
+                       placeholder={this.props.placeholder}
                        onChange={(event) => {
-                           this.SuggestLocations(event)
-                       }}
-                       onBlur={(event) => {
-                           this.setState({displaySuggestions: "None"})
+                           this.SuggestLocations(event,)
                        }}
                        onKeyDown={(event) => {
                            this.handleKeyDown(event)
                        }}
-                       value={this.state.loc}
-                       aria-label="Location (Auto)" name="loc" id="loc" autoComplete="off"/>
+                       onBlur={(event) => {
+                           if (!this.state.mousedOver)
+                               this.setState({displaySuggestions: "None"})
+                       }}
+                       value={this.state.value}
+                       aria-label={this.props.placeholder}
+                       name={this.props.name}
+                       id={this.props.id}
+                       autoComplete="off"/>
+
                 <div className="suggestions-wrapper">
                     <ul className="suggestions" style={{display: this.state.displaySuggestions}}>
-                        {this.displaySuggestions(this.state.suggestions)}
+                        {this.displaySuggestions(this.state.suggestions, this.props.type)}
                     </ul>
                 </div>
                 <div className="mapboxgl-ctrl-geocoder--pin-right">
-                    <button aria-label="Clear" className="mapboxgl-ctrl-geocoder--button"
-                            style={{display: this.state.loc ? 'Block' : "None"}}
-                            onClick={(event) => {
-                                event.preventDefault()
-                                this.setState({loc: ""})
-                            }}>
+                    <i aria-label="Clear" className="mapboxgl-ctrl-geocoder--button"
+                       style={{display: this.state.value ? 'Block' : "None"}}
+                       onClick={(event) => {
+                           event.preventDefault()
+                           this.setState({value: ""})
+                       }}>
                         <Close/>
-                    </button>
+                    </i>
                     <Loading/>
                 </div>
             </>
@@ -111,7 +164,6 @@ class SearchBox extends Component {
 
 export class LocationSearch extends Component {
 
-
     render() {
         return (
             <>
@@ -120,22 +172,13 @@ export class LocationSearch extends Component {
                 <Col xs={12} md={6} className="input-left p-0 my-2">
                     <div className="mapboxgl-ctrl-geocoder mapboxgl-ctrl input-small-rounder w-100 input-left">
                         <Marker/>
-                        <SearchBox/>
+                        <SearchBox placeholder="Location (Auto)" name="loc" id="loc" type="location"/>
                     </div>
                 </Col>
                 <Col xs={12} md={6} className="input-right p-0 my-2">
                     <div className="mapboxgl-ctrl-geocoder  input-small-rounder input-right mapboxgl-ctrl w-100">
                         <Search/>
-                        <input type="text" className="mapboxgl-ctrl-geocoder--input" placeholder="Hospital Name"
-                               aria-label="Hospital Name" name="query" id="hspsearch"/>
-                        <div className="suggestions-wrapper">
-                            <ul className="suggestions" style={{display: null}}/>
-                        </div>
-                        <div className="mapboxgl-ctrl-geocoder--pin-right">
-                            <button aria-label="Clear" className="mapboxgl-ctrl-geocoder--button">
-                                <Close/>
-                            </button>
-                        </div>
+                        <SearchBox placeholder="Hospital Name" name="query" id="hspsearch" type="search"/>
                     </div>
                 </Col>
             </>

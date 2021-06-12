@@ -1,5 +1,6 @@
 export async function get(url, kwargs = {}) {
-    const response = await fetch(url + "?" + new URLSearchParams(kwargs), {}
+    const response = await fetch(url + "?" + new URLSearchParams(kwargs), {
+        }
     );
     return response.json()
 }
