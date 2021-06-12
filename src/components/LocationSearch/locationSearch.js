@@ -22,14 +22,13 @@ class SearchBox extends Component {
         this.setState({value: newValue})
     }
 
-    setPersistence() {
-        localStorage.setItem(this.props.name, this.state.value)
+    setPersistence(value) {
+        localStorage.setItem(this.props.name, value)
     }
 
-
     async SuggestLocations(event) {
+        this.setPersistence(event.target.value)
         this.setState({value: event.target.value})
-        this.setPersistence()
         let url;
 
         url = this.props.type === 'location' ? 'https://api.locationiq.com/v1/autocomplete.php' : 'http://127.0.0.1:8000/api/marker/';
@@ -54,12 +53,16 @@ class SearchBox extends Component {
 
     handleEnter(e) {
         let newSelected = this.state.suggestions[this.state.selected]
-        let newValue = this.props.type === 'location' ? newSelected.address.name : newSelected.name
-        this.setState({
-            value: newValue,
-            displaySuggestions: "None"
-        })
-        this.setPersistence()
+        this.setPersistence(this.state.value)
+
+        if (newSelected) {
+            let newValue = this.props.type === 'location' ? newSelected.address.name : newSelected.name
+            this.setPersistence(newValue)
+            this.setState({
+                value: newValue,
+                displaySuggestions: "None"
+            })
+        }
     }
 
 
@@ -69,7 +72,7 @@ class SearchBox extends Component {
         if (e.key === 'ArrowUp' && suggestions.length > 0) {
             e.preventDefault()
             this.setState(prevState => ({
-                selected: prevState.selected - 1
+                selected: prevState.selected === -1 ? -1 : prevState.selected - 1
             }))
         } else if (e.key === "ArrowDown" && selected < suggestions.length - 1) {
             e.preventDefault()
@@ -88,11 +91,11 @@ class SearchBox extends Component {
                     <li className={(i === this.state.selected) ? "active" : ''} key={i}
                         onClick={(event) => {
                             let newValue = type === 'location' ? item.address.name : item.name
+                            this.setPersistence(newValue)
                             this.setState({
                                 value: newValue,
                                 displaySuggestions: "None"
                             })
-                            this.setPersistence()
                         }}
                         onMouseOver={(event) => {
                             this.setState({mousedOver: true})
