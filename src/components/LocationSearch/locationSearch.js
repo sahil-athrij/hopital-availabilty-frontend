@@ -151,6 +151,7 @@ class SearchBox extends Component {
                        style={{display: this.state.value ? 'Block' : "None"}}
                        onClick={(event) => {
                            event.preventDefault()
+                           this.setPersistence('')
                            this.setState({value: ""})
                        }}>
                         <Close/>

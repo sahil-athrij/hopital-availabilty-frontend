@@ -2,18 +2,29 @@ import {Component} from "react";
 import {Col, Container, Row} from "react-bootstrap";
 import {LocationSearch} from "../components/LocationSearch/locationSearch"
 import {RatingQueryForm} from "../components/RatingForm/RatingQueryForm";
+import {withRouter} from "react-router";
 
 class Index extends Component {
 
     state = {showing: false};
 
+    handleSubmit(event) {
+        event.preventDefault()
+        let {location, history} = this.props
+        history.push('/search')
+
+    }
+
     render() {
+
         const {showing} = this.state
         return (
             <Container className="my-5 py-5">
                 <Row className="mt-5 pt-5 align-self-center">
                     <Col xs={12} md={{span: 8, offset: 2}} lg={{span: 6, offset: 3}} className="neumorphic_form">
-                        <form action="" method="get" className="my-3">
+                        <form onSubmit={(event) => {
+                            this.handleSubmit(event)
+                        }} className="my-3">
                             <div className="text-center h3 p-3">Search For Hospitals</div>
                             <Row className="form-row mb-3 px-2 px-md-5">
                                 <div className="input-group">
@@ -56,4 +67,4 @@ class Index extends Component {
 
 }
 
-export default Index;
+export default withRouter(Index);
