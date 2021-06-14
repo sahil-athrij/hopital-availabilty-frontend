@@ -3,6 +3,7 @@ import {Col, Container, Row} from "react-bootstrap";
 import {LocationSearch} from "../components/LocationSearch/locationSearch"
 import {RatingQueryForm} from "../components/RatingForm/RatingQueryForm";
 import {withRouter} from "react-router";
+import {filterFormGetter} from "../api/QueryCreator";
 
 class Index extends Component {
 
@@ -10,8 +11,9 @@ class Index extends Component {
 
     handleSubmit(event) {
         event.preventDefault()
-        let {location, history} = this.props
-        history.push('/search')
+        let {history} = this.props
+        history.push(filterFormGetter('/search'))
+
 
     }
 

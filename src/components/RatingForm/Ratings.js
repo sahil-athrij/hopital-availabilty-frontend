@@ -2,7 +2,7 @@ import {Component, Fragment} from "react";
 import {Col, OverlayTrigger, Popover,} from "react-bootstrap";
 import './rate.css'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faInfoCircle} from '@fortawesome/free-solid-svg-icons'
+import {faInfoCircle, faTimesCircle} from '@fortawesome/free-solid-svg-icons'
 
 class InfoPopover extends Component {
     popover = (<Popover id="popover-basic">
@@ -25,6 +25,10 @@ class InfoPopover extends Component {
 export class SliderRating extends Component {
     state = {value: 0}
 
+    setPersistence(value) {
+        localStorage.setItem(this.props.name, value)
+    }
+
     render() {
         return (
             <>
@@ -39,6 +43,7 @@ export class SliderRating extends Component {
                                    name={this.props.name} disabled={this.props.disabled}
                                    onChange={(event) => {
                                        if (!this.props.disabled) {
+                                           this.setPersistence(event.target.value)
                                            this.setState({value: event.target.value})
                                        }
                                    }}
@@ -61,6 +66,10 @@ export class SliderRating extends Component {
 export class StarRating extends Component {
     state = {value: 0}
 
+    setPersistence(value) {
+        localStorage.setItem(this.props.name, value)
+    }
+
     render() {
         return (
             <>
@@ -73,12 +82,16 @@ export class StarRating extends Component {
                         <div id={this.props.name} className="form-check-inline">
                             <div className={'rate ' + this.props.extra_class}>
                                 {this.props.disabled ?
-                                    <span>
-                                        <i className="fa fa-times-circle move-up"
-                                           onClick="$('input:radio[name={{ name }}]').val([0]);$('#{{ name }}feedback').show();"/>
-                                    </span>
-                                    :
                                     <output className="ot mx-2">{this.state.value}</output>
+                                    :
+                                    <span>
+                                        <FontAwesomeIcon aria-hidden="true" icon={faTimesCircle} className="move-up"
+                                                         onClick={(event) => {
+                                                             this.setPersistence(0)
+                                                             this.setState({value: 0})
+                                                         }}
+                                        />
+                                    </span>
                                 }
 
                                 {[5, 4, 3, 2, 1].map((number, i) =>
@@ -88,18 +101,18 @@ export class StarRating extends Component {
                                                    defaultChecked={parseInt(this.state.value) === number}
                                                    onClick={() => {
                                                        if (!this.props.disabled) {
+                                                           this.setPersistence(number)
                                                            this.setState({value: number})
                                                        }
                                                    }}
                                             />
-                                            {/*<label key={i + 5} htmlFor={this.props.name + number}/>*/}
                                             <label htmlFor={this.props.name + number}> </label>
                                         </Fragment>
                                     )
                                 )}
                             </div>
                             {this.props.feedback &&
-                            <div id="{{ name }}feedback" className="invalid-feedback">
+                            <div className="invalid-feedback">
                                 Please rate {this.props.label}.
                             </div>
                             }
