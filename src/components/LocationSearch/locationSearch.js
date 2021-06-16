@@ -6,8 +6,7 @@ import {ReactComponent as Marker} from "../../images/marker.svg"
 import {ReactComponent as Loading} from "../../images/loading.svg"
 import {get} from "../../api/api"
 
-class SearchBox extends Component {
-
+export class SearchBox extends Component {
 
     state = {
         suggestions: [],
@@ -175,7 +174,7 @@ export class LocationSearch extends Component {
                 <input name="lng" id="lng" hidden/>
                 <Col xs={12} md={6} className="input-left p-0 my-2">
                     <div className="mapboxgl-ctrl-geocoder mapboxgl-ctrl input-small-rounder w-100 input-left">
-                        <Marker/>
+                        <Marker className="mapboxgl-ctrl-geocoder--icon mapboxgl-ctrl-geocoder--icon-search"/>
                         <SearchBox placeholder="Location (Auto)" name="loc" id="loc" type="location"/>
                     </div>
                 </Col>
@@ -189,4 +188,5 @@ export class LocationSearch extends Component {
         )
     }
 }
+
 

@@ -1,23 +1,70 @@
-import {Col, Container, Nav, Navbar} from "react-bootstrap";
+import {Container, Nav, Navbar} from "react-bootstrap";
+import ResponsiveComponent from "../ResponsiveComponent";
+import {ReactComponent as Burger} from "../../images/burger.svg"
+import {ReactComponent as Brand} from "../../images/brand.svg"
 import './nabar.css';
-import {LocationSearch} from "../LocationSearch/locationSearch";
+import {ReactComponent as Marker} from "../../images/marker.svg";
+import {CSSTransition} from "react-transition-group";
+import {FullScreenLocation} from "../LocationSearch/FullScreenLocation";
+import {BiSearch} from "react-icons/all";
+
+class NavBar extends ResponsiveComponent {
+
+    state = {
+        loc: localStorage.getItem("loc"),
+        show_location: false,
+        query:localStorage.getItem("query"),
+    }
 
 
-function NavBar() {
-    return (
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="light" className="navbar  fixed-top bg-white"
-                id="navbar">
-            <Container fluid={true}>
-                <Navbar.Brand className="navbar-brand" href={'#'}>
-                    <img src="" width="30" height="30" alt=""/>
-                </Navbar.Brand>
-                <Col xs={1} md={2}/>
-                <form className="d-flex align-self-center text-center w-50 " method="GET" action="/search/">
-                    <div className="input-group">
-                        <LocationSearch/>
+    render() {
+        return (
+            <Navbar collapseOnSelect expand="lg" bg="dark" variant="light" className="navbar  fixed-top bg-white"
+                    id="navbar">
+
+                <Container className fluid={true}>
+                    <div className="justify-content-start">
+                        <Navbar.Toggle aria-controls="navbarSupportedContent" className="BlueBackground p-2">
+                        <span>
+                             <Burger/>
+                        </span>
+                        </Navbar.Toggle>
+                        <Navbar.Brand className="navbar-brand px-3" href={'#'}>
+                            <Brand height={30} width={30}/>
+                        </Navbar.Brand>
                     </div>
-                </form>
-                <Navbar.Toggle type="button" aria-controls="navbarSupportedContent"/>
+                    <div className="pointers" onClick={() => {
+                        this.setState({show_location: !this.state.show_location})
+                    }}>
+                        {this.state.loc}<Marker/>
+                    </div>
+                    <CSSTransition classNames="location-screen" in={this.state.show_location} timeout={300}
+                                   unmountOnExit
+                    >
+                        <FullScreenLocation close={() => {
+                            let loc;
+                            loc = localStorage.getItem('loc')
+                            this.setState({show_location: false, loc: loc})
+                        }}/>
+
+                    </CSSTransition>
+                </Container>
+                <Container className="w-100 input-holder pointers m-2">
+                    <BiSearch scale={4} size={30} className=" input-marker ml-3 mr-2"/>
+                    <div className="main-input fill-rest">Find Hospitals</div>
+                </Container>
+
+
+                {/*<form className="d-flex align-self-center text-center w-50 " method="GET" action="/search/">*/
+                }
+                {/*    <div className="input-group">*/
+                }
+                {/*        <LocationSearch/>*/
+                }
+                {/*    </div>*/
+                }
+                {/*</form>*/
+                }
                 <Navbar.Collapse className="justify-content-end" id="navbarSupportedContent">
                     <Nav className=" ml-auto ">
 
@@ -25,51 +72,17 @@ function NavBar() {
                         <Nav.Link href="/v2/add_hospital/">Add Hospital</Nav.Link>
                         <Nav.Link href="/v2/help/">Help</Nav.Link>
 
-                        {/*{% if user.is_authenticated %}*/}
-                        {/*<li className="nav-item dropdown">*/}
-                        {/*    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"*/}
-                        {/*       data-bs-toggle="dropdown" aria-expanded="false">*/}
-                        {/*        {{user.username}}*/}
-                        {/*    </a>*/}
-                        {/*    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">*/}
-                        {/*        <li><a className="dropdown-item" href="/v2/logout">Logout</a></li>*/}
-                        {/*    </ul>*/}
-                        {/*</li>*/}
-                        {/*{% else %}*/}
-                        {/*<li className="nav-item ms-auto">*/}
-                        {/*    <a className="nav-link " href="/v2/login/">login</a>*/}
-                        {/*</li>*/}
-                        {/*{% endif %}*/}
                     </Nav>
 
                 </Navbar.Collapse>
-            </Container>
-            <div id="nav-bg">
+                <div id="nav-bg">
 
-            </div>
+                </div>
 
-            {/*<Navbar.Brand href="#home">*/}
-            {/*    <img*/}
-            {/*        alt=""*/}
-            {/*        src={Logo}*/}
-            {/*        width="30"*/}
-            {/*        height="30"*/}
-            {/*        className="d-inline-block align-top Nav-logo"*/}
-            {/*    />{' '}*/}
-            {/*    NeedMedi*/}
-            {/*</Navbar.Brand>*/}
-            {/*<Navbar.Toggle aria-controls="responsive-navbar-nav"/>*/}
-            {/*<Navbar.Collapse id="responsive-navbar-nav">*/}
-            {/*    <Nav className="ml-auto">*/}
-            {/*        <Nav.Link eventKey={2} href="#login" className="mx-2">*/}
-            {/*            Login*/}
-            {/*        </Nav.Link>*/}
-            {/*        <Nav.Link href="#help" className="mx-2">Help</Nav.Link>*/}
-            {/*    </Nav>*/}
-            {/*</Navbar.Collapse>*/}
-        </Navbar>
+            </Navbar>
 
-    );
+        )
+    }
 }
 
 export default NavBar;

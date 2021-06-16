@@ -3,16 +3,57 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .Nav-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+    .Nav-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.BlueBackground {
+    border-radius: 50px;
+    border: None;
+    transition: background-color .2s ease-in;
+}
+
+.BlueBackground:focus {
+    box-shadow: none;
+}
+
+.BlueBackground:hover,
+.BlueBackground:focus {
+    opacity: 1;
+    background-color: #c8f8f6;
+}
+
+.location-screen-enter {
+    opacity: 1;
+    transform: translateX(100%);
+}
+
+.location-screen-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 300ms, transform 300ms;
+}
+
+.location-screen-exit {
+    opacity: 1;
+}
+
+.location-screen-exit-active {
+    opacity: 1;
+    transform: translateX(100%);
+    transition: opacity 300ms, transform 300ms;
+}
+
+.rounder {
+    border-radius: 50px !important;
 }

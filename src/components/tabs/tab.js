@@ -1,14 +1,14 @@
 import {Component} from "react";
-import {Link} from "react-router-dom";
 import './tab.css'
+import {Button, NavLink} from "react-bootstrap";
 
 export class TabButton extends Component {
     render() {
-        return (<Link href="" className="u-link"
-                      type="button"
-                      role="tab"
-                      aria-controls={this.props.control_id}
+        return (<NavLink className="u-link"
+                        type="button"
+                        role="tab"
+                        aria-controls={this.props.control_id}
         >{this.props.name}
-        </Link>)
+        </NavLink>)
     }
 }

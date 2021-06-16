@@ -7,6 +7,7 @@ import {filterFormGetter} from "../api/QueryCreator";
 
 class Index extends Component {
 
+
     state = {showing: false};
 
     handleSubmit(event) {

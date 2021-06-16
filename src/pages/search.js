@@ -2,10 +2,8 @@ import {Component} from "react";
 import {TabButton} from "../components/tabs/tab";
 import {Col, Container, Row} from "react-bootstrap";
 import {Sidebar} from "../components/RatingForm/sidebar";
+import {SearchResults} from "../components/cards/SearchResultCard";
 
-function SearchResultList() {
-    return null;
-}
 
 export class Search extends Component {
     render() {
@@ -31,7 +29,7 @@ export class Search extends Component {
                         {/*{% for marker in search_results %}*/}
                         {/*{% include 'v2/components/search_result_card.html' with id=marker.id col='col-6' %}*/}
                         {/*{% endfor %}*/}
-                        <SearchResultList/>
+                        <SearchResults/>
                     </Col>
                     <button className="btn btn-outline-primary">More results</button>
 

@@ -1,0 +1,53 @@
+.input-marker {
+    display: inline-block;
+}
+
+.input-holder {
+    border: 2px solid #282c34;
+    border-radius: 50px;
+}
+
+.input-holder:focus,
+.input-holder:active {
+    border: 2px solid #000000;
+
+}
+
+.main-input {
+    flex: 2;
+    border: none;
+    height: 40px;
+    line-height: 40px;
+    font-size: 22px;
+    font-weight: lighter;
+}
+
+.main-input:focus,
+.main-input:focus-visible {
+    box-shadow: none;
+    border: none;
+    outline: none;
+}
+
+
+.header {
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.fill-rest {
+    flex: 2;
+    text-align: left;
+}
+
+.select-locations {
+    border-bottom: #ededed;
+    border-bottom-style: solid;
+}
+
+.select-locations:hover {
+    background-color: #f6f6f7;
+}
+
+.active {
+    background-color: #f6f6f7;
+}
