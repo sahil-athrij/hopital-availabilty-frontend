@@ -6,10 +6,20 @@ import {SearchResults} from "../components/cards/SearchResultCard";
 
 
 export class Search extends Component {
+    state = {
+        loc: localStorage.getItem("loc") === 'Select Location' ? '' : localStorage.getItem("loc") || '',
+        query: localStorage.getItem("query") === 'Search' ? '' : localStorage.getItem("query") || '',
+    }
+
     render() {
         return (
-            <Container className="my-5 py-5 ">
-                <div className="text-center h3 p-3 pt-5 pt-sm-3">Search Results</div>
+            <Container fluid={true} className="my-5 py-5 ">
+                {this.state.query ?
+                    <div className="text-left pt-5 pt-sm-3">Showing Results for <b>"{this.state.query}"</b></div>
+                    :
+                    <div className="text-left pt-5 pt-sm-3">Showing Results in <b>"{this.state.loc}"</b></div>
+
+                }
                 <div className="text-center tab">
                     <TabButton control_id='filter' name='Hide Filter' active='filterpanel' tab='filter'/>
                     <TabButton control_id='listview' name='List View' active='u-active'/>

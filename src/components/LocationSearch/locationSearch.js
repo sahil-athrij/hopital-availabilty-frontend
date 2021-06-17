@@ -2,7 +2,7 @@ import {Component} from "react";
 import {Col} from "react-bootstrap";
 import {ReactComponent as Search} from "../../images/search.svg"
 import {ReactComponent as Close} from "../../images/close.svg"
-import {ReactComponent as Marker} from "../../images/marker.svg"
+import {ReactComponent as Marker} from "../../images/markersvg.svg"
 import {ReactComponent as Loading} from "../../images/loading.svg"
 import {get} from "../../api/api"
 

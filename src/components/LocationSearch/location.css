@@ -3,8 +3,10 @@
 }
 
 .input-holder {
+
     border: 2px solid #282c34;
     border-radius: 50px;
+    transition: border 200ms;
 }
 
 .input-holder:focus,
@@ -18,7 +20,7 @@
     border: none;
     height: 40px;
     line-height: 40px;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: lighter;
 }
 
@@ -50,4 +52,8 @@
 
 .active {
     background-color: #f6f6f7;
+}
+
+.active-blue {
+    border: 2px solid #225cc7;
 }

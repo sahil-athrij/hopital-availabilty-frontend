@@ -1,8 +1,13 @@
 export async function get(url, kwargs = {}) {
-    const response = await fetch(url + "?" + new URLSearchParams(kwargs), {
-        }
+    const response = await fetch(url + "?" + new URLSearchParams(kwargs), {}
     );
-    return response.json()
+    if (response.status > 300) {
+        throw (response)
+    } else {
+
+        console.log(response)
+        return response.json()
+    }
 }
 
 export async function post(url, kwargs = {}) {
@@ -103,12 +108,21 @@ export default class Model {
      * @param {{}} kwargs
      */
     filter = async (kwargs = {}) => {
-        let data = await get(`${this.baseurl}`, kwargs)
-        let lst = []
-        data.results.forEach(item => {
-            lst.push(new this.modelClass(item, this.baseurl))
-        })
-        return {results: lst, next: data.next}
+
+        try {
+            let data = await get(`${this.baseurl}`, kwargs)
+            let lst = []
+            data.results.forEach(item => {
+                lst.push(new this.modelClass(item, this.baseurl))
+            })
+            return {results: lst, next: data.next}
+        } catch (e) {
+            let errors;
+            errors = await e.json()
+            console.log(errors)
+            throw errors
+
+        }
     };
 
     /**

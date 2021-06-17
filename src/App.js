@@ -23,6 +23,7 @@ class App extends Component {
                     <Route path="/search">
                         <Search/>
                     </Route>
+
                     <Route path="/">
                         <Index/>
                     </Route>

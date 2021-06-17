@@ -1,7 +1,8 @@
 import Model, {ModelObject} from "./api";
 
 let baseUrl;
-baseUrl = "https://127.0.0.1:8000"
+baseUrl = "http://127.0.0.1:8000"
+
 class MarkerObject extends ModelObject {
     constructor(data, baseUrl) {
 
@@ -39,6 +40,6 @@ class susObject extends ModelObject {
     }
 }
 
-export let Review = new Model(baseUrl+'/review/', ReviewObject)
-export let Sus = new Model(baseUrl+'/suspicious/', susObject)
-export let Marker = new Model(baseUrl+'/marker/', MarkerObject)
+export const Review = new Model(baseUrl + '/api/review/', ReviewObject)
+export const Sus = new Model(baseUrl + '/api/suspicious/', susObject)
+export const Marker = new Model(baseUrl + '/api/marker/', MarkerObject)
