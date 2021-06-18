@@ -118,7 +118,7 @@ export default class Model {
             return {results: lst, next: data.next}
         } catch (e) {
             let errors;
-            errors = await e.json()
+            errors = e
             console.log(errors)
             throw errors
 
