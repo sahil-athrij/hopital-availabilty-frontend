@@ -82,23 +82,25 @@ class SearchCards extends Component {
 
 export class SearchResults extends Component {
 
-    state = {'models': [], next: ''}
+    state = {models: [], next: ''}
 
-    componentDidMount() {
-        Marker.filter().then((response) => {
-            let {results, next} = response
-            this.setState({models: results, next: next})
+    async componentDidMount() {
 
-        })
+        let markers;
+        markers = await Marker.filter()
+        let {results, next} = markers
+        this.setState({models: results, next: next})
     }
 
     render() {
         console.log(this.state)
         return (
-            this.state.models.map((model) =>
-                <SearchResults model={model}/>
-            )
-
+            <>
+                {this.state.models.map((model, i) => {
+                        return <SearchCards key={i} model={model}/>
+                    }
+                )}
+            < />
         )
 
     }
