@@ -6,7 +6,7 @@ import {ReactComponent as Search} from "../../images/search.svg";
 import {get} from "../../api/api";
 import {Marker} from "../../api/model";
 import './location.css'
-import {AiFillCloseCircle, BiCurrentLocation, FaHospital, ImLocation2} from "react-icons/all";
+import {AiFillCloseCircle, AiOutlineClose, BiCurrentLocation, BsSearch, FaHospital, ImLocation2} from "react-icons/all";
 import {Link} from "react-router-dom";
 
 export class LocationSearchBox extends ResponsiveComponent {
@@ -146,7 +146,7 @@ export class LocationSearchBox extends ResponsiveComponent {
                            }}
                     />
                     {this.state.value &&
-                    <AiFillCloseCircle scale={4} size={30} className="input-marker" onClick={() => {
+                    <AiOutlineClose scale={4} size={30} className="input-marker" onClick={() => {
                         this.setState({value: ''},
                             () => {
                                 this.setPersistence()
@@ -194,7 +194,7 @@ export class LocationQuerySearchBox extends LocationSearchBox {
 
 
     async SuggestLocationsSearch(event) {
-        this.setState({query: event.target.value})
+        this.setState({query: event.target.value}, this.setPersistence)
         const values = await Marker.filter({search: this.state.query, limit: 5})
         let {details} = values
         console.log(details)
@@ -267,8 +267,9 @@ export class LocationQuerySearchBox extends LocationSearchBox {
     render() {
         return (
             <>
-                <Container className={"w-100 input-holder mb-3 " + ((1 === this.state.display) ? "active-blue" : '')}>
-                    <Search className=" input-marker"/>
+                <Container
+                    className={"w-100 input-holder mb-3 pr-1 justify-content-begin position-relative overflow-x-hidden  " + ((1 === this.state.display) ? "active-blue" : '')}>
+                    <Search className=" input-marker "/>
 
                     <input placeholder="Search" className={"main-input "}
                            value={this.state.query}
@@ -283,12 +284,17 @@ export class LocationQuerySearchBox extends LocationSearchBox {
                            }}
                     />
                     {this.state.query &&
-                    <AiFillCloseCircle scale={4} size={30} className="input-marker" onClick={() => {
+                    <AiOutlineClose scale={4} size={30} className="input-marker mr-2" onClick={() => {
                         this.setState({query: ''},
                             () => {
                                 this.setPersistence()
                             })
                     }}/>}
+                    <Link to={"/search"} className="h5  u-link  m-0 p-1 px-2"
+                          onClick={this.props.closeWindow}>
+                        Go
+                        {/*<BsSearch scale={5} size={25} className="input-marker" />*/}
+                    </Link>
                 </Container>
 
                 <Container className={"w-100 input-holder " + ((2 === this.state.display) ? "active-blue" : '')}>
@@ -307,7 +313,7 @@ export class LocationQuerySearchBox extends LocationSearchBox {
                                this.SuggestLocations(event)
                            }}/>
                     {this.state.value &&
-                    <AiFillCloseCircle scale={4} size={30} className="input-marker" onClick={() => {
+                    <AiOutlineClose scale={4} size={30} className="input-marker" onClick={() => {
                         this.setState({value: ''},
                             () => {
                                 this.setPersistence()
@@ -366,14 +372,12 @@ export class FullScreenSearch extends ResponsiveComponent {
                 }}>
                     <Back/>
                 </div>
-                <Link to={"/search"} className="h5 text-dark u-link  m-0 mx-2" onClick={this.props.close}>
-                    Search
-                </Link>
+
 
             </Container>
             <Container fluid={true} className="mt-3">
                 <LocationQuerySearchBox name="loc" close={() => {
-                }}/>
+                }} closeWindow={this.props.close}/>
             </Container>
         </div>)
     }

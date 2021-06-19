@@ -20,18 +20,18 @@ export class Search extends Component {
                     <div className="text-left pt-5 pt-sm-3">Showing Results in <b>"{this.state.loc}"</b></div>
 
                 }
-                <div className="text-center tab">
-                    <TabButton control_id='filter' name='Hide Filter' active='filterpanel' tab='filter'/>
-                    <TabButton control_id='listview' name='List View' active='u-active'/>
-                    <TabButton control_id='mapview' name='Map View' active=''/>
-                </div>
-                <Row className="my-1  align-self-center" id="filter" role="filterpanel"
-                     aria-labelledby="filter-tab">
-                    <Col xs={12} md={{span: 8, offset: 2}} id="toplevel">
-                        <Sidebar/>
-                    </Col>
-                    {/*{% include 'v2/components/sidebar.html' %}*/}
-                </Row>
+                {/*<div className="text-center tab">*/}
+                {/*    <TabButton control_id='filter' name='Hide Filter' active='filterpanel' tab='filter'/>*/}
+                {/*    <TabButton control_id='listview' name='List View' active='u-active'/>*/}
+                {/*    <TabButton control_id='mapview' name='Map View' active=''/>*/}
+                {/*</div>*/}
+                {/*<Row className="my-1  align-self-center" id="filter" role="filterpanel"*/}
+                {/*     aria-labelledby="filter-tab">*/}
+                {/*    <Col xs={12} md={{span: 8, offset: 2}} id="toplevel">*/}
+                {/*        <Sidebar/>*/}
+                {/*    </Col>*/}
+                {/*    /!*{% include 'v2/components/sidebar.html' %}*!/*/}
+                {/*</Row>*/}
 
                 <Row className="my-2  align-self-center" id="listview" role="tabpanel"
                      aria-labelledby="listview-tab">

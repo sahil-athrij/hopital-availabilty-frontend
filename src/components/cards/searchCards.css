@@ -1,0 +1,65 @@
+.hospital-address {
+    color: #70757A;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 70%;
+    display: inline-block;
+    white-space: nowrap;
+    width: 70%;
+    font-weight: 500;
+
+}
+
+.hospital-title {
+    font-size: 1rem;
+    letter-spacing: .00625em;
+    /*font-family: Google Sans, Roboto, Arial, sans-serif;*/
+    font-weight: 500;
+    line-height: 20px;
+    color: #202124;
+    white-space: normal;
+}
+
+.hospital-phone {
+    color: #70757A;
+    line-height: 1.25rem;
+    font-size: .875rem;
+    font-weight: 500;
+
+}
+
+.w-30 {
+    width: 30%;
+}
+
+.w-70 {
+    width: 70%;
+}
+
+.phone-button {
+    font-family: Roboto, Arial, sans-serif;
+    line-height: 1rem;
+    font-size: .75rem;
+    letter-spacing: .025em;
+    font-weight: 400;
+    color: #1A73E8;
+    width: 80px;
+}
+
+.button-holder {
+    border: 1px solid #1A73E8;
+    border-radius: 100%;
+    background: transparent;
+    font: inherit;
+    list-style: none;
+    margin: 0;
+    outline: 0;
+    overflow: visible;
+    padding: 0;
+    text-align: inherit;
+    vertical-align: baseline;
+    display: block;
+    width: 40px;
+    height: 40px;
+}

@@ -16,7 +16,6 @@ class NavBarLoc extends ResponsiveComponent {
         show_location: false,
         query: localStorage.getItem("query") || "Search Hospitals",
         show_search: false,
-        url: this.props.location.pathname
     }
 
 
@@ -38,7 +37,7 @@ class NavBarLoc extends ResponsiveComponent {
                         </Navbar.Brand>
                     </div>
                     {
-                        this.state.url === '/search' ?
+                        this.props.location.pathname === '/search' ?
                             <>
                                 <div className="pointers" onClick={() => {
                                     this.setState({show_location: !this.state.show_location})
