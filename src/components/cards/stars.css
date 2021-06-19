@@ -1,0 +1,12 @@
+.start-rating-container {
+    line-height: 1.25rem;
+    font-size: .875rem;
+}
+
+.star-full {
+    color: #fbbc04;
+}
+
+.star-empty {
+    color: #dadce0;
+}

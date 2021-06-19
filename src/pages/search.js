@@ -1,7 +1,5 @@
 import {Component} from "react";
-import {TabButton} from "../components/tabs/tab";
 import {Col, Container, Row} from "react-bootstrap";
-import {Sidebar} from "../components/RatingForm/sidebar";
 import {SearchResults} from "../components/cards/SearchResultCard";
 
 
@@ -20,25 +18,9 @@ export class Search extends Component {
                     <div className="text-left pt-5 pt-sm-3">Showing Results in <b>"{this.state.loc}"</b></div>
 
                 }
-                {/*<div className="text-center tab">*/}
-                {/*    <TabButton control_id='filter' name='Hide Filter' active='filterpanel' tab='filter'/>*/}
-                {/*    <TabButton control_id='listview' name='List View' active='u-active'/>*/}
-                {/*    <TabButton control_id='mapview' name='Map View' active=''/>*/}
-                {/*</div>*/}
-                {/*<Row className="my-1  align-self-center" id="filter" role="filterpanel"*/}
-                {/*     aria-labelledby="filter-tab">*/}
-                {/*    <Col xs={12} md={{span: 8, offset: 2}} id="toplevel">*/}
-                {/*        <Sidebar/>*/}
-                {/*    </Col>*/}
-                {/*    /!*{% include 'v2/components/sidebar.html' %}*!/*/}
-                {/*</Row>*/}
-
                 <Row className="my-2  align-self-center" id="listview" role="tabpanel"
                      aria-labelledby="listview-tab">
-                    <Col xs={12} md={{span: 8, offset: 2}} id="searchresults">
-                        {/*{% for marker in search_results %}*/}
-                        {/*{% include 'v2/components/search_result_card.html' with id=marker.id col='col-6' %}*/}
-                        {/*{% endfor %}*/}
+                    <Col xs={12} id="searchresults">
                         <SearchResults/>
                     </Col>
                     <button className="btn btn-outline-primary">More results</button>
