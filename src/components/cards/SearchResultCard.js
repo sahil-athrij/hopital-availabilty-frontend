@@ -1,7 +1,7 @@
 import {Component} from "react";
 import {StarRating} from "./StarRating";
 import {Marker} from "../../api/model";
-import {Card, Col, Container, Row} from "react-bootstrap";
+import {Card, Container, Row} from "react-bootstrap";
 import hospitalsvg from "../../images/hospitalsvg.svg";
 import {Link} from "react-router-dom";
 import {withRouter} from "react-router";
@@ -16,7 +16,7 @@ class SearchCardsLoc extends Component {
                 <Card className="flex-row  mb-3">
                     <img src={hospitalsvg} className="w-30  p-2 px-3 p-md-4"/>
                     <Card.Body className="w-70 bg-white text-left p-0 py-1">
-                        <div className="hospital-title">{this.props.model.name.split(',')[0]}</div>
+                        <div className="mt-1 hospital-title">{this.props.model.name.split(',')[0]}</div>
                         <StarRating rating={this.props.model.covid_rating}/>
                         <div className="d-flex address-container justify-content-between">
                         <span className={"hospital-address"}>
@@ -24,17 +24,14 @@ class SearchCardsLoc extends Component {
                             {this.props.model.address.village && this.props.model.address.village + ' ,'}
                             {this.props.model.address.state_district && this.props.model.address.state_district + ' ,'}
                             {this.props.model.address.state && this.props.model.address.state}
-
-
                         </span>
-
                         </div>
                         <span
                             className="hospital-phone">{this.props.model.Phone !== '0000000000' && this.props.model.Phone}
                     </span>
-                        <Row flex={true} className="w-100 justify-content-end m-0">
+                        <Row  className="w-100 justify-content-end m-0">
                             {this.props.model.Phone !== '0000000000' &&
-                            <button
+                            <div
                                 className="d-flex justify-content-end phone-button button-container align-items-center flex-column"
                                 onClick={(event) => {
                                     event.preventDefault()
@@ -46,8 +43,8 @@ class SearchCardsLoc extends Component {
                                     <BiPhoneOutgoing size={20} className="text-primary"/>
                                 </button>
                                 Phone
-                            </button>}
-                            <button
+                            </div>}
+                            <div
                                 className="d-flex justify-content-end button-container phone-button align-items-center flex-column"
                                 onClick={(event) => {
                                     event.preventDefault()
@@ -60,7 +57,7 @@ class SearchCardsLoc extends Component {
                                     <RiDirectionLine size={20} className="text-primary"/>
                                 </button>
                                 Route Map
-                            </button>
+                            </div>
 
                         </Row>
                     </Card.Body>

@@ -1,0 +1,50 @@
+.h-20 {
+    height: 20%;
+}
+
+.translucent-background {
+    background: rgba(0, 0, 0, .8);
+    color: #002f34;
+}
+
+.top-radius-round {
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    height: 80%;
+}
+
+.small-border-full {
+    border-bottom: 1px solid rgba(0, 47, 52, .2);
+    margin-left: -15px;
+    margin-right: -15px;
+    width: 110%;
+}
+
+
+.filter-holder {
+    overflow: auto;
+    height: 100%;
+    width: 66.66%;
+    overflow: scroll;
+}
+
+.filter-list-holder {
+    overflow: auto;
+    height: 100%;
+    width: 33.33%;
+    background-color: #ebeeef;
+    overflow: scroll;
+}
+
+.filter-element {
+    padding: 16px 8px;
+    border-top: 1px solid rgba(0, 47, 52, .2);
+}
+
+.filter-button-holder {
+    box-shadow: 0 -4px 8px 0 rgb(0 47 52 / 20%);
+}
+
+w-110 {
+    width: 110%;
+}

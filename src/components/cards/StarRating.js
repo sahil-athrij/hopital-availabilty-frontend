@@ -1,26 +1,8 @@
 import ResponsiveComponent from "../ResponsiveComponent";
 import './stars.css'
-import {
-    AiFillStar,
-    AiTwotoneStar,
-    BsStarFill,
-    BsStarHalf, FaStar,
-    FaStarHalf,
-    ImStarEmpty,
-    ImStarFull,
-    ImStarHalf
-} from "react-icons/all";
-import {Container, Row} from "react-bootstrap";
-import * as PropTypes from "prop-types";
-
-function Component(props) {
-    return null;
-}
-
-Component.propTypes = {children: PropTypes.node};
+import {FaStar, FaStarHalf} from "react-icons/all";
 
 export class StarRating extends ResponsiveComponent {
-
 
     makeStars() {
         var rows = [];
@@ -51,7 +33,7 @@ export class StarRating extends ResponsiveComponent {
 
     render() {
         return (
-            <div flex={true} className="d-flex star-rating-container flex-row align-items-center">
+            <div className="d-flex star-rating-container flex-row align-items-center">
                 <div className="mr-1">{this.props.rating}</div>
                 {this.makeStars()}
             </div>

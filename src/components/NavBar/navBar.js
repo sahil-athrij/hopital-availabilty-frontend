@@ -5,9 +5,11 @@ import {ReactComponent as Brand} from "../../images/brand.svg"
 import './nabar.css';
 import {ReactComponent as Marker} from "../../images/markersvg.svg";
 import {CSSTransition} from "react-transition-group";
-import {FullScreenLocation, FullScreenSearch} from "../LocationSearch/FullScreenLocation";
+import {FullScreenLocation} from "../FullScreen/FullScreenLocation";
 import {BiSearch, BiSlider} from "react-icons/all";
 import {withRouter} from "react-router";
+import {FullScreenSearch} from "../FullScreen/fullScreenSearch";
+import {FullScreenFilter} from "../FullScreen/FullScreenFilter";
 
 class NavBarLoc extends ResponsiveComponent {
 
@@ -16,6 +18,7 @@ class NavBarLoc extends ResponsiveComponent {
         show_location: false,
         query: localStorage.getItem("query") || "Search Hospitals",
         show_search: false,
+        show_filter: false,
     }
 
 
@@ -43,6 +46,13 @@ class NavBarLoc extends ResponsiveComponent {
                                     this.setState({show_location: !this.state.show_location})
                                 }}><BiSlider scale={4} size={30}/>
                                 </div>
+                                <CSSTransition classNames="filter-screen" in={this.state.show_location} timeout={300}
+                                               unmountOnExit>
+                                    <FullScreenFilter close={() => {
+                                        let loc = localStorage.getItem('loc')
+                                        this.setState({show_location: false, loc: loc})
+                                    }}/>
+                                </CSSTransition>
                             </>
                             :
                             <>
@@ -51,12 +61,11 @@ class NavBarLoc extends ResponsiveComponent {
                                 }}>{this.state.loc}<Marker/>
                                 </div>
                                 <CSSTransition classNames="location-screen" in={this.state.show_location} timeout={300}
-                                               unmountOnExit
-                                ><FullScreenLocation close={() => {
-                                    let loc;
-                                    loc = localStorage.getItem('loc')
-                                    this.setState({show_location: false, loc: loc})
-                                }}/>
+                                               unmountOnExit>
+                                    <FullScreenLocation close={() => {
+                                        let loc = localStorage.getItem('loc')
+                                        this.setState({show_location: false, loc: loc})
+                                    }}/>
                                 </CSSTransition>
                             </>
                     }
@@ -72,32 +81,18 @@ class NavBarLoc extends ResponsiveComponent {
                                unmountOnExit
                 >
                     <FullScreenSearch close={() => {
-                        let loc;
-                        loc = localStorage.getItem('loc')
-                        let query;
-                        query = localStorage.getItem("query")
+                        let loc = localStorage.getItem('loc')
+                        let query = localStorage.getItem("query")
                         this.setState({show_search: false, loc: loc, query: query})
                     }}/>
                 </CSSTransition>
 
 
-                {/*<form className="d-flex align-self-center text-center w-50 " method="GET" action="/search/">*/
-                }
-                {/*    <div className="input-group">*/
-                }
-                {/*        <LocationSearch/>*/
-                }
-                {/*    </div>*/
-                }
-                {/*</form>*/
-                }
                 <Navbar.Collapse className="justify-content-end" id="navbarSupportedContent">
                     <Nav className=" ml-auto ">
-
                         <Nav.Link href="/v2/" active={true}>Home</Nav.Link>
                         <Nav.Link href="/v2/add_hospital/">Add Hospital</Nav.Link>
                         <Nav.Link href="/v2/help/">Help</Nav.Link>
-
                     </Nav>
 
                 </Navbar.Collapse>

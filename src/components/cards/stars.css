@@ -10,3 +10,19 @@
 .star-empty {
     color: #dadce0;
 }
+
+.financial-full {
+    color: #39b54a;
+}
+.covid-full{
+    color: #ef2d57;
+}
+.oxygen-full{
+    color: #00bceb;
+}
+.star-holder {
+    max-width: 300px;
+}
+.slider-input{
+    color: inherit!important;
+}
