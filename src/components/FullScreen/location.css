@@ -16,7 +16,7 @@
 }
 
 .main-input {
-    flex: 2;
+    flex: 1;
     border: none;
     height: 40px;
     line-height: 40px;

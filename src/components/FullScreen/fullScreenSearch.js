@@ -109,8 +109,10 @@ export class LocationQuerySearchBox extends LocationSearchBox {
                     className={"w-100 input-holder mb-3 pr-1 justify-content-begin position-relative overflow-x-hidden  " + ((1 === this.state.display) ? "active-blue" : '')}>
                     <Search className=" input-marker "/>
 
-                    <input placeholder="Search" className={"main-input "}
+                    <input placeholder="Search" className={"main-input w-75 "}
                            value={this.state.query}
+                           autoFocus
+
                            onKeyDown={(event) => {
                                this.handleKeyDownSearch(event)
                            }}
@@ -131,7 +133,7 @@ export class LocationQuerySearchBox extends LocationSearchBox {
                     <Link to={"/search"} className="h5  u-link  m-0 p-1 px-2"
                           onClick={this.props.closeWindow}>
                         Go
-                        {/*<BsSearch scale={5} size={25} className="input-marker" />*/}
+
                     </Link>
                 </Container>
 

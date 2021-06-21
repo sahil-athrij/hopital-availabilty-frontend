@@ -28,18 +28,23 @@ export class LocationSearchBox extends ResponsiveComponent {
     async SuggestLocations(event) {
         this.setState({value: event.target.value})
         let url;
+        try {
 
-        url = 'https://api.locationiq.com/v1/autocomplete.php';
-        const values = await get(url, {
-            key: 'pk.760f1338e289bacc788f9e0ae4a4951e',
-            q: event.target.value,
-            limit: 5,
-            countrycodes: 'in'
-        })
-        console.log(values)
-        let {error} = values
-        if (!error) {
-            this.setState({suggestions: values})
+
+            url = 'https://api.locationiq.com/v1/autocomplete.php';
+            const values = await get(url, {
+                key: 'pk.760f1338e289bacc788f9e0ae4a4951e',
+                q: event.target.value,
+                limit: 5,
+                countrycodes: 'in'
+            })
+            console.log(values)
+            let {error} = values
+            if (!error) {
+                this.setState({suggestions: values})
+            }
+        } catch (e) {
+
         }
     }
 
@@ -108,23 +113,28 @@ export class LocationSearchBox extends ResponsiveComponent {
         await navigator.geolocation.getCurrentPosition(
             async position => {
                 console.log(position)
-                let loc = await get('https://us1.locationiq.com/v1/reverse.php', {
-                    key: 'pk.760f1338e289bacc788f9e0ae4a4951e',
-                    lat: position.coords.latitude,
-                    lon: position.coords.longitude,
-                    format: "json"
+                try {
 
-                })
-                console.log(loc)
-                this.setState({
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                    value: loc.address.city_district || loc.address.county,
-                    display: 0
-                }, () => {
-                    this.setPersistence()
-                    this.props.close()
-                })
+                    let loc = await get('https://us1.locationiq.com/v1/reverse.php', {
+                        key: 'pk.760f1338e289bacc788f9e0ae4a4951e',
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude,
+                        format: "json"
+
+                    })
+                    console.log(loc)
+                    this.setState({
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                        value: loc.address.city_district || loc.address.county,
+                        display: 0
+                    }, () => {
+                        this.setPersistence()
+                        this.props.close()
+                    })
+                } catch (e) {
+                    console.log(e)
+                }
             },
             err => console.log(err)
         )
@@ -137,6 +147,7 @@ export class LocationSearchBox extends ResponsiveComponent {
                 <Container className="w-100 input-holder">
                     <MarkerSvg className=" input-marker"/>
                     <input placeholder="Select Location" className="main-input" value={this.state.value}
+
                            onKeyDown={(event) => {
                                this.handleKeyDown(event)
                            }}
