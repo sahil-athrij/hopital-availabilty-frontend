@@ -1,54 +1,34 @@
-export function queryCreator(base_path, dict) {
-    let qs;
-    qs = new URLSearchParams(dict).toString()
-    console.log(qs)
-    const path = `${base_path}?${qs}`;
-    console.log(path)
-    return path
-
-}
-
-export function localStoragetoDict(list){
-    let dict;
-    dict = {}
-    list.map(element => {
-        let item = localStorage.getItem(element)
-        dict[element] = item
-        console.log(element, item)
-        return item
-    })
-    return dict
-}
-export function localStoragetoQuery(base_path, list = []) {
-    let dict;
-    dict = localStoragetoDict(list)
-
-
-    return queryCreator(base_path, dict)
-}
-
-export function filterFormGetter(base_path) {
-    let fields;
-    fields = ['loc', 'query', 'oxyfr', 'oxyafr', 'ventfr', 'icufr', 'financialfr', 'price', 'carefr', 'covidfr']
-    return localStoragetoQuery(base_path, fields)
-}
-
-
-export function reviewModelDict() {
-
-    let translator;
-    translator = {
-        financial_rating__gte: 'financialfr',
-        avg_cost__gte: 'price-min',
-        avg_cost__lte: 'price-max',
-        covid_rating__gte: 'covidfr',
-        care_rating__gte: 'carefr',
-        oxygen_rating__gte: 'oxyfr',
-        ventilator_availability__gte: 'ventfr',
-        oxygen_availability__gte: 'oxyafr',
-        icu_availability__gte: 'icufr',
-        search: 'query',
+export function getQueryVariable(variable) {
+    const query = window.location.search.substring(1);
+    const vars = query.split("&");
+    for (let i = 0; i < vars.length; i++) {
+        let pair = vars[i].split("=");
+        if (pair[0] === variable) {
+            return decodeURIComponent(pair[1]);
+        }
     }
-    let dict;
-    dict = {}
+    return false;
+}
+
+export function getParam(param, default_value = '', get_query = false) {
+    if (get_query) {
+
+        let qs = getQueryVariable(param)
+        console.log(qs)
+        if (qs) {
+            localStorage.setItem(param, qs)
+        }
+    }
+
+    return localStorage.getItem(param) === default_value ? '' : localStorage.getItem(param) || ''
+}
+
+
+export function setParam(param, value, default_value = '') {
+    if (value) {
+        localStorage.setItem(param, value)
+    } else {
+        localStorage.setItem(param, default_value)
+
+    }
 }

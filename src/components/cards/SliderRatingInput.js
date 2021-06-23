@@ -3,6 +3,7 @@ import {Container} from "react-bootstrap";
 import Slider from "@material-ui/core/Slider";
 import {Input, withStyles} from "@material-ui/core";
 import './stars.css'
+import {getParam, setParam} from "../../api/QueryCreator";
 
 const AirbnbSlider = withStyles({
     root: {
@@ -55,7 +56,7 @@ export class SliderRatingInput extends Component {
     state = {value: 0}
 
     setPersistence(value) {
-        localStorage.setItem(this.props.name, value)
+        setParam(this.props.name, value)
     }
 
     handleValueChange(newValue) {
@@ -64,7 +65,7 @@ export class SliderRatingInput extends Component {
     }
 
     render() {
-        let value = 0 || localStorage.getItem(this.props.name)
+        let value = getParam(this.props.name, 0)
         console.log(value)
         return (
 
@@ -115,11 +116,11 @@ export class SliderRatingInput extends Component {
 }
 
 export class DoubleSliderRatingInput extends Component {
-    state = {valuemin: 0, valuemax: 100}
+    state = {valuemin: 0, valuemax: 20000}
 
     setPersistence(valuemin, valuemax) {
-        localStorage.setItem(this.props.name + "_gte", Number(valuemin))
-        localStorage.setItem(this.props.name + "_lte", Number(valuemax))
+        setParam(this.props.name + "_gte", Number(valuemin))
+        setParam(this.props.name + "_lte", Number(valuemax))
     }
 
     handleValueChange(newValue1, newValue2) {
@@ -128,8 +129,8 @@ export class DoubleSliderRatingInput extends Component {
         } else if (newValue1 > newValue2) {
             this.setPersistence(newValue2 - 1, newValue2)
 
-        } else if (newValue2 > 1000000) {
-            this.setPersistence(newValue1, 1000000)
+        } else if (newValue2 > 20000) {
+            this.setPersistence(newValue1, 20000)
         } else {
             this.setPersistence(newValue1, newValue2)
 
@@ -138,8 +139,8 @@ export class DoubleSliderRatingInput extends Component {
     }
 
     render() {
-        let valuemin = Number(localStorage.getItem(this.props.name + "_gte"))
-        let valuemax = Number(localStorage.getItem(this.props.name + "_lte") || 100)
+        let valuemin = Number(getParam(this.props.name + "_gte"))
+        let valuemax = Number(getParam(this.props.name + "_lte", 20000))
         return (
 
             <>

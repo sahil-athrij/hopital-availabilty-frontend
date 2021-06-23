@@ -10,17 +10,17 @@ import {BiSearch, BiSlider} from "react-icons/all";
 import {withRouter} from "react-router";
 import {FullScreenSearch} from "../FullScreen/fullScreenSearch";
 import {FullScreenFilter} from "../FullScreen/FullScreenFilter";
+import {getParam} from "../../api/QueryCreator";
 
 class NavBarLoc extends ResponsiveComponent {
 
     state = {
-        loc: localStorage.getItem("loc") || "Select Location",
+        loc: getParam('loc', 'Select Location', true),
         show_location: false,
-        query: localStorage.getItem("query") || "Search Hospitals",
+        query: getParam('query', 'Search Hospital', true),
         show_search: false,
         show_filter: false,
     }
-
 
     render() {
         console.log(this.props.location)
@@ -43,14 +43,13 @@ class NavBarLoc extends ResponsiveComponent {
                         this.props.location.pathname === '/search' ?
                             <>
                                 <div className="pointers" onClick={() => {
-                                    this.setState({show_location: !this.state.show_location})
+                                    this.setState({show_filter: !this.state.show_filter})
                                 }}><BiSlider scale={4} size={30}/>
                                 </div>
-                                <CSSTransition classNames="filter-screen" in={this.state.show_location} timeout={300}
+                                <CSSTransition classNames="filter-screen" in={this.state.show_filter} timeout={300}
                                                unmountOnExit>
                                     <FullScreenFilter close={() => {
-                                        let loc = localStorage.getItem('loc')
-                                        this.setState({show_location: false, loc: loc})
+                                        this.setState({show_filter: false})
                                     }}/>
                                 </CSSTransition>
                             </>
@@ -63,7 +62,7 @@ class NavBarLoc extends ResponsiveComponent {
                                 <CSSTransition classNames="location-screen" in={this.state.show_location} timeout={300}
                                                unmountOnExit>
                                     <FullScreenLocation close={() => {
-                                        let loc = localStorage.getItem('loc')
+                                        let loc = getParam('query', 'Search Hospital')
                                         this.setState({show_location: false, loc: loc})
                                     }}/>
                                 </CSSTransition>
@@ -75,15 +74,21 @@ class NavBarLoc extends ResponsiveComponent {
                 }}>
                     <BiSearch scale={4} size={30} className=" input-marker ml-3 mr-2"/>
                     <div
-                        className="main-input searchbox fill-rest overflow-hidden"> {this.state.query}</div>
+                        className="main-input searchbox fill-rest overflow-hidden"> {
+                          this.props.location.pathname === '/search'?
+                              `${this.state.query} near ${this.state.loc}`:
+                            this.state.query || 'Search Hospital'
+
+                        }</div>
                 </Container>
                 <CSSTransition classNames="location-screen" in={this.state.show_search} timeout={300}
                                unmountOnExit
                 >
                     <FullScreenSearch close={() => {
-                        let loc = localStorage.getItem('loc')
-                        let query = localStorage.getItem("query")
-                        this.setState({show_search: false, loc: loc, query: query})
+                        let loc = getParam('loc', 'Select Location')
+                        let query = getParam('query', 'Search Hospital')
+                        this.setState({loc: loc, query: query})
+                        this.setState({show_search: false})
                     }}/>
                 </CSSTransition>
 

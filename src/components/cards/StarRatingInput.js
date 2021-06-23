@@ -2,21 +2,22 @@ import {Component} from "react";
 import {Container,} from "react-bootstrap";
 import './stars.css'
 import {CgCloseO, CgPill, FaMoneyBillAlt, FaStar, SiAtom} from "react-icons/all";
+import {getParam, setParam} from "../../api/QueryCreator";
 
 
 export class StarRatingInput extends Component {
     state = {
-        value: localStorage.getItem(this.props.name),
+        value: getParam(this.props.name),
     }
 
 
     setPersistence(value) {
-        localStorage.setItem(this.props.name, value)
+        setParam(this.props.name, value,null)
     }
 
 
     render() {
-        let value = localStorage.getItem(this.props.name) || 0
+        let value = getParam(this.props.name,0)
         let SvgInput
         let className;
         if (this.props.type === 'financial') {

@@ -6,23 +6,24 @@ import {get} from "../../api/api";
 
 import './location.css'
 import {AiOutlineClose, BiCurrentLocation, ImLocation2} from "react-icons/all";
+import {getParam, setParam} from "../../api/QueryCreator";
 
 
 export class LocationSearchBox extends ResponsiveComponent {
     state = {
         suggestions: [],
         selected: 0,
-        value: localStorage.getItem("loc") === 'Select Location' ? '' : localStorage.getItem("loc") || '',
-        lat: localStorage.getItem('lat'),
-        lng: localStorage.getItem('lng'),
+        value: getParam('loc', 'Select Location'),
+        lat: getParam('lat'),
+        lng: getParam('lng'),
         display: 0
     }
 
 
     setPersistence() {
-        localStorage.setItem("loc", this.state.value || 'Select Location')
-        localStorage.setItem('lat', this.state.lat)
-        localStorage.setItem('lng', this.state.lng)
+        setParam("loc", this.state.value, 'Select Location')
+        setParam('lat', this.state.lat)
+        setParam('lng', this.state.lng)
     }
 
     async SuggestLocations(event) {
@@ -92,7 +93,9 @@ export class LocationSearchBox extends ResponsiveComponent {
                                    let newValue = item.address.name
                                    this.setState({
                                        value: newValue,
-                                       display: 0
+                                       display: 0,
+                                       lat:item.lat,
+                                       lng:item.lon
                                    }, () => {
                                        this.setPersistence()
                                        this.props.close()
@@ -147,7 +150,7 @@ export class LocationSearchBox extends ResponsiveComponent {
                 <Container className="w-100 input-holder">
                     <MarkerSvg className=" input-marker"/>
                     <input placeholder="Select Location" className="main-input" value={this.state.value}
-
+                           type="search"
                            onKeyDown={(event) => {
                                this.handleKeyDown(event)
                            }}

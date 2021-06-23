@@ -5,29 +5,31 @@ import {LocationSearchBox} from "./FullScreenLocation";
 import {Marker} from "../../api/model";
 import {AiOutlineClose, BiCurrentLocation, FaHospital} from "react-icons/all";
 import {ReactComponent as Search} from "../../images/search.svg";
-import {Link} from "react-router-dom";
 import {ReactComponent as MarkerSvg} from "../../images/markersvg.svg";
+import {getParam, setParam} from "../../api/QueryCreator";
+import {withRouter} from "react-router";
 
 
-export class LocationQuerySearchBox extends LocationSearchBox {
+export class LocationQuerySearchBoxLoc extends LocationSearchBox {
     state = {
         suggestions: [],
         suggestionsSearch: [],
         selected: 0,
         selectedSearch: -1,
-        value: localStorage.getItem("loc") === 'Select Location' ? '' : localStorage.getItem("loc") || '',
-        query: localStorage.getItem("query") === 'Search' ? '' : localStorage.getItem("query") || '',
-        lat: localStorage.getItem('lat'),
-        lng: localStorage.getItem('lng'),
+        value: getParam('loc', 'Select Location'),
+        query: getParam('query', 'Search Hospital'),
+        lat: getParam('lat', null),
+        lng: getParam('lng', null),
         display: 0
     }
 
     setPersistence() {
 
-        localStorage.setItem("loc", this.state.value || 'Select Location')
-        localStorage.setItem("query", this.state.query || 'Search')
-        localStorage.setItem('lat', this.state.lat)
-        localStorage.setItem('lng', this.state.lng)
+        setParam("loc", this.state.value, 'Select Location')
+        setParam('query', this.state.query, 'Search Hospital')
+        setParam('lat', this.state.lat)
+        setParam('lng', this.state.lng)
+        console.log(localStorage.getItem('lat'))
     }
 
 
@@ -111,6 +113,7 @@ export class LocationQuerySearchBox extends LocationSearchBox {
 
                     <input placeholder="Search" className={"main-input w-75 "}
                            value={this.state.query}
+                           type="search"
                            autoFocus
 
                            onKeyDown={(event) => {
@@ -130,11 +133,21 @@ export class LocationQuerySearchBox extends LocationSearchBox {
                                 this.setPersistence()
                             })
                     }}/>}
-                    <Link to={"/search"} className="h5  u-link  m-0 p-1 px-2"
-                          onClick={this.props.closeWindow}>
+                    <button
+                        className="h5  u-link  m-0 p-1 px-2"
+                        onClick={() => {
+                            console.log(localStorage.getItem('lat'))
+
+                            this.props.closeWindow()
+                            this.props.history.push({
+                                    pathname: '/search',
+                                    search: `query=${this.state.query.replace(/ /g, "+")}&loc=${this.state.value}&lat=${this.state.lat}&lng=${this.state.lng}`
+                                }
+                            )
+                        }}>
                         Go
 
-                    </Link>
+                    </button>
                 </Container>
 
                 <Container className={"w-100 input-holder " + ((2 === this.state.display) ? "active-blue" : '')}>
@@ -142,6 +155,7 @@ export class LocationQuerySearchBox extends LocationSearchBox {
 
                     <input placeholder="Select Location"
                            className={"main-input "}
+                           type="search"
                            value={this.state.value}
                            onKeyDown={(event) => {
                                this.handleKeyDown(event)
@@ -179,6 +193,7 @@ export class LocationQuerySearchBox extends LocationSearchBox {
 
 }
 
+export const LocationQuerySearchBox = withRouter(LocationQuerySearchBoxLoc)
 
 export class FullScreenSearch extends ResponsiveComponent {
     render() {

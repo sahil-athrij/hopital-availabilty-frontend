@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 import {withRouter} from "react-router";
 import './searchCards.css'
 import {BiPhoneOutgoing, RiDirectionLine} from "react-icons/all";
+import {getParam} from "../../api/QueryCreator";
 
 class SearchCardsLoc extends Component {
 
@@ -29,7 +30,7 @@ class SearchCardsLoc extends Component {
                         <span
                             className="hospital-phone">{this.props.model.Phone !== '0000000000' && this.props.model.Phone}
                     </span>
-                        <Row  className="w-100 justify-content-end m-0">
+                        <Row className="w-100 justify-content-end m-0">
                             {this.props.model.Phone !== '0000000000' &&
                             <div
                                 className="d-flex justify-content-end phone-button button-container align-items-center flex-column"
@@ -69,31 +70,69 @@ class SearchCardsLoc extends Component {
 
 }
 
-let SearchCards;
-export default SearchCards = withRouter(SearchCardsLoc);
+let SearchCards = withRouter(SearchCardsLoc);
 
-export class SearchResults extends Component {
+export class SearchResultsLoc extends Component {
 
-    state = {models: [], next: ''}
+    state = {models: [], next: '', reset: false, loc: '', query: ''}
 
-    async componentDidMount() {
 
+    componentDidMount() {
         let markers;
-        markers = await Marker.filter()
-        let {results, next} = markers
-        this.setState({models: results, next: next})
+        let loc = getParam('loc', 'Search Location',)
+        let lat = getParam('lat', '',)
+        let lng = getParam('lng', '',)
+        let query = getParam('query', 'Search Hospital',)
+        Marker.filter({search: query, lat: lat, lng: lng, limit: 10}).then((markers) => {
+            let {results, next} = markers
+            this.setState({models: results, next: next, reset: true, loc: loc, query: query})
+            console.log(this.state.models)
+        })
+
+        this.setState({reset: false})
     }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log(this.state.next)
+        let loc = getParam('loc', 'Search Location',)
+        let lat = getParam('lat',)
+        let lng = getParam('lng',)
+        let query = getParam('query', 'Search Hospital',)
+
+        if (this.state.loc !== loc || this.state.query !== query) {
+
+            if (this.state.reset) {
+                this.setState({reset: false})
+            }
+            this.props.updateParent()
+            Marker.filter({search: query, lat: lat, lng: lng, limit: 10}).then((markers) => {
+                let {results, next} = markers
+                this.setState({models: results, next: next, reset: true, loc: loc, query: query})
+                console.log(this.state.models)
+            })
+            // this.setState({reset: false})
+        }
+
+    }
+
 
     render() {
         console.log(this.state)
-        return (
-            <Container fluid={true} className='m-0 p-0'>
+        if (this.state.reset) {
+            return <Container fluid={true} className='m-0 p-0'>
                 {this.state.models.map((model, i) => {
                         return <SearchCards key={i} model={model}/>
                     }
                 )}
+                                    <button className="btn btn-outline-primary">More results</button>
             </Container>
-        )
+        } else {
+            return <Container fluid={true} className='m-0 p-0'>
+            </Container>
+        }
 
     }
+
 }
+
+export const SearchResults = withRouter(SearchResultsLoc)

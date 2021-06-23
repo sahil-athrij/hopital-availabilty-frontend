@@ -5,6 +5,7 @@ import './location.css'
 import './filters.css'
 import {StarRatingInput} from "../cards/StarRatingInput";
 import {DoubleSliderRatingInput, SliderRatingInput} from "../cards/SliderRatingInput";
+import {setParam} from "../../api/QueryCreator";
 
 
 export class FilterBox extends ResponsiveComponent {
@@ -14,9 +15,9 @@ export class FilterBox extends ResponsiveComponent {
     }
 
     setPersistence() {
-        localStorage.setItem("loc", this.state.value || 'Select Location')
-        localStorage.setItem('lat', this.state.lat)
-        localStorage.setItem('lng', this.state.lng)
+        setParam("loc", this.state.value, 'Select Location')
+        setParam('lat', this.state.lat)
+        setParam('lng', this.state.lng)
     }
 
 
