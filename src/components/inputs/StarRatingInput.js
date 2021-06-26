@@ -12,12 +12,12 @@ export class StarRatingInput extends Component {
 
 
     setPersistence(value) {
-        setParam(this.props.name, value,null)
+        setParam(this.props.name, value, null)
     }
 
 
     render() {
-        let value = getParam(this.props.name,0)
+        let value = getParam(this.props.name, 0)
         let SvgInput
         let className;
         if (this.props.type === 'financial') {
@@ -46,7 +46,6 @@ export class StarRatingInput extends Component {
                         (<SvgInput name={this.props.name} size={20} spacing={5} key={number}
                                    className={(value <= i ? 'star-empty' : className) + " pointers "}
                                    onClick={(event) => {
-                                       console.log('hello')
                                        this.setPersistence(number)
                                        this.setState({value: number})
                                    }}/>

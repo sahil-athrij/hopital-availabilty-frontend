@@ -6,7 +6,7 @@ import hospitalsvg from "../../images/hospitalsvg.svg";
 import {Link} from "react-router-dom";
 import {withRouter} from "react-router";
 import './searchCards.css'
-import {BiPhoneOutgoing, RiDirectionLine} from "react-icons/all";
+import {AiOutlineLoading3Quarters, BiPhoneOutgoing, RiDirectionLine} from "react-icons/all";
 import {getParam} from "../../api/QueryCreator";
 
 class SearchCardsLoc extends Component {
@@ -15,10 +15,10 @@ class SearchCardsLoc extends Component {
         return (
             <Link style={{textDecoration: "none"}} className='text-dark' to={"/details/" + this.props.model.id}>
                 <Card className="flex-row  mb-3">
-                    <img src={hospitalsvg} className="w-30  p-2 px-3 p-md-4"/>
+                    <img src={hospitalsvg} className="w-30  p-2 px-3 p-md-4" alt="imageview"/>
                     <Card.Body className="w-70 bg-white text-left p-0 py-1">
                         <div className="mt-1 hospital-title">{this.props.model.name.split(',')[0]}</div>
-                        <StarRating rating={this.props.model.covid_rating}/>
+                        <StarRating rating={this.props.model.care_rating}/>
                         <div className="d-flex address-container justify-content-between">
                         <span className={"hospital-address"}>
                             {this.props.model.address.suburb && this.props.model.address.suburb + ' ,'}
@@ -74,11 +74,10 @@ let SearchCards = withRouter(SearchCardsLoc);
 
 export class SearchResultsLoc extends Component {
 
-    state = {models: [], next: '', reset: false, loc: '', query: ''}
+    state = {models: [], next: '', reset: false, loc: '', query: '', offset: 0}
 
 
     componentDidMount() {
-        let markers;
         let loc = getParam('loc', 'Search Location',)
         let lat = getParam('lat', '',)
         let lng = getParam('lng', '',)
@@ -93,7 +92,6 @@ export class SearchResultsLoc extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log(this.state.next)
         let loc = getParam('loc', 'Search Location',)
         let lat = getParam('lat',)
         let lng = getParam('lng',)
@@ -115,6 +113,22 @@ export class SearchResultsLoc extends Component {
 
     }
 
+    handleNext() {
+        let loc = getParam('loc', 'Search Location',)
+        let lat = getParam('lat',)
+        let lng = getParam('lng',)
+        let query = getParam('query', 'Search Hospital',)
+        let {offset, models} = this.state
+
+        Marker.filter({search: query, lat: lat, lng: lng, limit: 10, offset: offset}).then((markers) => {
+            let {results, next} = markers
+            let newModels = models.push(...results)
+            this.setState({models: newModels, next: next, reset: true, loc: loc, query: query, offset: offset + 10})
+            console.log(this.state.models)
+        })
+
+    }
+
 
     render() {
         console.log(this.state)
@@ -124,10 +138,15 @@ export class SearchResultsLoc extends Component {
                         return <SearchCards key={i} model={model}/>
                     }
                 )}
-                                    <button className="btn btn-outline-primary">More results</button>
+                {this.state.next ?
+                    <button className="btn btn-outline-primary">More results</button> :
+                    ''
+
+                }
             </Container>
         } else {
             return <Container fluid={true} className='m-0 p-0'>
+                <AiOutlineLoading3Quarters className="spinner" animate="spin" />
             </Container>
         }
 

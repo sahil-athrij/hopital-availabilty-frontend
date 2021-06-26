@@ -9,7 +9,7 @@ class MarkerObject extends ModelObject {
         super(data, baseUrl);
         this.fields = ["id", "Phone", "size", "financial_rating", "avg_cost", "covid_rating", "beds_available", "care_rating",
             "oxygen_rating", "ventilator_availability", "oxygen_availability", "icu_availability", "lat", "lng", "images",
-            "display_address", "name", "datef",'address']
+            "display_address", "name", "datef",'address','comment']
         this.excluded_fields = ['image', 'added_by_id']
         this.getData()
 

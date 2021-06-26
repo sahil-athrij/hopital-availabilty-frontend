@@ -52,7 +52,12 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBox {
             display: 0
         }, () => {
             this.setPersistence()
-            this.props.close()
+            this.props.closeWindow()
+            this.props.history.push({
+                    pathname: '/search',
+                    search: `query=${this.state.query.replace(/ /g, "+")}&loc=${this.state.value}&lat=${this.state.lat}&lng=${this.state.lng}`
+                }
+            )
         })
 
     }
@@ -111,7 +116,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBox {
                     className={"w-100 input-holder mb-3 pr-1 justify-content-begin position-relative overflow-x-hidden  " + ((1 === this.state.display) ? "active-blue" : '')}>
                     <Search className=" input-marker "/>
 
-                    <input placeholder="Search" className={"main-input w-75 "}
+                    <input placeholder="Search Hospital" className={"main-input w-75 "}
                            value={this.state.query}
                            type="search"
                            autoFocus
@@ -136,8 +141,6 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBox {
                     <button
                         className="h5  u-link  m-0 p-1 px-2"
                         onClick={() => {
-                            console.log(localStorage.getItem('lat'))
-
                             this.props.closeWindow()
                             this.props.history.push({
                                     pathname: '/search',

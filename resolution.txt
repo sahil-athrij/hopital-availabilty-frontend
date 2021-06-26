@@ -81,12 +81,6 @@ edit /etc/audit/audit.rules
 e 2
 
 
-edit /etc/default/grub
-GRUB_CMDLINE_LINUX="audit=1"
-GRUB_CMDLINE_LINUX_DEFAULT="quiet"
-
-then in cmd
-grub2-mkconfig > /boot/grub2/grub.cfg
 
 
 edit /etc/pam.d/password-auth and /etc/pam.d/system-auth

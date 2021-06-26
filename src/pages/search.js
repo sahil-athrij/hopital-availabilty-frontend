@@ -27,6 +27,7 @@ export class Search extends ResponsiveComponent {
     }
 
     render() {
+        console.log(this.state)
         return (
             <Container fluid={true} className="my-5 py-5 ">
                 {this.state.query !== 'Search Hospital' && this.state.query ?

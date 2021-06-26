@@ -12,15 +12,17 @@ export function getQueryVariable(variable) {
 
 export function getParam(param, default_value = '', get_query = false) {
     if (get_query) {
-
         let qs = getQueryVariable(param)
+        if (typeof qs === 'string') {
+            qs = qs.replace(/[+]/g, ' ')
+        }
         console.log(qs)
         if (qs) {
             localStorage.setItem(param, qs)
         }
     }
 
-    return localStorage.getItem(param) === default_value ? '' : localStorage.getItem(param) || ''
+    return localStorage.getItem(param) === default_value ? '' : '' || localStorage.getItem(param)
 }
 
 

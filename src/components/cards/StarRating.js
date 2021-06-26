@@ -1,5 +1,5 @@
 import ResponsiveComponent from "../ResponsiveComponent";
-import './stars.css'
+import '../inputs/stars.css'
 import {FaStar, FaStarHalf} from "react-icons/all";
 
 export class StarRating extends ResponsiveComponent {
@@ -34,7 +34,7 @@ export class StarRating extends ResponsiveComponent {
     render() {
         return (
             <div className="d-flex star-rating-container flex-row align-items-center">
-                <div className="mr-1">{this.props.rating}</div>
+                <div className="mr-1">{parseFloat(this.props.rating).toFixed(1)}</div>
                 {this.makeStars()}
             </div>
         )
