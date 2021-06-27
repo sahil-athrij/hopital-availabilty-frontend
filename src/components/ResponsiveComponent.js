@@ -1,6 +1,6 @@
 import {Component} from "react";
 
-class ResponsiveComponent extends Component {
+export default class ResponsiveComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -28,10 +28,11 @@ class ResponsiveComponent extends Component {
 
     render() {
         return (
-            <div>
-            </div>
+            <>
+                {this.props.children}
+            </>
         );
     }
 }
 
-export default ResponsiveComponent;
+

@@ -113,17 +113,17 @@ export class SearchResultsLoc extends Component {
 
     }
 
-    handleNext() {
+    handleNext = () => {
         let loc = getParam('loc', 'Search Location',)
         let lat = getParam('lat',)
         let lng = getParam('lng',)
         let query = getParam('query', 'Search Hospital',)
         let {offset, models} = this.state
-
+        console.log(models)
         Marker.filter({search: query, lat: lat, lng: lng, limit: 10, offset: offset}).then((markers) => {
             let {results, next} = markers
-            let newModels = models.push(...results)
-            this.setState({models: newModels, next: next, reset: true, loc: loc, query: query, offset: offset + 10})
+            models.push(...results)
+            this.setState({models: models, next: next, reset: true, loc: loc, query: query, offset: offset + 10})
             console.log(this.state.models)
         })
 
@@ -139,14 +139,14 @@ export class SearchResultsLoc extends Component {
                     }
                 )}
                 {this.state.next ?
-                    <button className="btn btn-outline-primary">More results</button> :
+                    <button className="btn btn-outline-primary" onClick={this.handleNext}>More results</button> :
                     ''
 
                 }
             </Container>
         } else {
             return <Container fluid={true} className='m-0 p-0'>
-                <AiOutlineLoading3Quarters className="spinner" animate="spin" />
+                <AiOutlineLoading3Quarters className="spinner" animate="spin"/>
             </Container>
         }
 

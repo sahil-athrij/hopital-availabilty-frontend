@@ -87,3 +87,26 @@
     border-radius: 50px !important;
 }
 
+
+.user-screen-enter {
+    opacity: 1;
+    transform: translateX(-100%);
+}
+
+.user-screen-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 300ms, transform 300ms;
+}
+
+.user-screen-exit {
+    opacity: 1;
+}
+
+.user-screen-exit-active {
+    opacity: 1;
+    transform: translateX(-100%);
+    transition: opacity 300ms, transform 300ms;
+}
+
+

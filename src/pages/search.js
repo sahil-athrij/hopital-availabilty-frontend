@@ -5,11 +5,17 @@ import ResponsiveComponent from "../components/ResponsiveComponent";
 
 
 export class Search extends ResponsiveComponent {
+    
 
-    state = {
-        loc: getParam('loc', 'Select Location',),
-        query: getParam('query', 'Search Hospital',),
+    constructor() {
+        super();
+        this.state = {
+            ...this.state,
+            loc: getParam('loc', 'Select Location',),
+            query: getParam('query', 'Search Hospital',),
 
+
+        }
     }
 
 
@@ -27,7 +33,7 @@ export class Search extends ResponsiveComponent {
     }
 
     render() {
-        console.log(this.state)
+        console.log(this.state.width)
         return (
             <Container fluid={true} className="my-5 py-5 ">
                 {this.state.query !== 'Search Hospital' && this.state.query ?

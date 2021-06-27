@@ -8,7 +8,7 @@ import {Route, Switch} from "react-router";
 import {Search} from "./pages/search";
 import {getParam} from "./api/QueryCreator";
 import {Details} from "./components/Details/Details";
-
+import {HandleToken} from "./api/auth";
 
 class App extends Component {
 
@@ -44,6 +44,9 @@ class App extends Component {
                     <Route path="/search">
                         <NavBar/>
                         <Search/>
+                    </Route>
+                     <Route path="/set_token/">
+                        <HandleToken/>
                     </Route>
 
                     <Route path="/">
