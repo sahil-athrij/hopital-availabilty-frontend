@@ -85,8 +85,8 @@ export class UserMenuBox extends AuthComponent {
 }
 
 export class FullScreenUser extends AuthComponent {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             ...this.state,
         }

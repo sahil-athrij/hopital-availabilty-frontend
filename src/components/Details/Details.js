@@ -24,8 +24,8 @@ import Loader from "react-loader-spinner";
 class DetailsLoc extends AuthComponent {
 
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state.state = {
             ...this.state,
             id: 0,
@@ -62,8 +62,6 @@ class DetailsLoc extends AuthComponent {
                 <>
 
                     <div className="backgroundRow w-100"/>
-
-
                     <Container fluid={true} className="d-flex flex-column py-5  px-0 ">
                         <div className="w-100 card-spacer "/>
                         <div className="top-rounded bg-white text-left neumorphic-card ">
@@ -215,18 +213,24 @@ class DetailsLoc extends AuthComponent {
                             <div className="d-flex justify-content-center">
 
                                 <button onClick={() => {
-                                    this.setState({show_review: !this.state.show_review})
+                                    if (this.state.auth) {
+                                        this.setState({show_review: !this.state.show_review})
+                                    } else {
+                                        this.performAuth()
+                                    }
                                 }}
                                         className="d-flex align-items-center mt-2 py-0 btn btn-light  bg-white rounder thin-border">
                                     <MdRateReview className="text-dark"/>
                                     <div className="p-1 px-2">write a review</div>
                                 </button>
-                                <CSSTransition classNames="filter-screen" in={this.state.show_review} timeout={300}
-                                               unmountOnExit>
-                                    <FullScreenReview marker={model.id} close={() => {
-                                        this.setState({show_review: false})
-                                    }}/>
-                                </CSSTransition>
+                                {
+                                    this.state.auth &&
+                                    <CSSTransition classNames="filter-screen" in={this.state.show_review} timeout={300}
+                                                   unmountOnExit>
+                                        <FullScreenReview refresh_parent={this.refresh} marker={model.id} close={() => {
+                                            this.setState({show_review: false})
+                                        }}/>
+                                    </CSSTransition>}
                             </div>
                         </div>
                         {model.comment.reverse().map((comment) =>
@@ -241,10 +245,7 @@ class DetailsLoc extends AuthComponent {
                                                 <small>{comment.datef.split('-').reverse().join('-')}</small>
                                             </div>
                                         </div>
-
                                     </div>
-
-
                                     <div className="d-flex flex-row justify-content-center">
                                         <div className="d-flex flex-column w-50">
                                             <small>Care Rating</small>
@@ -255,8 +256,6 @@ class DetailsLoc extends AuthComponent {
                                             <StarRating rating={comment.oxygen_rating}/>
                                         </div>
                                     </div>
-
-
                                     <div className="d-flex flex-row justify-content-center">
                                         <div className="d-flex flex-column w-50">
                                             <small>Affordability Rating</small>

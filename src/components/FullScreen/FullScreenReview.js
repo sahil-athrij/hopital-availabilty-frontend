@@ -1,4 +1,3 @@
-import ResponsiveComponent from "../ResponsiveComponent";
 import {Container} from "react-bootstrap";
 import {ReactComponent as Back} from "../../images/back.svg";
 
@@ -8,21 +7,28 @@ import {StarRatingReview} from "../inputs/StarRatingReview";
 import {YesNoInput} from "../inputs/YesNoInput";
 import {FormControl, Input, InputAdornment, InputLabel} from "@material-ui/core";
 import {Review} from "../../api/model";
+import {AuthComponent} from "../../api/auth";
 
 
-export class ReviewBox extends ResponsiveComponent {
-    state = {
-        marker: this.props.marker,
-        care_rating: 0,
-        covid_rating: 0,
-        oxygen_rating: 0,
-        financial_rating: 0,
-        avg_cost: 0,
-        oxygen_availability: null,
-        icu_availability: null,
-        ventilator_availability: null,
-        allow_post: false
+export class ReviewBox extends AuthComponent {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            ...this.state,
+            marker: this.props.marker,
+            care_rating: 0,
+            covid_rating: 0,
+            oxygen_rating: 0,
+            financial_rating: 0,
+            avg_cost: 0,
+            oxygen_availability: null,
+            icu_availability: null,
+            ventilator_availability: null,
+            allow_post: false
+
+
+        }
     }
 
     setValue = (param, value) => {
@@ -42,12 +48,13 @@ export class ReviewBox extends ResponsiveComponent {
 
 
         return (
+
             <>
                 <div className="w-100  text-left">
                     <div className="d-flex flex-row ">
                         <IoPersonCircleSharp size={35} height={30}/>
                         <div className="line-height-small">
-                            <div className="h6 m-0"><b>sahil</b></div>
+                            <div className="h6 m-0"><b>{this.state.user.username}</b></div>
                             <small>{new Date().toDateString()}</small>
                         </div>
                     </div>
@@ -119,27 +126,33 @@ export class ReviewBox extends ResponsiveComponent {
     }
 }
 
-export class FullScreenReview extends ResponsiveComponent {
+export class FullScreenReview extends AuthComponent {
 
     render() {
-        return (<div className="fixed-top w-100 h-100 bg-white header justify-content-start">
+        let {user}= this.state
+        if(!user){
+            this.performAuth()
+            return <></>
+        }else {
+            return (<div className="fixed-top w-100 h-100 bg-white header justify-content-start">
 
-            <Container fluid={true} className="py-3 bg-grey d-flex align-items-center justify-content-start">
-                <div className="BlueBackground p-2" onClick={() => {
-                    this.props.close()
-                }}>
-                    <Back/>
-                </div>
-                <div className="h3 m-0 mx-2">
-                    Share Your Feedback
-                </div>
-            </Container>
-            <Container fluid={true} className="mt-3">
-                <ReviewBox name="loc" close={() => {
-                    this.props.close()
-                }}/>
-            </Container>
-        </div>)
+                <Container fluid={true} className="py-3 bg-grey d-flex align-items-center justify-content-start">
+                    <div className="BlueBackground p-2" onClick={() => {
+                        this.props.close()
+                    }}>
+                        <Back/>
+                    </div>
+                    <div className="h3 m-0 mx-2">
+                        Share Your Feedback
+                    </div>
+                </Container>
+                <Container fluid={true} className="mt-3">
+                    <ReviewBox name="loc" close={() => {
+                        this.props.close()
+                    }}/>
+                </Container>
+            </div>)
+        }
     }
 }
 

@@ -7,8 +7,8 @@ import ResponsiveComponent from "../components/ResponsiveComponent";
 export class Search extends ResponsiveComponent {
     
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             ...this.state,
             loc: getParam('loc', 'Select Location',),
