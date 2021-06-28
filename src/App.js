@@ -9,6 +9,7 @@ import {Search} from "./pages/search";
 import {getParam} from "./api/QueryCreator";
 import {Details} from "./components/Details/Details";
 import {HandleToken} from "./api/auth";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 class App extends Component {
 
@@ -45,7 +46,7 @@ class App extends Component {
                         <NavBar/>
                         <Search/>
                     </Route>
-                     <Route path="/set_token/">
+                    <Route path="/set_token/">
                         <HandleToken/>
                     </Route>
 

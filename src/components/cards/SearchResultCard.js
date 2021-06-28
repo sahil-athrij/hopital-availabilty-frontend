@@ -6,8 +6,9 @@ import hospitalsvg from "../../images/hospitalsvg.svg";
 import {Link} from "react-router-dom";
 import {withRouter} from "react-router";
 import './searchCards.css'
-import {AiOutlineLoading3Quarters, BiPhoneOutgoing, RiDirectionLine} from "react-icons/all";
+import {BiPhoneOutgoing, RiDirectionLine} from "react-icons/all";
 import {getParam} from "../../api/QueryCreator";
+import Loader from "react-loader-spinner";
 
 class SearchCardsLoc extends Component {
 
@@ -145,8 +146,8 @@ export class SearchResultsLoc extends Component {
                 }
             </Container>
         } else {
-            return <Container fluid={true} className='m-0 p-0'>
-                <AiOutlineLoading3Quarters className="spinner" animate="spin"/>
+            return <Container fluid={true} className='mt-5 pt-5'>
+                <Loader type="Bars" color="#23e5db" height={50} width={50}/>
             </Container>
         }
 

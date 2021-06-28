@@ -1,5 +1,14 @@
-export async function get(url, kwargs = {}) {
-    const response = await fetch(url + "?" + new URLSearchParams(kwargs), {}
+export const baseUrl = "http://127.0.0.1:8000"
+
+
+export async function get(url, kwargs = {}, headers = {}) {
+    const response = await fetch(url + "?" + new URLSearchParams(kwargs),
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                ...headers
+            }
+        }
     );
     if (response.status > 300) {
         throw (response)
@@ -10,13 +19,13 @@ export async function get(url, kwargs = {}) {
     }
 }
 
-export async function post(url, kwargs = {}) {
-    kwargs['csrfmiddlewaretoken'] = 'csrf';
+
+export async function post(url, kwargs = {}, headers = {}) {
     const response = await fetch(url, {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': 'csrf'
+                ...headers
             },
             body: JSON.stringify(kwargs)
         }
@@ -30,13 +39,13 @@ export async function post(url, kwargs = {}) {
     }
 }
 
-export async function patch(url, kwargs = {}) {
-    kwargs['csrfmiddlewaretoken'] = 'csrf';
+export async function patch(url, kwargs = {}, headers = {}) {
     const response = await fetch(url, {
             method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': 'csrf'
+                // 'X-CSRFToken': await getCsrfToken(),
+                ...headers
             },
             body: JSON.stringify(kwargs)
         }
@@ -56,18 +65,18 @@ export class ModelObject {
     id;
     fields;
 
-    getData() {
-        let self = this
-        this.fields.forEach(item => {
-            self[item] = self.data[item]
-        })
-    }
-
     constructor(data, baseUrl) {
         this.data = data
         this.id = data.id
         this.baseUrl = baseUrl
 
+    }
+
+    getData() {
+        let self = this
+        this.fields.forEach(item => {
+            self[item] = self.data[item]
+        })
     }
 
     setData() {

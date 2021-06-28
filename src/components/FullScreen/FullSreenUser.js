@@ -1,4 +1,3 @@
-import ResponsiveComponent from "../ResponsiveComponent";
 import {Container} from "react-bootstrap";
 import {ReactComponent as Back} from "../../images/back.svg";
 
@@ -7,7 +6,7 @@ import {AiOutlinePlusCircle, FaHandsHelping, IoMdHelpCircleOutline, IoPersonCirc
 import {AuthComponent} from "../../api/auth";
 
 
-export class MenuBox extends AuthComponent {
+export class AnonMenuBox extends AuthComponent {
     render() {
 
         return (
@@ -44,7 +43,44 @@ export class MenuBox extends AuthComponent {
     }
 }
 
-export class FullScreenUser extends ResponsiveComponent {
+export class UserMenuBox extends AuthComponent {
+    render() {
+
+        return (
+            <div className="w-100">
+                <div className="d-flex flex-row align-items-center border-bottom w-100 pb-3">
+
+                    <IoPersonCircle className="text-secondary opacity50" size={100}/>
+                    <div className="d-flex flex-column text-left justify-content-center line-height-small">
+                        <p className="m-0">Hello,</p>
+                        <strong className="m-0">{this.state.user.username}</strong>
+                    </div>
+                </div>
+                <div className="d-flex flex-column border-bottom w-100">
+                    <div className="d-flex flex-row align-items-center my-2">
+                        <FaHandsHelping size={25}/>
+                        <p className="px-3 m-0">Request Help</p>
+                    </div>
+                    <div className="d-flex flex-row align-items-center my-2">
+                        <AiOutlinePlusCircle size={25}/>
+                        <p className="px-3 m-0">Add Hospitals</p>
+                    </div>
+                    <div className="d-flex flex-row align-items-center my-2">
+                        <IoMdHelpCircleOutline size={25}/>
+                        <p className="px-3 m-0">Help</p>
+                    </div>
+                </div>
+                <Container fluid={true} className="bg-white justify-content-between p-3">
+                    <button className="btn btn-dark w-100 p-2" onClick={this.performAuth}>
+                        Login
+                    </button>
+                </Container>
+            </div>
+        )
+    }
+}
+
+export class FullScreenUser extends AuthComponent {
 
     render() {
 
@@ -61,7 +97,11 @@ export class FullScreenUser extends ResponsiveComponent {
                 </div>
             </Container>
             <Container fluid={true} className="mt-2">
-                <MenuBox/>
+                {this.state.auth ?
+                    <UserMenuBox/>
+                    :
+                    <AnonMenuBox/>
+                }
             </Container>
         </div>)
     }

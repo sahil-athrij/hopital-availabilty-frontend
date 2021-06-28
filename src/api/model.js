@@ -1,7 +1,5 @@
-import Model, {ModelObject} from "./api";
+import Model, {baseUrl, ModelObject} from "./api";
 
-let baseUrl;
-baseUrl = "http://127.0.0.1:8000"
 
 class MarkerObject extends ModelObject {
     constructor(data, baseUrl) {
