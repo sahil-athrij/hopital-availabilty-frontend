@@ -45,7 +45,10 @@ export class AnonMenuBox extends AuthComponent {
 
 export class UserMenuBox extends AuthComponent {
     render() {
+        let {user} = this.state
+        if (!user) {
 
+        }
         return (
             <div className="w-100">
                 <div className="d-flex flex-row align-items-center border-bottom w-100 pb-3">
@@ -53,7 +56,7 @@ export class UserMenuBox extends AuthComponent {
                     <IoPersonCircle className="text-secondary opacity50" size={100}/>
                     <div className="d-flex flex-column text-left justify-content-center line-height-small">
                         <p className="m-0">Hello,</p>
-                        <strong className="m-0">{this.state.user.username}</strong>
+                        <strong className="m-0">{user.username}</strong>
                     </div>
                 </div>
                 <div className="d-flex flex-column border-bottom w-100">
@@ -71,8 +74,11 @@ export class UserMenuBox extends AuthComponent {
                     </div>
                 </div>
                 <Container fluid={true} className="bg-white justify-content-between p-3">
-                    <button className="btn btn-dark w-100 p-2" onClick={this.performAuth}>
-                        Login
+                    <button className="btn btn-dark w-100 p-2" onClick={()=> {
+                        this.refresh_parent()
+                        this.removeAuth()
+                    }}>
+                        Logout
                     </button>
                 </Container>
             </div>
@@ -81,8 +87,16 @@ export class UserMenuBox extends AuthComponent {
 }
 
 export class FullScreenUser extends AuthComponent {
+    constructor() {
+        super();
+        this.state = {
+            ...this.state,
+        }
+    }
+
 
     render() {
+        console.log(this.state)
 
         return (<div className="fixed-top w-100 h-100 bg-white header">
 
@@ -98,7 +112,7 @@ export class FullScreenUser extends AuthComponent {
             </Container>
             <Container fluid={true} className="mt-2">
                 {this.state.auth ?
-                    <UserMenuBox/>
+                    <UserMenuBox refresh_parent={this.refresh}/>
                     :
                     <AnonMenuBox/>
                 }

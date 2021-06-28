@@ -56,16 +56,27 @@ export class AuthComponent extends ResponsiveComponent {
         let refresh = getRefresh()
         let user = getObj('user')
         let diff = Date.now() - timer
-        if (diff > 36000*1000) {
+        if (diff > 36000 * 1000) {
             this.refreshAuth()
         }
         this.state = {
             ...this.state,
+            refresh_view: false,
             auth,
             refresh,
             user
         }
 
+    }
+
+    refresh = () => {
+        let auth = getAuth()
+        let refresh = getRefresh()
+        let user = getObj('user')
+        this.setState({
+            refresh_view: !this.state.refresh_view,
+            auth, refresh, user
+        })
     }
 
     performAuth = () => {
@@ -80,6 +91,24 @@ export class AuthComponent extends ResponsiveComponent {
         window.location.href = `${baseUrl}/auth/o/authorize/?` + new URLSearchParams(kwargs)
     }
 
+    removeAuth = () => {
+        let state = 'st' + makeid(5)
+        let kwargs = {
+            client_id,
+            redirect_uri,
+            state,
+            response_type: "code"
+        };
+        setRefresh("")
+        setAuth("")
+        setObj('user', null)
+        this.setState({
+            auth: null,
+            refresh: null,
+            user: null,
+        })
+
+    }
 
     refreshAuth = () => {
         let state = getQueryVariable('state')
@@ -99,6 +128,7 @@ export class AuthComponent extends ResponsiveComponent {
         })
     }
 }
+
 
 export class HandleTokenLoc extends AuthComponent {
     componentDidMount() {
