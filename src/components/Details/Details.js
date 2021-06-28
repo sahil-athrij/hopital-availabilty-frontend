@@ -1,4 +1,3 @@
-import ResponsiveComponent from "../ResponsiveComponent";
 import {Container, Row} from "react-bootstrap";
 import {Marker} from "../../api/model";
 import './details.css'
@@ -19,17 +18,25 @@ import {Popover} from "@material-ui/core";
 import {withRouter} from "react-router";
 import {CSSTransition} from "react-transition-group";
 import {FullScreenReview} from "../FullScreen/FullScreenReview";
+import {AuthComponent} from "../../api/auth";
+import Loader from "react-loader-spinner";
 
-class DetailsLoc extends ResponsiveComponent {
+class DetailsLoc extends AuthComponent {
 
-    state = {
-        id: 0,
-        model: {},
-        ready: false,
-        open_availability: null,
-        popovertext: 'Percentage Probability of Availing the services',
-        show_review: false
+
+    constructor() {
+        super();
+        this.state.state = {
+            ...this.state,
+            id: 0,
+            model: {},
+            ready: false,
+            open_availability: null,
+            popovertext: 'Percentage Probability of Availing the services',
+            show_review: false
+        }
     }
+
 
     async componentDidMount() {
         let {hspId} = this.props.match.params
@@ -326,6 +333,7 @@ class DetailsLoc extends ResponsiveComponent {
                     </Container>
                 </> :
                 <Container fluid={true} className="my-5 py-5 ">
+                    <Loader type="Bars" color="#23e5db" height={50} width={50}/>
                 </Container>
 
 

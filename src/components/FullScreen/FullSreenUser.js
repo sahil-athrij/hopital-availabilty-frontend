@@ -46,9 +46,7 @@ export class AnonMenuBox extends AuthComponent {
 export class UserMenuBox extends AuthComponent {
     render() {
         let {user} = this.state
-        if (!user) {
 
-        }
         return (
             <div className="w-100">
                 <div className="d-flex flex-row align-items-center border-bottom w-100 pb-3">
@@ -75,8 +73,8 @@ export class UserMenuBox extends AuthComponent {
                 </div>
                 <Container fluid={true} className="bg-white justify-content-between p-3">
                     <button className="btn btn-dark w-100 p-2" onClick={()=> {
-                        this.refresh_parent()
                         this.removeAuth()
+                        this.props.refresh_parent()
                     }}>
                         Logout
                     </button>

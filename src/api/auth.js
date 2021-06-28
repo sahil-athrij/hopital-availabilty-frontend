@@ -73,6 +73,7 @@ export class AuthComponent extends ResponsiveComponent {
         let auth = getAuth()
         let refresh = getRefresh()
         let user = getObj('user')
+        console.log(auth)
         this.setState({
             refresh_view: !this.state.refresh_view,
             auth, refresh, user
@@ -102,11 +103,6 @@ export class AuthComponent extends ResponsiveComponent {
         setRefresh("")
         setAuth("")
         setObj('user', null)
-        this.setState({
-            auth: null,
-            refresh: null,
-            user: null,
-        })
 
     }
 
