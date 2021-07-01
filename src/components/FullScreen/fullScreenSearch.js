@@ -202,11 +202,11 @@ export class FullScreenSearch extends ResponsiveComponent {
     render() {
         return (<div className="fixed-top w-100 h-100 bg-white header">
             <Container fluid={true} className="py-3">
-                <div className="BlueBackground p-2" onClick={() => {
+                <button className="BlueBackground p-2" onClick={() => {
                     this.props.close()
                 }}>
                     <Back/>
-                </div>
+                </button>
 
 
             </Container>

@@ -137,11 +137,11 @@ export class FullScreenReview extends AuthComponent {
             return (<div className="fixed-top w-100 h-100 bg-white header justify-content-start">
 
                 <Container fluid={true} className="py-3 bg-grey d-flex align-items-center justify-content-start">
-                    <div className="BlueBackground p-2" onClick={() => {
+                    <button className="BlueBackground p-2" onClick={() => {
                         this.props.close()
                     }}>
                         <Back/>
-                    </div>
+                    </button>
                     <div className="h3 m-0 mx-2">
                         Share Your Feedback
                     </div>

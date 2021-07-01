@@ -94,12 +94,12 @@ export class AuthComponent extends ResponsiveComponent {
 
     removeAuth = () => {
         let state = 'st' + makeid(5)
-        let kwargs = {
-            client_id,
-            redirect_uri,
-            state,
-            response_type: "code"
-        };
+        // let kwargs = {
+        //     client_id,
+        //     redirect_uri,
+        //     state,
+        //     response_type: "code"
+        // };
         setRefresh("")
         setAuth("")
         setObj('user', null)
@@ -149,12 +149,13 @@ export class HandleTokenLoc extends AuthComponent {
 
             post(`${baseUrl}/auth/users/me/`, {}, {'Authorization': `Bearer ${response.access_token}`}).then((response) => {
                 setObj('user', response.results[0])
+                if (location) {
+                    this.props.history.push(location)
+                } else {
+                    this.props.history.push('/')
+                }
             })
-            if (location) {
-                this.props.history.push(location)
-            } else {
-                this.props.history.push('/')
-            }
+
 
         }).catch(reason => {
             console.log(reason)
@@ -165,7 +166,7 @@ export class HandleTokenLoc extends AuthComponent {
     render() {
         return (
             <Container className="mt-5 pt-5">
-                <Loader type="Bars" color="#23e5db" height={50} width={50}/>
+                <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
             </Container>
         )
     }

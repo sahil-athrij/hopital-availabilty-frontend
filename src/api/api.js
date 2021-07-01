@@ -5,7 +5,6 @@ export async function get(url, kwargs = {}, headers = {}) {
     const response = await fetch(url + "?" + new URLSearchParams(kwargs),
         {
             headers: {
-                'Content-Type': 'application/json',
                 ...headers
             }
         }

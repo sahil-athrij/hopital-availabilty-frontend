@@ -122,7 +122,7 @@ export class FullScreenFilter extends ResponsiveComponent {
         return (<div
             className="d-flex fixed-top w-100 h-100 translucent-background  header align-items-end flex-column"
         >
-            <div className="w-100 h-20 "
+            <button className="w-100 h-20 "
                  onClick={
                      this.props.close
                  }/>

@@ -332,7 +332,7 @@ class DetailsLoc extends AuthComponent {
                     </Container>
                 </> :
                 <Container fluid={true} className="my-5 py-5 ">
-                    <Loader type="Bars" color="#23e5db" height={50} width={50}/>
+                    <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
                 </Container>
 
 

@@ -1,0 +1,29 @@
+
+.blue-gradient {
+    background: linear-gradient(30deg, #3a77ff, #1e7dff, #1e7dff, #008cff,
+    #008cff, #009dff, #009dff, #00adfe, #00b9f5, #00c2ee, #16c5eb);
+}
+
+.glass_card_backing {
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px) saturate(120%) contrast(65%) brightness(130%);
+    content: '';
+    position: absolute;
+    height: 190px;
+    border-radius: 15px;
+    width: 92.5%;
+}
+
+
+.glass_card {
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+    border: 1px solid #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    height: 190px;
+}
+
+.round-15{
+ border-radius: 5px;
+}

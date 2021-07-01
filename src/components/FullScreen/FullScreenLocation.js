@@ -149,7 +149,7 @@ export class LocationSearchBox extends ResponsiveComponent {
             <>
                 <Container className="w-100 input-holder">
                     <MarkerSvg className=" input-marker"/>
-                    <input placeholder="Select Location" className="main-input" value={this.state.value}
+                    <input autoFocus={true} placeholder="Select Location" className="main-input" value={this.state.value}
                            type="search"
                            onKeyDown={(event) => {
                                this.handleKeyDown(event)
@@ -190,11 +190,11 @@ export class FullScreenLocation extends ResponsiveComponent {
         return (<div className="fixed-top w-100 h-100 bg-white header">
 
             <Container fluid={true} className="py-3 bg-grey justify-content-start">
-                <div className="BlueBackground p-2" onClick={() => {
+                <button className="BlueBackground p-2" onClick={() => {
                     this.props.close()
                 }}>
                     <Back/>
-                </div>
+                </button>
                 <div className="h3 m-0 mx-2">
                     Select Location
                 </div>

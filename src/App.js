@@ -1,7 +1,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {NavBar} from './components/NavBar/navBar';
-import Index from "./pages";
+import Index from "./components/Index";
 import React, {Component} from "react";
 import './index.css';
 import {Route, Switch} from "react-router";
@@ -10,6 +10,7 @@ import {getParam} from "./api/QueryCreator";
 import {Details} from "./components/Details/Details";
 import {HandleToken} from "./api/auth";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import {Profile} from "./components/profile/Profile";
 
 class App extends Component {
 
@@ -45,6 +46,10 @@ class App extends Component {
                     <Route path="/search">
                         <NavBar/>
                         <Search/>
+                    </Route>
+                    <Route path="/profile/">
+                        <NavBar/>
+                        <Profile/>
                     </Route>
                     <Route path="/set_token/">
                         <HandleToken/>

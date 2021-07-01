@@ -26,8 +26,8 @@ class NavBarLoc extends ResponsiveComponent {
     }
 
     render() {
-        let {match} = this.props
-        let showSearchBar = this.props.location.pathname !== '/details/' + match.params.hspId
+        let showSearchBar = !this.props.location.pathname.includes('/details') &&
+            !this.props.location.pathname.includes('/profile')
         return (
             <Navbar collapseOnSelect expand="xl" variant="light"
                     className={"navbar  fixed-top " + (showSearchBar ? 'bg-white' : 'bg-grey')}
@@ -56,10 +56,10 @@ class NavBarLoc extends ResponsiveComponent {
                     </div>
                     {this.props.location.pathname === '/search' &&
                     <>
-                        <div className="pointers" onClick={() => {
+                        <button className="pointers" onClick={() => {
                             this.setState({show_filter: !this.state.show_filter})
                         }}><BiSlider scale={4} size={30}/>
-                        </div>
+                        </button>
                         <CSSTransition classNames="filter-screen" in={this.state.show_filter} timeout={300}
                                        unmountOnExit>
                             <FullScreenFilter close={() => {
@@ -70,14 +70,14 @@ class NavBarLoc extends ResponsiveComponent {
                     }
                     {(this.props.location.pathname !== '/search' && showSearchBar) &&
                     <>
-                        <div className="pointers" onClick={() => {
+                        <button className="pointers" onClick={() => {
                             this.setState({show_location: !this.state.show_location})
                         }}>{this.state.loc}<Marker/>
-                        </div>
+                        </button>
                         <CSSTransition classNames="location-screen" in={this.state.show_location} timeout={300}
                                        unmountOnExit>
                             <FullScreenLocation close={() => {
-                                let loc = getParam('query', 'Search Hospital')
+                                let loc = getParam('loc', 'Search Location')
                                 this.setState({show_location: false, loc: loc})
                             }}/>
                         </CSSTransition>
@@ -89,7 +89,7 @@ class NavBarLoc extends ResponsiveComponent {
 
                 {showSearchBar &&
                 <>
-                    <Container className="w-100 input-holder pointers m-2" onClick={() => {
+                    <button className="w-100 container input-holder pointers m-2" onClick={() => {
                         this.setState({show_search: !this.state.show_search})
                     }}>
                         <BiSearch scale={4} size={30} className=" input-marker ml-3 mr-2"/>
@@ -97,10 +97,10 @@ class NavBarLoc extends ResponsiveComponent {
                             className="main-input searchbox fill-rest overflow-hidden"> {
                             this.props.location.pathname === '/search' ?
                                 <><b>{this.state.query}</b> near <b>{this.state.loc}</b></> :
-                                <b>{this.state.query}</b> || 'Search Hospital'
+                                <b>{this.state.query || 'Search Hospital'}</b>
 
                         }</div>
-                    </Container>
+                    </button>
                     <CSSTransition classNames="location-screen" in={this.state.show_search} timeout={300}
                                    unmountOnExit
                     >
