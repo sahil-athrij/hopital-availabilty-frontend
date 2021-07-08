@@ -1,7 +1,7 @@
 import ResponsiveComponent from "../ResponsiveComponent";
 import {Container} from "react-bootstrap";
 import {ReactComponent as Back} from "../../images/back.svg";
-import {LocationSearchBox} from "./FullScreenLocation";
+import {LocationSearchBoxLoc} from "./FullScreenLocation";
 import {Marker} from "../../api/model";
 import {AiOutlineClose, BiCurrentLocation, FaHospital} from "react-icons/all";
 import {ReactComponent as Search} from "../../images/search.svg";
@@ -10,7 +10,7 @@ import {getParam, setParam} from "../../api/QueryCreator";
 import {withRouter} from "react-router";
 
 
-export class LocationQuerySearchBoxLoc extends LocationSearchBox {
+export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc {
     state = {
         suggestions: [],
         suggestionsSearch: [],
@@ -51,19 +51,14 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBox {
             query: newValue,
             display: 0
         }, () => {
-            this.setPersistence()
-            this.props.closeWindow()
-            this.props.history.push({
-                    pathname: '/search',
-                    search: `query=${this.state.query.replace(/ /g, "+")}&loc=${this.state.value}&lat=${this.state.lat}&lng=${this.state.lng}`
-                }
-            )
+            this.searchCallBack()
         })
 
     }
 
 
     handleKeyDownSearch(e) {
+
         const {selectedSearch, suggestionsSearch} = this.state
         console.log(e.key)
         if (e.key === 'ArrowUp' && suggestionsSearch.length > 0) {
@@ -94,8 +89,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBox {
                                 query: newValue,
                                 display: 0
                             }, () => {
-                                this.setPersistence()
-                                this.props.close()
+                                this.searchCallBack()
                             })
                         }}>
 
@@ -141,12 +135,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBox {
                     <button
                         className="h5  u-link  m-0 p-1 px-2"
                         onClick={() => {
-                            this.props.closeWindow()
-                            this.props.history.push({
-                                    pathname: '/search',
-                                    search: `query=${this.state.query.replace(/ /g, "+")}&loc=${this.state.value}&lat=${this.state.lat}&lng=${this.state.lng}`
-                                }
-                            )
+                            this.searchCallBack()
                         }}>
                         Go
 

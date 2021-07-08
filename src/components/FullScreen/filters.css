@@ -10,8 +10,8 @@
 .top-radius-round {
     border-top-left-radius: 18px;
     border-top-right-radius: 18px;
-    height: 80%;
 }
+
 
 .small-border-full {
     border-bottom: 1px solid rgba(0, 47, 52, .2);

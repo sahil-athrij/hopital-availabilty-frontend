@@ -1,4 +1,7 @@
-export const baseUrl = "http://127.0.0.1:8000"
+import {getAuth} from "./auth";
+
+export const baseUrl = "https://needmedi.com"
+// export const baseUrl = "http://127.0.0.1:8000"
 
 
 export async function get(url, kwargs = {}, headers = {}) {
@@ -24,6 +27,7 @@ export async function post(url, kwargs = {}, headers = {}) {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             headers: {
                 'Content-Type': 'application/json',
+
                 ...headers
             },
             body: JSON.stringify(kwargs)
@@ -138,7 +142,8 @@ export default class Model {
      */
     async create(kwargs = {}) {
         try {
-            let data = await post(`${this.baseurl}`, kwargs)
+            let headers = {'Authorization': `Bearer ${getAuth()}`}
+            let data = await post(`${this.baseurl}`, kwargs, headers)
             return new this.modelClass(data, this.baseurl)
         } catch (e) {
             let errors;

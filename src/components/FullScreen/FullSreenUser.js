@@ -2,12 +2,15 @@ import {Container} from "react-bootstrap";
 import {ReactComponent as Back} from "../../images/back.svg";
 
 import './location.css'
-import {AiOutlinePlusCircle, FaHandsHelping, IoMdHelpCircleOutline, IoPersonCircle} from "react-icons/all";
-import {AuthComponent} from "../../api/auth";
+import {AiFillHome, AiOutlinePlusCircle, FaHandsHelping, IoMdHelpCircleOutline, IoPersonCircle} from "react-icons/all";
+import {AuthComponent, reactUrl} from "../../api/auth";
 import {withRouter} from "react-router";
+import {Link} from "@material-ui/core";
+import {CSSTransition} from "react-transition-group";
+import {FullScreenShare} from "./FullScreenShare";
 
 
-export class AnonMenuBox extends AuthComponent {
+export class AnonMenuBoxLoc extends AuthComponent {
     render() {
 
         return (
@@ -21,21 +24,25 @@ export class AnonMenuBox extends AuthComponent {
                     </div>
                 </div>
                 <div className="d-flex flex-column border-bottom w-100">
-                    <div className="d-flex flex-row align-items-center my-2">
-                        <FaHandsHelping size={25}/>
-                        <p className="px-3 m-0">Request Help</p>
-                    </div>
-                    <div className="d-flex flex-row align-items-center my-2">
+                    <Link to={'/'} className="d-flex flex-row align-items-center text-dark my-2"
+                          onClick={() => {
+                              this.props.history.push('/')
+                              this.props.close()
+                          }}>
+                        <AiFillHome size={25}/>
+                        <p className="px-3 m-0">Home</p>
+                    </Link>
+                    <Link className="d-flex flex-row align-items-center text-dark my-2">
                         <AiOutlinePlusCircle size={25}/>
                         <p className="px-3 m-0">Add Hospitals</p>
-                    </div>
-                    <div className="d-flex flex-row align-items-center my-2">
+                    </Link>
+                    <Link className="d-flex flex-row align-items-center text-dark my-2">
                         <IoMdHelpCircleOutline size={25}/>
                         <p className="px-3 m-0">Help</p>
-                    </div>
+                    </Link>
                 </div>
                 <Container fluid={true} className="bg-white justify-content-between p-3">
-                    <button className="btn btn-dark w-100 p-2" onClick={this.performAuth}>
+                    <button className="btn btn-dark rounder w-100 p-2" onClick={this.performAuth}>
                         Login
                     </button>
                 </Container>
@@ -45,8 +52,26 @@ export class AnonMenuBox extends AuthComponent {
 }
 
 class UserMenuBoxLoc extends AuthComponent {
+    constructor(props) {
+        super(props);
+        this.state = {
+            ...this.state,
+            show_share: false
+        }
+    }
+
+    hashChange = () => {
+        if (!this.props.location.hash.includes('share')) {
+            this.setState({show_share: false})
+        } else {
+            this.setState({show_share: true})
+        }
+    }
+
     render() {
         let {user} = this.state
+        let currentLocation = this.props.location.search + this.props.location.hash
+
 
         return (
             <div className="w-100">
@@ -55,44 +80,73 @@ class UserMenuBoxLoc extends AuthComponent {
                     <IoPersonCircle className=" text-dark mr-2" size={100}/>
                     <button className="d-flex flex-column text-left justify-content-center line-height-small"
                             onClick={() => {
+                                // two push required to counteract goBack
+                                this.props.history.replace('/profile')
                                 this.props.history.push('/profile')
                                 this.props.close()
                             }}
                     >
                         <p className="m-0">Hello,</p>
                         <strong className="m-0 h3 py-1"><b>{user.username}</b></strong>
-                        <p className="m-0 underline" style={{textDecoration: "underline"}}>View profile</p>
+                        <p className="m-0 underline">View profile</p>
                     </button>
                 </div>
-                <div className="d-flex flex-column border-bottom w-100">
-                    <div className="d-flex flex-row align-items-center my-2">
+                <div className="d-flex flex-column border-bottom w-100  font-weight-bold">
+                    <Link to={'/'} className="d-flex flex-row align-items-center text-dark my-2"
+                          onClick={() => {
+                              // two push required to counteract goBack
+                              this.props.history.replace('/')
+                              this.props.history.push('/')
+                              this.props.close()
+                          }}>
+                        <AiFillHome size={25}/>
+                        <p className="px-3 m-0">Home</p>
+                    </Link>
+                    <Link to={'/profile/addRequest'} className="d-flex flex-row align-items-center text-dark my-2"
+                          onClick={() => {
+                              // two push required to counteract goBack
+                              this.props.history.replace('/profile/addRequest')
+                              this.props.history.push('/profile/addRequest')
+                              this.props.close()
+                          }}>
                         <FaHandsHelping size={25}/>
                         <p className="px-3 m-0">Request Help</p>
-                    </div>
-                    <div className="d-flex flex-row align-items-center my-2">
+                    </Link>
+                    <Link className="d-flex flex-row align-items-center text-dark my-2">
                         <AiOutlinePlusCircle size={25}/>
                         <p className="px-3 m-0">Add Hospitals</p>
-                    </div>
-                    <div className="d-flex flex-row align-items-center my-2">
+                    </Link>
+                    <Link className="d-flex flex-row align-items-center text-dark my-2">
                         <IoMdHelpCircleOutline size={25}/>
                         <p className="px-3 m-0">Help</p>
-                    </div>
+                    </Link>
                 </div>
-                <Container fluid={true} className="bg-white justify-content-between p-3">
-                    <button className="btn btn-dark w-100 p-2" onClick={() => {
-                        this.removeAuth()
-                        this.props.refresh_parent()
-                    }}>
-                        Logout
-                    </button>
-                </Container>
+
 
                 <Container fluid={true} className="bg-white justify-content-between p-3">
-                    <button className="btn btn-outline-dark w-100 p-2" onClick={() => {
-                        this.removeAuth()
-                        this.props.refresh_parent()
+                    <button className="btn btn-primary blue-gradient  rounder  w-100 p-2" onClick={() => {
+                        this.props.history.push(currentLocation + "#share")
+                        this.setState({show_share: !this.state.show_share})
                     }}>
                         Invite Friends
+                    </button>
+                    <CSSTransition classNames="filter-screen" in={this.state.show_share} timeout={300}
+                                   unmountOnExit>
+                        <FullScreenShare
+                            url={`${reactUrl}/invite?invite=${user.tokens.private_token}`}
+                            close={() => {
+                                this.props.history.goBack()
+                                this.setState({show_share: false})
+                            }}/>
+                    </CSSTransition>
+                </Container>
+                <Container fluid={true} className="bg-white justify-content-between p-3">
+                    <button className="btn btn-dark rounder w-100 p-2" onClick={() => {
+                        this.removeAuth()
+                        window.location.href = '/'
+
+                    }}>
+                        Logout
                     </button>
                 </Container>
             </div>
@@ -101,6 +155,7 @@ class UserMenuBoxLoc extends AuthComponent {
 }
 
 export const UserMenuBox = withRouter(UserMenuBoxLoc)
+export const AnonMenuBox = withRouter(AnonMenuBoxLoc)
 
 export class FullScreenUser extends AuthComponent {
     constructor(props) {
@@ -112,7 +167,6 @@ export class FullScreenUser extends AuthComponent {
 
 
     render() {
-        console.log(this.state)
 
         return (<div className="fixed-top w-100 h-100 bg-white header">
 
@@ -130,7 +184,7 @@ export class FullScreenUser extends AuthComponent {
                 {this.state.auth ?
                     <UserMenuBox close={this.props.close} refresh_parent={this.refresh}/>
                     :
-                    <AnonMenuBox/>
+                    <AnonMenuBox close={this.props.close}/>
                 }
             </Container>
         </div>)

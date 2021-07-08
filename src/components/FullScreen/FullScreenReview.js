@@ -5,15 +5,17 @@ import './location.css'
 import {IoPersonCircleSharp} from "react-icons/all";
 import {StarRatingReview} from "../inputs/StarRatingReview";
 import {YesNoInput} from "../inputs/YesNoInput";
-import {FormControl, Input, InputAdornment, InputLabel} from "@material-ui/core";
+import {InputAdornment, TextField} from "@material-ui/core";
 import {Review} from "../../api/model";
 import {AuthComponent} from "../../api/auth";
+import {toast} from "react-toastify";
 
 
 export class ReviewBox extends AuthComponent {
 
     constructor(props) {
         super(props);
+        console.log(this.props)
         this.state = {
             ...this.state,
             marker: this.props.marker,
@@ -41,7 +43,23 @@ export class ReviewBox extends AuthComponent {
             })
     }
     postData = () => {
-        Review.create(this.state)
+        Review.create(this.state).then(() => {
+            toast.success('Successfully Submitted Review', {
+                position: "bottom-center",
+            });
+            this.props.close()
+        }).catch((error) => {
+            let {detail} = error
+            console.log(detail)
+            if (detail === 'Invalid token header. No credentials provided.') {
+                this.refreshAuth()
+                this.postData()
+            } else {
+                toast.error(detail, {
+                    position: "bottom-center",
+                });
+            }
+        })
     }
 
     render() {
@@ -83,32 +101,24 @@ export class ReviewBox extends AuthComponent {
                                               name="financial_rating"
                                               type="financial" label="Affordability"/>
                         </div>
-                        <div className=" px-3 pt-2 w-50 mb-2 d-flex justify-content-center  flex-row text-center">
-                            <YesNoInput setValue={this.setValue} value={this.state.oxygen_availability}
-                                        name="oxygen_availability" label="Oxygen Availability"/>
-                        </div>
-                        <div className=" px-3 pt-2 w-50 mb-2 d-flex justify-content-center  flex-row text-center">
-                            <YesNoInput setValue={this.setValue} value={this.state.icu_availability}
-                                        name="icu_availability" label="ICU Availability"/>
-                        </div>
-                        <div className=" px-3 pt-2 w-50 mb-2 d-flex justify-content-center  flex-row text-center">
-                            <YesNoInput setValue={this.setValue} value={this.state.ventilator_availability}
-                                        name="ventilator_availability" label="Ventilator Availability"/>
-                        </div>
-                        <div className=" px-3 pt-3 w-50 mb-2 d-flex justify-content-center  flex-row text-center">
-                            <FormControl required>
-                                <InputLabel htmlFor="standard-adornment-amount">Average Daily Cost</InputLabel>
-                                <Input
-                                    id="standard-adornment-amount"
-                                    value={this.state.avg_cost}
-                                    type="number"
+                        <YesNoInput setValue={this.setValue} value={this.state.oxygen_availability}
+                                    name="oxygen_availability" label="Oxygen Availability"/>
+                        <YesNoInput setValue={this.setValue} value={this.state.icu_availability}
+                                    name="icu_availability" label="ICU Availability"/>
+                        <YesNoInput setValue={this.setValue} value={this.state.ventilator_availability}
+                                    name="ventilator_availability" label="Ventilator Availability"/>
 
-                                    onChange={(event) => this.setValue(
-                                        'avg_cost', event.target.value)}
-                                    startAdornment={<InputAdornment position="start">₹</InputAdornment>}
-                                />
-                            </FormControl>
-                        </div>
+                        <TextField label="Average Daily Cost"
+                                   id="standard-adornment-amount"
+                                   value={this.state.avg_cost}
+                                   variant="outlined"
+                                   type="number"
+                                   className={"p-1 w-100"}
+                                   onChange={(event) => this.setValue(
+                                       'avg_cost', event.target.value)}
+                        > <InputAdornment position="end">₹</InputAdornment>
+                        </TextField>
+
                         <div className=" px-3 pt-2 w-100 mb-2 d-flex justify-content-center  flex-row text-center">
                             {this.state.allow_post ?
                                 <button type="submit" disabled={!this.state.allow_post}
@@ -129,14 +139,15 @@ export class ReviewBox extends AuthComponent {
 export class FullScreenReview extends AuthComponent {
 
     render() {
-        let {user}= this.state
-        if(!user){
+        let {user} = this.state
+        if (!user) {
             this.performAuth()
             return <></>
-        }else {
-            return (<div className="fixed-top w-100 h-100 bg-white header justify-content-start">
+        } else {
+            return (<div className="fixed-top w-100 h-100 bg-grey header d-flex flex-column  justify-content-start">
 
-                <Container fluid={true} className="py-3 bg-grey d-flex align-items-center justify-content-start">
+                <Container fluid={true}
+                           className="py-3 bg-white neumorphic-input d-flex align-items-center justify-content-start">
                     <button className="BlueBackground p-2" onClick={() => {
                         this.props.close()
                     }}>
@@ -146,8 +157,8 @@ export class FullScreenReview extends AuthComponent {
                         Share Your Feedback
                     </div>
                 </Container>
-                <Container fluid={true} className="mt-3">
-                    <ReviewBox name="loc" close={() => {
+                <Container fluid={true} className="mt-5 pt-3 neumorphic-input bg-white">
+                    <ReviewBox name="loc" marker={this.props.marker} close={() => {
                         this.props.close()
                     }}/>
                 </Container>

@@ -16,7 +16,6 @@ export function getParam(param, default_value = '', get_query = false) {
         if (typeof qs === 'string') {
             qs = qs.replace(/[+]/g, ' ')
         }
-        console.log(qs)
         if (qs) {
             localStorage.setItem(param, qs)
         }

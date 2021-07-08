@@ -7,9 +7,10 @@ import {get} from "../../api/api";
 import './location.css'
 import {AiOutlineClose, BiCurrentLocation, ImLocation2} from "react-icons/all";
 import {getParam, setParam} from "../../api/QueryCreator";
+import {withRouter} from "react-router";
 
 
-export class LocationSearchBox extends ResponsiveComponent {
+export class LocationSearchBoxLoc extends ResponsiveComponent {
     state = {
         suggestions: [],
         selected: 0,
@@ -49,6 +50,33 @@ export class LocationSearchBox extends ResponsiveComponent {
         }
     }
 
+    searchData = () => {
+        console.log('hello these')
+        this.setPersistence()
+        let query = ''
+        if (this.state.query) {
+            query = this.state.query.replace(/ /g, "+")
+        }
+        this.props.history.replace({
+                pathname: '/search',
+                search: `query=${query}&loc=${this.state.value}&lat=${this.state.lat}&lng=${this.state.lng}`
+            }
+        )
+        this.props.history.push({
+                pathname: '/search',
+                search: `query=${query}&loc=${this.state.value}&lat=${this.state.lat}&lng=${this.state.lng}`
+            }
+        )
+    }
+
+    searchCallBack = () => {
+        this.searchData()
+        this.props.close()
+        if (this.props.closeWindow) {
+            this.props.closeWindow()
+        }
+    }
+
     handleEnter(e) {
         let newSelected = this.state.suggestions[this.state.selected]
         if (newSelected) {
@@ -57,11 +85,10 @@ export class LocationSearchBox extends ResponsiveComponent {
                 value: newValue,
                 display: 0
             }, () => {
-                this.setPersistence()
-                this.props.close()
+                this.searchCallBack()
+
             })
         }
-
     }
 
 
@@ -94,8 +121,8 @@ export class LocationSearchBox extends ResponsiveComponent {
                                    this.setState({
                                        value: newValue,
                                        display: 0,
-                                       lat:item.lat,
-                                       lng:item.lon
+                                       lat: item.lat,
+                                       lng: item.lon
                                    }, () => {
                                        this.setPersistence()
                                        this.props.close()
@@ -103,7 +130,7 @@ export class LocationSearchBox extends ResponsiveComponent {
                                }}>
 
                         <ImLocation2 scale={4} size={30} className="input-marker mr-3"/>
-                        <div className="fill-rest">{item.address.name}
+                        <div className="fill-rest"><b>{item.address.name}</b>
                             <div>{[item.address.city, item.address.state, item.address.country].filter(Boolean).join(', ')}</div>
                         </div>
                     </Container>
@@ -132,8 +159,8 @@ export class LocationSearchBox extends ResponsiveComponent {
                         value: loc.address.city_district || loc.address.county,
                         display: 0
                     }, () => {
-                        this.setPersistence()
-                        this.props.close()
+                        this.searchCallBack()
+
                     })
                 } catch (e) {
                     console.log(e)
@@ -149,7 +176,8 @@ export class LocationSearchBox extends ResponsiveComponent {
             <>
                 <Container className="w-100 input-holder">
                     <MarkerSvg className=" input-marker"/>
-                    <input autoFocus={true} placeholder="Select Location" className="main-input" value={this.state.value}
+                    <input autoFocus={true} placeholder="Select Location" className="main-input"
+                           value={this.state.value}
                            type="search"
                            onKeyDown={(event) => {
                                this.handleKeyDown(event)
@@ -183,6 +211,8 @@ export class LocationSearchBox extends ResponsiveComponent {
         )
     }
 }
+
+export const LocationSearchBox = withRouter(LocationSearchBoxLoc)
 
 export class FullScreenLocation extends ResponsiveComponent {
 

@@ -122,11 +122,11 @@ export class FullScreenFilter extends ResponsiveComponent {
         return (<div
             className="d-flex fixed-top w-100 h-100 translucent-background  header align-items-end flex-column"
         >
-            <button className="w-100 h-20 "
+            <button className="w-100 h-25 "
                  onClick={
                      this.props.close
                  }/>
-            <Container fluid={true} className="bg-white pt-2 top-radius-round d-flex align-items-start">
+            <Container fluid={true} className="bg-white pt-2 top-radius-round flex-fill d-flex align-items-start">
                 <Container fluid={true} className="py-3 justify-content-start small-border-full">
                     <div className="h5 m-0 font-weight-bolder">
                         FILTERS

@@ -1,15 +1,18 @@
 import ResponsiveComponent from "../components/ResponsiveComponent";
 import {withRouter} from "react-router";
-import {getQueryVariable} from "./QueryCreator";
+import {getParam, getQueryVariable} from "./QueryCreator";
 import {baseUrl, post} from "./api";
 import {Container} from "react-bootstrap";
 import Loader from "react-loader-spinner";
 
 
 const client_id = '6tWdAZrlxUA26FJSMjE7oKBpTNGaqJRl2bsmNMRb'
-const redirect_uri = 'http://localhost:3000/set_token/'
+export const reactUrl = 'https://needmedi.com'
+// export const reactUrl = 'http://localhost:3000'
 
-function getAuth() {
+const redirect_uri = reactUrl + '/set_token/'
+
+export function getAuth() {
     return localStorage.getItem('accessToken')
 }
 
@@ -24,6 +27,14 @@ function getRefresh() {
 
 function setRefresh(token) {
     localStorage.setItem('refreshToken', token)
+
+}
+
+export function refresh_user() {
+    let access_token = getAuth()
+    post(`${baseUrl}/auth/users/me/`, {}, {'Authorization': `Bearer ${access_token}`}).then((response) => {
+        setObj('user', response.results[0])
+    })
 
 }
 
@@ -82,27 +93,29 @@ export class AuthComponent extends ResponsiveComponent {
 
     performAuth = () => {
         let state = 'st' + makeid(5)
+        let invite = getParam('invite', '', false)
         let kwargs = {
             client_id,
             redirect_uri,
             state,
-            response_type: "code"
+            response_type: "code",
+            invite
+
         };
-        localStorage.setItem(state, window.location.pathname + window.location.search)
+        let pathname = window.location.pathname
+        if (pathname.includes('invite')) {
+            pathname = '/'
+        }
+        localStorage.setItem(state, pathname + window.location.search)
         window.location.href = `${baseUrl}/auth/o/authorize/?` + new URLSearchParams(kwargs)
     }
 
     removeAuth = () => {
-        let state = 'st' + makeid(5)
-        // let kwargs = {
-        //     client_id,
-        //     redirect_uri,
-        //     state,
-        //     response_type: "code"
-        // };
+
         setRefresh("")
         setAuth("")
         setObj('user', null)
+
 
     }
 
@@ -129,7 +142,6 @@ export class AuthComponent extends ResponsiveComponent {
 export class HandleTokenLoc extends AuthComponent {
     componentDidMount() {
         super.componentDidMount();
-        console.log(this.props.location)
         let code = getQueryVariable('code')
         let state = getQueryVariable('state')
         let kwargs = {
@@ -174,4 +186,23 @@ export class HandleTokenLoc extends AuthComponent {
 
 export const HandleToken = withRouter(HandleTokenLoc)
 
+export class HandleInviteLoc extends AuthComponent {
+    componentDidMount() {
+        super.componentDidMount();
+        console.log(this.props.location)
+        getParam('invite', '', true)
+        this.performAuth()
 
+    }
+
+    render() {
+        return (
+            <Container className="mt-5 pt-5">
+                <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
+            </Container>
+        )
+    }
+}
+
+
+export const HandleInvite = withRouter(HandleInviteLoc)

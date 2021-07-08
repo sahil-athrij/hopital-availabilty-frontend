@@ -38,11 +38,25 @@ class DetailsLoc extends AuthComponent {
     }
 
 
-    async componentDidMount() {
+    hashChange = () => {
+        if (!this.props.location.hash.includes('review')) {
+            this.setState({show_review: false})
+        } else {
+            this.setState({show_review: true})
+        }
+    }
+
+    async refreshReviews() {
+        this.setState({ready: false})
         let {hspId} = this.props.match.params
-        console.log(hspId)
         let marker = await Marker.get(hspId)
         this.setState({model: marker, ready: true})
+
+    }
+
+    async componentDidMount() {
+        super.componentDidMount()
+        await this.refreshReviews()
     }
 
     handleClick = (event) => {
@@ -55,6 +69,7 @@ class DetailsLoc extends AuthComponent {
     render() {
         let {model} = this.state
         let open = Boolean(this.state.open_availability);
+        let currentLocation = this.props.location.pathname + this.props.location.search + this.props.location.hash
 
         console.log(model)
         return (
@@ -67,11 +82,28 @@ class DetailsLoc extends AuthComponent {
                         <div className="top-rounded bg-white text-left neumorphic-card ">
                             <div className="px-3 pt-3 py-1 border-bottom">
                                 <h5>{model.name}</h5>
+                                <div className="d-flex flex-row justify-content-between align-items-center">
+                                    <div>
 
-                                <StarRating rating={model.care_rating}/>
-                                <span
-                                    className="hospital-phone">{model.Phone !== '0000000000' && model.Phone}
-                    </span>
+                                        <StarRating rating={model.care_rating}/>
+                                        <span className="hospital-phone">
+                                            {model.Phone !== '0000000000' && model.Phone}
+                                        </span>
+                                    </div>
+                                    <button onClick={() => {
+                                        if (this.state.auth) {
+                                            this.props.history.push(currentLocation + "#review")
+                                            this.setState({show_review: !this.state.show_review})
+                                        } else {
+                                            this.performAuth()
+                                        }
+                                    }}
+                                            className="d-flex align-items-center mt-2 py-0 btn btn-light  bg-white rounder thin-border">
+                                        <MdRateReview className="text-dark"/>
+                                        <div className="p-1 px-2">write a review</div>
+                                    </button>
+                                </div>
+
                             </div>
 
                             <Row className="d-flex w-100 align-items-center justify-content-even flex-row
@@ -214,6 +246,7 @@ class DetailsLoc extends AuthComponent {
 
                                 <button onClick={() => {
                                     if (this.state.auth) {
+                                        this.props.history.push(currentLocation + "#review")
                                         this.setState({show_review: !this.state.show_review})
                                     } else {
                                         this.performAuth()
@@ -228,6 +261,8 @@ class DetailsLoc extends AuthComponent {
                                     <CSSTransition classNames="filter-screen" in={this.state.show_review} timeout={300}
                                                    unmountOnExit>
                                         <FullScreenReview refresh_parent={this.refresh} marker={model.id} close={() => {
+                                            this.props.history.goBack()
+                                            this.refreshReviews()
                                             this.setState({show_review: false})
                                         }}/>
                                     </CSSTransition>}

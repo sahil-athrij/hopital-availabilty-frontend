@@ -3,6 +3,15 @@
     background: linear-gradient(30deg, #3a77ff, #1e7dff, #1e7dff, #008cff,
     #008cff, #009dff, #009dff, #00adfe, #00b9f5, #00c2ee, #16c5eb);
 }
+.text-blue-gradient {
+     color:  #001e62
+
+}
+
+.green-gradient {
+    background: linear-gradient(30deg, #39b54a, #40b94b, #47be4c, #4dc24c,
+    #54c74d, #5acb4e, #61d04e, #67d44f, #6ed950, #74dd50, #7be251, #81e651);
+}
 
 .glass_card_backing {
     background-color: rgba(255, 255, 255, 0.3);
@@ -24,6 +33,6 @@
     height: 190px;
 }
 
-.round-15{
- border-radius: 5px;
+.round-15 {
+    border-radius: 5px;
 }

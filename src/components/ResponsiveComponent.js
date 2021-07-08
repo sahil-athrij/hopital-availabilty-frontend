@@ -8,14 +8,20 @@ export default class ResponsiveComponent extends Component {
         };
     }
 
+    hashChange = () => {
+    }
+
     componentDidMount() {
         window.addEventListener('resize', this.handleWindowSizeChange);
+        window.addEventListener("popstate", this.hashChange, false);
     }
 
     // make sure to remove the listener
     // when the component is not mounted anymore
     componentWillUnmount() {
         window.removeEventListener('resize', this.handleWindowSizeChange);
+        window.removeEventListener("popstate", this.hashChange, false);
+
     }
 
     handleWindowSizeChange = () => {

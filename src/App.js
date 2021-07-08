@@ -4,15 +4,24 @@ import {NavBar} from './components/NavBar/navBar';
 import Index from "./components/Index";
 import React, {Component} from "react";
 import './index.css';
-import {Route, Switch} from "react-router";
+import {Route, Switch, withRouter} from "react-router";
 import {Search} from "./pages/search";
 import {getParam} from "./api/QueryCreator";
 import {Details} from "./components/Details/Details";
-import {HandleToken} from "./api/auth";
+import {HandleInvite, HandleToken, refresh_user} from "./api/auth";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import {Profile} from "./components/profile/Profile";
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-class App extends Component {
+class AppLoc extends Component {
+
+    constructor(props) {
+        super(props);
+        let location = this.props.location.pathname + this.props.location.search
+        this.props.history.replace(location)
+        refresh_user()
+    }
 
     componentDidMount() {
         getParam('lat', '', true)
@@ -33,6 +42,17 @@ class App extends Component {
 
         return (
             <div className="App">
+                <ToastContainer
+                    position="bottom-center"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
                 <Switch>
                     {/* If the current URL is /about, this route is rendered
             while the rest are ignored */}
@@ -55,6 +75,10 @@ class App extends Component {
                         <HandleToken/>
                     </Route>
 
+                    <Route path="/invite/">
+                        <HandleInvite/>
+                    </Route>
+
                     <Route path="/">
                         <NavBar/>
                         <Index/>
@@ -65,4 +89,5 @@ class App extends Component {
     }
 }
 
+let App = withRouter(AppLoc)
 export default App;
