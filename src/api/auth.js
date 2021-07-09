@@ -30,11 +30,36 @@ function setRefresh(token) {
 
 }
 
-export function refresh_user() {
+async function refreshToken() {
+    let state = getQueryVariable('state')
+    let refresh_token = getRefresh()
+    let kwargs = {
+        client_id,
+        redirect_uri,
+        state,
+        grant_type: 'refresh_token',
+        refresh_token: refresh_token,
+        response_type: "token"
+    };
+    await post(`${baseUrl}/auth/o/token/`, kwargs).then((response) => {
+        setRefresh(response.refresh_token)
+        setAuth(response.access_token)
+        timer = Date.now()
+    })
+}
+
+export function refresh_user(tries=0) {
     let access_token = getAuth()
+
     post(`${baseUrl}/auth/users/me/`, {}, {'Authorization': `Bearer ${access_token}`}).then((response) => {
         setObj('user', response.results[0])
+    }).catch((error) => {
+        console.log(error)
+        if (tries<1){
+            refreshToken(1).then(refreshToken)
+        }
     })
+
 
 }
 
@@ -50,10 +75,10 @@ export function getObj(str) {
 let timer = Date.now()
 
 function makeid(length) {
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() *
             charactersLength));
     }
@@ -171,6 +196,15 @@ export class HandleTokenLoc extends AuthComponent {
 
         }).catch(reason => {
             console.log(reason)
+            this.refreshAuth()
+            post(`${baseUrl}/auth/users/me/`, {}, {'Authorization': `Bearer ${response.access_token}`}).then((response) => {
+                setObj('user', response.results[0])
+                if (location) {
+                    this.props.history.push(location)
+                } else {
+                    this.props.history.push('/')
+                }
+            })
         })
 
     }
