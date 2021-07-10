@@ -7,8 +7,8 @@ import Loader from "react-loader-spinner";
 
 
 const client_id = '6tWdAZrlxUA26FJSMjE7oKBpTNGaqJRl2bsmNMRb'
-export const reactUrl = 'https://needmedi.com'
-// export const reactUrl = 'http://localhost:3000'
+// export const reactUrl = 'https://needmedi.com'
+export const reactUrl = 'http://localhost:3000'
 
 const redirect_uri = reactUrl + '/set_token/'
 
@@ -48,14 +48,14 @@ async function refreshToken() {
     })
 }
 
-export function refresh_user(tries=0) {
+export function refresh_user(tries = 0) {
     let access_token = getAuth()
 
     post(`${baseUrl}/auth/users/me/`, {}, {'Authorization': `Bearer ${access_token}`}).then((response) => {
         setObj('user', response.results[0])
     }).catch((error) => {
         console.log(error)
-        if (tries<1){
+        if (tries < 1) {
             refreshToken(1).then(refreshToken)
         }
     })
@@ -196,15 +196,7 @@ export class HandleTokenLoc extends AuthComponent {
 
         }).catch(reason => {
             console.log(reason)
-            this.refreshAuth()
-            post(`${baseUrl}/auth/users/me/`, {}, {'Authorization': `Bearer ${response.access_token}`}).then((response) => {
-                setObj('user', response.results[0])
-                if (location) {
-                    this.props.history.push(location)
-                } else {
-                    this.props.history.push('/')
-                }
-            })
+            refresh_user()
         })
 
     }

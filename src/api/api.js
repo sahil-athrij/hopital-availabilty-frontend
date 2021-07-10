@@ -1,7 +1,7 @@
 import {getAuth} from "./auth";
 
-export const baseUrl = "https://needmedi.com"
-// export const baseUrl = "http://127.0.0.1:8000"
+// export const baseUrl = "https://needmedi.com"
+export const baseUrl = "http://127.0.0.1:8000"
 
 
 export async function get(url, kwargs = {}, headers = {}) {

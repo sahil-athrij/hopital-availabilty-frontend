@@ -13,6 +13,7 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import {Profile} from "./components/profile/Profile";
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {AddHospital} from "./components/AddHospital/AddHospital";
 
 class AppLoc extends Component {
 
@@ -77,6 +78,10 @@ class AppLoc extends Component {
 
                     <Route path="/invite/">
                         <HandleInvite/>
+                    </Route>
+                    <Route path="/AddHospital/">
+                        <NavBar/>
+                        <AddHospital/>
                     </Route>
 
                     <Route path="/">
