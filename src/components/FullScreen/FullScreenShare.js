@@ -17,33 +17,33 @@ import {toast} from "react-toastify";
 export class ShareBox extends AuthComponent {
 
 
-    fbs_click() {
+    fbs_click=()=>{
         window.open(`http://www.facebook.com/sharer.php?u=https://needmedi.com&quote=${this.props.url}`, '_blank');
         return false;
     }
 
 
-    tbs_click() {
+    tbs_click=()=>{
         window.open(`https://twitter.com/intent/tweet?text=NeedMedi Invite&url=${this.props.url}`, '_blank');
         return false;
     }
 
-    lbs_click() {
+    lbs_click=()=>{
         window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${this.props.url}`, '_blank');
         return false;
     }
 
-    rbs_click() {
+    rbs_click=()=>{
         window.open(`https://www.reddit.com/submit?url=${this.props.url}`, '_blank');
         return false;
     }
 
-    whs_click() {
+    whs_click=()=> {
         window.open(`https://wa.me?text=${encodeURIComponent(this.props.url)}`, '_blank');
         return false;
     }
 
-    ma_click() {
+    ma_click=()=> {
         window.open(`mailto:?subject= I want to share this with you &amp;body= Hi there, Check out this site ${this.props.url}`, '_blank');
         return false;
     }
