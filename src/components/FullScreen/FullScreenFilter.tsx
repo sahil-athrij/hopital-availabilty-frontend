@@ -1,25 +1,34 @@
-import ResponsiveComponent from "../ResponsiveComponent";
+import ResponsiveComponent, {ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
 import {Container} from "react-bootstrap";
 
 import './location.css'
 import './filters.css'
 import {StarRatingInput} from "../inputs/StarRatingInput";
 import {DoubleSliderRatingInput, SliderRatingInput} from "../inputs/SliderRatingInput";
-import {setParam} from "../../api/QueryCreator";
+import React from "react";
+import {FullScreenLocationProps} from "./FullScreenLocation";
 
 
-export class FilterBox extends ResponsiveComponent {
-    state = {
-        selected: 0,
+interface FilterProps extends ResponsiveProps {
+    close: () => void
+}
 
+
+interface FilterState extends ResponsiveState {
+    selected: number
+}
+
+export class FilterBox extends ResponsiveComponent<FilterProps, FilterState> {
+
+
+    constructor(props: FilterProps) {
+        super(props);
+        this.state = {
+            ...this.state,
+            selected: 0,
+
+        }
     }
-
-    setPersistence() {
-        setParam("loc", this.state.value, 'Select Location')
-        setParam('lat', this.state.lat)
-        setParam('lng', this.state.lng)
-    }
-
 
     render() {
         return (
@@ -116,16 +125,16 @@ export class FilterBox extends ResponsiveComponent {
 
 }
 
-export class FullScreenFilter extends ResponsiveComponent {
+export class FullScreenFilter extends ResponsiveComponent<FullScreenLocationProps, ResponsiveState> {
 
     render() {
         return (<div
             className="d-flex fixed-top w-100 h-100 translucent-background  header align-items-end flex-column"
         >
             <button className="w-100 h-25 "
-                 onClick={
-                     this.props.close
-                 }/>
+                    onClick={
+                        this.props.close
+                    }/>
             <Container fluid={true} className="bg-white pt-2 top-radius-round flex-fill d-flex align-items-start">
                 <Container fluid={true} className="py-3 justify-content-start small-border-full">
                     <div className="h5 m-0 font-weight-bolder">
@@ -134,7 +143,7 @@ export class FullScreenFilter extends ResponsiveComponent {
                 </Container>
                 <Container fluid={true}
                            className="h-100 w-110  justify-content-start align-items-start p-0 small-border-full ">
-                    <FilterBox name="loc" close={() => {
+                    <FilterBox close={() => {
                         this.props.close()
                     }}/>
                 </Container>

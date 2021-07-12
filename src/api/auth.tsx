@@ -1,14 +1,15 @@
-import ResponsiveComponent from "../components/ResponsiveComponent";
-import {withRouter} from "react-router";
+import ResponsiveComponent, {ResponsiveProps, ResponsiveState} from "../components/ResponsiveComponent";
+import {RouteComponentProps, withRouter} from "react-router";
 import {getParam, getQueryVariable} from "./QueryCreator";
 import {baseUrl, post} from "./api";
 import {Container} from "react-bootstrap";
 import Loader from "react-loader-spinner";
+import React from "react";
 
 
 const client_id = '6tWdAZrlxUA26FJSMjE7oKBpTNGaqJRl2bsmNMRb'
-// export const reactUrl = 'https://needmedi.com'
-export const reactUrl = 'http://localhost:3000'
+export const reactUrl = 'https://needmedi.com'
+// export const reactUrl = 'http://localhost:3000'
 
 const redirect_uri = reactUrl + '/set_token/'
 
@@ -16,7 +17,7 @@ export function getAuth() {
     return localStorage.getItem('accessToken')
 }
 
-function setAuth(token) {
+function setAuth(token: string) {
     localStorage.setItem('accessToken', token)
 
 }
@@ -25,7 +26,7 @@ function getRefresh() {
     return localStorage.getItem('refreshToken')
 }
 
-function setRefresh(token) {
+function setRefresh(token: string) {
     localStorage.setItem('refreshToken', token)
 
 }
@@ -48,7 +49,7 @@ async function refreshToken() {
     })
 }
 
-export function refresh_user(tries = 0) {
+export function refresh_user(tries: number = 0) {
     let access_token = getAuth()
 
     post(`${baseUrl}/auth/users/me/`, {}, {'Authorization': `Bearer ${access_token}`}).then((response) => {
@@ -56,25 +57,28 @@ export function refresh_user(tries = 0) {
     }).catch((error) => {
         console.log(error)
         if (tries < 1) {
-            refreshToken(1).then(refreshToken)
+            refreshToken().then(() => {
+                refresh_user(1)
+            })
         }
     })
 
 
 }
 
-export function setObj(str, data) {
+export function setObj(str: string, data: object | null) {
     localStorage.setItem(str, JSON.stringify(data))
 
 }
 
-export function getObj(str) {
-    return JSON.parse(localStorage.getItem(str))
+export function getObj(str: string) {
+    let item = localStorage.getItem(str)
+    return JSON.parse(typeof item === "string" ? item : '')
 }
 
 let timer = Date.now()
 
-function makeid(length) {
+function makeid(length: number) {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
@@ -85,8 +89,39 @@ function makeid(length) {
     return result;
 }
 
-export class AuthComponent extends ResponsiveComponent {
-    constructor(props) {
+export interface AuthProps extends ResponsiveProps {
+
+}
+
+export interface AuthPropsLoc extends RouteComponentProps<ResponsiveProps> {
+}
+
+type token = {
+    private_token: string,
+    invite_token: string,
+    invited: number,
+    points: number,
+
+
+}
+
+export interface AuthState extends ResponsiveState {
+    width: number
+    refresh_view: boolean
+    auth: string | null
+    refresh: string | null
+    user: {
+        tokens: token,
+
+        username: string,
+        firstname: string,
+        lastname: string,
+    } | null
+}
+
+export class AuthComponent<P extends AuthProps, S extends AuthState>
+    extends ResponsiveComponent <P, S> {
+    constructor(props: P) {
         super(props);
         let auth = getAuth()
         let refresh = getRefresh()
@@ -111,6 +146,7 @@ export class AuthComponent extends ResponsiveComponent {
         let user = getObj('user')
         console.log(auth)
         this.setState({
+            width: 0,
             refresh_view: !this.state.refresh_view,
             auth, refresh, user
         })
@@ -164,7 +200,7 @@ export class AuthComponent extends ResponsiveComponent {
 }
 
 
-export class HandleTokenLoc extends AuthComponent {
+export class HandleTokenLoc extends AuthComponent<AuthPropsLoc, AuthState> {
     componentDidMount() {
         super.componentDidMount();
         let code = getQueryVariable('code')
@@ -182,7 +218,7 @@ export class HandleTokenLoc extends AuthComponent {
         post(`${baseUrl}/auth/o/token/`, kwargs).then((response) => {
             setAuth(response.access_token)
             setRefresh(response.refresh_token)
-            let location = localStorage.getItem(state)
+            let location = localStorage.getItem(state as string)
 
             post(`${baseUrl}/auth/users/me/`, {}, {'Authorization': `Bearer ${response.access_token}`}).then((response) => {
                 setObj('user', response.results[0])
@@ -212,7 +248,7 @@ export class HandleTokenLoc extends AuthComponent {
 
 export const HandleToken = withRouter(HandleTokenLoc)
 
-export class HandleInviteLoc extends AuthComponent {
+export class HandleInviteLoc extends AuthComponent<AuthPropsLoc, AuthState> {
     componentDidMount() {
         super.componentDidMount();
         console.log(this.props.location)

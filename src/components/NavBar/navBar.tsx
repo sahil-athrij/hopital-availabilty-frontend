@@ -1,5 +1,5 @@
 import {Container, Navbar} from "react-bootstrap";
-import ResponsiveComponent from "../ResponsiveComponent";
+import ResponsiveComponent, {ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
 import {ReactComponent as Burger} from "../../images/burger.svg"
 import {ReactComponent as Brand} from "../../images/brand.svg"
 import './nabar.css';
@@ -9,14 +9,28 @@ import {FullScreenLocation} from "../FullScreen/FullScreenLocation";
 import {BiSearch, BiSlider} from "react-icons/all";
 import {FullScreenFilter} from "../FullScreen/FullScreenFilter";
 import {getParam} from "../../api/QueryCreator";
-import {withRouter} from "react-router";
+import {RouteComponentProps, withRouter} from "react-router";
 import {FullScreenSearch} from "../FullScreen/fullScreenSearch";
 import {Link} from "react-router-dom";
 import {FullScreenUser} from "../FullScreen/FullSreenUser";
+import React from "react";
 
-class NavBarLoc extends ResponsiveComponent {
+interface NavBarProp extends RouteComponentProps<ResponsiveProps> {
 
-    constructor(props) {
+}
+
+interface NavBarState extends ResponsiveState {
+    loc: string,
+    show_location: boolean,
+    query: string,
+    show_search: boolean,
+    show_filter: boolean,
+    show_user: boolean,
+}
+
+class NavBarLoc extends ResponsiveComponent<NavBarProp, NavBarState> {
+
+    constructor(props: NavBarProp) {
         super(props);
         this.state = {
             ...this.state,
@@ -65,7 +79,7 @@ class NavBarLoc extends ResponsiveComponent {
                     className={"navbar  fixed-top " + (showSearchBar ? 'bg-white' : 'bg-grey')}
                     id="navbar">
 
-                <Container className fluid={true}>
+                <Container fluid={true}>
                     <div className="justify-content-start">
                         <Navbar.Toggle aria-controls="navbarSupportedContent" className="BlueBackground p-2"
                                        onClick={() => {

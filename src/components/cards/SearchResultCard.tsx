@@ -1,6 +1,6 @@
-import {Component} from "react";
+import React, {Component} from "react";
 import {StarRating} from "./StarRating";
-import {Marker} from "../../api/model";
+import {Marker, MarkerObject} from "../../api/model";
 import {Card, Container, Row} from "react-bootstrap";
 import hospitalsvg from "../../images/hospitalsvg.svg";
 import {Link} from "react-router-dom";
@@ -9,8 +9,14 @@ import './searchCards.css'
 import {BiPhoneOutgoing, RiDirectionLine} from "react-icons/all";
 import {getParam} from "../../api/QueryCreator";
 import Loader from "react-loader-spinner";
+import {AuthPropsLoc} from "../../api/auth";
+import {ResponsiveState} from "../ResponsiveComponent";
 
-class SearchCardsLoc extends Component {
+interface SearchCardsProps extends AuthPropsLoc {
+    model: MarkerObject
+}
+
+class SearchCardsLoc extends Component<SearchCardsProps> {
 
     render() {
         return (
@@ -18,7 +24,8 @@ class SearchCardsLoc extends Component {
                 <Card className="flex-row  mb-3">
                     <img src={hospitalsvg} className="w-30  p-2 px-3 p-md-4" alt="imageview"/>
                     <Card.Body className="w-70 bg-white text-left p-0 py-1">
-                        <div className="mt-1 hospital-title">{this.props.model.name.split(',')[0]}</div>
+                        <div
+                            className="mt-1 hospital-title">{this.props.model.name != null ? this.props.model.name.split(',')[0] : ''}</div>
                         <StarRating rating={this.props.model.care_rating}/>
                         <div className="d-flex address-container justify-content-between">
                         <span className={"hospital-address"}>
@@ -52,7 +59,9 @@ class SearchCardsLoc extends Component {
                                     event.preventDefault()
                                     event.stopPropagation()
                                     const win = window.open(`https://www.google.com/maps/search/${this.props.model.name}/@${this.props.model.lat},${this.props.model.lng},19.88z`, "_blank");
-                                    win.focus();
+                                    if (win) {
+                                        win.focus();
+                                    }
                                 }}>
 
                                 <button className="button-holder text-center">
@@ -73,9 +82,27 @@ class SearchCardsLoc extends Component {
 
 let SearchCards = withRouter(SearchCardsLoc);
 
-export class SearchResultsLoc extends Component {
 
-    state = {models: [], next: '', reset: false, loc: '', query: '', offset: 0}
+interface SearchResultsProp extends AuthPropsLoc {
+    updateParent: () => void
+}
+
+interface SearchResultsState extends ResponsiveState {
+    models: MarkerObject[]
+    next: string,
+    reset: boolean,
+    loc: string,
+    query: string,
+    offset: number
+}
+
+export class SearchResultsLoc extends Component<SearchResultsProp, SearchResultsState> {
+
+    constructor(props: SearchResultsProp) {
+        super(props);
+        this.state = {...this.state, models: [], next: '', reset: false, loc: '', query: '', offset: 0}
+
+    }
 
 
     componentDidMount() {
@@ -84,7 +111,8 @@ export class SearchResultsLoc extends Component {
         let lng = getParam('lng', '',)
         let query = getParam('query', 'Search Hospital',)
         Marker.filter({search: query, lat: lat, lng: lng, limit: 10}).then((markers) => {
-            let {results, next} = markers
+            let next = markers.next
+            let results = markers.results
             this.setState({models: results, next: next, reset: true, loc: loc, query: query})
             console.log(this.state.models)
         })
@@ -92,7 +120,7 @@ export class SearchResultsLoc extends Component {
         this.setState({reset: false})
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps: SearchResultsProp, prevState: SearchResultsState, snapshot: any) {
         let loc = getParam('loc', 'Search Location',)
         let lat = getParam('lat',)
         let lng = getParam('lng',)

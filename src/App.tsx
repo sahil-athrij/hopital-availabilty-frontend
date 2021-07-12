@@ -2,9 +2,9 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {NavBar} from './components/NavBar/navBar';
 import Index from "./components/Index";
-import React, {Component} from "react";
+import React from "react";
 import './index.css';
-import {Route, Switch, withRouter} from "react-router";
+import {Route, RouteComponentProps, Switch, withRouter} from "react-router";
 import {Search} from "./pages/search";
 import {getParam} from "./api/QueryCreator";
 import {Details} from "./components/Details/Details";
@@ -15,9 +15,22 @@ import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {AddHospital} from "./components/AddHospital/AddHospital";
 
-class AppLoc extends Component {
+interface AppRouterProps {
+    title: string;   // This one is coming from the router
 
-    constructor(props) {
+}
+
+interface AppProps extends RouteComponentProps<AppRouterProps> {
+    // Add your regular properties here
+}
+
+interface AppDispatchProps {
+    // Add your dispatcher properties here
+}
+
+class AppLoc extends React.Component<AppProps & AppDispatchProps> {
+
+    constructor(props: AppProps & AppDispatchProps) {
         super(props);
         let location = this.props.location.pathname + this.props.location.search
         this.props.history.replace(location)
@@ -28,14 +41,14 @@ class AppLoc extends Component {
         getParam('lat', '', true)
         getParam('lng', '', true)
         getParam('loc', 'Search Location', true)
-        getParam('query', 'Search Hosptial', true)
+        getParam('query', 'Search Hospital', true)
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
         getParam('lat', '', true)
         getParam('lng', '', true)
         getParam('loc', 'Search Location', true)
-        getParam('query', 'Search Hosptial', true)
+        getParam('query', 'Search Hospital', true)
     }
 
     render() {
@@ -94,5 +107,5 @@ class AppLoc extends Component {
     }
 }
 
-let App = withRouter(AppLoc)
+let App = withRouter(AppLoc);
 export default App;

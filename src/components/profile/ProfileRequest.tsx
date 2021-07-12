@@ -1,4 +1,4 @@
-import {AuthComponent} from "../../api/auth";
+import {AuthComponent, AuthProps, AuthState} from "../../api/auth";
 import {Container} from "react-bootstrap";
 import React from "react";
 import {
@@ -16,10 +16,41 @@ import Switch from "react-bootstrap/Switch";
 import {toast} from "react-toastify";
 import {Patient} from "../../api/model";
 
-export class ProfileRequest extends AuthComponent {
 
-    constructor() {
-        super();
+interface ProfileRequestState extends AuthState {
+    position: number,
+    Name: string,
+    age: string,
+    gender: string,
+    address: string,
+
+    symptoms: string,
+    symdays: string
+    spo2: string,
+    oxy_bed: string,
+    bedtype: string,
+
+    blood: string,
+    ct: string,
+    covidresult: string,
+    ctscore: string,
+
+
+    attender: boolean,
+    attendername: string,
+    attenderphone: string,
+    relation: string,
+
+    previoushospital: boolean,
+    hospitalpref: string,
+    srfid: string,
+    bunum: string,
+}
+
+export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState> {
+
+    constructor(props: AuthProps) {
+        super(props);
         this.state = {
             ...this.state,
             position: 0,
@@ -55,27 +86,27 @@ export class ProfileRequest extends AuthComponent {
         }
     }
 
-    testPos = (num) => {
+    testPos = (num: number) => {
         console.log(this.state)
-        let filled = this.state.Name && this.state.age && this.state.gender
+        let filled: boolean = Boolean(this.state.Name && this.state.age && this.state.gender)
         console.log(filled)
         if (num > 1) {
-            filled = filled && this.state.symptoms && this.state.symdays && this.state.oxy_bed
+            filled = Boolean(filled && this.state.symptoms && this.state.symdays && this.state.oxy_bed)
         }
         if (num > 2) {
-            filled = filled && this.state.ct && this.state.covidresult
+            filled = Boolean(filled && this.state.ct && this.state.covidresult)
         }
         if (num > 3) {
-            filled = filled && (!this.state.attender || (this.state.attendername && this.state.attenderphone && this.state.relation))
+            filled = Boolean(filled && (!this.state.attender || (this.state.attendername && this.state.attenderphone && this.state.relation)))
         }
         if (num > 4) {
-            filled = filled && (!this.state.previoushospital || (this.state.hospitalpref && this.state.srfid && this.state.bunum))
+            filled = Boolean(filled && (!this.state.previoushospital || (this.state.hospitalpref && this.state.srfid && this.state.bunum)))
         }
         return filled
     }
 
 
-    setPosition = (position) => {
+    setPosition = (position: number) => {
         let filled = this.testPos(position)
         console.log(filled)
         if (filled)
@@ -87,15 +118,15 @@ export class ProfileRequest extends AuthComponent {
         }
     }
 
-    setValue = (name, event) => {
+    setValue = (name: string, event: string | boolean | React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         let value
-        try {
+        if (typeof event !== "boolean" && typeof event !== 'string') {
             value = event.target.value
-        } catch {
+        } else {
             value = event
-
         }
-
+        //TODO: fix ts ignore
+        // @ts-ignore
         this.setState({[name]: value})
 
     }
@@ -105,7 +136,6 @@ export class ProfileRequest extends AuthComponent {
             toast.success('Successfully Submitted Review', {
                 position: "bottom-center",
             });
-            this.props.close()
         }).catch((error) => {
             let {detail} = error
             console.log(detail)
@@ -300,7 +330,7 @@ export class ProfileRequest extends AuthComponent {
                             <div className="d-flex flex-row justify-content-between">
 
                                 <h6 className="text-left"><b>Attender Information</b></h6>
-                                <div className="d-flex flex-row align-items-center" onClick={(event) => {
+                                <div className="d-flex flex-row align-items-center" onClick={() => {
                                     this.setValue('attender', !this.state.attender)
                                 }}>
 
@@ -309,7 +339,7 @@ export class ProfileRequest extends AuthComponent {
                                             defaultChecked={true}
                                             checked={this.state.attender}
                                             autoFocus={true}
-                                            onChange={(event) => {
+                                            onChange={() => {
                                                 this.setValue('attender', !this.state.attender)
                                             }}
                                     />
@@ -351,14 +381,14 @@ export class ProfileRequest extends AuthComponent {
 
                                 <h6 className="text-left"><b>Previous Hospital Information</b></h6>
                                 <div className="d-flex flex-row align-items-center"
-                                     onClick={(event) => {
+                                     onClick={() => {
                                          this.setValue('previoushospital', !this.state.previoushospital)
                                      }}>
 
                                     <small className="mr-3">Hospital </small>
                                     <Switch color="default"
                                             checked={this.state.previoushospital}
-                                            onChange={(event) => {
+                                            onChange={() => {
                                                 this.setValue('previoushospital', !this.state.previoushospital)
                                             }}
                                             autoFocus={true}

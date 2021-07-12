@@ -1,12 +1,17 @@
-import ResponsiveComponent from "../ResponsiveComponent";
+import ResponsiveComponent, {ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
 import '../inputs/stars.css'
 import {FaStar, FaStarHalf} from "react-icons/all";
+import React from "react";
 
-export class StarRating extends ResponsiveComponent {
+interface StarRatingProp extends ResponsiveProps {
+    rating: number
+}
+
+export class StarRating extends ResponsiveComponent<StarRatingProp, ResponsiveState> {
 
     makeStars() {
-        var rows = [];
-        for (var i = 1; i <= 5; i++) {
+        let rows = [];
+        for (let i = 1; i <= 5; i++) {
             if (this.props.rating > i && this.props.rating) {
                 rows.push(<FaStar className="star-full" size={16} spacing={2} key={i}/>)
 
@@ -34,7 +39,7 @@ export class StarRating extends ResponsiveComponent {
     render() {
         return (
             <div className="d-flex star-rating-container flex-row align-items-center">
-                <div className="mr-1">{parseFloat(this.props.rating).toFixed(1)}</div>
+                <div className="mr-1">{parseFloat(String(this.props.rating)).toFixed(1)}</div>
                 {this.makeStars()}
             </div>
         )

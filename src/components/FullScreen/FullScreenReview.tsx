@@ -1,21 +1,41 @@
+import React from 'react';
 import {Container} from "react-bootstrap";
 import {ReactComponent as Back} from "../../images/back.svg";
-
 import './location.css'
 import {IoPersonCircleSharp} from "react-icons/all";
 import {StarRatingReview} from "../inputs/StarRatingReview";
 import {YesNoInput} from "../inputs/YesNoInput";
 import {InputAdornment, TextField} from "@material-ui/core";
-import {Review} from "../../api/model";
-import {AuthComponent} from "../../api/auth";
+import {MarkerObject, Review} from "../../api/model";
+import {AuthComponent, AuthProps, AuthState} from "../../api/auth";
 import {toast} from "react-toastify";
 
+interface ReviewBoxProps extends AuthProps {
+    marker: number,
+    close: () => void,
+    refresh_parent?: () => void
+}
 
-export class ReviewBox extends AuthComponent {
 
-    constructor(props) {
+
+interface ReviewBoxState extends AuthState {
+    marker: number,
+    name: string,
+    care_rating: number,
+    covid_rating: number,
+    oxygen_rating: number,
+    financial_rating: number,
+    avg_cost: number,
+    oxygen_availability: number | null,
+    icu_availability: number | null,
+    ventilator_availability: number | null,
+    allow_post: boolean
+}
+
+export class ReviewBox extends AuthComponent<ReviewBoxProps, ReviewBoxState> {
+
+    constructor(props: ReviewBoxProps) {
         super(props);
-        console.log(this.props)
         this.state = {
             ...this.state,
             marker: this.props.marker,
@@ -33,7 +53,8 @@ export class ReviewBox extends AuthComponent {
         }
     }
 
-    setValue = (param, value) => {
+    setValue = (param: string, value: number | string | boolean) => {
+        // @ts-ignore
         this.setState({[param]: value},
             () => {
                 let allow_post = this.state.care_rating !== 0 && this.state.covid_rating !== 0 && this.state.oxygen_rating !== 0
@@ -67,12 +88,12 @@ export class ReviewBox extends AuthComponent {
 
         return (
 
-            <>
+            <React.Fragment>
                 <div className="w-100  text-left">
                     <div className="d-flex flex-row ">
                         <IoPersonCircleSharp size={35} height={30}/>
                         <div className="line-height-small">
-                            <div className="h6 m-0"><b>{this.state.user.username}</b></div>
+                            <div className="h6 m-0"><b>{this.state.user ? this.state.user.username : ''}</b></div>
                             <small>{new Date().toDateString()}</small>
                         </div>
                     </div>
@@ -130,13 +151,14 @@ export class ReviewBox extends AuthComponent {
                         </div>
                     </div>
                 </div>
-            </>
+            </React.Fragment>
 
         )
     }
 }
 
-export class FullScreenReview extends AuthComponent {
+
+export class FullScreenReview extends AuthComponent<ReviewBoxProps, AuthState> {
 
     render() {
         let {user} = this.state
@@ -157,8 +179,10 @@ export class FullScreenReview extends AuthComponent {
                         Share Your Feedback
                     </div>
                 </Container>
+
+
                 <Container fluid={true} className="mt-5 pt-3 neumorphic-input bg-white">
-                    <ReviewBox name="loc" marker={this.props.marker} close={() => {
+                    <ReviewBox marker={this.props.marker} close={() => {
                         this.props.close()
                     }}/>
                 </Container>

@@ -1,14 +1,15 @@
-import {AuthComponent} from "../../api/auth";
+import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {Container} from "react-bootstrap";
 import {AiOutlinePlus, HiOutlineClipboardCopy, IoPersonCircle} from "react-icons/all";
 import {withRouter} from "react-router";
 import {toast} from "react-toastify";
+import React from "react";
 
-export class ProfileDetailsLoc extends AuthComponent {
+export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, AuthState> {
 
     render() {
         return (
-            <>
+            <React.Fragment>
                 <div className={'d-flex flex-column bg-grey min-vh-100 flex-fill'}>
                     <Container className="mt-5 pt-5 neumorphic-input pb-2">
                         <div className="d-flex flex-row mb-4">
@@ -17,12 +18,12 @@ export class ProfileDetailsLoc extends AuthComponent {
                                 <div className="w-100 flex-fill flex-column d-flex">
                                     <div className="d-flex flex-row justify-content-center mb-2">
                                         <div className="d-flex flex-column w-50 border-right-dark">
-                                            <h5 className="m-0">{this.state.user.tokens.invited}</h5>
+                                            <h5 className="m-0">{this.state.user ? this.state.user.tokens.invited : ''}</h5>
                                             <small>Friends Invited</small>
                                         </div>
 
                                         <div className="d-flex flex-column w-50">
-                                            <h5 className="m-0">{this.state.user.tokens.points}</h5>
+                                            <h5 className="m-0">{this.state.user ? this.state.user.tokens.points : ''}</h5>
                                             <small>Points</small>
                                         </div>
                                     </div>
@@ -36,16 +37,19 @@ export class ProfileDetailsLoc extends AuthComponent {
                         </div>
                         <div className="d-flex flex-row ">
                             <div className="d-flex flex-column text-capitalize text-left">
-                                <h5><b>{this.state.user.username}</b></h5>
+                                <h5><b>{this.state.user ? this.state.user.username : ''}</b></h5>
                                 <button className="d-flex align-items-center"
                                         onClick={() => {
-                                            navigator.clipboard.writeText(this.state.user.tokens.private_token).then(() => {
-                                                toast.dark('Copied ', {
-                                                    position: "bottom-center",
-                                                });
-                                            })
+                                            if (this.state.user) {
+                                                navigator.clipboard.writeText(this.state.user.tokens.private_token).then(() => {
+                                                    toast.dark('Copied ', {
+                                                        position: "bottom-center",
+                                                    });
+                                                })
+                                            }
                                         }}>
-                                    Invite your Friends : <div className="mr-2">{this.state.user.tokens.private_token}
+                                    Invite your Friends : <div
+                                    className="mr-2">{this.state.user ? this.state.user.tokens.private_token : ''}
                                 </div>
                                     <HiOutlineClipboardCopy size={20}/>
                                 </button>
@@ -63,7 +67,7 @@ export class ProfileDetailsLoc extends AuthComponent {
                     </Container>
                 </div>
 
-            </>
+            </React.Fragment>
         )
 
     }

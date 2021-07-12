@@ -1,11 +1,22 @@
-import {Component} from "react";
+import React from "react";
 
-export default class ResponsiveComponent extends Component {
-    constructor(props) {
+
+export interface ResponsiveProps {
+
+}
+
+export interface ResponsiveState {
+    width: number
+}
+
+export default class ResponsiveComponent<P extends ResponsiveProps, S extends ResponsiveState, SS = any>
+    extends React.Component <P, S, SS> {
+    state: S
+
+    constructor(props: P) {
         super(props);
-        this.state = {
-            width: window.innerWidth,
-        };
+        // @ts-ignore
+        this.state = {width: window.innerWidth};
     }
 
     hashChange = () => {
@@ -34,9 +45,9 @@ export default class ResponsiveComponent extends Component {
 
     render() {
         return (
-            <>
+            <React.Fragment>
                 {this.props.children}
-            </>
+            </React.Fragment>
         );
     }
 }

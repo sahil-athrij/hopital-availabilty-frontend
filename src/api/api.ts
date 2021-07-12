@@ -1,10 +1,12 @@
 import {getAuth} from "./auth";
+import {ModelRegistry} from "./model";
 
-// export const baseUrl = "https://needmedi.com"
-export const baseUrl = "http://127.0.0.1:8000"
+export const baseUrl = "https://needmedi.com"
+
+// export const baseUrl = "http://127.0.0.1:8000"
 
 
-export async function get(url, kwargs = {}, headers = {}) {
+export async function get(url: string, kwargs = {}, headers = {}) {
     const response = await fetch(url + "?" + new URLSearchParams(kwargs),
         {
             headers: {
@@ -21,13 +23,11 @@ export async function get(url, kwargs = {}, headers = {}) {
     }
 }
 
-
-export async function post(url, kwargs = {}, headers = {}) {
+export async function post(url: RequestInfo, kwargs = {}, headers = {}) {
     const response = await fetch(url, {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             headers: {
                 'Content-Type': 'application/json',
-
                 ...headers
             },
             body: JSON.stringify(kwargs)
@@ -42,12 +42,11 @@ export async function post(url, kwargs = {}, headers = {}) {
     }
 }
 
-export async function patch(url, kwargs = {}, headers = {}) {
+export async function patch(url: RequestInfo, kwargs = {}, headers = {}) {
     const response = await fetch(url, {
             method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
             headers: {
                 'Content-Type': 'application/json',
-                // 'X-CSRFToken': await getCsrfToken(),
                 ...headers
             },
             body: JSON.stringify(kwargs)
@@ -62,15 +61,21 @@ export async function patch(url, kwargs = {}, headers = {}) {
     }
 }
 
+export interface ModelData {
+    [key: string]: number | string,
+}
+
+
 export class ModelObject {
     data;
     baseUrl;
-    id;
-    fields;
+    id: number;
+    fields: string[] = ['id'];
+    excluded_fields: string[] = [];
 
-    constructor(data, baseUrl) {
+    constructor(data: ModelData, baseUrl: string) {
         this.data = data
-        this.id = data.id
+        this.id = <number>data.id
         this.baseUrl = baseUrl
 
     }
@@ -78,6 +83,8 @@ export class ModelObject {
     getData() {
         let self = this
         this.fields.forEach(item => {
+            //TODO: Fix TS ignore
+            // @ts-ignore
             self[item] = self.data[item]
         })
     }
@@ -85,7 +92,8 @@ export class ModelObject {
     setData() {
         let self = this
         this.fields.forEach(item => {
-
+            //TODO: Fix TS ignore
+            // @ts-ignore
             self.data[item] = self[item]
         })
     }
@@ -97,35 +105,32 @@ export class ModelObject {
 
 }
 
+
 export default class Model {
-    /**
-     * @param {string} baseUrl
-     * @param {ModelObject} modelClass
-     */
-    constructor(baseUrl, modelClass) {
+    baseurl: string;
+    modelClass: ModelRegistry;
+
+    constructor(baseUrl: string, modelClass: ModelRegistry) {
         this.baseurl = baseUrl
         this.modelClass = modelClass
     }
 
-    /**
-     * @param {int} id
-     * @param {{}} kwargs
-     */
-    get = async (id, kwargs = {}) => {
+
+    get = async (id: number, kwargs: {} = {}) => {
         let data = await get(`${this.baseurl}${id}/`, kwargs)
         return new this.modelClass(data, this.baseurl)
 
     };
-    /**
-     * @param {{}} kwargs
-     */
-    filter = async (kwargs = {}) => {
 
+    filter = async (kwargs = {}) => {
         try {
             let data = await get(`${this.baseurl}`, kwargs)
-            let lst = []
-            data.results.forEach(item => {
-                lst.push(new this.modelClass(item, this.baseurl))
+            //TODO: add return type
+            let lst: any[];
+            lst = [];
+            data.results.forEach((item: ModelData) => {
+                let obj = new this.modelClass(item, this.baseurl)
+                lst.push(obj)
             })
             return {results: lst, next: data.next}
         } catch (e) {

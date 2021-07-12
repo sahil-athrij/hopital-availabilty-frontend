@@ -1,15 +1,15 @@
-import {AuthComponent} from "../../api/auth";
+import {AuthComponent, AuthProps, AuthState} from "../../api/auth";
 import React from "react";
 import {Route} from "react-router";
 import {ProfileDetails} from "./ProfileDetails";
 import './profile.css'
 import {ProfileRequest} from "./ProfileRequest";
 
-export class Profile extends AuthComponent {
+export class Profile extends AuthComponent<AuthProps, AuthState> {
     render() {
         if (this.state.auth) {
             return (
-                <>
+                <React.Fragment>
                     <Route path={"/profile/edit"}>
                         <div>whit</div>
                     </Route>
@@ -20,10 +20,9 @@ export class Profile extends AuthComponent {
                     <Route exact={true} path={"/profile"}>
                         <ProfileDetails/>
                     </Route>
-                </>
+                </React.Fragment>
             )
-        }
-        else {
+        } else {
             this.performAuth()
             return <></>
         }

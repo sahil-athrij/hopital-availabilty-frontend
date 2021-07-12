@@ -1,13 +1,22 @@
+import React from "react";
 import {Col, Container, Row} from "react-bootstrap";
 import {SearchResults} from "../components/cards/SearchResultCard";
 import {getParam} from "../api/QueryCreator";
-import ResponsiveComponent from "../components/ResponsiveComponent";
+import ResponsiveComponent, {ResponsiveProps, ResponsiveState} from "../components/ResponsiveComponent";
+
+interface SearchProps extends ResponsiveProps {
+
+}
+
+interface SearchState extends ResponsiveState {
+    loc: string
+    query: string
+}
+
+export class Search extends ResponsiveComponent<SearchProps, SearchState> {
 
 
-export class Search extends ResponsiveComponent {
-    
-
-    constructor(props) {
+    constructor(props: SearchProps) {
         super(props);
         this.state = {
             ...this.state,

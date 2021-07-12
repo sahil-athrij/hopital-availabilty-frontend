@@ -1,30 +1,65 @@
-import ResponsiveComponent from "../ResponsiveComponent";
+import ResponsiveComponent, {ResponsiveState} from "../ResponsiveComponent";
 import {Container} from "react-bootstrap";
 import {ReactComponent as Back} from "../../images/back.svg";
-import {LocationSearchBoxLoc} from "./FullScreenLocation";
+import {
+    FullScreenLocationProps,
+    LocationSearchBoxLoc,
+    LocationSearchProps,
+    LocationSearchState
+} from "./FullScreenLocation";
 import {Marker} from "../../api/model";
 import {AiOutlineClose, BiCurrentLocation, FaHospital} from "react-icons/all";
 import {ReactComponent as Search} from "../../images/search.svg";
 import {ReactComponent as MarkerSvg} from "../../images/markersvg.svg";
 import {getParam, setParam} from "../../api/QueryCreator";
 import {withRouter} from "react-router";
+import React from "react";
+import {toast} from "react-toastify";
+
+interface LocationQuerySearchProps extends LocationSearchProps {
+    close: () => void,
+    closeWindow?: () => void
+}
+
+type SuggestionSearch = {
+    name: any;
+    lat: number;
+    lon: number;
+    address: {
+        country?: string;
+        state?: string;
+        city?: string;
+        name: string
+    }
+}
+
+interface LocationQuerySearchState extends LocationSearchState {
+    suggestionsSearch: SuggestionSearch[],
+    selectedSearch: number,
+    value: string,
+    lat: string,
+    lng: string,
+    query: string,
+    display: number | boolean,
+
+}
 
 
-export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc {
-    state = {
-        suggestions: [],
-        suggestionsSearch: [],
-        selected: 0,
-        selectedSearch: -1,
-        value: getParam('loc', 'Select Location'),
-        query: getParam('query', 'Search Hospital'),
-        lat: getParam('lat', null),
-        lng: getParam('lng', null),
-        display: 0
+export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuerySearchProps, LocationQuerySearchState> {
+
+
+    constructor(props: LocationQuerySearchProps) {
+        super(props);
+        this.state = {
+            ...this.state,
+            suggestionsSearch: [],
+            selectedSearch: -1,
+            query: getParam('query', 'Search Hospital'),
+        }
+
     }
 
     setPersistence() {
-
         setParam("loc", this.state.value, 'Select Location')
         setParam('query', this.state.query, 'Search Hospital')
         setParam('lat', this.state.lat)
@@ -33,17 +68,20 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc {
     }
 
 
-    async SuggestLocationsSearch(event) {
+    async SuggestLocationsSearch(event: React.ChangeEvent<HTMLInputElement>) {
         this.setState({query: event.target.value}, this.setPersistence)
-        const values = await Marker.filter({search: this.state.query, limit: 5})
-        let {details} = values
-        console.log(details)
-        if (!details) {
+        try {
+            const values = await Marker.filter({search: this.state.query, limit: 5})
             this.setState({suggestionsSearch: values.results})
+        } catch (e) {
+            toast.error('Internet Not Available', {
+                position: "bottom-center",
+            });
         }
+
     }
 
-    handleEnterSearch(e) {
+    handleEnterSearch() {
         let newSelected = this.state.suggestionsSearch[this.state.selectedSearch]
         let newValue;
         newValue = newSelected ? newSelected.name : this.state.query;
@@ -57,7 +95,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc {
     }
 
 
-    handleKeyDownSearch(e) {
+    handleKeyDownSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
 
         const {selectedSearch, suggestionsSearch} = this.state
         console.log(e.key)
@@ -73,12 +111,12 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc {
             }))
         } else if (e.key === "Enter") {
             e.preventDefault()
-            this.handleEnterSearch(e)
+            this.handleEnterSearch()
         }
-    }
+    };
 
-    displaySuggestionsSearch(list) {
-        return list.map((item, i) => {
+    displaySuggestionsSearch(list: SuggestionSearch[]) {
+        return list.map((item: SuggestionSearch, i: number) => {
                 return (
                     <Container
                         className={'w-100  py-3  select-locations ' + ((i === this.state.selectedSearch) ? "active" : '')}
@@ -105,7 +143,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc {
 
     render() {
         return (
-            <>
+            <React.Fragment>
                 <Container
                     className={"w-100 input-holder mb-3 pr-1 justify-content-begin position-relative overflow-x-hidden  " + ((1 === this.state.display) ? "active-blue" : '')}>
                     <Search className=" input-marker "/>
@@ -119,9 +157,9 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc {
                                this.handleKeyDownSearch(event)
                            }}
                            onChange={(event) => {
-                               this.SuggestLocationsSearch(event,)
+                               this.SuggestLocationsSearch(event,).then()
                            }}
-                           onFocusCapture={event => {
+                           onFocusCapture={() => {
                                this.setState({display: 1})
                            }}
                     />
@@ -152,11 +190,11 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc {
                            onKeyDown={(event) => {
                                this.handleKeyDown(event)
                            }}
-                           onFocusCapture={event => {
+                           onFocusCapture={() => {
                                this.setState({display: 2})
                            }}
                            onChange={(event) => {
-                               this.SuggestLocations(event)
+                               this.SuggestLocations(event).then()
                            }}/>
                     {this.state.value &&
                     <AiOutlineClose scale={4} size={30} className="input-marker" onClick={() => {
@@ -170,15 +208,15 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc {
                 {(this.state.display === 2 || this.state.display === 0) &&
                 <Container className="w-100 text-primary mt-1 select-locations py-3 pointers"
                            onClick={() => {
-                               this.getLocation()
+                               this.getLocation().then()
                            }}>
                     <BiCurrentLocation scale={4} size={30} className="input-marker mr-3"/>
                     <div className="fill-rest">Use Current Location / Please enable Location services</div>
                 </Container>}
-                {this.state.display === 1 ? this.displaySuggestionsSearch(this.state.suggestionsSearch, this.props.type)
-                    : this.state.display === 2 ? this.displaySuggestions(this.state.suggestions, this.props.type) : ''}
+                {this.state.display === 1 ? this.displaySuggestionsSearch(this.state.suggestionsSearch)
+                    : this.state.display === 2 ? this.displaySuggestions(this.state.suggestions) : ''}
 
-            </>
+            </React.Fragment>
 
         )
     }
@@ -187,7 +225,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc {
 
 export const LocationQuerySearchBox = withRouter(LocationQuerySearchBoxLoc)
 
-export class FullScreenSearch extends ResponsiveComponent {
+export class FullScreenSearch extends ResponsiveComponent<FullScreenLocationProps, ResponsiveState> {
     render() {
         return (<div className="fixed-top w-100 h-100 bg-white header">
             <Container fluid={true} className="py-3">
@@ -200,7 +238,7 @@ export class FullScreenSearch extends ResponsiveComponent {
 
             </Container>
             <Container fluid={true} className="mt-3">
-                <LocationQuerySearchBox name="loc" close={() => {
+                <LocationQuerySearchBox close={() => {
                 }} closeWindow={this.props.close}/>
             </Container>
         </div>)

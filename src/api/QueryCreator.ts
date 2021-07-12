@@ -1,4 +1,4 @@
-export function getQueryVariable(variable) {
+export function getQueryVariable(variable: string) {
     const query = window.location.search.substring(1);
     const vars = query.split("&");
     for (let i = 0; i < vars.length; i++) {
@@ -10,7 +10,7 @@ export function getQueryVariable(variable) {
     return false;
 }
 
-export function getParam(param, default_value = '', get_query = false) {
+export function getParam<T1>(param: string, default_value: T1 | string = '', get_query: boolean = false) {
     if (get_query) {
         let qs = getQueryVariable(param)
         if (typeof qs === 'string') {
@@ -20,12 +20,18 @@ export function getParam(param, default_value = '', get_query = false) {
             localStorage.setItem(param, qs)
         }
     }
+    let value: string;
+    if (localStorage.getItem(param)) {
+        value = <string>localStorage.getItem(param);
+    } else {
+        value = '';
+    }
 
-    return localStorage.getItem(param) === default_value ? '' : '' || localStorage.getItem(param)
+    return localStorage.getItem(param) === default_value ? '' : value
 }
 
 
-export function setParam(param, value, default_value = '') {
+export function setParam(param: string, value: string, default_value: string = '') {
     if (value) {
         localStorage.setItem(param, value)
     } else {

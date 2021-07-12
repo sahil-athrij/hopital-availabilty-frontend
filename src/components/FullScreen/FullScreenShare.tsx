@@ -1,5 +1,5 @@
 import {Container} from "react-bootstrap";
-import {AuthComponent} from "../../api/auth";
+import {AuthComponent, AuthState} from "../../api/auth";
 
 import "./sharebuttons.css"
 import {
@@ -13,37 +13,41 @@ import {
     SiGmail
 } from "react-icons/all";
 import {toast} from "react-toastify";
+import React from "react";
+import {FullScreenLocationProps} from "./FullScreenLocation";
 
-export class ShareBox extends AuthComponent {
+interface ShareBoxProps extends FullScreenLocationProps {
+    url: string
+}
 
-
-    fbs_click=()=>{
-        window.open(`http://www.facebook.com/sharer.php?u=https://needmedi.com&quote=${this.props.url}`, '_blank');
+export class ShareBox extends AuthComponent<ShareBoxProps, AuthState> {
+    fbs_click = () => {
+        window.open(`https://www.facebook.com/sharer.php?u=https://needmedi.com&quote=${this.props.url}`, '_blank');
         return false;
     }
 
 
-    tbs_click=()=>{
+    tbs_click = () => {
         window.open(`https://twitter.com/intent/tweet?text=NeedMedi Invite&url=${this.props.url}`, '_blank');
         return false;
     }
 
-    lbs_click=()=>{
+    lbs_click = () => {
         window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${this.props.url}`, '_blank');
         return false;
     }
 
-    rbs_click=()=>{
+    rbs_click = () => {
         window.open(`https://www.reddit.com/submit?url=${this.props.url}`, '_blank');
         return false;
     }
 
-    whs_click=()=> {
+    whs_click = () => {
         window.open(`https://wa.me?text=${encodeURIComponent(this.props.url)}`, '_blank');
         return false;
     }
 
-    ma_click=()=> {
+    ma_click = () => {
         window.open(`mailto:?subject= I want to share this with you &amp;body= Hi there, Check out this site ${this.props.url}`, '_blank');
         return false;
     }
@@ -61,7 +65,7 @@ export class ShareBox extends AuthComponent {
             navigator.share({
                 title: "Need Medi Invite",
                 url: this.props.url
-            }).then(r => {
+            }).then(() => {
                 toast.dark('Share Successful', {
                     position: "bottom-center",
                 });
@@ -108,14 +112,7 @@ export class ShareBox extends AuthComponent {
 
 }
 
-export class FullScreenShare extends AuthComponent {
-    constructor(props) {
-        super(props);
-        this.state = {
-            ...this.state,
-        }
-    }
-
+export class FullScreenShare extends AuthComponent<ShareBoxProps, AuthState> {
 
     render() {
         return (
@@ -133,7 +130,7 @@ export class FullScreenShare extends AuthComponent {
                             invite your friends to the app to earn points
                         </div>
                     </Container>
-                    <ShareBox name="loc" url={this.props.url} close={() => {
+                    <ShareBox url={this.props.url} close={() => {
                         this.props.close()
                     }}/>
 

@@ -1,8 +1,9 @@
-import {AuthComponent} from "../../api/auth";
+import {AuthComponent, AuthProps, AuthPropsLoc, AuthState} from "../../api/auth";
 import {Container} from "react-bootstrap";
 import {withRouter} from "react-router";
+import React from "react";
 
-export class Banners extends AuthComponent {
+export class Banners extends AuthComponent<AuthProps, AuthState> {
     render() {
         return (<Container fluid={true} className=" mt-5 blue-gradient py-2 holder">
             <div className=" p-2 text-white">
@@ -21,7 +22,7 @@ export class Banners extends AuthComponent {
     }
 }
 
-export class AuthenticatedBannerLoc extends AuthComponent {
+export class AuthenticatedBannerLoc extends AuthComponent<AuthPropsLoc, AuthState> {
     render() {
         return (<Container fluid={true} className=" mt-5 green-gradient py-2 holder">
             <div className=" p-2 text-white">

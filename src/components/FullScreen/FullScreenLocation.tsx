@@ -1,4 +1,4 @@
-import ResponsiveComponent from "../ResponsiveComponent";
+import ResponsiveComponent, {ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
 import {Container} from "react-bootstrap";
 import {ReactComponent as Back} from "../../images/back.svg";
 import {ReactComponent as MarkerSvg} from "../../images/markersvg.svg";
@@ -8,16 +8,50 @@ import './location.css'
 import {AiOutlineClose, BiCurrentLocation, ImLocation2} from "react-icons/all";
 import {getParam, setParam} from "../../api/QueryCreator";
 import {withRouter} from "react-router";
+import React from "react";
+import {AuthPropsLoc} from "../../api/auth";
 
 
-export class LocationSearchBoxLoc extends ResponsiveComponent {
-    state = {
-        suggestions: [],
-        selected: 0,
-        value: getParam('loc', 'Select Location'),
-        lat: getParam('lat'),
-        lng: getParam('lng'),
-        display: 0
+export interface LocationSearchProps extends AuthPropsLoc {
+    close: () => void,
+    closeWindow?: () => void
+}
+
+type Suggestion = {
+    lat: number;
+    lon: number;
+    address: {
+        country?: string;
+        state?: string;
+        city?: string;
+        name: string
+    }
+}
+
+export interface LocationSearchState extends ResponsiveState {
+    suggestions: Suggestion[],
+    selected: number,
+    value: string,
+    lat: string,
+    lng: string,
+    query?: string,
+    display: number | boolean,
+
+}
+
+export class LocationSearchBoxLoc<P extends LocationSearchProps, S extends LocationSearchState> extends ResponsiveComponent<P, S> {
+    constructor(props: P) {
+        super(props);
+        this.state = {
+            ...this.state,
+            suggestions: [],
+            selected: 0,
+            value: getParam('loc', 'Select Location'),
+            lat: getParam('lat'),
+            lng: getParam('lng'),
+            display: 0
+        }
+
     }
 
 
@@ -27,12 +61,10 @@ export class LocationSearchBoxLoc extends ResponsiveComponent {
         setParam('lng', this.state.lng)
     }
 
-    async SuggestLocations(event) {
+    async SuggestLocations(event: React.ChangeEvent<HTMLInputElement>) {
         this.setState({value: event.target.value})
         let url;
         try {
-
-
             url = 'https://api.locationiq.com/v1/autocomplete.php';
             const values = await get(url, {
                 key: 'pk.760f1338e289bacc788f9e0ae4a4951e',
@@ -77,7 +109,7 @@ export class LocationSearchBoxLoc extends ResponsiveComponent {
         }
     }
 
-    handleEnter(e) {
+    handleEnter() {
         let newSelected = this.state.suggestions[this.state.selected]
         if (newSelected) {
             let newValue = newSelected.address.name
@@ -92,7 +124,7 @@ export class LocationSearchBoxLoc extends ResponsiveComponent {
     }
 
 
-    handleKeyDown(e) {
+    handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
         const {selected, suggestions} = this.state
         console.log(e.key)
         if (e.key === 'ArrowUp' && suggestions.length > 0) {
@@ -107,22 +139,22 @@ export class LocationSearchBoxLoc extends ResponsiveComponent {
             }))
         } else if (e.key === "Enter") {
             e.preventDefault()
-            this.handleEnter(e)
+            this.handleEnter()
         }
     }
 
-    displaySuggestions(list, type) {
+    displaySuggestions(list: Suggestion[]) {
         return list.map((item, i) => {
                 return (
                     <Container className={'w-100  py-3  select-locations ' + ((i === this.state.selected) ? "active" : '')}
                                key={i}
-                               onClick={(event) => {
+                               onClick={() => {
                                    let newValue = item.address.name
                                    this.setState({
                                        value: newValue,
                                        display: 0,
-                                       lat: item.lat,
-                                       lng: item.lon
+                                       lat: item.lat.toString(),
+                                       lng: item.lon.toString(),
                                    }, () => {
                                        this.setPersistence()
                                        this.props.close()
@@ -154,8 +186,8 @@ export class LocationSearchBoxLoc extends ResponsiveComponent {
                     })
                     console.log(loc)
                     this.setState({
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude,
+                        lat: position.coords.latitude.toString(),
+                        lng: position.coords.longitude.toString(),
                         value: loc.address.city_district || loc.address.county,
                         display: 0
                     }, () => {
@@ -172,50 +204,52 @@ export class LocationSearchBoxLoc extends ResponsiveComponent {
     }
 
     render() {
-        return (
-            <>
-                <Container className="w-100 input-holder">
-                    <MarkerSvg className=" input-marker"/>
-                    <input autoFocus={true} placeholder="Select Location" className="main-input"
-                           value={this.state.value}
-                           type="search"
-                           onKeyDown={(event) => {
-                               this.handleKeyDown(event)
-                           }}
-                           onChange={(event) => {
-                               this.SuggestLocations(event,)
-                           }}
-                    />
-                    {this.state.value &&
-                    <AiOutlineClose scale={4} size={30} className="input-marker" onClick={() => {
-                        this.setState({value: ''},
-                            () => {
-                                this.setPersistence()
-                            }
-                        )
-                    }}
-                    />
-                    }
-                </Container>
-                <Container className="w-100 text-primary mt-1 select-locations py-3 pointers"
-                           onClick={() => {
-                               this.getLocation()
-                           }}>
-                    <BiCurrentLocation scale={4} size={30} className="input-marker mr-3"/>
-                    <div className="fill-rest">Use Current Location / Please enable Location services</div>
-                </Container>
+        return <React.Fragment>
+            <Container className="w-100 input-holder">
+                <MarkerSvg className=" input-marker"/>
+                <input autoFocus={true} placeholder="Select Location" className="main-input"
+                       value={this.state.value}
+                       type="search"
+                       onKeyDown={(event) => {
+                           this.handleKeyDown(event)
+                       }}
+                       onChange={(event) => {
+                           this.SuggestLocations(event).then()
+                       }}
+                />
+                {this.state.value &&
+                <AiOutlineClose scale={4} size={30} className="input-marker" onClick={() => {
+                    this.setState({value: ''},
+                        () => {
+                            this.setPersistence()
+                        }
+                    )
+                }}
+                />
+                }
+            </Container>
+            <Container className="w-100 text-primary mt-1 select-locations py-3 pointers"
+                       onClick={() => {
+                           this.getLocation().then()
+                       }}>
+                <BiCurrentLocation scale={4} size={30} className="input-marker mr-3"/>
+                <div className="fill-rest">Use Current Location / Please enable Location services</div>
+            </Container>
 
-                {this.displaySuggestions(this.state.suggestions, this.props.type)}
-            </>
-
-        )
+            {this.displaySuggestions(this.state.suggestions)}
+        </React.Fragment>
     }
 }
 
 export const LocationSearchBox = withRouter(LocationSearchBoxLoc)
 
-export class FullScreenLocation extends ResponsiveComponent {
 
+export interface FullScreenLocationProps extends ResponsiveProps {
+    close: () => void,
+    closeWindow?: () => void
+}
+
+export class FullScreenLocation extends ResponsiveComponent<FullScreenLocationProps, ResponsiveState> {
     render() {
         return (<div className="fixed-top w-100 h-100 bg-white header">
 
@@ -230,7 +264,7 @@ export class FullScreenLocation extends ResponsiveComponent {
                 </div>
             </Container>
             <Container fluid={true} className="mt-3">
-                <LocationSearchBox name="loc" close={() => {
+                <LocationSearchBox close={() => {
                     this.props.close()
                 }}/>
             </Container>

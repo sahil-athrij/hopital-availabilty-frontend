@@ -1,4 +1,4 @@
-import {Component} from "react";
+import React, {Component} from "react";
 import {Container} from "react-bootstrap";
 import Slider from "@material-ui/core/Slider";
 import {Input, withStyles} from "@material-ui/core";
@@ -42,7 +42,7 @@ const AirbnbSlider = withStyles({
     },
 })(Slider);
 
-function AirbnbThumbComponent(props) {
+function AirbnbThumbComponent(props: JSX.IntrinsicAttributes & React.ClassAttributes<HTMLSpanElement> & React.HTMLAttributes<HTMLSpanElement>) {
     return (
         <span {...props}>
       <span className="bar"/>
@@ -52,20 +52,25 @@ function AirbnbThumbComponent(props) {
     );
 }
 
-export class SliderRatingInput extends Component {
+interface SliderRatingInputProps {
+    name: string,
+    label: string
+}
+
+export class SliderRatingInput extends Component<SliderRatingInputProps> {
     state = {value: 0}
 
-    setPersistence(value) {
+    setPersistence(value: string) {
         setParam(this.props.name, value)
     }
 
-    handleValueChange(newValue) {
-        this.setPersistence(newValue)
+    handleValueChange(newValue: number | number[]) {
+        this.setPersistence(newValue.toString())
         this.setState({value: newValue})
     }
 
     render() {
-        let value = getParam(this.props.name, 0)
+        let value = parseInt(getParam(this.props.name, 0))
         console.log(value)
         return (
 
@@ -90,8 +95,8 @@ export class SliderRatingInput extends Component {
                             className="w-50"
 
                             margin="dense"
-                            onChange={(e) => this.handleValueChange(e.target.value)}
-                            onBlur={(event) => {
+                            onChange={(e) => this.handleValueChange(parseInt(e.target.value))}
+                            onBlur={() => {
                                 if (value < 0) {
                                     this.handleValueChange(0)
                                 } else if (value > 100) {
@@ -115,15 +120,20 @@ export class SliderRatingInput extends Component {
     }
 }
 
-export class DoubleSliderRatingInput extends Component {
+interface DoubleSliderRatingInputProps {
+    name: string,
+    label: string
+}
+
+export class DoubleSliderRatingInput extends Component<DoubleSliderRatingInputProps> {
     state = {valuemin: 0, valuemax: 20000}
 
-    setPersistence(valuemin, valuemax) {
-        setParam(this.props.name + "_gte", Number(valuemin))
-        setParam(this.props.name + "_lte", Number(valuemax))
+    setPersistence(valuemin: number, valuemax: number) {
+        setParam(this.props.name + "_gte", valuemin.toString())
+        setParam(this.props.name + "_lte", valuemax.toString())
     }
 
-    handleValueChange(newValue1, newValue2) {
+    handleValueChange(newValue1: number, newValue2: number) {
         if (newValue1 < 0) {
             this.setPersistence(0, newValue2)
         } else if (newValue1 > newValue2) {
@@ -143,7 +153,7 @@ export class DoubleSliderRatingInput extends Component {
         let valuemax = Number(getParam(this.props.name + "_lte", 20000))
         return (
 
-            <>
+            <React.Fragment>
                 <label htmlFor={this.props.name} className="">
                     {this.props.label}
                 </label>
@@ -155,7 +165,11 @@ export class DoubleSliderRatingInput extends Component {
                         min={0}
                         max={20000}
                         value={[valuemin, valuemax]}
-                        onChange={(e, newValue) => this.handleValueChange(...newValue)}
+                        onChange={(e, newValue) => {
+                            if (Array.isArray(newValue)) {
+                                return this.handleValueChange(newValue[0], newValue[1]);
+                            }
+                        }}
                         aria-labelledby="input-slider"
                     />
                     <div className="flex-row d-flex align-items-center justify-content-between w-100">
@@ -165,9 +179,9 @@ export class DoubleSliderRatingInput extends Component {
                                 value={valuemin}
                                 className="w-100"
                                 margin="dense"
-                                onChange={(e) => this.handleValueChange(e.target.value, valuemax)}
+                                onChange={(e) => this.handleValueChange(Number(e.target.value), valuemax)}
                                 onBlur={(event) => {
-                                    this.handleValueChange(event.target.value, valuemax)
+                                    this.handleValueChange(Number(event.target.value), valuemax)
                                 }}
                                 inputProps={{
                                     step: 1000,
@@ -184,10 +198,7 @@ export class DoubleSliderRatingInput extends Component {
                                 value={valuemax}
                                 className="w-100"
                                 margin="dense"
-                                onChange={(e) => this.handleValueChange(valuemin, e.target.value)}
-                                onBlur={(event) => {
-
-                                }}
+                                onChange={(e) => this.handleValueChange(valuemin, Number(e.target.value))}
                                 inputProps={{
                                     step: 1000,
                                     min: 0,
@@ -202,7 +213,7 @@ export class DoubleSliderRatingInput extends Component {
 
 
                 </Container>
-            </>
+            </React.Fragment>
 
         )
     }
