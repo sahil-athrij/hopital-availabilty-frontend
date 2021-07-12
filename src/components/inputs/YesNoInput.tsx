@@ -1,7 +1,8 @@
-import './yesnoinput.css'
-import ResponsiveComponent, {ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
+import {ResponsiveComponent, ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
 import {TextField} from "@material-ui/core";
 import React from 'react';
+
+import './yesnoinput.css'
 
 interface YesNoProps extends ResponsiveProps {
     name: string,
@@ -21,9 +22,7 @@ export class YesNoInput extends ResponsiveComponent<YesNoProps, YesNoState> {
         this.state = {
             ...this.state, value: this.props.value
         }
-
     }
-
 
     onChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         console.log(event.target.value)

@@ -1,7 +1,8 @@
 import React, {Component, Fragment} from "react";
 import {Container,} from "react-bootstrap";
-import './stars.css'
 import {CgPill, FaMoneyBillAlt, FaStar, SiAtom} from "react-icons/all";
+
+import './stars.css'
 
 export function getStarType(type?: string) {
     let SvgInput;

@@ -1,9 +1,7 @@
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {NavBar} from './components/NavBar/navBar';
-import Index from "./components/Index";
+import {Index} from "./components/Index";
 import React from "react";
-import './index.css';
 import {Route, RouteComponentProps, Switch, withRouter} from "react-router";
 import {Search} from "./pages/search";
 import {getParam} from "./api/QueryCreator";
@@ -14,6 +12,8 @@ import {Profile} from "./components/profile/Profile";
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {AddHospital} from "./components/AddHospital/AddHospital";
+import './index.css'
+import './App.css'
 
 interface AppRouterProps {
     title: string;   // This one is coming from the router

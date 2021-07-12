@@ -1,4 +1,4 @@
-import ResponsiveComponent, {ResponsiveState} from "../ResponsiveComponent";
+import {ResponsiveComponent, ResponsiveState} from "../ResponsiveComponent";
 import {Container} from "react-bootstrap";
 import {ReactComponent as Back} from "../../images/back.svg";
 import {

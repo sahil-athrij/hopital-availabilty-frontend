@@ -2,7 +2,7 @@ import React from "react";
 import {Col, Container, Row} from "react-bootstrap";
 import {SearchResults} from "../components/cards/SearchResultCard";
 import {getParam} from "../api/QueryCreator";
-import ResponsiveComponent, {ResponsiveProps, ResponsiveState} from "../components/ResponsiveComponent";
+import {ResponsiveComponent, ResponsiveProps, ResponsiveState} from "../components/ResponsiveComponent";
 
 interface SearchProps extends ResponsiveProps {
 
@@ -14,7 +14,6 @@ interface SearchState extends ResponsiveState {
 }
 
 export class Search extends ResponsiveComponent<SearchProps, SearchState> {
-
 
     constructor(props: SearchProps) {
         super(props);

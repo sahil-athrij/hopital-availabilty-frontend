@@ -1,21 +1,22 @@
 import React from 'react';
 import {Container} from "react-bootstrap";
 import {ReactComponent as Back} from "../../images/back.svg";
-import './location.css'
 import {IoPersonCircleSharp} from "react-icons/all";
 import {StarRatingReview} from "../inputs/StarRatingReview";
 import {YesNoInput} from "../inputs/YesNoInput";
 import {InputAdornment, TextField} from "@material-ui/core";
-import {MarkerObject, Review} from "../../api/model";
+import {Review} from "../../api/model";
 import {AuthComponent, AuthProps, AuthState} from "../../api/auth";
 import {toast} from "react-toastify";
+
+import './location.css'
+
 
 interface ReviewBoxProps extends AuthProps {
     marker: number,
     close: () => void,
     refresh_parent?: () => void
 }
-
 
 
 interface ReviewBoxState extends AuthState {
@@ -128,6 +129,7 @@ export class ReviewBox extends AuthComponent<ReviewBoxProps, ReviewBoxState> {
                                     name="icu_availability" label="ICU Availability"/>
                         <YesNoInput setValue={this.setValue} value={this.state.ventilator_availability}
                                     name="ventilator_availability" label="Ventilator Availability"/>
+
 
                         <TextField label="Average Daily Cost"
                                    id="standard-adornment-amount"

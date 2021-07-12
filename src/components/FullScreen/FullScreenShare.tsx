@@ -1,7 +1,5 @@
 import {Container} from "react-bootstrap";
 import {AuthComponent, AuthState} from "../../api/auth";
-
-import "./sharebuttons.css"
 import {
     AiFillLinkedin,
     AiFillRedditCircle,
@@ -15,6 +13,8 @@ import {
 import {toast} from "react-toastify";
 import React from "react";
 import {FullScreenLocationProps} from "./FullScreenLocation";
+
+import "./sharebuttons.css"
 
 interface ShareBoxProps extends FullScreenLocationProps {
     url: string

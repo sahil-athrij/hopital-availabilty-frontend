@@ -9,7 +9,7 @@ export interface ResponsiveState {
     width: number
 }
 
-export default class ResponsiveComponent<P extends ResponsiveProps, S extends ResponsiveState, SS = any>
+export  class ResponsiveComponent<P extends ResponsiveProps, S extends ResponsiveState, SS = any>
     extends React.Component <P, S, SS> {
     state: S
 

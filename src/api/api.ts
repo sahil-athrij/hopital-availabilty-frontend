@@ -1,9 +1,9 @@
 import {getAuth} from "./auth";
 import {ModelRegistry} from "./model";
 
-export const baseUrl = "https://needmedi.com"
+// export const baseUrl = "https://needmedi.com"
 
-// export const baseUrl = "http://127.0.0.1:8000"
+export const baseUrl = "http://127.0.0.1:8000"
 
 
 export async function get(url: string, kwargs = {}, headers = {}) {
@@ -75,7 +75,7 @@ export class ModelObject {
 
     constructor(data: ModelData, baseUrl: string) {
         this.data = data
-        this.id = <number>data.id
+        this.id = data.id as number
         this.baseUrl = baseUrl
 
     }

@@ -1,6 +1,5 @@
 import {Container, Row} from "react-bootstrap";
 import {Marker, MarkerObject} from "../../api/model";
-import './details.css'
 import {StarRating} from "../cards/StarRating";
 import {
     AiFillCheckCircle,
@@ -21,6 +20,8 @@ import {FullScreenReview} from "../FullScreen/FullScreenReview";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import Loader from "react-loader-spinner";
 import React from "react";
+
+import './details.css'
 
 interface DetailsState extends AuthState {
     id: number,

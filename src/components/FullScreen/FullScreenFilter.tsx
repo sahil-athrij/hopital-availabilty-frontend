@@ -1,12 +1,12 @@
-import ResponsiveComponent, {ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
+import {ResponsiveComponent, ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
 import {Container} from "react-bootstrap";
-
-import './location.css'
-import './filters.css'
 import {StarRatingInput} from "../inputs/StarRatingInput";
 import {DoubleSliderRatingInput, SliderRatingInput} from "../inputs/SliderRatingInput";
 import React from "react";
 import {FullScreenLocationProps} from "./FullScreenLocation";
+
+import './location.css'
+import './filters.css'
 
 
 interface FilterProps extends ResponsiveProps {

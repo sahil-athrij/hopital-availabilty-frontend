@@ -1,7 +1,5 @@
 import {Container} from "react-bootstrap";
 import {ReactComponent as Back} from "../../images/back.svg";
-
-import './location.css'
 import {AiFillHome, AiOutlinePlusCircle, FaHandsHelping, IoMdHelpCircleOutline, IoPersonCircle} from "react-icons/all";
 import {AuthComponent, AuthPropsLoc, AuthState, reactUrl} from "../../api/auth";
 import {withRouter} from "react-router";
@@ -11,11 +9,14 @@ import {FullScreenShare} from "./FullScreenShare";
 import React from "react";
 import {FullScreenLocationProps} from "./FullScreenLocation";
 
+import './location.css'
+
 
 interface MenuBoxProps extends AuthPropsLoc {
     close: () => void
     refresh_parent?: () => void
 }
+
 
 export class AnonMenuBoxLoc extends AuthComponent<MenuBoxProps, AuthState> {
     render() {

@@ -22,7 +22,7 @@ export function getParam<T1>(param: string, default_value: T1 | string = '', get
     }
     let value: string;
     if (localStorage.getItem(param)) {
-        value = <string>localStorage.getItem(param);
+        value = localStorage.getItem(param) as string;
     } else {
         value = '';
     }

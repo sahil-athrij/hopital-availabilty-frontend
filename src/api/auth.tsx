@@ -1,4 +1,4 @@
-import ResponsiveComponent, {ResponsiveProps, ResponsiveState} from "../components/ResponsiveComponent";
+import {ResponsiveComponent, ResponsiveProps, ResponsiveState} from "../components/ResponsiveComponent";
 import {RouteComponentProps, withRouter} from "react-router";
 import {getParam, getQueryVariable} from "./QueryCreator";
 import {baseUrl, post} from "./api";
@@ -7,9 +7,10 @@ import Loader from "react-loader-spinner";
 import React from "react";
 
 
+
 const client_id = '6tWdAZrlxUA26FJSMjE7oKBpTNGaqJRl2bsmNMRb'
-export const reactUrl = 'https://needmedi.com'
-// export const reactUrl = 'http://localhost:3000'
+// export const reactUrl = 'https://needmedi.com'
+export const reactUrl = 'http://localhost:3000'
 
 const redirect_uri = reactUrl + '/set_token/'
 

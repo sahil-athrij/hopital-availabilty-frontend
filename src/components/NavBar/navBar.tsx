@@ -1,25 +1,26 @@
-import {Container, Navbar} from "react-bootstrap";
-import ResponsiveComponent, {ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
-import {ReactComponent as Burger} from "../../images/burger.svg"
-import {ReactComponent as Brand} from "../../images/brand.svg"
-import './nabar.css';
-import {ReactComponent as Marker} from "../../images/markersvg.svg";
-import {CSSTransition} from "react-transition-group";
-import {FullScreenLocation} from "../FullScreen/FullScreenLocation";
-import {BiSearch, BiSlider} from "react-icons/all";
-import {FullScreenFilter} from "../FullScreen/FullScreenFilter";
-import {getParam} from "../../api/QueryCreator";
+import React from "react";
 import {RouteComponentProps, withRouter} from "react-router";
 import {FullScreenSearch} from "../FullScreen/fullScreenSearch";
 import {Link} from "react-router-dom";
 import {FullScreenUser} from "../FullScreen/FullSreenUser";
-import React from "react";
+import {getParam} from "../../api/QueryCreator";
+import {FullScreenFilter} from "../FullScreen/FullScreenFilter";
+import {FullScreenLocation} from "../FullScreen/FullScreenLocation";
+import {BiSearch, BiSlider} from "react-icons/all";
+import {CSSTransition} from "react-transition-group";
+import {Container, Navbar} from "react-bootstrap";
+import {ResponsiveComponent, ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
+import {ReactComponent as Burger} from "../../images/burger.svg";
+import {ReactComponent as Brand} from '../../images/brand.svg';
+import {ReactComponent as MarkerSvg} from '../../images/markersvg.svg';
 
+import './nabar.css'
 interface NavBarProp extends RouteComponentProps<ResponsiveProps> {
 
 }
 
 interface NavBarState extends ResponsiveState {
+
     loc: string,
     show_location: boolean,
     query: string,
@@ -28,7 +29,7 @@ interface NavBarState extends ResponsiveState {
     show_user: boolean,
 }
 
-class NavBarLoc extends ResponsiveComponent<NavBarProp, NavBarState> {
+export class NavBarLoc extends ResponsiveComponent<NavBarProp, NavBarState> {
 
     constructor(props: NavBarProp) {
         super(props);
@@ -99,7 +100,7 @@ class NavBarLoc extends ResponsiveComponent<NavBarProp, NavBarState> {
                         </CSSTransition>
                         <Navbar.Brand className="navbar-brand px-3">
                             <Link to={'/'}>
-                                <Brand height={30} width={30}/>
+                                <Brand width={30} height={30}/>
                             </Link>
                         </Navbar.Brand>
                     </div>
@@ -124,7 +125,8 @@ class NavBarLoc extends ResponsiveComponent<NavBarProp, NavBarState> {
                         <button className="pointers" onClick={() => {
                             this.props.history.push(currentLocation + '#location')
                             this.setState({show_location: !this.state.show_location})
-                        }}>{this.state.loc}<Marker/>
+                        }}>{this.state.loc}
+                            <MarkerSvg/>
                         </button>
                         <CSSTransition classNames="location-screen" in={this.state.show_location} timeout={300}
                                        unmountOnExit>

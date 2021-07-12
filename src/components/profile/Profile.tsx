@@ -2,8 +2,9 @@ import {AuthComponent, AuthProps, AuthState} from "../../api/auth";
 import React from "react";
 import {Route} from "react-router";
 import {ProfileDetails} from "./ProfileDetails";
-import './profile.css'
 import {ProfileRequest} from "./ProfileRequest";
+
+import './profile.css'
 
 export class Profile extends AuthComponent<AuthProps, AuthState> {
     render() {

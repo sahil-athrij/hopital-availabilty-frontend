@@ -1,18 +1,18 @@
-import ResponsiveComponent, {ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
+import {ResponsiveComponent, ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
 import {Container} from "react-bootstrap";
 import {ReactComponent as Back} from "../../images/back.svg";
 import {ReactComponent as MarkerSvg} from "../../images/markersvg.svg";
 import {get} from "../../api/api";
-
-import './location.css'
 import {AiOutlineClose, BiCurrentLocation, ImLocation2} from "react-icons/all";
 import {getParam, setParam} from "../../api/QueryCreator";
-import {withRouter} from "react-router";
+import {RouteComponentProps, withRouter} from "react-router";
 import React from "react";
-import {AuthPropsLoc} from "../../api/auth";
 
 
-export interface LocationSearchProps extends AuthPropsLoc {
+import './location.css'
+
+
+export interface LocationSearchProps extends RouteComponentProps<ResponsiveProps> {
     close: () => void,
     closeWindow?: () => void
 }
@@ -269,6 +269,7 @@ export class FullScreenLocation extends ResponsiveComponent<FullScreenLocationPr
                 }}/>
             </Container>
         </div>)
+
     }
 }
 

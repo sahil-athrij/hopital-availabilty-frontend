@@ -77,3 +77,4 @@ export type ModelRegistry =
     |typeof susObject
     |typeof PatientObject
     |typeof ModelObject
+

@@ -5,12 +5,13 @@ import {Card, Container, Row} from "react-bootstrap";
 import hospitalsvg from "../../images/hospitalsvg.svg";
 import {Link} from "react-router-dom";
 import {withRouter} from "react-router";
-import './searchCards.css'
 import {BiPhoneOutgoing, RiDirectionLine} from "react-icons/all";
 import {getParam} from "../../api/QueryCreator";
 import Loader from "react-loader-spinner";
 import {AuthPropsLoc} from "../../api/auth";
 import {ResponsiveState} from "../ResponsiveComponent";
+
+import './searchCards.css'
 
 interface SearchCardsProps extends AuthPropsLoc {
     model: MarkerObject

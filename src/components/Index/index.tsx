@@ -1,17 +1,17 @@
 import React from "react";
 import {Container} from "react-bootstrap";
-import './index.css'
-import {AuthComponent, AuthProps, AuthPropsLoc, AuthState} from "../../api/auth";
+import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {AuthenticatedBanner, Banners} from "./Banners";
-import './banner.css';
 import {withRouter} from "react-router";
+
+import './index.css'
 
 
 interface IndexState extends AuthState {
     display: boolean
 }
 
-class Index extends AuthComponent<AuthPropsLoc, IndexState> {
+class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> {
 
     constructor(props: AuthPropsLoc) {
         super(props);
@@ -37,4 +37,4 @@ class Index extends AuthComponent<AuthPropsLoc, IndexState> {
 
 }
 
-export default withRouter(Index);
+export const Index = withRouter(IndexLoc);

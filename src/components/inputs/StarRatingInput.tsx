@@ -1,10 +1,9 @@
 import React, {Component} from "react";
 import {Container,} from "react-bootstrap";
-import './stars.css'
 import {CgCloseO} from "react-icons/all";
 import {getParam, setParam} from "../../api/QueryCreator";
 import {getStarType} from "./StarRatingReview";
-
+import './stars.css'
 
 interface StarRatingInputProps {
     name: string
@@ -13,8 +12,8 @@ interface StarRatingInputProps {
 
 }
 
-interface StarRatingInputState {
 
+interface StarRatingInputState {
 }
 
 export class StarRatingInput extends Component<StarRatingInputProps, StarRatingInputState> {

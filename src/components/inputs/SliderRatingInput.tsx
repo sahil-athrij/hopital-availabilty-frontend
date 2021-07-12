@@ -2,8 +2,9 @@ import React, {Component} from "react";
 import {Container} from "react-bootstrap";
 import Slider from "@material-ui/core/Slider";
 import {Input, withStyles} from "@material-ui/core";
-import './stars.css'
 import {getParam, setParam} from "../../api/QueryCreator";
+
+import './stars.css'
 
 const AirbnbSlider = withStyles({
     root: {
