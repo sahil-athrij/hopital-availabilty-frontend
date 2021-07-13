@@ -14,6 +14,20 @@ import 'react-toastify/dist/ReactToastify.css';
 import {AddHospital} from "./components/AddHospital/AddHospital";
 import './index.css'
 import './App.css'
+import {BottomNav} from "./components/NavBar/BottomNav";
+import {createMuiTheme} from "@material-ui/core/styles";
+import {ThemeProvider} from "@material-ui/styles";
+import {green, pink} from '@material-ui/core/colors';
+
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: '#0091ea',
+        },
+        secondary: pink,
+        success:green,
+    }
+});
 
 interface AppRouterProps {
     title: string;   // This one is coming from the router
@@ -56,52 +70,58 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
 
         return (
             <div className="App">
-                <ToastContainer
-                    position="bottom-center"
-                    autoClose={5000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                />
-                <Switch>
-                    {/* If the current URL is /about, this route is rendered
+                <ThemeProvider theme={theme}>
+                    <ToastContainer
+                        position="bottom-center"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                    />
+                    <Switch>
+                        {/* If the current URL is /about, this route is rendered
             while the rest are ignored */}
 
-                    <Route path="/details/:hspId">
-                        <NavBar/>
-                        <Details/>
+                        <Route path="/details/:hspId">
+                            <NavBar/>
+                            <Details/>
 
+                        </Route>
+                        <Route path="/search">
+                            <NavBar/>
+                            <Search/>
 
-                    </Route>
-                    <Route path="/search">
-                        <NavBar/>
-                        <Search/>
-                    </Route>
-                    <Route path="/profile/">
-                        <NavBar/>
-                        <Profile/>
-                    </Route>
-                    <Route path="/set_token/">
-                        <HandleToken/>
-                    </Route>
+                        </Route>
+                        <Route path="/profile/">
+                            <NavBar/>
+                            <Profile/>
 
-                    <Route path="/invite/">
-                        <HandleInvite/>
-                    </Route>
-                    <Route path="/AddHospital/">
-                        <NavBar/>
-                        <AddHospital/>
-                    </Route>
+                        </Route>
+                        <Route path="/set_token/">
+                            <HandleToken/>
+                        </Route>
 
-                    <Route path="/">
-                        <NavBar/>
-                        <Index/>
-                    </Route>
-                </Switch>
+                        <Route path="/invite/">
+                            <HandleInvite/>
+                        </Route>
+                        <Route path="/AddHospital/">
+                            <NavBar/>
+                            <AddHospital/>
+
+                        </Route>
+
+                        <Route path="/">
+                            <NavBar/>
+                            <Index/>
+
+                        </Route>
+                    </Switch>
+                    <BottomNav/>
+                </ThemeProvider>
             </div>
         );
     }

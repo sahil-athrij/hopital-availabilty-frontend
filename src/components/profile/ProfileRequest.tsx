@@ -161,8 +161,9 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
                         <h4><b>Request For Help</b></h4>
 
                     </Container>
-                    {this.state.position === 0 &&
                     <Container className=" py-3 bg-white neumorphic-input">
+                        {this.state.position === 0 &&
+
                         <div className="d-flex flex-column">
                             <h6 className="text-left"><b>personal Information</b></h6>
                             <TextField label="Patient Name" required={true} variant="outlined"
@@ -207,10 +208,9 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
                                     this.setValue("address", event)}
                             />
                         </div>
-                    </Container>
-                    }
-                    {this.state.position === 1 &&
-                    <Container className=" py-3 bg-white neumorphic-input">
+
+                        }
+                        {this.state.position === 1 &&
                         <div className="d-flex flex-column">
                             <h6 className="text-left"><b>Medical Information</b></h6>
                             <TextField label="Symptoms" required={true} variant="outlined"
@@ -259,10 +259,8 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
                                 <option value="3">ICU</option>
                             </TextField>
                         </div>
-                    </Container>
-                    }
-                    {this.state.position === 2 &&
-                    <Container className=" py-3 bg-white neumorphic-input">
+                        }
+                        {this.state.position === 2 &&
                         <div className="d-flex flex-column">
                             <h6 className="text-left"><b>Tests Information</b></h6>
                             <TextField label="Blood Group" required={true} variant="outlined"
@@ -322,10 +320,8 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
                                        helperText="Please enter CT Score"/>
                         </div>
 
-                    </Container>
-                    }
-                    {this.state.position === 3 &&
-                    <Container className=" py-3 bg-white neumorphic-input">
+                        }
+                        {this.state.position === 3 &&
                         <div className="d-flex flex-column">
                             <div className="d-flex flex-row justify-content-between">
 
@@ -372,10 +368,8 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
                                 </>
                             }
                         </div>
-                    </Container>
-                    }
-                    {this.state.position === 4 &&
-                    <Container className=" py-3 bg-white neumorphic-input">
+                        }
+                        {this.state.position === 4 &&
                         <div className="d-flex flex-column">
                             <div className="d-flex flex-row justify-content-between">
 
@@ -424,8 +418,8 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
                                 <></>
                             }
                         </div>
+                        }
                     </Container>
-                    }
 
                     <Container className=" py-2 bg-white neumorphic-input p-0 ">
                         <div className="d-flex flex-row px-3 w-100 justify-content-center">
@@ -458,6 +452,7 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
                                 this.setPosition(4)
                             }}><StepLabel/></Step>
                         </Stepper>
+                        <div className="space-50"/>
                     </Container>
                 </div>
             )

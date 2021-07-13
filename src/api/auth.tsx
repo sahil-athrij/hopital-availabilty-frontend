@@ -7,10 +7,9 @@ import Loader from "react-loader-spinner";
 import React from "react";
 
 
-
 const client_id = '6tWdAZrlxUA26FJSMjE7oKBpTNGaqJRl2bsmNMRb'
-// export const reactUrl = 'https://needmedi.com'
-export const reactUrl = 'http://localhost:3000'
+export const reactUrl = 'https://needmedi.com'
+// export const reactUrl = 'http://localhost:3000'
 
 const redirect_uri = reactUrl + '/set_token/'
 
@@ -74,7 +73,7 @@ export function setObj(str: string, data: object | null) {
 
 export function getObj(str: string) {
     let item = localStorage.getItem(str)
-    return JSON.parse(typeof item === "string" ? item : '')
+    return JSON.parse(typeof item === "string" ? item : '{}')
 }
 
 let timer = Date.now()

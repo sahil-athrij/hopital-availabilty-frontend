@@ -1,6 +1,6 @@
 body {
-    margin: 0!important;
-    padding: 0!important;
+    margin: 0 !important;
+    padding: 0 !important;
     font-family: 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -50,7 +50,7 @@ code {
 
 .space-50 {
     width: 100%;
-    height: 50px;
+    height: 50px !important;
 }
 
 @media (max-width: 768px) {
@@ -63,9 +63,6 @@ code {
         text-align: center;
     }
 
-    .space-50 {
-        height: 0px;
-    }
 
 }
 
@@ -104,6 +101,11 @@ code {
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
 }
 
+.bottomnavbar {
+    box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
 body {
     /*font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif !important;*/
     background: var(--mainWhite) !important;
@@ -118,7 +120,6 @@ body {
 }
 
 
-
 .move-up {
     transform: translateX(5px) translateY(-2px);
     cursor: pointer;
@@ -129,10 +130,14 @@ body {
 }
 
 button, input[type="submit"], input[type="reset"] {
-	background: none;
-	color: inherit;
-	border: none;
-	padding: 0;
-	font: inherit;
-	cursor: pointer;
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+}
+
+.MuiStepIcon-root.MuiStepIcon-completed{
+    color: #4caf50!important;
 }

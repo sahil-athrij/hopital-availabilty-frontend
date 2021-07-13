@@ -9,7 +9,7 @@ export interface ResponsiveState {
     width: number
 }
 
-export  class ResponsiveComponent<P extends ResponsiveProps, S extends ResponsiveState, SS = any>
+export class ResponsiveComponent<P extends ResponsiveProps, S extends ResponsiveState, SS = any>
     extends React.Component <P, S, SS> {
     state: S
 
@@ -20,6 +20,8 @@ export  class ResponsiveComponent<P extends ResponsiveProps, S extends Responsiv
     }
 
     hashChange = () => {
+    }
+    hashPush = () => {
     }
 
     componentDidMount() {
