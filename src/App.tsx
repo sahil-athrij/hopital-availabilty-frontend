@@ -18,6 +18,7 @@ import {BottomNav} from "./components/NavBar/BottomNav";
 import {createMuiTheme} from "@material-ui/core/styles";
 import {ThemeProvider} from "@material-ui/styles";
 import {green, pink} from '@material-ui/core/colors';
+import {Privacy} from "./components/Privacy/Privacy";
 
 const theme = createMuiTheme({
     palette: {
@@ -112,12 +113,15 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                             <NavBar/>
                             <AddHospital/>
                         </Route>
+                        <Route path="/privacypolicy/">
+                            <Privacy/>
+                        </Route>
 
                         <Route path="/">
                             <NavBar/>
                             <Index/>
-
                         </Route>
+
                     </Switch>
                     <BottomNav/>
                 </ThemeProvider>
