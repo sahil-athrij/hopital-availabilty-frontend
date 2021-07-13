@@ -74,7 +74,8 @@ export class NavBarLoc extends ResponsiveComponent<NavBarProp, NavBarState> {
     render() {
         let currentLocation = this.props.location.search + this.props.location.hash
         let showSearchBar = !this.props.location.pathname.includes('/details') &&
-            !this.props.location.pathname.includes('/profile')
+            !this.props.location.pathname.includes('/profile') &&
+            !this.props.location.pathname.includes('/addHospital')
         return (
             <Navbar collapseOnSelect expand="xl" variant="dark"
                     className={"navbar  fixed-top " + (showSearchBar ? 'bg-white' : 'bg-grey')}

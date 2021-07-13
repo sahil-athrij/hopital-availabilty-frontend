@@ -111,7 +111,6 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                         <Route path="/AddHospital/">
                             <NavBar/>
                             <AddHospital/>
-
                         </Route>
 
                         <Route path="/">

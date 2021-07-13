@@ -3,8 +3,6 @@
     "incremental": true,
     "target": "es5",
     "module": "esnext",
-    "allowJs": true,
-    "checkJs": true,
     "jsx": "react-jsx",
     "strict": true,
     "esModuleInterop": true,
@@ -20,7 +18,8 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": true,
+    "allowJs": true
   },
   "include": [
     "src"
