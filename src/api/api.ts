@@ -41,6 +41,24 @@ export async function post(url: RequestInfo, kwargs = {}, headers = {}) {
     }
 }
 
+export async function filePost(url: RequestInfo, formData: FormData, headers = {}) {
+    const response = await fetch(url, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            headers: {
+                ...headers
+            },
+            body: formData
+        }
+    );
+    if (response.status > 300) {
+        throw (response)
+    } else {
+        console.log(response)
+        return response.json()
+    }
+}
+
+
 export async function patch(url: RequestInfo, kwargs = {}, headers = {}) {
     const response = await fetch(url, {
             method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
@@ -99,7 +117,8 @@ export class ModelObject {
 
     save = async () => {
         this.setData()
-        return patch(`${this.baseUrl}${this.id}/`, this.data)
+        let headers = {'Authorization': `Bearer ${getAuth()}`}
+        return patch(`${this.baseUrl}${this.id}/`, this.data, headers)
     }
 
 }
@@ -115,7 +134,7 @@ export default class Model {
     }
 
 
-    get = async (id: number, kwargs: {} = {}) => {
+    get = async (id: number | string, kwargs: {} = {}) => {
         let data = await get(`${this.baseurl}${id}/`, kwargs)
         return new this.modelClass(data, this.baseurl)
 

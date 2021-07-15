@@ -59,6 +59,8 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, AuthState> {
                     <Container className={"pt-4  flex-fill"}>
                         <button onClick={() => {
                             this.props.history.push('/profile/addRequest')
+                            this.props.history.push('/profile/addRequest')
+                            this.props.history.goBack()
                         }}
                                 className={"neumorphic-input w-100 btn p-3 bg-white round-15 d-flex flex-column align-items-center justify-content-center"}>
                             <AiOutlinePlus className="text-success" size={20}/>

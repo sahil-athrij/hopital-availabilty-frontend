@@ -11,7 +11,6 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import {Profile} from "./components/profile/Profile";
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {AddHospital} from "./components/AddHospital/AddHospital";
 import './index.css'
 import './App.css'
 import {BottomNav} from "./components/NavBar/BottomNav";
@@ -19,6 +18,7 @@ import {createMuiTheme} from "@material-ui/core/styles";
 import {ThemeProvider} from "@material-ui/styles";
 import {green, pink} from '@material-ui/core/colors';
 import {Privacy} from "./components/Privacy/Privacy";
+import {Add} from "./components/AddHospital/Add";
 
 const theme = createMuiTheme({
     palette: {
@@ -26,7 +26,7 @@ const theme = createMuiTheme({
             main: '#0091ea',
         },
         secondary: pink,
-        success:green,
+        success: green,
     }
 });
 
@@ -111,7 +111,7 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                         </Route>
                         <Route path="/AddHospital/">
                             <NavBar/>
-                            <AddHospital/>
+                            <Add/>
                         </Route>
                         <Route path="/privacypolicy/">
                             <Privacy/>

@@ -1,6 +1,4 @@
-import {Container, Row} from "react-bootstrap";
 import {Marker, MarkerObject} from "../../api/model";
-import {StarRating} from "../cards/StarRating";
 import {
     AiFillCheckCircle,
     AiFillCloseCircle,
@@ -13,15 +11,17 @@ import {
     RiDirectionLine,
     RiShareLine
 } from "react-icons/all";
-import {Popover} from "@material-ui/core";
-import {withRouter} from "react-router";
-import {CSSTransition} from "react-transition-group";
-import {FullScreenReview} from "../FullScreen/FullScreenReview";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
-import Loader from "react-loader-spinner";
 import React from "react";
 
 import './details.css'
+import {Container, Row} from "react-bootstrap";
+import {StarRating} from "../cards/StarRating";
+import {Popover} from "@material-ui/core";
+import {CSSTransition} from "react-transition-group";
+import {FullScreenReview} from "../FullScreen/FullScreenReview";
+import Loader from "react-loader-spinner";
+import {withRouter} from "react-router";
 
 interface DetailsState extends AuthState {
     id: number,
@@ -63,11 +63,9 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
         //TODO: fix later
         // @ts-ignore
         let {hspId} = this.props.match.params
-        let marker = await Marker.get(hspId)
-        //TODO: fix later
-        // @ts-ignore
+        let marker = await Marker.get(hspId) as MarkerObject
 
-        this.setState({model: marker, ready: true})
+        this.setState({model: marker, ready: true,id:hspId})
 
     }
 
@@ -83,6 +81,10 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
         this.setState({open_availability: null});
     };
 
+    handlePhotoUpload=()=>{
+        this.props.history.push(`/addHospital/photo/${this.state.id}`)
+
+    }
     render() {
         let {model} = this.state
         let open = Boolean(this.state.open_availability);
@@ -92,15 +94,23 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
         return (
             this.state.ready ?
                 <>
+                    {model.images && model.images[0] ?
+                        <div className="backgroundRow  w-100" style={{
+                            backgroundImage: `url(${model.images[0].image})`
+                        }}/>
+                        :
+                        <div className="backgroundRow w-100"/>}
 
-                    <div className="backgroundRow w-100"/>
                     <Container fluid={true} className="d-flex flex-column py-5  px-0 ">
-                        <div className="w-100 card-spacer "/>
+ {model.images && model.images[0]?
+                        <div className="w-100 card-spacer "/>:
+                        <div className="w-100 card-spacer " onClick={this.handlePhotoUpload}/>}
                         <div className="top-rounded bg-white text-left neumorphic-card ">
                             <div className="px-3 pt-3 py-1 border-bottom">
                                 <h5>{model.name}</h5>
                                 <div className="d-flex flex-row justify-content-between align-items-center">
                                     <div>
+
 
                                         <StarRating rating={model.care_rating}/>
                                         <span className="hospital-phone">
@@ -381,8 +391,8 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                         }}>
                                             <div className="d-flex flex-column w-50">
                                                 <h6 className="d-flex align-items-center">
-                                                <span
-                                                    className="mr-1">Ventilator beds</span>
+                        <span
+                            className="mr-1">Ventilator beds</span>
                                                     {comment.ventilator_availability === 0 ?
                                                         <AiFillQuestionCircle className="text-secondary"/> :
                                                         comment.ventilator_availability === 1 ?
@@ -402,7 +412,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                 </Container>
 
 
-        )
+        );
     }
 
 }

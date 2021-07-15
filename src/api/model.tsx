@@ -1,9 +1,15 @@
-import Model, {baseUrl, ModelData, ModelObject} from "./api";
+import Model, {baseUrl, filePost, ModelData, ModelObject} from "./api";
+import {getAuth} from "./auth";
 
+interface ImageObject {
+    hospital: number
+    image: string
+    review: number | null
+    useinmarker: boolean
+}
 
 export class MarkerObject extends ModelObject {
     lng: any;
-    excluded_fields: string[];
     comment: object[] | any
     oxygen_availability: number = 0;
     covid_rating: number = 0;
@@ -16,8 +22,10 @@ export class MarkerObject extends ModelObject {
     avg_cost: number = 0
     icu_availability: number = 0;
     model: any;
+    images?: ImageObject[]
     ventilator_availability: number = 0;
     lat: any;
+
 
     constructor(data: ModelData, baseUrl: string) {
 
@@ -25,9 +33,26 @@ export class MarkerObject extends ModelObject {
         this.fields = ["id", "Phone", "size", "financial_rating", "avg_cost", "covid_rating", "beds_available", "care_rating",
             "oxygen_rating", "ventilator_availability", "oxygen_availability", "icu_availability", "lat", "lng", "images",
             "display_address", "name", "datef", 'address', 'comment']
-        this.excluded_fields = ['image', 'added_by_id']
         this.getData()
 
+    }
+
+    async addPhoto(file: File) {
+        const formData = new FormData();
+
+
+        formData.append(
+            "image",
+            file,
+            file.name
+        );
+        formData.append(
+            'hospital',
+            this.id.toString()
+        )
+        let headers = {'Authorization': `Bearer ${getAuth()}`}
+
+        return await filePost(baseUrl + '/api/image/', formData, headers)
     }
 
 
@@ -73,8 +98,8 @@ export const Patient = new Model(baseUrl + '/api/patient/', PatientObject)
 
 export type ModelRegistry =
     typeof MarkerObject
-    |typeof ReviewObject
-    |typeof susObject
-    |typeof PatientObject
-    |typeof ModelObject
+    | typeof ReviewObject
+    | typeof susObject
+    | typeof PatientObject
+    | typeof ModelObject
 

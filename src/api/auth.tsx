@@ -94,6 +94,7 @@ export interface AuthProps extends ResponsiveProps {
 }
 
 export interface AuthPropsLoc extends RouteComponentProps<ResponsiveProps> {
+
 }
 
 type token = {

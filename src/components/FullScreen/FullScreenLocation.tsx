@@ -17,7 +17,7 @@ export interface LocationSearchProps extends RouteComponentProps<ResponsiveProps
     closeWindow?: () => void
 }
 
-type Suggestion = {
+export type Suggestion = {
     lat: number;
     lon: number;
     address: {

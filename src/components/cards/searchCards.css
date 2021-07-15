@@ -32,10 +32,10 @@
 
 .w-30 {
     width: 30%;
-}
 
-.w-70 {
-    width: 70%;
+}
+.w-70{
+ max-width: 67%;
 }
 
 .phone-button {
@@ -68,4 +68,9 @@
     display: block;
     width: 40px;
     height: 40px;
+}
+.background-contain{
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-position: center;
 }

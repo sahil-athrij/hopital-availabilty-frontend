@@ -22,33 +22,33 @@ interface ShareBoxProps extends FullScreenLocationProps {
 
 export class ShareBox extends AuthComponent<ShareBoxProps, AuthState> {
     fbs_click = () => {
-        window.open(`https://www.facebook.com/sharer.php?u=https://needmedi.com&quote=${this.props.url}`, '_blank');
+        window.open(`https://www.facebook.com/sharer.php?u=https://needmedi.com&quote=${this.props.url}`, 'sharer');
         return false;
     }
 
 
     tbs_click = () => {
-        window.open(`https://twitter.com/intent/tweet?text=NeedMedi Invite&url=${this.props.url}`, '_blank');
+        window.open(`https://twitter.com/intent/tweet?text=NeedMedi Invite&url=${this.props.url}`, 'sharer');
         return false;
     }
 
     lbs_click = () => {
-        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${this.props.url}`, '_blank');
+        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${this.props.url}`, 'sharer');
         return false;
     }
 
     rbs_click = () => {
-        window.open(`https://www.reddit.com/submit?url=${this.props.url}`, '_blank');
+        window.open(`https://www.reddit.com/submit?url=${this.props.url}`, 'sharer');
         return false;
     }
 
     whs_click = () => {
-        window.open(`https://wa.me?text=${encodeURIComponent(this.props.url)}`, '_blank');
+        window.open(`https://wa.me?text=${encodeURIComponent(this.props.url)}`, 'sharer');
         return false;
     }
 
     ma_click = () => {
-        window.open(`mailto:?subject= I want to share this with you &amp;body= Hi there, Check out this site ${this.props.url}`, '_blank');
+        window.open(`mailto:?subject= I want to share this with you &amp;body= Hi there, Check out this site ${this.props.url}`, 'sharer');
         return false;
     }
 
@@ -116,7 +116,7 @@ export class FullScreenShare extends AuthComponent<ShareBoxProps, AuthState> {
 
     render() {
         return (
-            <div className="d-flex fixed-top w-100 h-100 translucent-background  header align-items-end flex-column">
+            <div className="d-flex fixed-top w-100 h-100 z-index-1031 translucent-background  header align-items-end flex-column">
                 <button className="w-100 flex-fill"
                         onClick={
                             this.props.close

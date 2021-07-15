@@ -12,11 +12,18 @@ interface BottomNavState extends AuthState {
 class BottomNavLoc extends AuthComponent<AuthPropsLoc, BottomNavState> {
     constructor(props: AuthPropsLoc) {
         super(props);
-        this.state = {...this.state, value: this.props.location.pathname}
+        let value = this.getActive()
+        this.state = {...this.state, value}
+    }
+
+    getActive() {
+        return this.props.location.pathname.includes('/profile/addRequest') ? '/profile/addRequest' :
+            this.props.location.pathname.includes('/addHospital') ? '/addHospital' :
+                this.props.location.pathname.includes('/profile') ? '/profile/' : '/'
     }
 
     hashChange = () => {
-        this.setState({value: this.props.location.pathname})
+        this.setState({value: this.getActive()})
     }
     handleChange = (event: React.ChangeEvent<{}>, value: string) => {
         this.setState({value})

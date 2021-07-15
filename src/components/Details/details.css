@@ -1,9 +1,10 @@
 .backgroundRow {
     position: fixed;
-    height: 300px;
+    height: 270px;
     z-index: -1;
     width: 100%;
     background: lightgray;
+    background-size: cover;
 
 }
 

@@ -129,7 +129,7 @@ export class FullScreenFilter extends ResponsiveComponent<FullScreenLocationProp
 
     render() {
         return (<div
-            className="d-flex fixed-top w-100 h-100 translucent-background  header align-items-end flex-column"
+            className="d-flex fixed-top w-100 h-100 z-index-1031  translucent-background  header align-items-end flex-column"
         >
             <button className="w-100 h-25 "
                     onClick={

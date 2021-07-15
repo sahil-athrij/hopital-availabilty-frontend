@@ -20,11 +20,19 @@ interface SearchCardsProps extends AuthPropsLoc {
 class SearchCardsLoc extends Component<SearchCardsProps> {
 
     render() {
+        console.log(this.props.model.images)
+
         return (
             <Link style={{textDecoration: "none"}} className='text-dark' to={"/details/" + this.props.model.id}>
                 <Card className="flex-row  mb-3">
-                    <img src={hospitalsvg} className="w-30  p-2 px-3 p-md-4" alt="imageview"/>
-                    <Card.Body className="w-70 bg-white text-left p-0 py-1">
+                    {this.props.model.images && this.props.model.images[0] ?
+
+                            <div style={{backgroundImage: `url(${this.props.model.images[0].image})`}}
+                                 className="w-30 flex-shrink-0 background-contain mr-2"/>
+                        :
+                        <img src={hospitalsvg} className="w-30 flex-shrink-0 mr-2 p-2 px-3 p-md-4" alt="imageview"/>
+                    }
+                    <Card.Body className="w-70 flex-1 bg-white text-left p-0 py-1">
                         <div
                             className="mt-1 hospital-title">{this.props.model.name != null ? this.props.model.name.split(',')[0] : ''}</div>
                         <StarRating rating={this.props.model.care_rating}/>

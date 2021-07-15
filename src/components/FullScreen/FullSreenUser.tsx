@@ -42,7 +42,14 @@ export class AnonMenuBoxLoc extends AuthComponent<MenuBoxProps, AuthState> {
                         <AiFillHome size={25}/>
                         <p className="px-3 m-0">Home</p>
                     </Link>
-                    <Link className="d-flex flex-row align-items-center text-dark my-2">
+                    <Link className="d-flex flex-row align-items-center text-dark my-2"
+                          onClick={() => {
+                              // two push required to counteract goBack
+                              this.props.history.replace('/addHospital')
+                              this.props.history.push('/addHospital')
+                              this.props.close()
+                          }}
+                    >
                         <AiOutlinePlusCircle size={25}/>
                         <p className="px-3 m-0">Add Hospitals</p>
                     </Link>
@@ -126,7 +133,15 @@ class UserMenuBoxLoc extends AuthComponent<MenuBoxProps, UserMenuBoxState> {
                         <FaHandsHelping size={25}/>
                         <p className="px-3 m-0">Request Help</p>
                     </Link>
-                    <Link className="d-flex flex-row align-items-center text-dark my-2">
+                    <Link className="d-flex flex-row align-items-center text-dark my-2"
+
+                          onClick={() => {
+                              // two push required to counteract goBack
+                              this.props.history.replace('/addHospital')
+                              this.props.history.push('/addHospital')
+                              this.props.close()
+                          }}
+                    >
                         <AiOutlinePlusCircle size={25}/>
                         <p className="px-3 m-0">Add Hospitals</p>
                     </Link>
@@ -176,7 +191,7 @@ export class FullScreenUser extends AuthComponent<FullScreenLocationProps, AuthS
 
     render() {
 
-        return (<div className="fixed-top w-100 h-100 bg-white header">
+        return (<div className="fixed-top w-100 z-index-1031 h-100 bg-white header">
 
             <Container fluid={true} className="py-3 bg-grey justify-content-start">
                 <button className="BlueBackground p-2" onClick={() => {
