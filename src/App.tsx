@@ -83,6 +83,8 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                         draggable
                         pauseOnHover
                     />
+                    <BottomNav/>
+
                     <Switch>
                         {/* If the current URL is /about, this route is rendered
             while the rest are ignored */}
@@ -123,7 +125,6 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                         </Route>
 
                     </Switch>
-                    <BottomNav/>
                 </ThemeProvider>
             </div>
         );

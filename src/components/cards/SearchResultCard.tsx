@@ -122,7 +122,7 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
         Marker.filter({search: query, lat: lat, lng: lng, limit: 10}).then((markers) => {
             let next = markers.next
             let results = markers.results
-            this.setState({models: results, next: next, reset: true, loc: loc, query: query})
+            this.setState({models: results, next: next, reset: true, loc: loc, query: query,offset: 10})
             console.log(this.state.models)
         })
 
@@ -143,7 +143,7 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
             this.props.updateParent()
             Marker.filter({search: query, lat: lat, lng: lng, limit: 10}).then((markers) => {
                 let {results, next} = markers
-                this.setState({models: results, next: next, reset: true, loc: loc, query: query})
+                this.setState({models: results, next: next, reset: true, loc: loc, query: query,offset: 10})
                 console.log(this.state.models)
             })
             // this.setState({reset: false})

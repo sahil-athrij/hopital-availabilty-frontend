@@ -4,9 +4,9 @@ import {
     AiFillCloseCircle,
     AiFillQuestionCircle,
     AiOutlineInfoCircle,
-    BiPhoneOutgoing,
+    BiPhoneOutgoing, FiCameraOff,
     GrLocation,
-    IoPersonCircleSharp,
+    IoPersonCircleSharp, MdAddAPhoto,
     MdRateReview,
     RiDirectionLine,
     RiShareLine
@@ -99,7 +99,10 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                             backgroundImage: `url(${model.images[0].image})`
                         }}/>
                         :
-                        <div className="backgroundRow w-100"/>}
+                        <div className="backgroundRow d-flex align-items-center justify-content-center w-100">
+
+                            <MdAddAPhoto className="text-secondary" size={40}/>
+                        </div>}
 
                     <Container fluid={true} className="d-flex flex-column py-5  px-0 ">
  {model.images && model.images[0]?
@@ -144,6 +147,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                         document.location.href = 'tel:' + model.Phone;
 
                                     }}>
+
                                     <button className="button-holder text-center">
                                         <BiPhoneOutgoing size={20} className="text-primary"/>
                                     </button>
