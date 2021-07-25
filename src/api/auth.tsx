@@ -206,6 +206,10 @@ export class HandleTokenLoc extends AuthComponent<AuthPropsLoc, AuthState> {
         super.componentDidMount();
         let code = getQueryVariable('code')
         let state = getQueryVariable('state')
+        let error = getQueryVariable('error')
+        if(error){
+            this.props.history.push('/')
+        }
         let kwargs = {
             client_id,
             redirect_uri,
