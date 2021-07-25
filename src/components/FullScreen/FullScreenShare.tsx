@@ -22,38 +22,45 @@ interface ShareBoxProps extends FullScreenLocationProps {
 
 export class ShareBox extends AuthComponent<ShareBoxProps, AuthState> {
     fbs_click = () => {
-        window.open(`https://www.facebook.com/sharer.php?u=https://needmedi.com&quote=${this.props.url}`, 'sharer');
+        window.open(`https://www.facebook.com/sharer.php?u=https://needmedi.com&quote=Welcome to Needmedi.com%0A
+${this.state.user?.username} has invited you to join their friend network on Need Medical care`, 'sharer');
         return false;
     }
 
 
     tbs_click = () => {
-        window.open(`https://twitter.com/intent/tweet?text=NeedMedi Invite&url=${this.props.url}`, 'sharer');
+        window.open(`https://twitter.com/intent/tweet?text=Welcome to Needmedi.com %0A
+${this.state.user?.username} has invited you to join their friend network on Need Medical care&url=${this.props.url}`, 'sharer');
         return false;
     }
 
     lbs_click = () => {
-        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${this.props.url}`, 'sharer');
+        window.open(`https://www.linkedin.com/sharing/share-offsite/?quote=Welcome to Needmedi.com %0A
+${this.state.user?.username} has invited you to join their friend network on Need Medical care&url=${this.props.url}`, 'sharer');
         return false;
     }
 
     rbs_click = () => {
-        window.open(`https://www.reddit.com/submit?url=${this.props.url}`, 'sharer');
+        window.open(`https://www.reddit.com/submit?title=Welcome to Needmedi.com&
+        text=${this.state.user?.username} has invited you to join their friend network on Need Medical care&url=${this.props.url}`, 'sharer');
         return false;
     }
 
     whs_click = () => {
-        window.open(`https://wa.me?text=${encodeURIComponent(this.props.url)}`, 'sharer');
+        window.open(`https://wa.me?text=Welcome to Needmedi.com %0A
+${this.state.user?.username} has invited you to join their friend network on Need Medical care %0A  ${encodeURIComponent(this.props.url)}`, 'sharer');
         return false;
     }
 
     ma_click = () => {
-        window.open(`mailto:?subject= I want to share this with you &amp;body= Hi there, Check out this site ${this.props.url}`, 'sharer');
+        window.open(`mailto:?subject= I want to share this with you &amp;body=Welcome to Needmedi.com %0A
+${this.state.user?.username} has invited you to join their friend network on Need Medical care %0A  ${this.props.url}`, 'sharer');
         return false;
     }
 
     cp_click = () => {
-        navigator.clipboard.writeText(this.props.url).then(() => {
+        navigator.clipboard.writeText(`Welcome to Needmedi.com \n
+${this.state.user?.username} has invited you to join their friend network on Need Medical care \n  ${this.props.url}`).then(() => {
             toast.dark('Copied to Clipboard', {
                 position: "bottom-center",
             });
@@ -64,7 +71,8 @@ export class ShareBox extends AuthComponent<ShareBoxProps, AuthState> {
         if (navigator.share) {
             navigator.share({
                 title: "Need Medi Invite",
-                url: this.props.url
+                url: this.props.url,
+                text: `${this.state.user?.username} has invited you to join their friend network on Need Medical care`
             }).then(() => {
                 toast.dark('Share Successful', {
                     position: "bottom-center",
@@ -116,12 +124,14 @@ export class FullScreenShare extends AuthComponent<ShareBoxProps, AuthState> {
 
     render() {
         return (
-            <div className="d-flex fixed-top w-100 h-100 z-index-1031 translucent-background  header align-items-end flex-column">
+            <div
+                className="d-flex  fixed-top w-100 h-100 z-index-1031 translucent-background  header align-items-end flex-column">
                 <button className="w-100 flex-fill"
                         onClick={
                             this.props.close
                         }/>
-                <Container fluid={true} className="bg-white pt-2 top-radius-round flex-grow d-flex align-items-start">
+                <Container fluid={true}
+                           className="bg-white pt-2 flex-column top-radius-round flex-grow d-flex align-items-start">
                     <Container fluid={true} className="py-3 justify-content-start small-border-full">
                         <div className="h5 m-0 font-weight-bolder">
                             INVITE FRIENDS

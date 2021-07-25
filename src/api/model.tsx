@@ -71,13 +71,25 @@ export class ReviewObject extends ModelObject {
 }
 
 export class PatientObject extends ModelObject {
-
+    Name: string = '';
+    age: number = 0;
+    gender: string = 'M';
+    address: string = '';
+    symptoms: string='';
+    covidresult: boolean =false;
+    gender_name: string = '';
+    symdays: string = '';
+    spo2: number=0;
+    bedtype_name: string='';
+    blood: string = '';
+    ct: boolean = false;
+    ctscore: string = '';
 
     constructor(data: ModelData, baseUrl: string) {
         super(data, baseUrl);
         this.fields = ['id', 'Name', 'age', 'gender', 'address', 'symptoms', 'symdays', 'spo2', 'hospitalday', 'oxy_bed', 'covidresult',
             'hospitalpref', 'attendername', 'attenderphone', 'relation', 'srfid', 'bunum', 'blood', 'bedtype', 'ct',
-            'ctscore']
+            'ctscore','gender_name','bedtype_name']
         this.getData()
     }
 }

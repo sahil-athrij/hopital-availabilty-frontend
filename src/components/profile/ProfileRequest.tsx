@@ -63,7 +63,7 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
             symptoms: "",
             symdays: new Date().toISOString().substring(0, 10),
             spo2: '',
-            oxy_bed: '',
+            oxy_bed: '0',
             bedtype: "",
 
             blood: '',
@@ -120,7 +120,7 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
 
     setValue = (name: string, event: string | boolean | React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         let value
-        if (typeof event !== "boolean" && typeof event !== 'string') {
+        if (typeof event !== "boolean" && typeof event !== 'string' && typeof event !== 'number') {
             value = event.target.value
         } else {
             value = event
@@ -241,8 +241,8 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
                                             name="oxygen" value={this.state.oxy_bed}
                                             onChange={(event) =>
                                                 this.setValue("oxy_bed", event)}>
-                                    <FormControlLabel value="yes" control={<Radio/>} label="Yes"/>
-                                    <FormControlLabel value="no" control={<Radio/>} label="no"/>
+                                    <FormControlLabel value={"1"} control={<Radio/>} label="Yes"/>
+                                    <FormControlLabel value={"0"} control={<Radio/>} label="no"/>
                                 </RadioGroup>
                             </FormControl>
                             <TextField select label="Bed Type Required" variant="outlined" className="my-2"
@@ -293,8 +293,8 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
                                             value={this.state.ct}
                                             onChange={(event) =>
                                                 this.setValue("ct", event)}>
-                                    <FormControlLabel value="yes" control={<Radio/>} label="Yes"/>
-                                    <FormControlLabel value="no" control={<Radio/>} label="No"/>
+                                    <FormControlLabel value="1" control={<Radio/>} label="Yes"/>
+                                    <FormControlLabel value="0" control={<Radio/>} label="No"/>
                                 </RadioGroup>
                             </FormControl>
 
@@ -308,8 +308,8 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
                                             onChange={(event) =>
                                                 this.setValue("covidresult", event)}
                                 >
-                                    <FormControlLabel value="yes" control={<Radio/>} label="Positive"/>
-                                    <FormControlLabel value="no" control={<Radio/>} label="Negative"/>
+                                    <FormControlLabel value="1" control={<Radio/>} label="Positive"/>
+                                    <FormControlLabel value="0" control={<Radio/>} label="Negative"/>
                                 </RadioGroup>
                             </FormControl>
                             <TextField label="CT Score" variant="outlined"

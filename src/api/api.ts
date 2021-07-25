@@ -134,15 +134,25 @@ export default class Model {
     }
 
 
-    get = async (id: number | string, kwargs: {} = {}) => {
-        let data = await get(`${this.baseurl}${id}/`, kwargs)
+    get = async (id: number | string, kwargs: {} = {},auth=false) => {
+        let headers = {};
+
+        if (auth) {
+            headers = {'Authorization': `Bearer ${getAuth()}`}
+        }
+        let data = await get(`${this.baseurl}${id}/`, kwargs,headers)
         return new this.modelClass(data, this.baseurl)
 
     };
 
-    filter = async (kwargs = {}) => {
+    filter = async (kwargs = {}, auth = false) => {
         try {
-            let data = await get(`${this.baseurl}`, kwargs)
+            let headers = {};
+
+            if (auth) {
+                headers = {'Authorization': `Bearer ${getAuth()}`}
+            }
+            let data = await get(`${this.baseurl}`, kwargs, headers)
             //TODO: add return type
             let lst: any[];
             lst = [];
@@ -157,6 +167,28 @@ export default class Model {
             console.log(errors)
             throw errors
 
+        }
+    };
+    action_general = async (path: string, kwargs = {}, auth = false) => {
+        try {
+            let headers = {};
+            if (auth) {
+                headers = {'Authorization': `Bearer ${getAuth()}`}
+            }
+            let data = await get(`${this.baseurl}${path}`, kwargs, headers)
+            //TODO: add return type
+            let lst: any[];
+            lst = [];
+            data.results.forEach((item: ModelData) => {
+                let obj = new this.modelClass(item, this.baseurl)
+                lst.push(obj)
+            })
+            return {results: lst, next: data.next}
+        } catch (e) {
+            let errors;
+            errors = e
+            console.log(errors)
+            throw errors
         }
     };
 

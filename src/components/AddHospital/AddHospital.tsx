@@ -139,7 +139,7 @@ function LocationMarker(props: LocationMarkerProps) {
                 }
             },
             locationerror(e) {
-                toast.error(e.message, {
+                toast.error("Location is Disabled, Please enable location from the settings Menu", {
                     position: 'bottom-center'
                 })
             }
@@ -147,7 +147,9 @@ function LocationMarker(props: LocationMarkerProps) {
     )
 
     useEffect(() => {
-        map.locate()
+        if(navigator.geolocation){
+             navigator.geolocation.getCurrentPosition(()=>map.locate)
+        }
     }, []);
     useEffect(() => {
 
@@ -164,6 +166,7 @@ function LocationMarker(props: LocationMarkerProps) {
                            onKeyDown={handleKeyDown}
                            onFocus={() => setDisplay(1)}
                            type={'search'}
+                           placeholder={"Search Hospital Location"}
                            autoComplete={'off'}
                     >
                     </input>
@@ -328,8 +331,7 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                         <div>
                             <MapContainer center={this.state.center} scrollWheelZoom={true} touchZoom={true}
                                           doubleClickZoom={true}
-
-
+                                          zoom={15}
                             >
 
                                 <TileLayer

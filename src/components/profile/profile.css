@@ -1,3 +1,10 @@
 .border-right-dark{
     border-right: 1px solid #b7b7bf;
 }
+.MuiBottomNavigationAction-label.MuiBottomNavigationAction-iconOnly {
+    opacity: 1 !important;
+}
+.request-holder{
+    overflow: scroll;
+    max-height: 73vh;
+}

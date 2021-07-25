@@ -5,6 +5,9 @@ import {ProfileDetails} from "./ProfileDetails";
 import {ProfileRequest} from "./ProfileRequest";
 
 import './profile.css'
+import {NavBar} from "../NavBar/navBar";
+import {Details} from "../Details/Details";
+import {RequestDetails} from "./RequestDisplay";
 
 export class Profile extends AuthComponent<AuthProps, AuthState> {
     render() {
@@ -16,6 +19,9 @@ export class Profile extends AuthComponent<AuthProps, AuthState> {
                     </Route>
                     <Route path={"/profile/addRequest"}>
                         <ProfileRequest/>
+                    </Route>
+                    <Route path="/profile/request/:requestId">
+                        <RequestDetails/>
                     </Route>
 
                     <Route exact={true} path={"/profile"}>
