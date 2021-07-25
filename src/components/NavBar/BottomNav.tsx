@@ -23,6 +23,7 @@ class BottomNavLoc extends AuthComponent<AuthPropsLoc, BottomNavState> {
     }
 
     hashChange = () => {
+        console.log(this.getActive())
         this.setState({value: this.getActive()})
     }
     handleChange = (event: React.ChangeEvent<{}>, value: string) => {

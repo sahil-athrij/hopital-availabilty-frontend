@@ -15,6 +15,7 @@ import {ReactComponent as Brand} from '../../images/brand.svg';
 import {ReactComponent as MarkerSvg} from '../../images/markersvg.svg';
 
 import './nabar.css'
+
 interface NavBarProp extends RouteComponentProps<ResponsiveProps> {
 
 }
@@ -36,39 +37,23 @@ export class NavBarLoc extends ResponsiveComponent<NavBarProp, NavBarState> {
         this.state = {
             ...this.state,
             loc: getParam('loc', 'Select Location', true),
-            show_location: false,
             query: getParam('query', 'Search Hospital', true),
-            show_search: false,
-            show_filter: false,
-            show_user: false,
+            show_user: window.location.href.includes('#user'),
+            show_filter: window.location.href.includes('#filter'),
+            show_location: window.location.href.includes('#location'),
+            show_search: window.location.href.includes('#search')
         }
     }
 
 
     hashChange = () => {
-        if (!this.props.location.hash.includes('user')) {
-            this.setState({show_user: false})
-        } else {
-            this.setState({show_user: true})
-        }
-        if (!this.props.location.hash.includes('filter')) {
-            this.setState({show_filter: false})
-        } else {
-            this.setState({show_filter: true})
 
-        }
-        if (!this.props.location.hash.includes('location')) {
-            this.setState({show_location: false})
-        } else {
-            this.setState({show_location: true})
-
-        }
-        if (!this.props.location.hash.includes('search')) {
-            this.setState({show_search: false})
-        } else {
-            this.setState({show_search: true})
-
-        }
+        this.setState({
+            show_user: window.location.href.includes('#user'),
+            show_filter: window.location.href.includes('#filter'),
+            show_location: window.location.href.includes('#location'),
+            show_search: window.location.href.includes('#search')
+        })
     }
 
     render() {

@@ -183,7 +183,7 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
                 }
             </Container>
         } else {
-            return <Container fluid={true} className='mt-5 pt-5'>
+            return <Container fluid={true} className='mt-5 pt-5 text-center'>
                 <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
             </Container>
         }
