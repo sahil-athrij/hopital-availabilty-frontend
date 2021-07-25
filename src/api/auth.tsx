@@ -8,8 +8,8 @@ import React from "react";
 
 
 const client_id = '6tWdAZrlxUA26FJSMjE7oKBpTNGaqJRl2bsmNMRb'
-// export const reactUrl = 'https://needmedi.com'
-export const reactUrl = 'http://localhost:3000'
+export const reactUrl = 'https://needmedi.com'
+// export const reactUrl = 'http://localhost:3000'
 
 const redirect_uri = reactUrl + '/set_token/'
 

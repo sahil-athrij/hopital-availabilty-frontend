@@ -123,7 +123,6 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
             let next = markers.next
             let results = markers.results
             this.setState({models: results, next: next, reset: true, loc: loc, query: query,offset: 10})
-            console.log(this.state.models)
         })
 
         this.setState({reset: false})
@@ -144,7 +143,6 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
             Marker.filter({search: query, lat: lat, lng: lng, limit: 10}).then((markers) => {
                 let {results, next} = markers
                 this.setState({models: results, next: next, reset: true, loc: loc, query: query,offset: 10})
-                console.log(this.state.models)
             })
             // this.setState({reset: false})
         }
@@ -157,19 +155,16 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
         let lng = getParam('lng',)
         let query = getParam('query', 'Search Hospital',)
         let {offset, models} = this.state
-        console.log(models)
         Marker.filter({search: query, lat: lat, lng: lng, limit: 10, offset: offset}).then((markers) => {
             let {results, next} = markers
             models.push(...results)
             this.setState({models: models, next: next, reset: true, loc: loc, query: query, offset: offset + 10})
-            console.log(this.state.models)
         })
 
     }
 
 
     render() {
-        console.log(this.state)
         if (this.state.reset) {
             return <Container fluid={true} className='m-0 p-0'>
                 {this.state.models.map((model, i) => {

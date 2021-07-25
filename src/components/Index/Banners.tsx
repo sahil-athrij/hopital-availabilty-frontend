@@ -142,6 +142,8 @@ class SwipeableTextMobileStepperLoc extends AuthComponent<SwipeableTextMobilePro
                                             <button className="py-0 mt-2 btn btn-light"
                                                     onClick={() => {
                                                         this.props.history.push(step.url)
+                                                        this.props.history.push(step.url)
+                                                        this.props.history.goBack()
                                                     }}
                                             ><b>&gt;{step.label}</b></button>
                                         </div>
