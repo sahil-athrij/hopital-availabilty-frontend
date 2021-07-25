@@ -114,7 +114,7 @@ export class AddHospitalPhotoLoc extends AuthComponent<AddHospitalPhotoPropsLoc,
                             {this.state.file ?
 
                                 <>
-                                    <img src={this.state.imagePreviewUrl as string} alt="upload image"
+                                    <img src={this.state.imagePreviewUrl as string} alt="upload"
                                          className={"w-100 rounded"}/>
                                     <div>{this.state.file.name}</div>
                                 </>

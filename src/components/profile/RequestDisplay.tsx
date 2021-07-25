@@ -1,6 +1,6 @@
-import {AuthComponent, AuthProps, AuthPropsLoc, AuthState} from "../../api/auth";
+import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {withRouter} from "react-router";
-import {AiOutlinePlus, IoCheckmarkCircleSharp, IoCloseCircleSharp} from "react-icons/all";
+import {IoCheckmarkCircleSharp, IoCloseCircleSharp} from "react-icons/all";
 import React from "react";
 import {Patient, PatientObject} from "../../api/model";
 import {Container} from "react-bootstrap";
@@ -117,7 +117,7 @@ class RequestDetailsLoc extends AuthComponent<AuthPropsLoc, RequestDetailsState>
                         <div className="d-flex flex-row py-1">
                             <div className="w-50">
                                 <span>CT scan Done :</span>
-                                <b>{request.ct?'Yes':'No'}</b>
+                                <b>{request.ct ? 'Yes' : 'No'}</b>
                             </div>
                             <div className="w-50"> CT Score : <b>{request.ctscore}</b></div>
                         </div>

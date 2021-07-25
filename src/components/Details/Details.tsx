@@ -4,7 +4,7 @@ import {
     AiFillCloseCircle,
     AiFillQuestionCircle,
     AiOutlineInfoCircle,
-    BiPhoneOutgoing, FiCameraOff,
+    BiPhoneOutgoing,
     GrLocation,
     IoPersonCircleSharp, MdAddAPhoto,
     MdRateReview,
