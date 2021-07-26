@@ -104,7 +104,7 @@ ${this.state.user?.username} has invited you to join their friend network on Nee
                     <AiFillRedditCircle className="re-h" size={50} onClick={this.rbs_click}/>
 
                 </div>
-                <div className="text-left p-3 d-flex filter-holder flex-row flex-wrap justify-content-between w-100">
+                <div className="text-left p-3 d-flex flex-row flex-wrap justify-content-between w-100">
                     {/*Whatsapp*/}
                     <IoLogoWhatsapp className="wh-h" size={50} onClick={this.whs_click}/>
                     {/*mail*/}
@@ -131,8 +131,8 @@ export class FullScreenShare extends AuthComponent<ShareBoxProps, AuthState> {
                             this.props.close
                         }/>
                 <Container fluid={true}
-                           className="bg-white pt-2 flex-column top-radius-round flex-grow d-flex align-items-start">
-                    <Container fluid={true} className="py-3 justify-content-start small-border-full">
+                           className="bg-white pt-2 flex-column top-radius-round d-flex align-items-start">
+                    <Container fluid={true} className="py-3 text-left justify-content-start small-border-full">
                         <div className="h5 m-0 font-weight-bolder">
                             INVITE FRIENDS
                         </div>

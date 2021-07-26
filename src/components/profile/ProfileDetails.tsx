@@ -125,15 +125,7 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                                 </div>
                                     <HiOutlineClipboardCopy size={20}/>
                                 </button>
-                                <CSSTransition classNames="filter-screen" in={this.state.show_share} timeout={300}
-                                               unmountOnExit>
-                                    <FullScreenShare
-                                        url={`${reactUrl}/invite?invite=${user ? user.tokens.private_token : ''}`}
-                                        close={() => {
-                                            this.props.history.goBack()
-                                            this.setState({show_share: false})
-                                        }}/>
-                                </CSSTransition>
+
                             </div>
                         </div>
                         <Tabs variant="fullWidth" value={this.state.tab}
@@ -187,6 +179,15 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                     </SwipeableViews>
                 </div>
 
+                <CSSTransition classNames="filter-screen" in={this.state.show_share} timeout={300}
+                               unmountOnExit>
+                    <FullScreenShare
+                        url={`${reactUrl}/invite?invite=${user ? user.tokens.private_token : ''}`}
+                        close={() => {
+                            this.props.history.goBack()
+                            this.setState({show_share: false})
+                        }}/>
+                </CSSTransition>
             </React.Fragment>
         )
 

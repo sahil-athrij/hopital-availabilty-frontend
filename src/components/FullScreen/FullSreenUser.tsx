@@ -159,15 +159,6 @@ class UserMenuBoxLoc extends AuthComponent<MenuBoxProps, UserMenuBoxState> {
                     }}>
                         Invite Friends
                     </button>
-                    <CSSTransition classNames="filter-screen" in={this.state.show_share} timeout={300}
-                                   unmountOnExit>
-                        <FullScreenShare
-                            url={`${reactUrl}/invite?invite=${user ? user.tokens.private_token : ''}`}
-                            close={() => {
-                                this.props.history.goBack()
-                                this.setState({show_share: false})
-                            }}/>
-                    </CSSTransition>
                 </Container>
                 <Container fluid={true} className="bg-white justify-content-between p-3">
                     <button className="btn btn-dark rounder w-100 p-2" onClick={() => {
@@ -178,6 +169,15 @@ class UserMenuBoxLoc extends AuthComponent<MenuBoxProps, UserMenuBoxState> {
                         Logout
                     </button>
                 </Container>
+                <CSSTransition classNames="filter-screen" in={this.state.show_share} timeout={300}
+                               unmountOnExit>
+                    <FullScreenShare
+                        url={`${reactUrl}/invite?invite=${user ? user.tokens.private_token : ''}`}
+                        close={() => {
+                            this.props.history.goBack()
+                            this.setState({show_share: false})
+                        }}/>
+                </CSSTransition>
             </div>
         )
     }
