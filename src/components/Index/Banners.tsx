@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
-import {autoPlay} from 'react-swipeable-views-utils';
+import {autoPlay, virtualize} from 'react-swipeable-views-utils';
 import Hospital from '../../images/hospital.jpg';
 import Help from '../../images/help.jpg';
 import AddHospital from '../../images/addHospital.jpg';
@@ -19,6 +19,7 @@ import {createStyles, WithStyles} from "@material-ui/styles";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
+const VirtualizeSwipeableViews = virtualize(AutoPlaySwipeableViews);
 
 const SliderSteps = [
     {
@@ -96,6 +97,11 @@ interface SwipeableTextMobileProps extends AuthPropsLoc, WithStyles<typeof style
 }
 
 
+interface CarouselParams {
+    key: number;
+    index: number;
+}
+
 class SwipeableTextMobileStepperLoc extends AuthComponent<SwipeableTextMobileProps, SwipeableTextMobileState> {
     constructor(props: SwipeableTextMobileProps) {
         super(props);
@@ -119,59 +125,64 @@ class SwipeableTextMobileStepperLoc extends AuthComponent<SwipeableTextMobilePro
         this.setActiveStep(step);
     };
 
+    Carousel = ({key, index}: CarouselParams) => {
+        const {classes} = this.props;
+        const dataIndex = Math.abs(index - SliderSteps.length * Math.floor(index / SliderSteps.length)
+        );
+        console.log(key, index, dataIndex)
+        let step = SliderSteps[dataIndex]
+        return <div className="p-2 pb-4 d-flex align-items-center flex-column" key={key}>
+            {Math.abs(this.state.activeStep - index) <= 2 ? (
+                <>
+                    <div
+                        className={`${classes.holder} w-100 text-white neumorphic-input h-100 d-flex align-items-begin justify-content-end`}>
+                        <div className={`${classes.top} pt-3`}>
+                            <div><h4><b>{step.label}</b></h4></div>
+                            <div><b>{step.description}</b></div>
+                            <button className="py-0 mt-2 btn btn-light"
+                                    onClick={() => {
+                                        this.props.history.push(step.url)
+                                        this.props.history.push(step.url)
+                                        this.props.history.goBack()
+                                    }}
+                            ><b>&gt;{step.label}</b></button>
+                        </div>
+
+                        <div className={classes.img}
+                             style={{backgroundImage: `url(${step.imgPath})`}}/>
+                    </div>
+                    <div className={classes.shadow}/>
+                </>
+            ) : null}
+        </div>
+
+    }
+
     render() {
         const {classes} = this.props;
         return (
             <div className={classes.root}>
-
-                <AutoPlaySwipeableViews
-                    axis={'x'}
+                <VirtualizeSwipeableViews
+                    // axis={'x'}
                     index={this.state.activeStep}
                     onChangeIndex={this.handleStepChange}
-                    enableMouseEvents
-                >
-                    {SliderSteps.map((step, index) => (
-                        <div className="p-2 pb-4 d-flex align-items-center flex-column" key={step.label}>
-                            {Math.abs(this.state.activeStep - index) <= 2 ? (
-                                <>
-                                    <div
-                                        className={`${classes.holder} w-100 text-white neumorphic-input h-100 d-flex align-items-begin justify-content-end`}>
-                                        <div className={`${classes.top} pt-3`}>
-                                            <div><h4><b>{step.label}</b></h4></div>
-                                            <div><b>{step.description}</b></div>
-                                            <button className="py-0 mt-2 btn btn-light"
-                                                    onClick={() => {
-                                                        this.props.history.push(step.url)
-                                                        this.props.history.push(step.url)
-                                                        this.props.history.goBack()
-                                                    }}
-                                            ><b>&gt;{step.label}</b></button>
-                                        </div>
-
-                                        <div className={classes.img}
-                                             style={{backgroundImage: `url(${step.imgPath})`}}/>
-                                    </div>
-                                    <div className={classes.shadow}/>
-                                </>
-                            ) : null}
-                        </div>
-                    ))}
-                </AutoPlaySwipeableViews>
+                    // @ts-ignore
+                    slideRenderer={this.Carousel}
+                    enableMouseEvents/>
                 <MobileStepper
                     variant="dots"
                     steps={this.maxSteps}
                     position="static"
-                    activeStep={this.state.activeStep}
+                    activeStep={this.state.activeStep % this.maxSteps}
                     className={classes.root}
                     nextButton={
-                        <Button size="small" onClick={this.handleNext}
-                                disabled={this.state.activeStep === this.maxSteps - 1}>
+                        <Button size="small" onClick={this.handleNext}>
                             Next
                             {<KeyboardArrowRight/>}
                         </Button>
                     }
                     backButton={
-                        <Button size="small" onClick={this.handleBack} disabled={this.state.activeStep === 0}>
+                        <Button size="small" onClick={this.handleBack}>
                             {<KeyboardArrowLeft/>}
                             Back
                         </Button>
