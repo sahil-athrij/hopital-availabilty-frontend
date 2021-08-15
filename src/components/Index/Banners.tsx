@@ -121,15 +121,16 @@ class SwipeableTextMobileStepperLoc extends AuthComponent<SwipeableTextMobilePro
 
     maxSteps = SliderSteps.length;
 
+    calcIndex = () => {
+        return Math.abs(this.state.activeStep - this.maxSteps * Math.floor(this.state.activeStep / this.maxSteps))
+    }
     handleStepChange = (step: number) => {
         this.setActiveStep(step);
     };
 
     Carousel = ({key, index}: CarouselParams) => {
         const {classes} = this.props;
-        const dataIndex = Math.abs(index - SliderSteps.length * Math.floor(index / SliderSteps.length)
-        );
-        console.log(key, index, dataIndex)
+        const dataIndex = this.calcIndex()
         let step = SliderSteps[dataIndex]
         return <div className="p-2 pb-4 d-flex align-items-center flex-column" key={key}>
             {Math.abs(this.state.activeStep - index) <= 2 ? (
@@ -173,7 +174,7 @@ class SwipeableTextMobileStepperLoc extends AuthComponent<SwipeableTextMobilePro
                     variant="dots"
                     steps={this.maxSteps}
                     position="static"
-                    activeStep={this.state.activeStep % this.maxSteps}
+                    activeStep={this.calcIndex()}
                     className={classes.root}
                     nextButton={
                         <Button size="small" onClick={this.handleNext}>
