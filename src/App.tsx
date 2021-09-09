@@ -44,6 +44,10 @@ interface AppDispatchProps {
 }
 
 class AppLoc extends React.Component<AppProps & AppDispatchProps> {
+    /**
+     * Initialize props 
+     * Set the location into history stack
+     */
 
     constructor(props: AppProps & AppDispatchProps) {
         super(props);
@@ -51,14 +55,18 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
         this.props.history.replace(location)
         refresh_user()
     }
-
+    /**
+     * componentDidMount() method allows us to execute the React code even after component is rendered
+     */
     componentDidMount() {
         getParam('lat', '', true)
         getParam('lng', '', true)
         getParam('loc', 'Search Location', true)
         getParam('query', 'Search Hospital', true)
     }
-
+    /**
+     * componentDidUpdate() method use to execute the code when the state of component changes
+     */
     componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
         getParam('lat', '', true)
         getParam('lng', '', true)
@@ -71,6 +79,9 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
 
         return (
             <div className="App">
+                {/*
+                 * Initialize the theme
+                 */}
                 <ThemeProvider theme={theme}>
                     <ToastContainer
                         position="bottom-center"
@@ -92,33 +103,42 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                         <Route path="/details/:hspId">
                             <NavBar/>
                             <Details/>
-
+                         {/* If the current URL is /search, this route is rendered
+            while the rest are ignored */}
                         </Route>
                         <Route path="/search">
                             <NavBar/>
                             <Search/>
-
                         </Route>
+                         {/* If the current URL is /profile, this route is rendered
+            while the rest are ignored */}
                         <Route path="/profile/">
                             <NavBar/>
                             <Profile/>
-
+                         {/* If the current URL is /set_token, this route is rendered
+            while the rest are ignored */}
                         </Route>
                         <Route path="/set_token/">
                             <HandleToken/>
                         </Route>
-
+                         {/* If the current URL is /invite, this route is rendered
+            while the rest are ignored */}
                         <Route path="/invite/">
                             <HandleInvite/>
                         </Route>
+                         {/* If the current URL is /AddHospital, this route is rendered
+            while the rest are ignored */}
                         <Route path="/AddHospital/">
                             <NavBar/>
                             <Add/>
                         </Route>
+                         {/* If the current URL is /privacypolicy, this route is rendered
+            while the rest are ignored */}
                         <Route path="/privacypolicy/">
                             <Privacy/>
                         </Route>
-
+                          {/* If the current URL is /, this route is rendered
+            while the rest are ignored */}
                         <Route path="/">
                             <NavBar/>
                             <Index/>
