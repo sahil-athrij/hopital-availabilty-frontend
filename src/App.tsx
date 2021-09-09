@@ -45,7 +45,6 @@ interface AppDispatchProps {
 
 class AppLoc extends React.Component<AppProps & AppDispatchProps> {
     /**
-     * Component description.
      * Initialize props 
      * Set the location into history stack
      */
@@ -57,7 +56,6 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
         refresh_user()
     }
     /**
-     * ComponentDidmount description.
      * componentDidMount() method allows us to execute the React code even after component is rendered
      */
     componentDidMount() {
@@ -67,7 +65,6 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
         getParam('query', 'Search Hospital', true)
     }
     /**
-     * ComponentDidUpdate description.
      * componentDidUpdate() method use to execute the code when the state of component changes
      */
     componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
@@ -82,8 +79,7 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
 
         return (
             <div className="App">
-                {/**
-                 * Themeprovider description.
+                {/*
                  * Initialize the theme
                  */}
                 <ThemeProvider theme={theme}>
