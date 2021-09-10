@@ -14,7 +14,7 @@ export function getParam<T1>(param: string, default_value: T1 | string = '', get
     if (get_query) {
         let qs = getQueryVariable(param)
         if (typeof qs === 'string') {
-            qs = qs.replace(/[+]/g, ' ')
+            qs = qs.replace(/[+]/g, ' ') // Replace all '+' with white space
         }
         if (qs) {
             localStorage.setItem(param, qs)
