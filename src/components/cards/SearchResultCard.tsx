@@ -24,6 +24,7 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
 
         return (
             <Link style={{textDecoration: "none"}} className='text-dark' to={"/details/" + this.props.model.id}>
+               {/* Show hospital image */}
                 <Card className="flex-row  mb-3">
                     {this.props.model.images && this.props.model.images[0] ?
 
@@ -33,22 +34,27 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
                         <img src={hospitalsvg} className="w-30 flex-shrink-0 mr-2 p-2 px-3 p-md-4" alt="imageview"/>
                     }
                     <Card.Body className="w-70 flex-1 bg-white text-left p-0 py-1">
-                        <div
+                        <div    
+                                // Get hospital details and split it at first comma to get hospital name
                             className="mt-1 hospital-title">{this.props.model.name != null ? this.props.model.name.split(',')[0] : ''}</div>
+                        
+                        {/* star rating scale */}
                         <StarRating rating={this.props.model.care_rating}/>
                         <div className="d-flex address-container justify-content-between">
+
+                            {/* fetching hospital address */}
                         <span className={"hospital-address"}>
-                            {this.props.model.address.suburb && this.props.model.address.suburb + ' ,'}
+                            {this.props.model.address.suburb && this.props.model.address.suburb + ' ,'}     
                             {this.props.model.address.village && this.props.model.address.village + ' ,'}
                             {this.props.model.address.state_district && this.props.model.address.state_district + ' ,'}
                             {this.props.model.address.state && this.props.model.address.state}
                         </span>
                         </div>
                         <span
-                            className="hospital-phone">{this.props.model.Phone !== '0000000000' && this.props.model.Phone}
+                            className="hospital-phone">{this.props.model.Phone !== '0000000000' && this.props.model.Phone}  {/*Fetching phone number if available*/}
                     </span>
                         <Row className="w-100 justify-content-end m-0">
-                            {this.props.model.Phone !== '0000000000' &&
+                            {this.props.model.Phone !== '0000000000' &&  //if phone number is available show phone icon and phone number
                             <div
                                 className="d-flex justify-content-end phone-button button-container align-items-center flex-column"
                                 onClick={(event) => {
@@ -62,6 +68,10 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
                                 </button>
                                 Phone
                             </div>}
+                            
+                            {/** 
+                             * Show route map option
+                            */}
                             <div
                                 className="d-flex justify-content-end button-container phone-button align-items-center flex-column"
                                 onClick={(event) => {
