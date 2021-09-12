@@ -1,4 +1,4 @@
-import Model, {baseUrl, filePost, ModelData, ModelObject} from "./api";
+import Model, {baseUrl, filePost, ModelData, ModelObject, get} from "./api";
 import {getAuth} from "./auth";
 
 interface ImageObject {
@@ -58,6 +58,40 @@ export class MarkerObject extends ModelObject {
 
 }
 
+export class DoctorObject extends ModelObject {
+    name: string | undefined;
+    phone_number: number = 0;
+    hospital: Array<number> = [];
+    departments: Array<number> = [];
+    user: number = -1;
+
+    constructor(data: ModelData, baseUrl: string) {
+        super(data, baseUrl);
+        this.fields = ["id", "name", "phone_number", "hospital", "departments", "user"];
+        this.getData();
+    }
+
+    // async addPhoto(file: File) {
+    //     const formData = new FormData();
+    //
+    //
+    //     formData.append(
+    //         "image",
+    //         file,
+    //         file.name
+    //     );
+    //     formData.append(
+    //         'hospital',
+    //         this.id.toString()
+    //     )
+    //     let headers = {'Authorization': `Bearer ${getAuth()}`}
+    //
+    //     return await filePost(baseUrl + '/api/image/', formData, headers)
+    // }
+
+
+}
+
 export class ReviewObject extends ModelObject {
 
 
@@ -106,6 +140,7 @@ export class susObject extends ModelObject {
 export const Review = new Model(baseUrl + '/api/review/', ReviewObject)
 export const Sus = new Model(baseUrl + '/api/suspicious/', susObject)
 export const Marker = new Model(baseUrl + '/api/marker/', MarkerObject)
+export const Doctor = new Model(baseUrl+'/internals/doctors/', DoctorObject)
 export const Patient = new Model(baseUrl + '/api/patient/', PatientObject)
 
 export type ModelRegistry =
