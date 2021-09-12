@@ -72,11 +72,12 @@ export class DoctorObject extends ModelObject {
     experience: number = -1;
     specialization: string | undefined;
     about: string | undefined;
+    image: { uri: string | undefined } = { uri: undefined };
 
     constructor(data: ModelData, baseUrl: string) {
         super(data, baseUrl);
         this.fields = ['id', 'name', 'phone_number', 'hospital', 'department', 'user', 'working_time',
-            'rating', 'reviews', 'patients', 'experience', 'specialization', 'about'];
+            'rating', 'reviews', 'patients', 'experience', 'specialization', 'about', 'image'];
         this.getData();
     }
 

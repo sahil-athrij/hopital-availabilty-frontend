@@ -74,7 +74,7 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                         </div>
                         <img alt={""}
                              className="image"
-                             src={image}
+                             src={model.image?.uri ? model.image.uri : image}
                         />
                         <img alt={""}
                              className="icon-2"
@@ -190,7 +190,10 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                 </div>
                 <div className="button">
                     <div className="overlap-group3">
-                        <div className="book-appointmentnunito-bold-white-16px">Book Appointment</div>
+                        <div
+                            className="book-appointmentnunito-bold-white-16px"
+                            onClick={() => alert("Will be available in the next release.")}
+                        >Book Appointment</div>
                     </div>
                 </div>
             </>
