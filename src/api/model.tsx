@@ -187,6 +187,7 @@ export class susObject extends ModelObject {
 
 export const Review = new Model(baseUrl + '/api/review/', ReviewObject)
 export const Sus = new Model(baseUrl + '/api/suspicious/', susObject)
+export const Department = new Model(baseUrl + '/internals/departments/', DoctorObject)
 export const Marker = new Model(baseUrl + '/api/marker/', MarkerObject)
 export const Doctor = new Model(baseUrl + '/internals/doctors/', DoctorObject)
 export const Patient = new Model(baseUrl + '/api/patient/', PatientObject)
