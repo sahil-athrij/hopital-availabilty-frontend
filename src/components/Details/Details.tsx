@@ -18,10 +18,14 @@ import './details.css'
 import {Container, Row} from "react-bootstrap";
 import {StarRating} from "../cards/StarRating";
 import {Popover} from "@material-ui/core";
-import {CSSTransition} from "react-transition-group";
-import {FullScreenReview} from "../FullScreen/FullScreenReview";
+// import {CSSTransition} from "react-transition-group";
+// import {FullScreenReview} from "../FullScreen/FullScreenReview";
 import Loader from "react-loader-spinner";
 import {withRouter} from "react-router";
+
+import doctorsvg from '../../images/doctor.svg';
+import layoutsvg from '../../images/layout.svg';
+import reviewsvg from '../../images/review.svg';
 
 interface DetailsState extends AuthState {
     id: number,
@@ -264,8 +268,32 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                 </div>
                             </div>
                         </div>
+
+
                         <div className="px-3 border-bottom bg-white py-3">
-                            <div className="d-flex align-items-center mt-2">
+                   
+                              <div className="card-sec">
+                                <div className="card card-1">
+                                <img src={doctorsvg} alt="doctor svg" />
+                                        <p><b>1000+</b><br/>Doctors</p>
+                                </div>
+                                
+                                
+                                    <div className="card card-1">
+                                    <img src={layoutsvg} alt="layout svg" />
+                                        <p><b>good</b><br/>Layout</p>
+                                    </div>
+                                
+                                    <div className="card card-1">
+                                    <img src={reviewsvg} alt="review svg" />
+                                        <p><b>4.5</b>Ratings<br/>&amp; Reviews</p>
+                                    </div>
+                              </div>
+                            
+                         
+                        
+
+                            {/* <div className="d-flex align-items-center mt-2">
                                 <div><h5>Reviews</h5></div>
                                 <div className="ml-3"
                                      onClick={(event) => {
@@ -299,8 +327,9 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                             this.setState({show_review: false})
                                         }}/>
                                     </CSSTransition>}
-                            </div>
+                            </div> */}
                         </div>
+                        
                         {model.comment.reverse().map((comment: {
                                 id: number;
                                 written_by_name: string;
