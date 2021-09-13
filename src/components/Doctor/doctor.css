@@ -496,6 +496,7 @@ body{
 .communication-1 {
     letter-spacing: 0.30px;
     min-height: 25px;
+    margin-left: 16px;
 }
 
 .message {
@@ -663,6 +664,8 @@ body{
     margin-top: 41px;
     overflow: hidden;
     width: 86.95652173913044%;
+    margin-left: 44px;
+    margin-top: 32px;
 }
 
 .about-doctor {
