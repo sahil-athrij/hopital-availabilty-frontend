@@ -35,3 +35,127 @@
 .line-height-small{
     line-height: 15px;
 }
+
+/* card section style */
+
+.card-sec{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+    margin-top: 30px;
+}
+
+.card-sec .card{
+    border-radius: 21px;
+    background: #fff;
+    box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+    transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+    cursor: pointer;
+    width:100px;
+    height:100px;
+    padding: 5px;
+}
+
+.card-sec .card-1:hover{
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+  border: solid 2px blue;
+}
+
+.card-sec .card :focus{
+    border: solid 2px blue;
+}
+
+.card-sec .card p{
+    font-size: small;
+    text-align: center;
+}
+
+.card-sec .card img{
+    width:100%;
+    height:40%;
+} 
+
+
+/* about section style */
+
+.about {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: auto;
+    height: 300px;
+    margin: 10px;
+  }
+
+  .about-sub{
+      display: flex;
+      flex-direction: row;
+  }
+
+   /* .about-1 {
+    letter-spacing: 0.30px;
+    min-height: 25px;
+    min-width: 55px;
+    align-self: flex-start;
+  }*/
+  
+  .about-2 {
+    letter-spacing: 0.30px;
+    margin-left: 243px;
+    min-height: 25px;
+    min-width: 29px;
+    display: flex;
+    flex-direction: row;
+    align-self: flex-end;
+  }  
+
+
+/* .about {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+     width: 360px;
+    height: 134px; 
+  }
+  
+  .flex-row {
+    align-items: center;
+    display: flex;
+    height: 25px;
+    margin-left: 1px;
+    min-width: 351px;
+  }
+  
+  .about-1 {
+    letter-spacing: 0.30px;
+    min-height: 25px;
+    min-width: 55px;
+  }
+  
+  .about-2 {
+    letter-spacing: 0.30px;
+    margin-left: 243px;
+    min-height: 25px;
+    min-width: 29px;
+  }
+  
+  .icon {
+    height: 20px;
+    margin-left: 4px;
+    margin-top: 1.0px;
+    width: 20px;
+  }
+  
+  .hospitalname {
+    letter-spacing: 0.23px;
+    line-height: 20px;
+    margin-top: 9px;
+    min-height: 80px;
+    width: 362px;
+  } */
+  
