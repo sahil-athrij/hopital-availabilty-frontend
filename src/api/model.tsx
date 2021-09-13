@@ -1,4 +1,4 @@
-import Model, {baseUrl, filePost, ModelData, ModelObject, get} from "./api";
+import Model, {baseUrl, filePost, ModelData, ModelObject} from "./api";
 import {getAuth} from "./auth";
 
 interface ImageObject {
@@ -58,6 +58,44 @@ export class MarkerObject extends ModelObject {
 
 }
 
+export class DepartmentObject extends ModelObject {
+    name: { id: number, name: string | undefined } = {id: -1, name: undefined};
+    x = -1;
+    y = -1;
+    hospital = -1;
+    images: Array<{ image: string, useinmarker: boolean, hospital: number, review: number }> = [];
+    doctors: Array<DoctorObject> = [];
+    name_id = -1;
+
+    constructor(data: ModelData, baseUrl: string) {
+
+        super(data, baseUrl);
+        this.fields = ['name', 'x', 'y', 'hospital', 'images', 'doctors', 'name_id']
+        this.getData()
+
+    }
+
+    async addPhoto(file: File) {
+        const formData = new FormData();
+
+
+        formData.append(
+            "image",
+            file,
+            file.name
+        );
+        formData.append(
+            'hospital',
+            this.id.toString()
+        )
+        let headers = {'Authorization': `Bearer ${getAuth()}`}
+
+        return await filePost(baseUrl + '/api/image/', formData, headers)
+    }
+
+
+}
+
 export class DoctorObject extends ModelObject {
     id: number = -1;
     name: string | undefined;
@@ -72,7 +110,7 @@ export class DoctorObject extends ModelObject {
     experience: number = -1;
     specialization: string | undefined;
     about: string | undefined;
-    image: { uri: string | undefined } = { uri: undefined };
+    image: { uri: string | undefined } = {uri: undefined};
 
     constructor(data: ModelData, baseUrl: string) {
         super(data, baseUrl);
