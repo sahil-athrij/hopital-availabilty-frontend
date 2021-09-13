@@ -290,7 +290,7 @@ body{
 .image {
     align-self: flex-end;
     height: 178px;
-    margin-left: auto;
+    margin-left: 24%;
     width: 42.99516908212561%;
 }
 
@@ -320,6 +320,7 @@ body{
 }
 
 .flex-row-1 {
+    margin-left: 52px;
     align-items: flex-start;
     display: flex;
     height: 132px;
@@ -342,7 +343,6 @@ body{
 
 .group {
     align-items: flex-end;
-    background-image: url(icons/rectangle@2x.svg);
     background-size: 100% 100%;
     display: flex;
     height: 63px;
@@ -351,13 +351,24 @@ body{
     padding: 9px 12px;
 }
 
+.group.blue {
+    background-image: url(icons/rectangle@2x.svg);
+}
+
+.group.red {
+    background-image: url(icons/rectangle@2x.svg);
+}
+
+.group.yellow {
+    background-image: url(icons/rectangle@2x.svg);
+}
+
 .icon-3 {
     height: 22px;
     width: 25px;
 }
 
-.text-2 {
-    align-self: flex-end;
+.stats-value {
     letter-spacing: 0.1rem;
     margin-top: 17px;
     min-height: 23px;
@@ -479,7 +490,7 @@ body{
     height: 214px;
     margin-left: 27px;
     margin-top: 32px;
-    width: 50.96618357487923%;
+    width: 89.966184%;
 }
 
 .communication-1 {
@@ -490,24 +501,35 @@ body{
 .message {
     align-items: flex-start;
     display: flex;
-    height: 50px;
-    justify-content: center;
-    margin-top: 15px;
+    height: 51px;
+    justify-content: left;
+    margin-top: 20px;
     overflow: hidden;
-    width: 50.96618357487923%;
+    width: 250.966184%;
 }
+
 
 .overlap-group-1 {
     align-items: flex-start;
-    background-color:
-            #eda1ab26;
     border-radius: 15px;
     display: flex;
     height: 52px;
     justify-content: flex-end;
-    margin-top: -1px;
+    margin-top: -7px;
     min-width: 52px;
     padding: 16.0px 16.0px;
+}
+
+.overlap-group-1.red {
+    background-color: #eda1ab26;
+}
+
+.overlap-group-1.blue {
+    background-color: #7acefa26;
+}
+
+.overlap-group-1.green {
+    background-color: #f7c48026;
 }
 
 .icon {
@@ -543,20 +565,7 @@ body{
     height: 50px;
     margin-top: 12px;
     overflow: hidden;
-    width: 48.79227053140097%;
-}
-
-.overlap-group-2 {
-    align-items: center;
-    background-color:
-            #7acefa26;
-    border-radius: 15px;
-    display: flex;
-    height: 52px;
-    margin-left: -1px;
-    margin-top: -1px;
-    min-width: 12.560386473429952%;
-    padding: 0 16px;
+    width: 165.792271%;
 }
 
 .flex-col-1 {
@@ -567,7 +576,7 @@ body{
     margin-left: 9px;
     margin-top: 2.0px;
     min-height: 40px;
-    width: 34.29951690821256%;
+    width: 54.299517%;
 }
 
 .audio-call {
@@ -585,22 +594,10 @@ body{
     align-items: flex-start;
     display: flex;
     height: 50px;
-    justify-content: center;
+    justify-content: left;
     margin-top: 12px;
     overflow: hidden;
-    width: 42.99516908212561%;
-}
-
-.overlap-group-3 {
-    align-items: center;
-    background-color:
-            #f7c48026;
-    border-radius: 15px;
-    display: flex;
-    height: 52px;
-    margin-top: -1px;
-    min-width: 12.560386473429952%;
-    padding: 0 16px;
+    width: 209.995169%
 }
 
 .icon-6 {
@@ -616,7 +613,7 @@ body{
     margin-left: 9px;
     margin-top: 2.0px;
     min-height: 40px;
-    width: 28.743961352657006%;
+    width: 34.743961%;
 }
 
 .video-call-1 {
@@ -633,12 +630,10 @@ body{
 .button {
     align-items: flex-start;
     display: flex;
-    height: 60px;
+    padding:1rem;
     justify-content: center;
-    margin-right: 4.0px;
-    margin-top: 42px;
-    overflow: hidden;
     width: 86.95652173913044%;
+    margin: 2.5rem auto 5rem auto;
 }
 
 .overlap-group3 {
@@ -712,4 +707,3 @@ body{
     flex-shrink: 0;
     pointer-events: auto;
 }
-
