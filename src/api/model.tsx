@@ -26,7 +26,7 @@ export class MarkerObject extends ModelObject {
     ventilator_availability: number = 0;
     lat: any;
     doctors : DoctorObject[] = [];
-
+    abount = ""
 
     constructor(data: ModelData, baseUrl: string) {
 
