@@ -15,12 +15,13 @@ import starsvg from '../../images/star.svg';
 import image from "./icons/image@2x.png"
 import icon from "./icons/icon-1@2x.png"
 import icon2 from "./icons/icon@2x.png"
-import vector1 from "./icons/vector-1@2x.png"
 import vector21 from "./icons/vector-21@2x.png"
 import vector5 from "./icons/vector-5@2x.png"
 import vector4 from "./icons/vector-4@2x.png"
 import vector26 from "./icons/vector-26@2x.png"
 import map_pin from "./icons/map-pin-backgroundmask@2x.png"
+
+import  { DepartmentCards } from "./DepatrmentCards"
 
 
 interface DetailsState extends AuthState {
@@ -128,7 +129,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                             <div className="about-2">
                                                 4.5
                                             </div>
-                                            <img className="icon" src={starsvg} />
+                                            <img alt={""} className="icon" src={starsvg} />
                                         </div>
                                         <p className="hospitalnamenunito-bold-lynch-14px">
                                             One of the leading Multi-Specialty Hospitals in Ernakulam with 3- Decades of service excellence&amp; with 300
@@ -153,6 +154,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                         </div>
 
                                     </div>
+                                    <DepartmentCards models={model.departments} />
                                 </div>
                             </div>
                         </div>
