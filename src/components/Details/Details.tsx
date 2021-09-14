@@ -37,6 +37,30 @@ interface DetailsState extends AuthState {
     show_review: boolean,
 }
 
+/* TODO use this code insted of the generated one.
+<div className="card-sec">
+
+
+                                <div className="card card-1">
+                                    <img src={doctorsvg} alt="doctor svg"/>
+                                    <p><b>1000+</b><br/>Doctors</p>
+                                </div>
+
+
+                                <div className="card card-1">
+                                    <img src={layoutsvg} alt="layout svg"/>
+                                    <p><b>good</b><br/>Layout</p>
+                                </div>
+
+
+                                <div className="card card-1">
+                                    <img src={reviewsvg} alt="review svg"/>
+                                    <p><b>4.5<br/></b>Ratings<br/>&amp; Reviews</p>
+                                </div>
+
+                            </div>
+* */
+
 class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
 
 
@@ -520,7 +544,7 @@ class Group6916 extends React.Component {
         return (
             <div className="group-6916">
                 <div className="group-6841">
-                    <TurnRight />
+                    <TurnRight/>
                 </div>
                 <div className="x1000nunito-semi-bold-ebony-clay-17px">
                     Phone
@@ -567,7 +591,7 @@ class Group6918 extends React.Component {
     render() {
         return (
             <div className="group-6918">
-                <Group6906 />
+                <Group6906/>
                 <div className="x45nunito-semi-bold-ebony-clay-17px">
                     Share
                 </div>
@@ -650,7 +674,7 @@ class Rectangle156 extends React.Component {
 
 class Quality extends React.Component {
     render() {
-        const { heading } = this.props;
+        const {heading} = this.props;
 
         return (
             <div className="quality">
@@ -667,7 +691,7 @@ class Quality extends React.Component {
 
 class Message extends React.Component {
     render() {
-        const { chatMeUpSharePh, className } = this.props;
+        const {chatMeUpSharePh, className} = this.props;
 
         return (
             <div className={`message-5 ${className || ""}`}>
@@ -695,15 +719,15 @@ class Message extends React.Component {
 
 class Group92 extends React.Component {
     render() {
-        const { star6, star7, star8, star9, star10, className } = this.props;
+        const {star6, star7, star8, star9, star10, className} = this.props;
 
         return (
             <div className={`group-92 ${className || ""}`}>
-                <img className="star-6" src={star6} />
-                <img className="star-1" src={star7} />
-                <img className="star-1" src={star8} />
-                <img className="star-9" src={star9} />
-                <img className="star-1" src={star10} />
+                <img className="star-6" src={star6}/>
+                <img className="star-1" src={star7}/>
+                <img className="star-1" src={star8}/>
+                <img className="star-9" src={star9}/>
+                <img className="star-1" src={star10}/>
             </div>
         );
     }
@@ -727,7 +751,7 @@ class Communication extends React.Component {
 
 class Group6903 extends React.Component {
     render() {
-        const { messageProps } = this.props;
+        const {messageProps} = this.props;
 
         return (
             <div className="group-6903">
@@ -834,7 +858,7 @@ class Group6905 extends React.Component {
 
 class Group6946 extends React.Component {
     render() {
-        const { className } = this.props;
+        const {className} = this.props;
 
         return (
             <div className={`group-6946 ${className || ""}`}>
@@ -843,9 +867,9 @@ class Group6946 extends React.Component {
                     src="round-1.png"
                 />
                 <div className="overlap-group-11">
-                    <Group6912 />
+                    <Group6912/>
                     <div className="overlap-group1-6">
-                        <TextMessage />
+                        <TextMessage/>
                         <div className="group-34-1">
                             <div className="time-1nunito-normal-ghost-14px">
                                 11-09-2021
@@ -903,15 +927,15 @@ class TextMessage extends React.Component {
 
 class Group6921 extends React.Component {
     render() {
-        const { icon, icon2, icon3, icon4, icon5, className } = this.props;
+        const {icon, icon2, icon3, icon4, icon5, className} = this.props;
 
         return (
             <div className={`group-6921-2 ${className || ""}`}>
-                <img className="icon-5" src={icon} />
-                <img className="icon-6" src={icon2} />
-                <img className="icon-7" src={icon3} />
-                <img className="icon-6" src={icon4} />
-                <img className="icon-7" src={icon5} />
+                <img className="icon-5" src={icon}/>
+                <img className="icon-6" src={icon2}/>
+                <img className="icon-7" src={icon3}/>
+                <img className="icon-6" src={icon4}/>
+                <img className="icon-7" src={icon5}/>
             </div>
         );
     }
@@ -920,14 +944,14 @@ class Group6921 extends React.Component {
 
 class Icon2 extends React.Component {
     render() {
-        const { icon, ventilator1, className } = this.props;
+        const {icon, ventilator1, className} = this.props;
 
         return (
             <div
                 className={`icon-9 ${className || ""}`}
-                style={{ backgroundImage: `url(${icon})` }}
+                style={{backgroundImage: `url(${icon})`}}
             >
-                <img className="ventilator-1-1" src={ventilator1} />
+                <img className="ventilator-1-1" src={ventilator1}/>
             </div>
         );
     }
@@ -936,7 +960,7 @@ class Icon2 extends React.Component {
 
 class Group6927 extends React.Component {
     render() {
-        const { className, group6921Props } = this.props;
+        const {className, group6921Props} = this.props;
 
         return (
             <div className={`group-6927 ${className || ""}`}>
@@ -959,7 +983,7 @@ class Group6927 extends React.Component {
 
 class About2 extends React.Component {
     render() {
-        const { icon } = this.props;
+        const {icon} = this.props;
 
         return (
             <div className="about">
@@ -970,10 +994,11 @@ class About2 extends React.Component {
                     <div className="about-2">
                         4.5
                     </div>
-                    <img className="icon-10" src={icon} />
+                    <img className="icon-10" src={icon}/>
                 </div>
                 <p className="hospitalnamenunito-bold-lynch-14px">
-                    One of the leading Multi-Specialty Hospitals in Ernakulam with 3- Decades of service excellence&amp; with 300
+                    One of the leading Multi-Specialty Hospitals in Ernakulam with 3- Decades of service
+                    excellence&amp; with 300
                     beds and a full complement of specialist doctors
                 </p>
             </div>
