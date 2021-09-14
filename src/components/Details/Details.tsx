@@ -1,25 +1,9 @@
 import {Marker, MarkerObject} from "../../api/model";
-import {
-    AiFillCheckCircle,
-    AiFillCloseCircle,
-    AiFillQuestionCircle,
-    AiOutlineInfoCircle,
-    BiPhoneOutgoing,
-    GrLocation,
-    IoPersonCircleSharp, MdAddAPhoto,
-    MdRateReview,
-    RiDirectionLine,
-    RiShareLine
-} from "react-icons/all";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import React from "react";
 
 import './details.css'
-import {Container, Row} from "react-bootstrap";
-import {StarRating} from "../cards/StarRating";
-import {Popover} from "@material-ui/core";
-import {CSSTransition} from "react-transition-group";
-import {FullScreenReview} from "../FullScreen/FullScreenReview";
+import {Container} from "react-bootstrap";
 import Loader from "react-loader-spinner";
 import {withRouter} from "react-router";
 
@@ -27,6 +11,59 @@ import doctorsvg from '../../images/doctor.svg';
 import layoutsvg from '../../images/layout.svg';
 import reviewsvg from '../../images/review.svg';
 import starsvg from '../../images/star.svg';
+
+import image from "hospital-page-reviews-hospital-page-doctors-image@2x.png"
+import icon from "hospital-page-reviews-doctors-details-icon-1@2x.png"
+import rectangle from "hospital-page-reviews-hospital-page-doctors-rectangle-2@2x.png"
+import vector2 from "hospital-page-reviews-vector-3@2x.png"
+import vector3 from "hospital-page-reviews-hospital-page-doctors-vector-4@2x.png"
+import vector4 from "hospital-page-reviews-vector-5@2x.png"
+import vector5 from "hospital-page-reviews-patients-vector-5@2x.png"
+import vector6 from "hospital-page-reviews-patients-vector-5@2x.png"
+import vector7 from "hospital-page-reviews-patients-vector-7@2x.png"
+import vector8 from "hospital-page-reviews-patients-vector-7@2x.png"
+import vector9 from "hospital-page-reviews-vector-10@2x.png"
+import vector10 from "hospital-page-reviews-patients-vector-9@2x.png"
+import vector11 from "hospital-page-reviews-vector-12@2x.png"
+import vector12 from "hospital-page-reviews-vector-13@2x.png"
+import vector13 from "hospital-page-reviews-hospital-page-doctors-vector-14@2x.png"
+import vector14 from "hospital-page-reviews-hospital-page-doctors-vector-15@2x.png"
+import vector15 from "hospital-page-reviews-patients-vector-14@2x.png"
+import vector16 from "hospital-page-reviews-hospital-page-doctors-vector-17@2x.png"
+import vector17 from "hospital-page-reviews-patients-vector-16@2x.png"
+import vector18 from "hospital-page-reviews-patients-vector-17@2x.png"
+import rectangle2 from "hospital-page-reviews-hospital-page-doctors-rectangle-2@2x.png"
+import rectangle3 from "hospital-page-reviews-rectangle-3@2x.png"
+import rating1 from "hospital-page-reviews-hospital-page-doctors-rating-1@2x.png"
+import audio from "hospital-page-reviews-hospital-page-audio-backgroundmask-1@2x.png"
+import icon2 from "hospital-page-reviews-rectangle-7@2x.png"
+import affordable1 from "hospital-page-reviews-affordable-1@2x.png"
+import round from "hospital-page-reviews-round-1@2x.png"
+import iconOutlineBackBackgroundMask from "hospital-page-reviews-icon-outline-back-backgroundmask@2x.png"
+import arrowChevron_Left from "hospital-page-reviews-arrow-chevronleft-2@2x.png"
+import message from "hospital-page-reviews-message-backgroundmask-3@2x.png"
+import oxygenMask1 from "hospital-page-reviews-oxygen-mask-1-2@2x.png"
+import rectangle4 from "hospital-page-reviews-rectangle-9@2x.png"
+import tickIcon from "hospital-page-reviews-union@2x.png"
+import tickIcon2 from "hospital-page-reviews-tick-icon@2x.png"
+import message2 from "hospital-page-reviews-message-backgroundmask-3@2x.png"
+import icon3 from "hospital-page-reviews-rectangle-10@2x.png"
+import intensivist1 from "hospital-page-reviews-intensivist-1@2x.png"
+import overlapGroup1 from "hospital-page-reviews-union-1@2x.png"
+import x from "hospital-page-reviews-x-backgroundmask@2x.png"
+import overlapGroup from "hospital-page-reviews-vector-32@2x.png"
+import vector19 from "hospital-page-reviews-vector-33@2x.png"
+import message3 from "hospital-page-reviews-message-backgroundmask-5@2x.png"
+import tickIcon3 from "hospital-page-reviews-union-2@2x.png"
+import helpCircle from "hospital-page-reviews-help-circle-backgroundmask@2x.png"
+import overlapGroup2 from "hospital-page-reviews-vector-34@2x.png"
+import vector20 from "hospital-page-reviews-vector-35@2x.png"
+import message4 from "hospital-page-reviews-message-backgroundmask-5@2x.png"
+import message5 from "hospital-page-reviews-message-backgroundmask-5@2x.png"
+import bg from "hospital-page-reviews-bg@2x.png"
+import lineBreak from "hospital-page-reviews-line-break-2@2x.png"
+import lineBreak2 from "hospital-page-reviews-line-break-2@2x.png"
+import lineBreak3 from "hospital-page-reviews-line-break-2@2x.png"
 
 interface DetailsState extends AuthState {
     id: number,
@@ -127,7 +164,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                             <div className="overlap-group14">
                                 <div
                                     className="overlap-group10"
-                                    style={{backgroundImage: `url(${overlapGroup10})`}}
+                                    {/* TODO move this to css  style={{backgroundImage: `url(${overlapGroup10})`}} */}
                                 >
                                     <div className="flex-row">
                                         <Back/>
