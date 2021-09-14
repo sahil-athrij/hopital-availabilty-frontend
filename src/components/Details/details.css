@@ -113,7 +113,7 @@
 .helvetica-bold-white-36px {
     color: var(--white);
     font-family: var(--font-family-helvetica);
-    font-size: 36;
+    font-size: 36px;
 }
 
 .nunito-semi-bold-storm-dust-16px {
@@ -127,7 +127,7 @@
 .nunito-bold-cape-cod-22px {
     color: var(--cape-cod);
     font-family: var(--font-family-nunito);
-    font-size: 22;
+    font-size: 22px;
     font-weight: 700;
     font-style: normal;
 }
@@ -135,7 +135,7 @@
 .nunito-normal-white-20px {
     color: var(--white);
     font-family: var(--font-family-nunito);
-    font-size: 20;
+    font-size: 20px;
     font-weight: 400;
     font-style: normal;
 }
@@ -159,7 +159,7 @@
 .lato-bold-oxford-blue-20px {
     color: var(--oxford-blue);
     font-family: var(--font-family-lato);
-    font-size: 20;
+    font-size: 20px;
     font-weight: 700;
     font-style: normal;
 }
@@ -175,7 +175,7 @@
 .nunito-bold-cerulean-34-4px {
     color: var(--cerulean);
     font-family: var(--font-family-nunito);
-    font-size: 34.38;
+    font-size: 34.38px;
     font-weight: 700;
     font-style: normal;
 }
@@ -199,7 +199,7 @@
 .roboto-normal-lynch-11px {
     color: var(--lynch);
     font-family: var(--font-family-roboto);
-    font-size: 11;
+    font-size: 11px;
     font-weight: 400;
     font-style: normal;
 }
@@ -223,7 +223,7 @@
 .nunito-normal-tangaroa-21-2px {
     color: var(--tangaroa);
     font-family: var(--font-family-nunito);
-    font-size: 21.25;
+    font-size: 21.25px;
     font-weight: 400;
     font-style: normal;
 }
@@ -295,7 +295,7 @@
 .nunito-bold-lynch-10px {
     color: var(--lynch);
     font-family: var(--font-family-nunito);
-    font-size: 10;
+    font-size: 10px;
     font-weight: 700;
     font-style: normal;
 }
@@ -303,7 +303,7 @@
 .nunito-bold-white-35px {
     color: var(--white);
     font-family: var(--font-family-nunito);
-    font-size: 35;
+    font-size: 35px;
     font-weight: 700;
     font-style: normal;
 }
@@ -311,13 +311,13 @@
 .helvetica-bold-absolute-zero-34-4px {
     color: var(--absolute-zero);
     font-family: var(--font-family-helvetica);
-    font-size: 34.38;
+    font-size: 34.38px;
 }
 
 .nunito-bold-abbey-38px {
     color: var(--abbey);
     font-family: var(--font-family-nunito);
-    font-size: 38;
+    font-size: 38px;
     font-weight: 700;
     font-style: normal;
 }
@@ -413,7 +413,7 @@
 .nunito-bold-mirage-21-2px {
     color: var(--mirage);
     font-family: var(--font-family-nunito);
-    font-size: 21.25;
+    font-size: 21.25px;
     font-weight: 700;
     font-style: normal;
 }
@@ -421,7 +421,7 @@
 .nunito-bold-licorice-36px {
     color: var(--licorice);
     font-family: var(--font-family-nunito);
-    font-size: 36;
+    font-size: 36px;
     font-weight: 700;
     font-style: normal;
 }
@@ -453,7 +453,7 @@
 .nunito-bold-white-22px {
     color: var(--white);
     font-family: var(--font-family-nunito);
-    font-size: 22;
+    font-size: 22px;
     font-weight: 700;
     font-style: normal;
 }
@@ -485,7 +485,7 @@
 .helvetica-bold-blueberry-36px {
     color: var(--blueberry);
     font-family: var(--font-family-helvetica);
-    font-size: 36;
+    font-size: 36px;
 }
 
 .nunito-normal-chicago-12px {
@@ -499,7 +499,7 @@
 .nunito-bold-oxford-blue-23px {
     color: var(--oxford-blue);
     font-family: var(--font-family-nunito);
-    font-size: 23;
+    font-size: 23px;
     font-weight: 700;
     font-style: normal;
 }
@@ -515,7 +515,7 @@
 .nunito-bold-tangaroa-64-8px {
     color: var(--tangaroa);
     font-family: var(--font-family-nunito);
-    font-size: 64.85;
+    font-size: 64.85px;
     font-weight: 700;
     font-style: normal;
 }
@@ -523,7 +523,7 @@
 .nunito-bold-tangaroa-40px {
     color: var(--tangaroa);
     font-family: var(--font-family-nunito);
-    font-size: 40;
+    font-size: 40px;
     font-weight: 700;
     font-style: normal;
 }
@@ -539,7 +539,7 @@
 .nunito-semi-bold-ebony-clay-20px {
     color: var(--ebony-clay);
     font-family: var(--font-family-nunito);
-    font-size: 20;
+    font-size: 20px;
     font-weight: 600;
     font-style: normal;
 }
@@ -563,7 +563,7 @@
 .helvetica-bold-absolute-zero-36px {
     color: var(--absolute-zero);
     font-family: var(--font-family-helvetica);
-    font-size: 36;
+    font-size: 36px;
 }
 
 .montserrat-bold-atomic-tangerine-16px {
@@ -593,7 +593,7 @@
 .nunito-bold-absolute-zero-36px {
     color: var(--absolute-zero);
     font-family: var(--font-family-nunito);
-    font-size: 36;
+    font-size: 36px;
     font-weight: 700;
     font-style: normal;
 }
@@ -609,7 +609,7 @@
 .roboto-normal-lynch-10px {
     color: var(--lynch);
     font-family: var(--font-family-roboto);
-    font-size: 10;
+    font-size: 10px;
     font-weight: 400;
     font-style: normal;
 }
@@ -617,7 +617,7 @@
 .sourcesanspro-bold-absolute-zero-22px {
     color: var(--absolute-zero);
     font-family: var(--font-family-source_sans_pro);
-    font-size: 22;
+    font-size: 22px;
     font-weight: 700;
     font-style: normal;
 }
@@ -625,7 +625,7 @@
 .helvetica-bold-cerulean-34-4px {
     color: var(--cerulean);
     font-family: var(--font-family-helvetica);
-    font-size: 34.38;
+    font-size: 34.38px;
 }
 
 .nunito-normal-pickled-bluewood-14px {
@@ -653,7 +653,7 @@
 .nunito-normal-granite-gray-20px {
     color: var(--granite-gray);
     font-family: var(--font-family-nunito);
-    font-size: 20;
+    font-size: 20px;
     font-weight: 400;
     font-style: normal;
 }
@@ -739,7 +739,7 @@
 .nunito-normal-abbey-26px {
     color: var(--abbey);
     font-family: var(--font-family-nunito);
-    font-size: 26;
+    font-size: 26px;
     font-weight: 400;
     font-style: normal;
 }
@@ -1711,7 +1711,7 @@
 }
 
 .back {
-    background-image: url(icons/hospital-page-reviews-doctors-details-rectangle@2x.png);
+    background-image: url(icons/hospital-page-reviews-rectangle@2x.png);
     background-size: 100% 100%;
     display: flex;
     height: 40px;
@@ -1737,7 +1737,7 @@
 }
 
 .group-6841 {
-    background-image: url(icons/hospital-page-reviews-doctors-ellipse-115@2x.png);
+    background-image: url(icons/hospital-page-reviews-ellipse-115@2x.png);
     background-size: 100% 100%;
     display: flex;
     height: 61px;
@@ -1769,7 +1769,7 @@
 }
 
 .turn-right {
-    background-image: url(icons/hospital-page-reviews-doctors-primary@2x.png);
+    background-image: url(icons/hospital-page-reviews-primary@2x.png);
     background-size: 100% 100%;
     height: 39px;
     margin-left: 5px;
@@ -1855,7 +1855,7 @@
 
 .share-2 {
     align-items: flex-start;
-    background-image: url(icons/hospital-page-reviews-doctors-share-2-backgroundmask@2x.png);
+    background-image: url(icons/hospital-page-reviews-share-2-backgroundmask@2x.png);
     background-size: 100% 100%;
     display: flex;
     margin-left: 14px;
@@ -1960,7 +1960,7 @@
 }
 
 .rectangle-156 {
-    background-image: url(icons/hospital-page-reviews-doctors-rectangle-156-mask@2x.png);
+    background-image: url(icons/hospital-page-reviews-rectangle-156-mask@2x.png);
     background-size: 100% 100%;
     display: flex;
     height: 58px;
@@ -1980,7 +1980,7 @@
 
 .quality {
     align-items: flex-start;
-    background-image: url(icons/hospital-page-reviews-doctors-details-working-time-backgroundmask@2x.png);
+    background-image: url(icons/hospital-page-reviews-quality-backgroundmask.png);
     background-size: 100% 100%;
     display: flex;
     height: 54px;
@@ -2153,7 +2153,7 @@
 
 .chart-heartbeat {
     align-items: flex-start;
-    background-image: url(icons/hospital-page-reviews-desktop-11-arrow-right-backgroundmask-1@2x.png);
+    background-image: url(icons/hospital-page-reviews-turnright-backgroundmask@2x.png);
     background-size: 100% 100%;
     display: flex;
     width: 24px;
@@ -2520,7 +2520,7 @@
 
 .about {
     align-items: flex-start;
-    background-image: url(icons/hospital-page-reviews-doctors-details-about-backgroundmask@2x.png);
+    background-image: url(icons/hospital-page-reviews-about-backgroundmask.png);
     background-size: 100% 100%;
     display: flex;
     flex-direction: column;
@@ -2577,7 +2577,7 @@
 
 .button {
     align-items: flex-start;
-    background-image: url(icons/hospital-page-reviews-button-backgroundmask@2x.png);
+    background-image: url(icons/hospital-page-reviews-button-backgroundmask.png);
     background-size: 100% 100%;
     display: flex;
     height: 60px;
@@ -2589,7 +2589,7 @@
 
 .overlap-group9 {
     align-items: flex-end;
-    background-image: url(icons/hospital-page-reviews-rectangle-14@2x.png);
+    background-image: url(icons/hospital-page-reviews-rectangle-14.png);
     background-size: 100% 100%;
     display: flex;
     height: 60px;
