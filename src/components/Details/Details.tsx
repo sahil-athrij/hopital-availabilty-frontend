@@ -501,5 +501,500 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
 
 }
 
+class Back extends React.Component {
+    render() {
+        return (
+            <div className="back">
+                <img
+                    className="icon-3"
+                    src="hospital-page-doctors-icon.png"
+                />
+            </div>
+        );
+    }
+}
+
+
+class Group6916 extends React.Component {
+    render() {
+        return (
+            <div className="group-6916">
+                <div className="group-6841">
+                    <TurnRight />
+                </div>
+                <div className="x1000nunito-semi-bold-ebony-clay-17px">
+                    Phone
+                </div>
+            </div>
+        );
+    }
+}
+
+
+class TurnRight extends React.Component {
+    render() {
+        return (
+            <div className="turnright">
+                <div className="turn-right"></div>
+            </div>
+        );
+    }
+}
+
+
+class Group6907 extends React.Component {
+    render() {
+        return (
+            <div className="group-6907">
+                <div className="map-pin">
+                    <div className="overlap-group-5">
+                        <img
+                            className="vector-20"
+                            src="vector-1.png"
+                        />
+                    </div>
+                </div>
+                <div className="viralogistnunito-semi-bold-lynch-14px">
+                    Kakkanad,Pallinada, Kannayanur,Kerala
+                </div>
+            </div>
+        );
+    }
+}
+
+
+class Group6918 extends React.Component {
+    render() {
+        return (
+            <div className="group-6918">
+                <Group6906 />
+                <div className="x45nunito-semi-bold-ebony-clay-17px">
+                    Share
+                </div>
+            </div>
+        );
+    }
+}
+
+
+class Group6906 extends React.Component {
+    render() {
+        return (
+            <div className="group-6906">
+                <div className="share-2">
+                    <div className="overlap-group-6">
+                        <img
+                            className="vector-21"
+                            src="hospital-page-doctors-vector-21.png"
+                        />
+                        <img
+                            className="vector-22"
+                            src="hospital-page-doctors-vector-21.png"
+                        />
+                        <img
+                            className="vector-23"
+                            src="hospital-page-doctors-vector-21.png"
+                        />
+                        <img
+                            className="vector-24"
+                            src="hospital-page-vector-4.png"
+                        />
+                        <img
+                            className="vector-25"
+                            src="hospital-page-vector-5.png"
+                        />
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
+
+
+class Group6917 extends React.Component {
+    render() {
+        return (
+            <div className="group-6917">
+                <div className="group-6839">
+                    <div className="overlap-group-7">
+                        <img
+                            className="vector-26"
+                            src="vector-26.png"
+                        />
+                    </div>
+                </div>
+                <div
+                    className="x10-yrs-1nunito-semi-bold-ebony-clay-16px"
+                >
+                    Route Map
+                </div>
+            </div>
+        );
+    }
+}
+
+
+class Rectangle156 extends React.Component {
+    render() {
+        return (
+            <div className="rectangle-156">
+                <img
+                    className="rectangle-156-1"
+                    src="hospital-page-doctors-rectangle-156.png"
+                />
+            </div>
+        );
+    }
+}
+
+
+class Quality extends React.Component {
+    render() {
+        const { heading } = this.props;
+
+        return (
+            <div className="quality">
+                <div
+                    className="heading-1nunito-semi-bold-ebony-clay-18px"
+                >
+                    {heading}
+                </div>
+            </div>
+        );
+    }
+}
+
+
+class Message extends React.Component {
+    render() {
+        const { chatMeUpSharePh, className } = this.props;
+
+        return (
+            <div className={`message-5 ${className || ""}`}>
+                <div className="overlap-group-8">
+                    <img
+                        className="oxygen-mask-1-1"
+                        src="hospital-page-oxygen-mask-1.png"
+                    />
+                </div>
+                <div className="flex-col-2">
+                    <div className="messaging-5nunito-bold-ebony-clay-16px">
+                        Oxygen
+                    </div>
+                    <div
+                        className="chat-me-up-share-ph-2nunito-bold-lynch-12px"
+                    >
+                        {chatMeUpSharePh}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
+
+
+class Group92 extends React.Component {
+    render() {
+        const { star6, star7, star8, star9, star10, className } = this.props;
+
+        return (
+            <div className={`group-92 ${className || ""}`}>
+                <img className="star-6" src={star6} />
+                <img className="star-1" src={star7} />
+                <img className="star-1" src={star8} />
+                <img className="star-9" src={star9} />
+                <img className="star-1" src={star10} />
+            </div>
+        );
+    }
+}
+
+
+class Communication extends React.Component {
+    render() {
+        return (
+            <div className="communication">
+                <div
+                    className="availabilitynunito-semi-bold-ebony-clay-18px"
+                >
+                    Infrastructure Availability
+                </div>
+            </div>
+        );
+    }
+}
+
+
+class Group6903 extends React.Component {
+    render() {
+        const { messageProps } = this.props;
+
+        return (
+            <div className="group-6903">
+                <Message
+                    chatMeUpSharePh={messageProps.chatMeUpSharePh}
+                    className={messageProps.className}
+                />
+                <div className="percentnunito-bold-ebony-clay-18px">
+                    0%
+                </div>
+            </div>
+        );
+    }
+}
+
+
+class Group6904 extends React.Component {
+    render() {
+        return (
+            <div className="group-6904">
+                <div className="audio-1">
+                    <div className="overlap-group1-5">
+                        <div className="chart-heartbeat">
+                            <div className="overlap-group-9">
+                                <img
+                                    className="vector-27"
+                                    src="vector-20.png"
+                                />
+                                <img
+                                    className="vector-28"
+                                    src="vector-21.png"
+                                />
+                                <img
+                                    className="vector-29"
+                                    src="hospital-page-vector-8.png"
+                                />
+                                <img
+                                    className="vector-30"
+                                    src="hospital-page-vector-9.png"
+                                />
+                                <img
+                                    className="vector-31"
+                                    src="hospital-page-vector-10.png"
+                                />
+                                <img
+                                    className="vector-32"
+                                    src="vector-25.png"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex-col-3">
+                        <div
+                            className="audio-call-1nunito-bold-ebony-clay-16px"
+                        >
+                            ICU
+                        </div>
+                        <div
+                            className="call-your-doctor-dir-1nunito-bold-lynch-12px"
+                        >
+                            Availability&nbsp;&nbsp;0%.
+                        </div>
+                    </div>
+                </div>
+                <div className="percent-1nunito-bold-ebony-clay-18px">
+                    0%
+                </div>
+            </div>
+        );
+    }
+}
+
+
+class Group6905 extends React.Component {
+    render() {
+        return (
+            <div className="group-6905">
+                <div className="video-call">
+                    <div className="overlap-group-10">
+                        <img
+                            className="ventilator-1"
+                            src="hospital-page-ventilator-1.png"
+                        />
+                    </div>
+                    <div className="flex-col-4">
+                        <div
+                            className="descriptionnunito-bold-ebony-clay-16px"
+                        >
+                            Ventilator
+                        </div>
+                        <div className="description-1nunito-bold-lynch-12px">
+                            Availability 0%.
+                        </div>
+                    </div>
+                </div>
+                <div className="percent-2nunito-bold-ebony-clay-18px">
+                    0%
+                </div>
+            </div>
+        );
+    }
+}
+
+
+class Group6946 extends React.Component {
+    render() {
+        const { className } = this.props;
+
+        return (
+            <div className={`group-6946 ${className || ""}`}>
+                <img
+                    className="round-1"
+                    src="round-1.png"
+                />
+                <div className="overlap-group-11">
+                    <Group6912 />
+                    <div className="overlap-group1-6">
+                        <TextMessage />
+                        <div className="group-34-1">
+                            <div className="time-1nunito-normal-ghost-14px">
+                                11-09-2021
+                            </div>
+                            <div className="icon-outline-back-1">
+                                <div className="overlap-group-12">
+                                    <img
+                                        className="icon-outline-ba-background-mask-1"
+                                        src="icon-outline-back-backgroundmask.png"
+                                    />
+                                    <img
+                                        className="arrow-chevronleft-1"
+                                        src="arrow-chevronleft-1.png"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
+
+
+class Group6912 extends React.Component {
+    render() {
+        return (
+            <div className="group-6912">
+                <div className="textnunito-normal-pale-sky-14px">
+                    4.5
+                </div>
+                <img
+                    className="icon-4"
+                    src="hospital-page-icon-4.png"
+                />
+            </div>
+        );
+    }
+}
+
+
+class TextMessage extends React.Component {
+    render() {
+        return (
+            <div className="text-message">
+                <div className="titlenunito-semi-bold-mine-shaft-16px">
+                    Roger Hulg
+                </div>
+            </div>
+        );
+    }
+}
+
+
+class Group6921 extends React.Component {
+    render() {
+        const { icon, icon2, icon3, icon4, icon5, className } = this.props;
+
+        return (
+            <div className={`group-6921-2 ${className || ""}`}>
+                <img className="icon-5" src={icon} />
+                <img className="icon-6" src={icon2} />
+                <img className="icon-7" src={icon3} />
+                <img className="icon-6" src={icon4} />
+                <img className="icon-7" src={icon5} />
+            </div>
+        );
+    }
+}
+
+
+class Icon2 extends React.Component {
+    render() {
+        const { icon, ventilator1, className } = this.props;
+
+        return (
+            <div
+                className={`icon-9 ${className || ""}`}
+                style={{ backgroundImage: `url(${icon})` }}
+            >
+                <img className="ventilator-1-1" src={ventilator1} />
+            </div>
+        );
+    }
+}
+
+
+class Group6927 extends React.Component {
+    render() {
+        const { className, group6921Props } = this.props;
+
+        return (
+            <div className={`group-6927 ${className || ""}`}>
+                <div className="text-3nunito-normal-pale-sky-12px">
+                    4.5
+                </div>
+                <Group6921
+                    icon={group6921Props.icon}
+                    icon2={group6921Props.icon2}
+                    icon3={group6921Props.icon3}
+                    icon4={group6921Props.icon4}
+                    icon5={group6921Props.icon5}
+                    className={group6921Props.className}
+                />
+            </div>
+        );
+    }
+}
+
+
+class About2 extends React.Component {
+    render() {
+        const { icon } = this.props;
+
+        return (
+            <div className="about">
+                <div className="flex-row-1nunito-semi-bold-ebony-clay-18px">
+                    <div className="about-1">
+                        About
+                    </div>
+                    <div className="about-2">
+                        4.5
+                    </div>
+                    <img className="icon-10" src={icon} />
+                </div>
+                <p className="hospitalnamenunito-bold-lynch-14px">
+                    One of the leading Multi-Specialty Hospitals in Ernakulam with 3- Decades of service excellence&amp; with 300
+                    beds and a full complement of specialist doctors
+                </p>
+            </div>
+        );
+    }
+}
+
+
+class Button extends React.Component {
+    render() {
+        return (
+            <div className="button">
+                <div className="overlap-group9">
+                    <div className="button-1nunito-bold-white-16px">
+                        Write a Review
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
+
 
 export const Details = withRouter(DetailsLoc)
