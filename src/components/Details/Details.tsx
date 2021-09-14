@@ -12,58 +12,72 @@ import layoutsvg from '../../images/layout.svg';
 import reviewsvg from '../../images/review.svg';
 import starsvg from '../../images/star.svg';
 
-import image from "hospital-page-reviews-hospital-page-doctors-image@2x.png"
-import icon from "hospital-page-reviews-doctors-details-icon-1@2x.png"
-import rectangle from "hospital-page-reviews-hospital-page-doctors-rectangle-2@2x.png"
-import vector2 from "hospital-page-reviews-vector-3@2x.png"
-import vector3 from "hospital-page-reviews-hospital-page-doctors-vector-4@2x.png"
-import vector4 from "hospital-page-reviews-vector-5@2x.png"
-import vector5 from "hospital-page-reviews-patients-vector-5@2x.png"
-import vector6 from "hospital-page-reviews-patients-vector-5@2x.png"
-import vector7 from "hospital-page-reviews-patients-vector-7@2x.png"
-import vector8 from "hospital-page-reviews-patients-vector-7@2x.png"
-import vector9 from "hospital-page-reviews-vector-10@2x.png"
-import vector10 from "hospital-page-reviews-patients-vector-9@2x.png"
-import vector11 from "hospital-page-reviews-vector-12@2x.png"
-import vector12 from "hospital-page-reviews-vector-13@2x.png"
-import vector13 from "hospital-page-reviews-hospital-page-doctors-vector-14@2x.png"
-import vector14 from "hospital-page-reviews-hospital-page-doctors-vector-15@2x.png"
-import vector15 from "hospital-page-reviews-patients-vector-14@2x.png"
-import vector16 from "hospital-page-reviews-hospital-page-doctors-vector-17@2x.png"
-import vector17 from "hospital-page-reviews-patients-vector-16@2x.png"
-import vector18 from "hospital-page-reviews-patients-vector-17@2x.png"
-import rectangle2 from "hospital-page-reviews-hospital-page-doctors-rectangle-2@2x.png"
-import rectangle3 from "hospital-page-reviews-rectangle-3@2x.png"
-import rating1 from "hospital-page-reviews-hospital-page-doctors-rating-1@2x.png"
-import audio from "hospital-page-reviews-hospital-page-audio-backgroundmask-1@2x.png"
-import icon2 from "hospital-page-reviews-rectangle-7@2x.png"
-import affordable1 from "hospital-page-reviews-affordable-1@2x.png"
-import round from "hospital-page-reviews-round-1@2x.png"
-import iconOutlineBackBackgroundMask from "hospital-page-reviews-icon-outline-back-backgroundmask@2x.png"
-import arrowChevron_Left from "hospital-page-reviews-arrow-chevronleft-2@2x.png"
-import message from "hospital-page-reviews-message-backgroundmask-3@2x.png"
-import oxygenMask1 from "hospital-page-reviews-oxygen-mask-1-2@2x.png"
-import rectangle4 from "hospital-page-reviews-rectangle-9@2x.png"
-import tickIcon from "hospital-page-reviews-union@2x.png"
-import tickIcon2 from "hospital-page-reviews-tick-icon@2x.png"
-import message2 from "hospital-page-reviews-message-backgroundmask-3@2x.png"
-import icon3 from "hospital-page-reviews-rectangle-10@2x.png"
-import intensivist1 from "hospital-page-reviews-intensivist-1@2x.png"
-import overlapGroup1 from "hospital-page-reviews-union-1@2x.png"
-import x from "hospital-page-reviews-x-backgroundmask@2x.png"
-import overlapGroup from "hospital-page-reviews-vector-32@2x.png"
-import vector19 from "hospital-page-reviews-vector-33@2x.png"
-import message3 from "hospital-page-reviews-message-backgroundmask-5@2x.png"
-import tickIcon3 from "hospital-page-reviews-union-2@2x.png"
-import helpCircle from "hospital-page-reviews-help-circle-backgroundmask@2x.png"
-import overlapGroup2 from "hospital-page-reviews-vector-34@2x.png"
-import vector20 from "hospital-page-reviews-vector-35@2x.png"
-import message4 from "hospital-page-reviews-message-backgroundmask-5@2x.png"
-import message5 from "hospital-page-reviews-message-backgroundmask-5@2x.png"
-import bg from "hospital-page-reviews-bg@2x.png"
-import lineBreak from "hospital-page-reviews-line-break-2@2x.png"
-import lineBreak2 from "hospital-page-reviews-line-break-2@2x.png"
-import lineBreak3 from "hospital-page-reviews-line-break-2@2x.png"
+import image from "icons/hospital-page-reviews-image@2x.png"
+import icon from "icons/hospital-page-reviews-icon-1@2x.png"
+import rectangle from "icons/hospital-page-reviews-rectangle-2@2x.png"
+import vector2 from "icons/hospital-page-reviews-vector-3@2x.png"
+import vector3 from "icons/hospital-page-reviews-vector-4@2x.png"
+import vector4 from "icons/hospital-page-reviews-vector-5@2x.png"
+import vector5 from "icons/hospital-page-reviews-vector-5@2x.png"
+import vector6 from "icons/hospital-page-reviews-vector-5@2x.png"
+import vector7 from "icons/hospital-page-reviews-vector-7@2x.png"
+import vector8 from "icons/hospital-page-reviews-vector-7@2x.png"
+import vector9 from "icons/hospital-page-reviews-vector-10@2x.png"
+import vector10 from "icons/hospital-page-reviews-vector-9@2x.png"
+import vector11 from "icons/hospital-page-reviews-vector-12@2x.png"
+import vector12 from "icons/hospital-page-reviews-vector-13@2x.png"
+import vector13 from "icons/hospital-page-reviews-vector-14@2x.png"
+import vector14 from "icons/hospital-page-reviews-vector-15@2x.png"
+import vector15 from "icons/hospital-page-reviews-vector-14@2x.png"
+import vector16 from "icons/hospital-page-reviews-vector-17@2x.png"
+import vector17 from "icons/hospital-page-reviews-vector-16@2x.png"
+import vector18 from "icons/hospital-page-reviews-vector-17@2x.png"
+import rectangle2 from "icons/hospital-page-reviews-rectangle-2@2x.png"
+import rectangle3 from "icons/hospital-page-reviews-rectangle-3@2x.png"
+import rating1 from "icons/hospital-page-reviews-rating-1@2x.png"
+import audio from "icons/hospital-page-reviews-audio-backgroundmask-1@2x.png"
+import icon2 from "icons/hospital-page-reviews-rectangle-7@2x.png"
+import affordable1 from "icons/hospital-page-reviews-affordable-1@2x.png"
+import round from "icons/hospital-page-reviews-round-1@2x.png"
+import iconOutlineBackBackgroundMask from "icons/hospital-page-reviews-icon--outline--back-backgroundmask@2x.png"
+import arrowChevron_Left from "icons/hospital-page-reviews-arrow--chevronleft-2@2x.png"
+import message from "icons/hospital-page-reviews-message-backgroundmask-3@2x.png"
+import oxygenMask1 from "icons/hospital-page-reviews-oxygen-mask-1-2@2x.png"
+import rectangle4 from "icons/hospital-page-reviews-rectangle-9@2x.png"
+import tickIcon from "icons/hospital-page-reviews-union@2x.png"
+import tickIcon2 from "icons/hospital-page-reviews-tick-icon@2x.png"
+import message2 from "icons/hospital-page-reviews-message-backgroundmask-3@2x.png"
+import icon3 from "icons/hospital-page-reviews-rectangle-10@2x.png"
+import intensivist1 from "icons/hospital-page-reviews-intensivist-1@2x.png"
+import overlapGroup1 from "icons/hospital-page-reviews-union-1@2x.png"
+import x from "icons/hospital-page-reviews-x-backgroundmask@2x.png"
+import overlapGroup from "icons/hospital-page-reviews-vector-32@2x.png"
+import vector19 from "icons/hospital-page-reviews-vector-33@2x.png"
+import message3 from "icons/hospital-page-reviews-message-backgroundmask-5@2x.png"
+import tickIcon3 from "icons/hospital-page-reviews-union-2@2x.png"
+import helpCircle from "icons/hospital-page-reviews-help-circle-backgroundmask@2x.png"
+import overlapGroup2 from "icons/hospital-page-reviews-vector-34@2x.png"
+import vector20 from "icons/hospital-page-reviews-vector-35@2x.png"
+import message4 from "icons/hospital-page-reviews-message-backgroundmask-5@2x.png"
+import message5 from "icons/hospital-page-reviews-message-backgroundmask-5@2x.png"
+import bg from "icons/hospital-page-reviews-bg.png"
+import lineBreak from "icons/hospital-page-reviews-line-break-2@2x.png"
+import lineBreak2 from "icons/hospital-page-reviews-line-break-2@2x.png"
+import lineBreak3 from "icons/hospital-page-reviews-line-break-2@2x.png"
+import group92data_star from "icons/hospital-page-reviews-star-7-1@2x.png"
+import group6921data_icon from "icons/hospital-page-reviews-icon-8@2x.png"
+import group6921data_icon1 from "icons/hospital-page-reviews-icon-10@2x.png"
+import group69212data_icon from "icons/hospital-page-reviews-icon-14@2x.png"
+import group69212data_icon1 from "icons/hospital-page-reviews-icon-15@2x.png"
+import icon2data_icon from "icons/hospital-page-reviews-rectangle-11@2x.png"
+import icon2data_icon1 from "icons/hospital-page-reviews-ventilator-1-1@2x.png"
+import icon22data_icon from "icons/hospital-page-reviews-rectangle-12@2x.png"
+import icon22data_icon1 from "icons/hospital-page-reviews-healthcare-1@2x.png"
+import icon23data_icon from "icons/hospital-page-reviews-rectangle-13@2x.png"
+import icon23data_icon1 from "icons/hospital-page-reviews-affordable-1-1@2x.png"
+import about2data_icon from "icons/hospital-page-reviews-icon-2@2x.png"
+import group6921_icon18 from "icons/hospital-page-reviews-icon-18@2x.png"
+import group6921_icon20 from "icons/hospital-page-reviews-icon-20@2x.png"
 
 interface DetailsState extends AuthState {
     id: number,
@@ -164,7 +178,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                             <div className="overlap-group14">
                                 <div
                                     className="overlap-group10"
-                                    {/* TODO move this to css  style={{backgroundImage: `url(${overlapGroup10})`}} */}
+                                  
                                 >
                                     <div className="flex-row">
                                         <Back/>
@@ -211,29 +225,29 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                             <img className="rectangle-2" src={rectangle3}/>
                                         </div>
                                         <div className="patientsnunito-bold-lynch-12px">
-                                            {patients}
+                                            Doctors
                                         </div>
                                         <div
                                             className="text-1nunito-semi-bold-ebony-clay-17px"
                                         >
-                                            {text18}
+                                            {/*{1000+}TODO find value from server*/}
                                         </div>
                                         <div className="experiencenunito-bold-lynch-12px">
-                                            {experience}
+                                            Layout
                                         </div>
                                         <div
                                             className="x10-yrsnunito-semi-bold-ebony-clay-16px"
                                         >
-                                            {x10Yrs}
+                                            good
                                         </div>
                                         <Rectangle156/>
                                         <div className="ratingsnunito-bold-lynch-12px">
-                                            {ratings}
+                                            Ratings <br />&amp; Reviews
                                         </div>
                                         <div
                                             className="text-2nunito-semi-bold-ebony-clay-17px"
                                         >
-                                            {text19}
+                                            {/*{4.5}TODO find value from server*/}
                                         </div>
                                         <img className="rating-1" src={rating1}/>
                                     </div>
@@ -242,27 +256,27 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                             <div className="overlap-group2-1">
                                                 <div className="overlap-group4">
                                                     <Quality
-                                                        heading={qualityProps.heading}
+                                                        heading={"Infrastructure Quality"}
                                                     />
                                                     <Message
-                                                        chatMeUpSharePh={messageProps.chatMeUpSharePh}
+                                                        chatMeUpSharePh={"Ratings 1.0"/*TODO fetch value from server*/}
                                                     />
                                                 </div>
                                                 <div className="flex-col">
                                                     <Group92
-                                                        star6={group92Props.star6}
-                                                        star7={group92Props.star7}
-                                                        star8={group92Props.star8}
-                                                        star9={group92Props.star9}
-                                                        star10={group92Props.star10}
+                                                        star6={group92data_star}
+                                                        star7={group92data_star}
+                                                        star8={group92data_star}
+                                                        star9={group92data_star}
+                                                        star10={group92data_star}
                                                     />
                                                     <Group92
-                                                        star6={group922Props.star6}
-                                                        star7={group922Props.star7}
-                                                        star8={group922Props.star8}
-                                                        star9={group922Props.star9}
-                                                        star10={group922Props.star10}
-                                                        className={group922Props.className}
+                                                        star6={group92data_star}
+                                                        star7={group92data_star}
+                                                        star8={group92data_star}
+                                                        star9={group92data_star}
+                                                        star10={group92data_star}
+                                                        className={"group-6910"}
                                                     />
                                                 </div>
                                             </div>
@@ -283,12 +297,12 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                                     <div
                                                         className="audio-callnunito-bold-ebony-clay-16px"
                                                     >
-                                                        {audioCall}
+                                                        Affordability
                                                     </div>
                                                     <div
                                                         className="call-your-doctor-dirnunito-bold-lynch-12px"
                                                     >
-                                                        {callYourDoctorDir}
+                                                        {/*{callYourDoctorDir}TODO fetch value from server*/}
                                                     </div>
                                                 </div>
                                             </div>
@@ -296,7 +310,10 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                         <div className="overlap-group3">
                                             <Communication/>
                                             <Group6903
-                                                messageProps={group6903Props.messageProps}
+                                                messageProps={{
+                                                    chatMeUpSharePh: "Oxygen",
+                                                    className: "message-6",
+                                                }}
                                             />
                                             <Group6904/>
                                             <Group6905/>
@@ -304,7 +321,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                         <div
                                             className="headingnunito-semi-bold-ebony-clay-18px"
                                         >
-                                            {heading}
+                                            Ratings and Reviews
                                         </div>
                                     </div>
                                     <Group6946/>
@@ -319,7 +336,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                                         <div
                                                             className="timenunito-normal-ghost-14px"
                                                         >
-                                                            {time}
+                                                            {/*{time}TODO fetch value from server*/}
                                                         </div>
                                                         <div className="icon-outline-back">
                                                             <div className="overlap-group-1">
@@ -356,13 +373,13 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                                     <div
                                                         className="availablenunito-bold-lynch-12px"
                                                     >
-                                                        {available}
+                                                        {/*{available}TODO fetch value from server*/}
                                                     </div>
                                                     <div className="group-6956">
                                                         <div
                                                             className="messagingnunito-bold-ebony-clay-14px"
                                                         >
-                                                            {messaging}
+                                                            Oxygen Availability
                                                         </div>
                                                         <div
                                                             className="tick-icon"
@@ -380,14 +397,14 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                                 <div
                                                     className="text-6nunito-normal-pale-sky-12px"
                                                 >
-                                                    {text23}
+                                                    {/*{text23}TODO fetch value from server*/}
                                                 </div>
                                                 <Group6921
-                                                    icon={group6921Props.icon}
-                                                    icon2={group6921Props.icon2}
-                                                    icon3={group6921Props.icon3}
-                                                    icon4={group6921Props.icon4}
-                                                    icon5={group6921Props.icon5}
+                                                    icon={group6921data_icon}
+                                                    icon2={group6921data_icon}
+                                                    icon3={group6921data_icon}
+                                                    icon4={group6921data_icon1}
+                                                    icon5={group6921data_icon1}
                                                 />
                                             </div>
                                         </div>
@@ -410,13 +427,13 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                                 <div
                                                     className="messaging-1nunito-bold-ebony-clay-14px"
                                                 >
-                                                    {messaging2}
+                                                    ICU Availability
                                                 </div>
                                                 <div className="group-6957">
                                                     <div
                                                         className="chat-me-up-share-phnunito-bold-lynch-12px"
                                                     >
-                                                        {chatMeUpSharePh}
+                                                        {/*{chatMeUpSharePh}TODO fetch value from server*/}
                                                     </div>
                                                     <div
                                                         className="overlap-group1-3"
@@ -442,14 +459,14 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                         </div>
                                         <div className="group-6925">
                                             <div className="text-7">
-                                                {text24}
+                                                {/*{text24}TODO fetch value from server*/}
                                             </div>
                                             <Group6921
-                                                icon={group69212Props.icon}
-                                                icon2={group69212Props.icon2}
-                                                icon3={group69212Props.icon3}
-                                                icon4={group69212Props.icon4}
-                                                icon5={group69212Props.icon5}
+                                                icon={group69212data_icon}
+                                                icon2={group69212data_icon}
+                                                icon3={group69212data_icon}
+                                                icon4={group69212data_icon}
+                                                icon5={group69212data_icon1}
                                             />
                                         </div>
                                     </div>
@@ -458,8 +475,8 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                         style={{backgroundImage: `url(${message3})`}}
                                     >
                                         <Icon2
-                                            icon={icon2Props.icon}
-                                            ventilator1={icon2Props.ventilator1}
+                                            icon={icon2data_icon}
+                                            ventilator1={icon2data_icon1}
                                         />
                                         <div className="overlap-group2-2">
                                             <div className="overlap-group1-4">
@@ -470,7 +487,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                                 <div
                                                     className="chat-me-up-share-ph-1nunito-bold-lynch-12px"
                                                 >
-                                                    {chatMeUpSharePh2}
+                                                    {/*{chatMeUpSharePh2}TODO fetch value from the server*/}
                                                 </div>
                                                 <div
                                                     className="help-circle"
@@ -490,7 +507,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                             <div
                                                 className="messaging-2nunito-bold-ebony-clay-14px"
                                             >
-                                                {messaging3}
+                                                Ventilator Availability
                                             </div>
                                         </div>
                                     </div>
@@ -500,18 +517,25 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                             style={{backgroundImage: `url(${message4})`}}
                                         >
                                             <Icon2
-                                                icon={icon22Props.icon}
-                                                ventilator1={icon22Props.ventilator1}
-                                                className={icon22Props.className}
+                                                icon={icon22data_icon}
+                                                ventilator1={icon22data_icon1}
+                                                className={"icon-8"}
                                             />
                                             <div
                                                 className="messaging-3nunito-bold-ebony-clay-14px"
                                             >
-                                                {messaging4}
+                                                Care Rating
                                             </div>
                                         </div>
                                         <Group6927
-                                            group6921Props={group6927Props.group6921Props}
+                                            group6921Props={{
+                                                icon: group6921_icon18,
+                                                icon2:group6921_icon18,
+                                                icon3:group6921_icon18,
+                                                icon4: group6921_icon20,
+                                                icon5: group6921_icon20,
+                                                className: "group-6921-1",
+                                            }}
                                         />
                                     </div>
                                     <div className="group-6953">
@@ -520,30 +544,37 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                             style={{backgroundImage: `url(${message5})`}}
                                         >
                                             <Icon2
-                                                icon={icon23Props.icon}
-                                                ventilator1={icon23Props.ventilator1}
-                                                className={icon23Props.className}
+                                                icon={icon23data_icon}
+                                                ventilator1={icon23data_icon1}
+                                                className={"icon-8"}
                                             />
                                             <div
                                                 className="messaging-4nunito-bold-ebony-clay-14px"
                                             >
-                                                {messaging5}
+                                                Affordability Rating
                                             </div>
                                         </div>
                                         <Group6927
-                                            className={group69272Props.className}
-                                            group6921Props={group69272Props.group6921Props}
+                                            className={"group-6927-1"}
+                                            group6921Props={{
+                                                icon: group6921_icon18,
+                                                icon2:group6921_icon18,
+                                                icon3:group6921_icon18,
+                                                icon4: group6921_icon20,
+                                                icon5: group6921_icon20,
+                                                className: "group-6921-1",
+                                            }}
                                         />
                                     </div>
                                     <Group6946
-                                        className={group6946Props.className}
+                                        className={"group-6963"}
                                     />
                                 </div>
                                 <img className="bg" src={bg}/>
                                 <div className="dr-bellamy-nicholas">
-                                    {drBellamyNicholas}
+                                    {/*{drBellamyNicholas}TODO fetch value from server*/}
                                 </div>
-                                <About2 icon={about2Props.icon}/>
+                                <About2 icon={about2data_icon}/>
                                 <img className="line-break" src={lineBreak}/>
                                 <img className="line-break-1" src={lineBreak2}/>
                                 <img className="line-break-2" src={lineBreak3}/>
