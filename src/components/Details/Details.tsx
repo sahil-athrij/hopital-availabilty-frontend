@@ -12,72 +12,16 @@ import layoutsvg from '../../images/layout.svg';
 import reviewsvg from '../../images/review.svg';
 import starsvg from '../../images/star.svg';
 
-import image from "icons/hospital-page-reviews-image@2x.png"
-import icon from "icons/hospital-page-reviews-icon-1@2x.png"
-import rectangle from "icons/hospital-page-reviews-rectangle-2@2x.png"
-import vector2 from "icons/hospital-page-reviews-vector-3@2x.png"
-import vector3 from "icons/hospital-page-reviews-vector-4@2x.png"
-import vector4 from "icons/hospital-page-reviews-vector-5@2x.png"
-import vector5 from "icons/hospital-page-reviews-vector-5@2x.png"
-import vector6 from "icons/hospital-page-reviews-vector-5@2x.png"
-import vector7 from "icons/hospital-page-reviews-vector-7@2x.png"
-import vector8 from "icons/hospital-page-reviews-vector-7@2x.png"
-import vector9 from "icons/hospital-page-reviews-vector-10@2x.png"
-import vector10 from "icons/hospital-page-reviews-vector-9@2x.png"
-import vector11 from "icons/hospital-page-reviews-vector-12@2x.png"
-import vector12 from "icons/hospital-page-reviews-vector-13@2x.png"
-import vector13 from "icons/hospital-page-reviews-vector-14@2x.png"
-import vector14 from "icons/hospital-page-reviews-vector-15@2x.png"
-import vector15 from "icons/hospital-page-reviews-vector-14@2x.png"
-import vector16 from "icons/hospital-page-reviews-vector-17@2x.png"
-import vector17 from "icons/hospital-page-reviews-vector-16@2x.png"
-import vector18 from "icons/hospital-page-reviews-vector-17@2x.png"
-import rectangle2 from "icons/hospital-page-reviews-rectangle-2@2x.png"
-import rectangle3 from "icons/hospital-page-reviews-rectangle-3@2x.png"
-import rating1 from "icons/hospital-page-reviews-rating-1@2x.png"
-import audio from "icons/hospital-page-reviews-audio-backgroundmask-1@2x.png"
-import icon2 from "icons/hospital-page-reviews-rectangle-7@2x.png"
-import affordable1 from "icons/hospital-page-reviews-affordable-1@2x.png"
-import round from "icons/hospital-page-reviews-round-1@2x.png"
-import iconOutlineBackBackgroundMask from "icons/hospital-page-reviews-icon--outline--back-backgroundmask@2x.png"
-import arrowChevron_Left from "icons/hospital-page-reviews-arrow--chevronleft-2@2x.png"
-import message from "icons/hospital-page-reviews-message-backgroundmask-3@2x.png"
-import oxygenMask1 from "icons/hospital-page-reviews-oxygen-mask-1-2@2x.png"
-import rectangle4 from "icons/hospital-page-reviews-rectangle-9@2x.png"
-import tickIcon from "icons/hospital-page-reviews-union@2x.png"
-import tickIcon2 from "icons/hospital-page-reviews-tick-icon@2x.png"
-import message2 from "icons/hospital-page-reviews-message-backgroundmask-3@2x.png"
-import icon3 from "icons/hospital-page-reviews-rectangle-10@2x.png"
-import intensivist1 from "icons/hospital-page-reviews-intensivist-1@2x.png"
-import overlapGroup1 from "icons/hospital-page-reviews-union-1@2x.png"
-import x from "icons/hospital-page-reviews-x-backgroundmask@2x.png"
-import overlapGroup from "icons/hospital-page-reviews-vector-32@2x.png"
-import vector19 from "icons/hospital-page-reviews-vector-33@2x.png"
-import message3 from "icons/hospital-page-reviews-message-backgroundmask-5@2x.png"
-import tickIcon3 from "icons/hospital-page-reviews-union-2@2x.png"
-import helpCircle from "icons/hospital-page-reviews-help-circle-backgroundmask@2x.png"
-import overlapGroup2 from "icons/hospital-page-reviews-vector-34@2x.png"
-import vector20 from "icons/hospital-page-reviews-vector-35@2x.png"
-import message4 from "icons/hospital-page-reviews-message-backgroundmask-5@2x.png"
-import message5 from "icons/hospital-page-reviews-message-backgroundmask-5@2x.png"
-import bg from "icons/hospital-page-reviews-bg.png"
-import lineBreak from "icons/hospital-page-reviews-line-break-2@2x.png"
-import lineBreak2 from "icons/hospital-page-reviews-line-break-2@2x.png"
-import lineBreak3 from "icons/hospital-page-reviews-line-break-2@2x.png"
-import group92data_star from "icons/hospital-page-reviews-star-7-1@2x.png"
-import group6921data_icon from "icons/hospital-page-reviews-icon-8@2x.png"
-import group6921data_icon1 from "icons/hospital-page-reviews-icon-10@2x.png"
-import group69212data_icon from "icons/hospital-page-reviews-icon-14@2x.png"
-import group69212data_icon1 from "icons/hospital-page-reviews-icon-15@2x.png"
-import icon2data_icon from "icons/hospital-page-reviews-rectangle-11@2x.png"
-import icon2data_icon1 from "icons/hospital-page-reviews-ventilator-1-1@2x.png"
-import icon22data_icon from "icons/hospital-page-reviews-rectangle-12@2x.png"
-import icon22data_icon1 from "icons/hospital-page-reviews-healthcare-1@2x.png"
-import icon23data_icon from "icons/hospital-page-reviews-rectangle-13@2x.png"
-import icon23data_icon1 from "icons/hospital-page-reviews-affordable-1-1@2x.png"
-import about2data_icon from "icons/hospital-page-reviews-icon-2@2x.png"
-import group6921_icon18 from "icons/hospital-page-reviews-icon-18@2x.png"
-import group6921_icon20 from "icons/hospital-page-reviews-icon-20@2x.png"
+import image from "./icons/image@2x.png"
+import icon from "./icons/icon-1@2x.png"
+import icon2 from "./icons/icon@2x.png"
+import vector1 from "./icons/vector-1@2x.png"
+import vector21 from "./icons/vector-21@2x.png"
+import vector5 from "./icons/vector-5@2x.png"
+import vector4 from "./icons/vector-4@2x.png"
+import vector26 from "./icons/vector-26@2x.png"
+import map_pin from "./icons/map-pin-backgroundmask@2x.png"
+
 
 interface DetailsState extends AuthState {
     id: number,
@@ -88,29 +32,6 @@ interface DetailsState extends AuthState {
     show_review: boolean,
 }
 
-/* TODO use this code insted of the generated one.
-<div className="card-sec">
-
-
-                                <div className="card card-1">
-                                    <img src={doctorsvg} alt="doctor svg"/>
-                                    <p><b>1000+</b><br/>Doctors</p>
-                                </div>
-
-
-                                <div className="card card-1">
-                                    <img src={layoutsvg} alt="layout svg"/>
-                                    <p><b>good</b><br/>Layout</p>
-                                </div>
-
-
-                                <div className="card card-1">
-                                    <img src={reviewsvg} alt="review svg"/>
-                                    <p><b>4.5<br/></b>Ratings<br/>&amp; Reviews</p>
-                                </div>
-
-                            </div>
-* */
 
 class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
 
@@ -166,8 +87,6 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
 
     render() {
         let {model} = this.state
-        let open = Boolean(this.state.open_availability);
-        let currentLocation = this.props.location.pathname + this.props.location.search + this.props.location.hash
 
         console.log(model)
         return (
@@ -178,12 +97,20 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                             <div className="overlap-group14">
                                 <div
                                     className="overlap-group10"
-                                  
+
                                 >
                                     <div className="flex-row">
-                                        <Back/>
-                                        <img className="image" src={image}/>
-                                        <img className="icon" src={icon}/>
+                                        <div className="back">
+                                            <img alt={""}
+                                                 className="icon-3"
+                                                 src={icon2}
+                                            />
+                                        </div>
+                                        <img alt={""} className="image" src={image}/>
+                                        <img alt={""} className="icon" src={icon}/>
+                                    </div>
+                                    <div className="dr-bellamy-nicholas">
+                                        Ernakulam Medical Centre
                                     </div>
                                     <div className="overlap-group13">
                                         <Group6916/>
@@ -193,392 +120,40 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                         </div>
                                         <Group6917/>
                                     </div>
-                                    <div className="overlap-group2">
-                                        <div className="overlap-group1">
-                                            <img className="rectangle" src={rectangle}/>
-                                            <div className="overlap-group">
-                                                <img
-                                                    className="vector"
-                                                    src="hospital-page-doctors-vector-2.png"
-                                                />
-                                                <img className="vector-1" src={vector2}/>
-                                                <img className="vector-2" src={vector3}/>
-                                                <img className="vector-3" src={vector4}/>
-                                                <div className="group">
-                                                    <img className="vector-4" src={vector5}/>
-                                                    <img className="vector-5" src={vector6}/>
-                                                </div>
-                                                <img className="vector-6" src={vector7}/>
-                                                <img className="vector-7" src={vector8}/>
-                                                <img className="vector-8" src={vector9}/>
-                                                <img className="vector-9" src={vector10}/>
-                                                <img className="vector-10" src={vector11}/>
-                                                <img className="vector-11" src={vector12}/>
-                                                <img className="vector-12" src={vector13}/>
-                                                <img className="vector-13" src={vector14}/>
-                                                <img className="vector-14" src={vector15}/>
-                                                <img className="vector-15" src={vector16}/>
-                                                <img className="vector-16" src={vector17}/>
-                                                <img className="vector-17" src={vector18}/>
+                                    <div className="about">
+                                        <div className="flex-rownunito-semi-bold-ebony-clay-18px">
+                                            <div className="about-1">
+                                                About
                                             </div>
-                                            <img className="rectangle-1" src={rectangle2}/>
-                                            <img className="rectangle-2" src={rectangle3}/>
+                                            <div className="about-2">
+                                                4.5
+                                            </div>
+                                            <img className="icon" src={starsvg} />
                                         </div>
-                                        <div className="patientsnunito-bold-lynch-12px">
-                                            Doctors
-                                        </div>
-                                        <div
-                                            className="text-1nunito-semi-bold-ebony-clay-17px"
-                                        >
-                                            {/*{1000+}TODO find value from server*/}
-                                        </div>
-                                        <div className="experiencenunito-bold-lynch-12px">
-                                            Layout
-                                        </div>
-                                        <div
-                                            className="x10-yrsnunito-semi-bold-ebony-clay-16px"
-                                        >
-                                            good
-                                        </div>
-                                        <Rectangle156/>
-                                        <div className="ratingsnunito-bold-lynch-12px">
-                                            Ratings <br />&amp; Reviews
-                                        </div>
-                                        <div
-                                            className="text-2nunito-semi-bold-ebony-clay-17px"
-                                        >
-                                            {/*{4.5}TODO find value from server*/}
-                                        </div>
-                                        <img className="rating-1" src={rating1}/>
+                                        <p className="hospitalnamenunito-bold-lynch-14px">
+                                            One of the leading Multi-Specialty Hospitals in Ernakulam with 3- Decades of service excellence&amp; with 300
+                                            beds and a full complement of specialist doctors
+                                        </p>
                                     </div>
-                                    <div className="group-6915">
-                                        <div className="overlap-group5">
-                                            <div className="overlap-group2-1">
-                                                <div className="overlap-group4">
-                                                    <Quality
-                                                        heading={"Infrastructure Quality"}
-                                                    />
-                                                    <Message
-                                                        chatMeUpSharePh={"Ratings 1.0"/*TODO fetch value from server*/}
-                                                    />
-                                                </div>
-                                                <div className="flex-col">
-                                                    <Group92
-                                                        star6={group92data_star}
-                                                        star7={group92data_star}
-                                                        star8={group92data_star}
-                                                        star9={group92data_star}
-                                                        star10={group92data_star}
-                                                    />
-                                                    <Group92
-                                                        star6={group92data_star}
-                                                        star7={group92data_star}
-                                                        star8={group92data_star}
-                                                        star9={group92data_star}
-                                                        star10={group92data_star}
-                                                        className={"group-6910"}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div
-                                                className="audio"
-                                                style={{backgroundImage: `url(${audio})`}}
-                                            >
-                                                <div
-                                                    className="icon-1"
-                                                    style={{backgroundImage: `url(${icon2})`}}
-                                                >
-                                                    <img
-                                                        className="affordable-1"
-                                                        src={affordable1}
-                                                    />
-                                                </div>
-                                                <div className="flex-col-1">
-                                                    <div
-                                                        className="audio-callnunito-bold-ebony-clay-16px"
-                                                    >
-                                                        Affordability
-                                                    </div>
-                                                    <div
-                                                        className="call-your-doctor-dirnunito-bold-lynch-12px"
-                                                    >
-                                                        {/*{callYourDoctorDir}TODO fetch value from server*/}
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <div className="card-sec">
+
+                                        <div className="card card-1">
+                                            <img src={doctorsvg} alt={"doctor svg"} />
+                                            <p><b>1000+</b><br/>Doctors</p>
                                         </div>
-                                        <div className="overlap-group3">
-                                            <Communication/>
-                                            <Group6903
-                                                messageProps={{
-                                                    chatMeUpSharePh: "Oxygen",
-                                                    className: "message-6",
-                                                }}
-                                            />
-                                            <Group6904/>
-                                            <Group6905/>
+
+                                        <div className="card card-1">
+                                            <img src={layoutsvg} alt={"layout svg"} />
+                                            <p><b>good</b><br/>Layout</p>
                                         </div>
-                                        <div
-                                            className="headingnunito-semi-bold-ebony-clay-18px"
-                                        >
-                                            Ratings and Reviews
+
+                                        <div className="card card-1">
+                                            <img src={reviewsvg} alt={"review svg"} />
+                                            <p><b>4.5<br/></b>Ratings<br/>&amp; Reviews</p>
                                         </div>
+
                                     </div>
-                                    <Group6946/>
-                                    <div className="overlap-group12">
-                                        <div className="group-6955">
-                                            <img className="round" src={round}/>
-                                            <div className="overlap-group8">
-                                                <Group6912/>
-                                                <div className="overlap-group1-1">
-                                                    <TextMessage/>
-                                                    <div className="group-34">
-                                                        <div
-                                                            className="timenunito-normal-ghost-14px"
-                                                        >
-                                                            {/*{time}TODO fetch value from server*/}
-                                                        </div>
-                                                        <div className="icon-outline-back">
-                                                            <div className="overlap-group-1">
-                                                                <img
-                                                                    className="icon-outline-ba-background-mask"
-                                                                    src={iconOutlineBackBackgroundMask}
-                                                                />
-                                                                <img
-                                                                    className="arrow-chevronleft"
-                                                                    src={arrowChevron_Left}
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="linegp">
-                                            <div
-                                                className="message"
-                                                style={{backgroundImage: `url(${message})`}}
-                                            >
-                                                <div className="overlap-group-2">
-                                                    <img
-                                                        className="oxygen-mask-1"
-                                                        src={oxygenMask1}
-                                                    />
-                                                    <img
-                                                        className="rectangle-3"
-                                                        src={rectangle4}
-                                                    />
-                                                </div>
-                                                <div className="overlap-group1-2">
-                                                    <div
-                                                        className="availablenunito-bold-lynch-12px"
-                                                    >
-                                                        {/*{available}TODO fetch value from server*/}
-                                                    </div>
-                                                    <div className="group-6956">
-                                                        <div
-                                                            className="messagingnunito-bold-ebony-clay-14px"
-                                                        >
-                                                            Oxygen Availability
-                                                        </div>
-                                                        <div
-                                                            className="tick-icon"
-                                                            style={{backgroundImage: `url(${tickIcon})`}}
-                                                        >
-                                                            <img
-                                                                className="tick-icon-1"
-                                                                src={tickIcon2}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="star">
-                                                <div
-                                                    className="text-6nunito-normal-pale-sky-12px"
-                                                >
-                                                    {/*{text23}TODO fetch value from server*/}
-                                                </div>
-                                                <Group6921
-                                                    icon={group6921data_icon}
-                                                    icon2={group6921data_icon}
-                                                    icon3={group6921data_icon}
-                                                    icon4={group6921data_icon1}
-                                                    icon5={group6921data_icon1}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="group-6950">
-                                        <div
-                                            className="message-1"
-                                            style={{backgroundImage: `url(${message2})`}}
-                                        >
-                                            <div
-                                                className="icon-2"
-                                                style={{backgroundImage: `url(${icon3})`}}
-                                            >
-                                                <img
-                                                    className="intensivist-1"
-                                                    src={intensivist1}
-                                                />
-                                            </div>
-                                            <div className="group-6926">
-                                                <div
-                                                    className="messaging-1nunito-bold-ebony-clay-14px"
-                                                >
-                                                    ICU Availability
-                                                </div>
-                                                <div className="group-6957">
-                                                    <div
-                                                        className="chat-me-up-share-phnunito-bold-lynch-12px"
-                                                    >
-                                                        {/*{chatMeUpSharePh}TODO fetch value from server*/}
-                                                    </div>
-                                                    <div
-                                                        className="overlap-group1-3"
-                                                        style={{backgroundImage: `url(${overlapGroup1})`}}
-                                                    >
-                                                        <div
-                                                            className="x"
-                                                            style={{backgroundImage: `url(${x})`}}
-                                                        >
-                                                            <div
-                                                                className="overlap-group-3"
-                                                                style={{backgroundImage: `url(${overlapGroup})`}}
-                                                            >
-                                                                <img
-                                                                    className="vector-18"
-                                                                    src={vector19}
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="group-6925">
-                                            <div className="text-7">
-                                                {/*{text24}TODO fetch value from server*/}
-                                            </div>
-                                            <Group6921
-                                                icon={group69212data_icon}
-                                                icon2={group69212data_icon}
-                                                icon3={group69212data_icon}
-                                                icon4={group69212data_icon}
-                                                icon5={group69212data_icon1}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div
-                                        className="message-2"
-                                        style={{backgroundImage: `url(${message3})`}}
-                                    >
-                                        <Icon2
-                                            icon={icon2data_icon}
-                                            ventilator1={icon2data_icon1}
-                                        />
-                                        <div className="overlap-group2-2">
-                                            <div className="overlap-group1-4">
-                                                <div
-                                                    className="tick-icon-2"
-                                                    style={{backgroundImage: `url(${tickIcon3})`}}
-                                                ></div>
-                                                <div
-                                                    className="chat-me-up-share-ph-1nunito-bold-lynch-12px"
-                                                >
-                                                    {/*{chatMeUpSharePh2}TODO fetch value from the server*/}
-                                                </div>
-                                                <div
-                                                    className="help-circle"
-                                                    style={{backgroundImage: `url(${helpCircle})`}}
-                                                >
-                                                    <div
-                                                        className="overlap-group-4"
-                                                        style={{backgroundImage: `url(${overlapGroup2})`}}
-                                                    >
-                                                        <img
-                                                            className="vector-19"
-                                                            src={vector20}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                className="messaging-2nunito-bold-ebony-clay-14px"
-                                            >
-                                                Ventilator Availability
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="group-6952">
-                                        <div
-                                            className="message-3"
-                                            style={{backgroundImage: `url(${message4})`}}
-                                        >
-                                            <Icon2
-                                                icon={icon22data_icon}
-                                                ventilator1={icon22data_icon1}
-                                                className={"icon-8"}
-                                            />
-                                            <div
-                                                className="messaging-3nunito-bold-ebony-clay-14px"
-                                            >
-                                                Care Rating
-                                            </div>
-                                        </div>
-                                        <Group6927
-                                            group6921Props={{
-                                                icon: group6921_icon18,
-                                                icon2:group6921_icon18,
-                                                icon3:group6921_icon18,
-                                                icon4: group6921_icon20,
-                                                icon5: group6921_icon20,
-                                                className: "group-6921-1",
-                                            }}
-                                        />
-                                    </div>
-                                    <div className="group-6953">
-                                        <div
-                                            className="message-4"
-                                            style={{backgroundImage: `url(${message5})`}}
-                                        >
-                                            <Icon2
-                                                icon={icon23data_icon}
-                                                ventilator1={icon23data_icon1}
-                                                className={"icon-8"}
-                                            />
-                                            <div
-                                                className="messaging-4nunito-bold-ebony-clay-14px"
-                                            >
-                                                Affordability Rating
-                                            </div>
-                                        </div>
-                                        <Group6927
-                                            className={"group-6927-1"}
-                                            group6921Props={{
-                                                icon: group6921_icon18,
-                                                icon2:group6921_icon18,
-                                                icon3:group6921_icon18,
-                                                icon4: group6921_icon20,
-                                                icon5: group6921_icon20,
-                                                className: "group-6921-1",
-                                            }}
-                                        />
-                                    </div>
-                                    <Group6946
-                                        className={"group-6963"}
-                                    />
                                 </div>
-                                <img className="bg" src={bg}/>
-                                <div className="dr-bellamy-nicholas">
-                                    {/*{drBellamyNicholas}TODO fetch value from server*/}
-                                </div>
-                                <About2 icon={about2data_icon}/>
-                                <img className="line-break" src={lineBreak}/>
-                                <img className="line-break-1" src={lineBreak2}/>
-                                <img className="line-break-2" src={lineBreak3}/>
-                                <Button/>
                             </div>
                         </div>
                     </div>
@@ -593,28 +168,16 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
 
 }
 
-class Back extends React.Component {
-    render() {
-        return (
-            <div className="back">
-                <img
-                    className="icon-3"
-                    src="hospital-page-doctors-icon.png"
-                />
-            </div>
-        );
-    }
-}
-
-
 class Group6916 extends React.Component {
     render() {
         return (
             <div className="group-6916">
                 <div className="group-6841">
-                    <TurnRight/>
+                    <div className="turnright">
+                        <div className="turn-right"/>
+                    </div>
                 </div>
-                <div className="x1000nunito-semi-bold-ebony-clay-17px">
+                <div className="x1000 nunito-semi-bold-ebony-clay-17px">
                     Phone
                 </div>
             </div>
@@ -622,31 +185,19 @@ class Group6916 extends React.Component {
     }
 }
 
-
-class TurnRight extends React.Component {
-    render() {
-        return (
-            <div className="turnright">
-                <div className="turn-right"></div>
-            </div>
-        );
-    }
-}
-
-
 class Group6907 extends React.Component {
     render() {
         return (
             <div className="group-6907">
                 <div className="map-pin">
                     <div className="overlap-group-5">
-                        <img
-                            className="vector-20"
-                            src="vector-1.png"
+                        <img alt={""}
+                             className="vector-20"
+                             src={map_pin}
                         />
                     </div>
                 </div>
-                <div className="viralogistnunito-semi-bold-lynch-14px">
+                <div className="viralogist nunito-semi-bold-lynch-14px">
                     Kakkanad,Pallinada, Kannayanur,Kerala
                 </div>
             </div>
@@ -660,7 +211,7 @@ class Group6918 extends React.Component {
         return (
             <div className="group-6918">
                 <Group6906/>
-                <div className="x45nunito-semi-bold-ebony-clay-17px">
+                <div className="x45 nunito-semi-bold-ebony-clay-17px">
                     Share
                 </div>
             </div>
@@ -675,25 +226,25 @@ class Group6906 extends React.Component {
             <div className="group-6906">
                 <div className="share-2">
                     <div className="overlap-group-6">
-                        <img
-                            className="vector-21"
-                            src="hospital-page-doctors-vector-21.png"
+                        <img alt={""}
+                             className="vector-21"
+                             src={vector21}
                         />
-                        <img
-                            className="vector-22"
-                            src="hospital-page-doctors-vector-21.png"
+                        <img alt={""}
+                             className="vector-22"
+                             src={vector21}
                         />
-                        <img
-                            className="vector-23"
-                            src="hospital-page-doctors-vector-21.png"
+                        <img alt={""}
+                             className="vector-23"
+                             src={vector21}
                         />
-                        <img
-                            className="vector-24"
-                            src="hospital-page-vector-4.png"
+                        <img alt={""}
+                             className="vector-24"
+                             src={vector4}
                         />
-                        <img
-                            className="vector-25"
-                            src="hospital-page-vector-5.png"
+                        <img alt={""}
+                             className="vector-25"
+                             src={vector5}
                         />
                     </div>
                 </div>
@@ -709,380 +260,16 @@ class Group6917 extends React.Component {
             <div className="group-6917">
                 <div className="group-6839">
                     <div className="overlap-group-7">
-                        <img
-                            className="vector-26"
-                            src="vector-26.png"
+                        <img alt={""}
+                             className="vector-26"
+                             src={vector26}
                         />
                     </div>
                 </div>
                 <div
-                    className="x10-yrs-1nunito-semi-bold-ebony-clay-16px"
+                    className="x10-yrs-1 nunito-semi-bold-ebony-clay-16px"
                 >
                     Route Map
-                </div>
-            </div>
-        );
-    }
-}
-
-
-class Rectangle156 extends React.Component {
-    render() {
-        return (
-            <div className="rectangle-156">
-                <img
-                    className="rectangle-156-1"
-                    src="hospital-page-doctors-rectangle-156.png"
-                />
-            </div>
-        );
-    }
-}
-
-
-class Quality extends React.Component {
-    render() {
-        const {heading} = this.props;
-
-        return (
-            <div className="quality">
-                <div
-                    className="heading-1nunito-semi-bold-ebony-clay-18px"
-                >
-                    {heading}
-                </div>
-            </div>
-        );
-    }
-}
-
-
-class Message extends React.Component {
-    render() {
-        const {chatMeUpSharePh, className} = this.props;
-
-        return (
-            <div className={`message-5 ${className || ""}`}>
-                <div className="overlap-group-8">
-                    <img
-                        className="oxygen-mask-1-1"
-                        src="hospital-page-oxygen-mask-1.png"
-                    />
-                </div>
-                <div className="flex-col-2">
-                    <div className="messaging-5nunito-bold-ebony-clay-16px">
-                        Oxygen
-                    </div>
-                    <div
-                        className="chat-me-up-share-ph-2nunito-bold-lynch-12px"
-                    >
-                        {chatMeUpSharePh}
-                    </div>
-                </div>
-            </div>
-        );
-    }
-}
-
-
-class Group92 extends React.Component {
-    render() {
-        const {star6, star7, star8, star9, star10, className} = this.props;
-
-        return (
-            <div className={`group-92 ${className || ""}`}>
-                <img className="star-6" src={star6}/>
-                <img className="star-1" src={star7}/>
-                <img className="star-1" src={star8}/>
-                <img className="star-9" src={star9}/>
-                <img className="star-1" src={star10}/>
-            </div>
-        );
-    }
-}
-
-
-class Communication extends React.Component {
-    render() {
-        return (
-            <div className="communication">
-                <div
-                    className="availabilitynunito-semi-bold-ebony-clay-18px"
-                >
-                    Infrastructure Availability
-                </div>
-            </div>
-        );
-    }
-}
-
-
-class Group6903 extends React.Component {
-    render() {
-        const {messageProps} = this.props;
-
-        return (
-            <div className="group-6903">
-                <Message
-                    chatMeUpSharePh={messageProps.chatMeUpSharePh}
-                    className={messageProps.className}
-                />
-                <div className="percentnunito-bold-ebony-clay-18px">
-                    0%
-                </div>
-            </div>
-        );
-    }
-}
-
-
-class Group6904 extends React.Component {
-    render() {
-        return (
-            <div className="group-6904">
-                <div className="audio-1">
-                    <div className="overlap-group1-5">
-                        <div className="chart-heartbeat">
-                            <div className="overlap-group-9">
-                                <img
-                                    className="vector-27"
-                                    src="vector-20.png"
-                                />
-                                <img
-                                    className="vector-28"
-                                    src="vector-21.png"
-                                />
-                                <img
-                                    className="vector-29"
-                                    src="hospital-page-vector-8.png"
-                                />
-                                <img
-                                    className="vector-30"
-                                    src="hospital-page-vector-9.png"
-                                />
-                                <img
-                                    className="vector-31"
-                                    src="hospital-page-vector-10.png"
-                                />
-                                <img
-                                    className="vector-32"
-                                    src="vector-25.png"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex-col-3">
-                        <div
-                            className="audio-call-1nunito-bold-ebony-clay-16px"
-                        >
-                            ICU
-                        </div>
-                        <div
-                            className="call-your-doctor-dir-1nunito-bold-lynch-12px"
-                        >
-                            Availability&nbsp;&nbsp;0%.
-                        </div>
-                    </div>
-                </div>
-                <div className="percent-1nunito-bold-ebony-clay-18px">
-                    0%
-                </div>
-            </div>
-        );
-    }
-}
-
-
-class Group6905 extends React.Component {
-    render() {
-        return (
-            <div className="group-6905">
-                <div className="video-call">
-                    <div className="overlap-group-10">
-                        <img
-                            className="ventilator-1"
-                            src="hospital-page-ventilator-1.png"
-                        />
-                    </div>
-                    <div className="flex-col-4">
-                        <div
-                            className="descriptionnunito-bold-ebony-clay-16px"
-                        >
-                            Ventilator
-                        </div>
-                        <div className="description-1nunito-bold-lynch-12px">
-                            Availability 0%.
-                        </div>
-                    </div>
-                </div>
-                <div className="percent-2nunito-bold-ebony-clay-18px">
-                    0%
-                </div>
-            </div>
-        );
-    }
-}
-
-
-class Group6946 extends React.Component {
-    render() {
-        const {className} = this.props;
-
-        return (
-            <div className={`group-6946 ${className || ""}`}>
-                <img
-                    className="round-1"
-                    src="round-1.png"
-                />
-                <div className="overlap-group-11">
-                    <Group6912/>
-                    <div className="overlap-group1-6">
-                        <TextMessage/>
-                        <div className="group-34-1">
-                            <div className="time-1nunito-normal-ghost-14px">
-                                11-09-2021
-                            </div>
-                            <div className="icon-outline-back-1">
-                                <div className="overlap-group-12">
-                                    <img
-                                        className="icon-outline-ba-background-mask-1"
-                                        src="icon-outline-back-backgroundmask.png"
-                                    />
-                                    <img
-                                        className="arrow-chevronleft-1"
-                                        src="arrow-chevronleft-1.png"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-}
-
-
-class Group6912 extends React.Component {
-    render() {
-        return (
-            <div className="group-6912">
-                <div className="textnunito-normal-pale-sky-14px">
-                    4.5
-                </div>
-                <img
-                    className="icon-4"
-                    src="hospital-page-icon-4.png"
-                />
-            </div>
-        );
-    }
-}
-
-
-class TextMessage extends React.Component {
-    render() {
-        return (
-            <div className="text-message">
-                <div className="titlenunito-semi-bold-mine-shaft-16px">
-                    Roger Hulg
-                </div>
-            </div>
-        );
-    }
-}
-
-
-class Group6921 extends React.Component {
-    render() {
-        const {icon, icon2, icon3, icon4, icon5, className} = this.props;
-
-        return (
-            <div className={`group-6921-2 ${className || ""}`}>
-                <img className="icon-5" src={icon}/>
-                <img className="icon-6" src={icon2}/>
-                <img className="icon-7" src={icon3}/>
-                <img className="icon-6" src={icon4}/>
-                <img className="icon-7" src={icon5}/>
-            </div>
-        );
-    }
-}
-
-
-class Icon2 extends React.Component {
-    render() {
-        const {icon, ventilator1, className} = this.props;
-
-        return (
-            <div
-                className={`icon-9 ${className || ""}`}
-                style={{backgroundImage: `url(${icon})`}}
-            >
-                <img className="ventilator-1-1" src={ventilator1}/>
-            </div>
-        );
-    }
-}
-
-
-class Group6927 extends React.Component {
-    render() {
-        const {className, group6921Props} = this.props;
-
-        return (
-            <div className={`group-6927 ${className || ""}`}>
-                <div className="text-3nunito-normal-pale-sky-12px">
-                    4.5
-                </div>
-                <Group6921
-                    icon={group6921Props.icon}
-                    icon2={group6921Props.icon2}
-                    icon3={group6921Props.icon3}
-                    icon4={group6921Props.icon4}
-                    icon5={group6921Props.icon5}
-                    className={group6921Props.className}
-                />
-            </div>
-        );
-    }
-}
-
-
-class About2 extends React.Component {
-    render() {
-        const {icon} = this.props;
-
-        return (
-            <div className="about">
-                <div className="flex-row-1nunito-semi-bold-ebony-clay-18px">
-                    <div className="about-1">
-                        About
-                    </div>
-                    <div className="about-2">
-                        4.5
-                    </div>
-                    <img className="icon-10" src={icon}/>
-                </div>
-                <p className="hospitalnamenunito-bold-lynch-14px">
-                    One of the leading Multi-Specialty Hospitals in Ernakulam with 3- Decades of service
-                    excellence&amp; with 300
-                    beds and a full complement of specialist doctors
-                </p>
-            </div>
-        );
-    }
-}
-
-
-class Button extends React.Component {
-    render() {
-        return (
-            <div className="button">
-                <div className="overlap-group9">
-                    <div className="button-1nunito-bold-white-16px">
-                        Write a Review
-                    </div>
                 </div>
             </div>
         );
