@@ -26,14 +26,15 @@ export class MarkerObject extends ModelObject {
     ventilator_availability: number = 0;
     lat: any;
     doctors : DoctorObject[] = [];
-    abount = ""
+    about: string | undefined;
+    departments: Array<DepartmentObject> = [];
 
     constructor(data: ModelData, baseUrl: string) {
 
         super(data, baseUrl);
         this.fields = ["id", "Phone", "size", "financial_rating", "avg_cost", "covid_rating", "beds_available", "care_rating",
             "oxygen_rating", "ventilator_availability", "oxygen_availability", "icu_availability", "lat", "lng", "images",
-            "display_address", "name", "datef", 'address', 'comment']
+            "display_address", "name", "datef", 'address', 'comment', 'departments']
         this.getData()
 
     }

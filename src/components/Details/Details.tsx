@@ -1,4 +1,4 @@
-import { Marker, MarkerObject } from "../../api/model";
+import {Marker, MarkerObject} from "../../api/model";
 import {
     AiFillCheckCircle,
     AiFillCloseCircle,
@@ -11,17 +11,17 @@ import {
     RiDirectionLine,
     RiShareLine
 } from "react-icons/all";
-import { AuthComponent, AuthPropsLoc, AuthState } from "../../api/auth";
+import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import React from "react";
 
 import './details.css'
-import { Container, Row } from "react-bootstrap";
-import { StarRating } from "../cards/StarRating";
-import { Popover } from "@material-ui/core";
-import { CSSTransition } from "react-transition-group";
-import { FullScreenReview } from "../FullScreen/FullScreenReview";
+import {Container, Row} from "react-bootstrap";
+import {StarRating} from "../cards/StarRating";
+import {Popover} from "@material-ui/core";
+import {CSSTransition} from "react-transition-group";
+import {FullScreenReview} from "../FullScreen/FullScreenReview";
 import Loader from "react-loader-spinner";
-import { withRouter } from "react-router";
+import {withRouter} from "react-router";
 
 import doctorsvg from '../../images/doctor.svg';
 import layoutsvg from '../../images/layout.svg';
@@ -35,8 +35,6 @@ interface DetailsState extends AuthState {
     open_availability: HTMLElement | null,
     popovertext: string,
     show_review: boolean,
-
-
 }
 
 class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
@@ -57,20 +55,20 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
 
     hashChange = () => {
         if (!this.props.location.hash.includes('review')) {
-            this.setState({ show_review: false })
+            this.setState({show_review: false})
         } else {
-            this.setState({ show_review: true })
+            this.setState({show_review: true})
         }
     }
 
     async refreshReviews() {
-        this.setState({ ready: false })
+        this.setState({ready: false})
         //TODO: fix later
         // @ts-ignore
-        let { hspId } = this.props.match.params
+        let {hspId} = this.props.match.params
         let marker = await Marker.get(hspId) as MarkerObject
 
-        this.setState({ model: marker, ready: true, id: hspId })
+        this.setState({model: marker, ready: true, id: hspId})
 
     }
 
@@ -80,18 +78,19 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
     }
 
     handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        this.setState({ open_availability: event.currentTarget });
+        this.setState({open_availability: event.currentTarget});
     };
     handleClose = () => {
-        this.setState({ open_availability: null });
+        this.setState({open_availability: null});
     };
 
     handlePhotoUpload = () => {
         this.props.history.push(`/addHospital/photo/${this.state.id}`)
 
     }
+
     render() {
-        let { model } = this.state
+        let {model} = this.state
         let open = Boolean(this.state.open_availability);
         let currentLocation = this.props.location.pathname + this.props.location.search + this.props.location.hash
 
@@ -99,380 +98,401 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
         return (
             this.state.ready ?
                 <>
-                    {model.images && model.images[0] ?
-                        <div className="backgroundRow  w-100" style={{
-                            backgroundImage: `url(${model.images[0].image})`
-                        }} />
-                        :
-                        <div className="backgroundRow d-flex align-items-center justify-content-center w-100">
-
-                            <MdAddAPhoto className="text-secondary" size={40} />
-                        </div>}
-
-                    <Container fluid={true} className="d-flex flex-column py-5  px-0 ">
-                        {model.images && model.images[0] ?
-                            <div className="w-100 card-spacer " /> :
-                            <div className="w-100 card-spacer " onClick={this.handlePhotoUpload} />}
-                        <div className="top-rounded bg-white text-left neumorphic-card ">
-                            <div className="px-3 pt-3 py-1 border-bottom">
-                                <h5>{model.name}</h5>
-                                <div className="d-flex flex-row justify-content-between align-items-center">
-                                    <div>
-
-
-                                        <StarRating rating={model.care_rating} />
-                                        <span className="hospital-phone">
-                                            {model.Phone !== '0000000000' && model.Phone}
-                                        </span>
-                                    </div>
-                                    <button onClick={() => {
-                                        if (this.state.auth) {
-                                            this.props.history.push(currentLocation + "#review")
-                                            this.setState({ show_review: !this.state.show_review })
-                                        } else {
-                                            this.performAuth()
-                                        }
-                                    }}
-                                        className="d-flex align-items-center mt-2 py-0 btn btn-light  bg-white rounder thin-border">
-                                        <MdRateReview className="text-dark" />
-                                        <div className="p-1 px-2">write a review</div>
-                                    </button>
-                                </div>
-
-                            </div>
-
-                            <Row className="d-flex w-100 align-items-center justify-content-even flex-row
-                               m-0 pb-3 mt-3 thick-border-bottom">
-                                {model.Phone !== '0000000000' &&
-                                    <div
-                                        className="d-flex justify-content-end phone-button button-container align-items-center flex-column"
-                                        onClick={(event) => {
-                                            event.preventDefault()
-                                            event.stopPropagation()
-                                            document.location.href = 'tel:' + model.Phone;
-
-                                        }}>
-
-                                        <button className="button-holder text-center">
-                                            <BiPhoneOutgoing size={20} className="text-primary" />
-                                        </button>
-                                        Phone
-                                    </div>}
+                    <div className="container-center-horizontal">
+                        <div className="hospitalpagereviewsscreen">
+                            <div className="overlap-group14">
                                 <div
-                                    className="d-flex justify-content-end button-container phone-button align-items-center flex-column"
-                                    onClick={(event) => {
-                                        event.preventDefault()
-                                        event.stopPropagation()
-                                        const win = window.open(`https://www.google.com/maps/search/${model.name}/@${model.lat},${model.lng},19.88z`, "_blank");
-                                        if (win) {
-                                            win.focus();
-                                        }
-                                    }}>
-
-                                    <button className="button-holder text-center">
-                                        <RiDirectionLine size={20} className="text-primary" />
-                                    </button>
-                                    Route Map
-                                </div>
-                                <div
-                                    className="d-flex justify-content-end button-container phone-button align-items-center flex-column"
-                                    onClick={(event) => {
-                                        event.preventDefault()
-                                        event.stopPropagation()
-                                        if (navigator.share) {
-                                            navigator.share({
-                                                title: model.name,
-                                                url: this.props.location.pathname
-                                            }).then(() => {
-                                            })
-                                        }
-                                    }}>
-
-                                    <button className="button-holder text-center">
-                                        <RiShareLine size={20} className="text-primary" />
-                                    </button>
-                                    Share
-                                </div>
-
-                            </Row>
-
-                            
-                                <div className="about">
-                                    <div className="about-sub">
-                                        <div className="about-1">
-                                            About
+                                    className="overlap-group10"
+                                    style={{backgroundImage: `url(${overlapGroup10})`}}
+                                >
+                                    <div className="flex-row">
+                                        <Back/>
+                                        <img className="image" src={image}/>
+                                        <img className="icon" src={icon}/>
+                                    </div>
+                                    <div className="overlap-group13">
+                                        <Group6916/>
+                                        <div className="overlap-group11">
+                                            <Group6907/>
+                                            <Group6918/>
                                         </div>
-                                        <div className="about-2">
-                                            4.5
-                                            <img className="icon" src={starsvg} alt="star" />
+                                        <Group6917/>
+                                    </div>
+                                    <div className="overlap-group2">
+                                        <div className="overlap-group1">
+                                            <img className="rectangle" src={rectangle}/>
+                                            <div className="overlap-group">
+                                                <img
+                                                    className="vector"
+                                                    src="hospital-page-doctors-vector-2.png"
+                                                />
+                                                <img className="vector-1" src={vector2}/>
+                                                <img className="vector-2" src={vector3}/>
+                                                <img className="vector-3" src={vector4}/>
+                                                <div className="group">
+                                                    <img className="vector-4" src={vector5}/>
+                                                    <img className="vector-5" src={vector6}/>
+                                                </div>
+                                                <img className="vector-6" src={vector7}/>
+                                                <img className="vector-7" src={vector8}/>
+                                                <img className="vector-8" src={vector9}/>
+                                                <img className="vector-9" src={vector10}/>
+                                                <img className="vector-10" src={vector11}/>
+                                                <img className="vector-11" src={vector12}/>
+                                                <img className="vector-12" src={vector13}/>
+                                                <img className="vector-13" src={vector14}/>
+                                                <img className="vector-14" src={vector15}/>
+                                                <img className="vector-15" src={vector16}/>
+                                                <img className="vector-16" src={vector17}/>
+                                                <img className="vector-17" src={vector18}/>
+                                            </div>
+                                            <img className="rectangle-1" src={rectangle2}/>
+                                            <img className="rectangle-2" src={rectangle3}/>
+                                        </div>
+                                        <div className="patientsnunito-bold-lynch-12px">
+                                            {patients}
+                                        </div>
+                                        <div
+                                            className="text-1nunito-semi-bold-ebony-clay-17px"
+                                        >
+                                            {text18}
+                                        </div>
+                                        <div className="experiencenunito-bold-lynch-12px">
+                                            {experience}
+                                        </div>
+                                        <div
+                                            className="x10-yrsnunito-semi-bold-ebony-clay-16px"
+                                        >
+                                            {x10Yrs}
+                                        </div>
+                                        <Rectangle156/>
+                                        <div className="ratingsnunito-bold-lynch-12px">
+                                            {ratings}
+                                        </div>
+                                        <div
+                                            className="text-2nunito-semi-bold-ebony-clay-17px"
+                                        >
+                                            {text19}
+                                        </div>
+                                        <img className="rating-1" src={rating1}/>
+                                    </div>
+                                    <div className="group-6915">
+                                        <div className="overlap-group5">
+                                            <div className="overlap-group2-1">
+                                                <div className="overlap-group4">
+                                                    <Quality
+                                                        heading={qualityProps.heading}
+                                                    />
+                                                    <Message
+                                                        chatMeUpSharePh={messageProps.chatMeUpSharePh}
+                                                    />
+                                                </div>
+                                                <div className="flex-col">
+                                                    <Group92
+                                                        star6={group92Props.star6}
+                                                        star7={group92Props.star7}
+                                                        star8={group92Props.star8}
+                                                        star9={group92Props.star9}
+                                                        star10={group92Props.star10}
+                                                    />
+                                                    <Group92
+                                                        star6={group922Props.star6}
+                                                        star7={group922Props.star7}
+                                                        star8={group922Props.star8}
+                                                        star9={group922Props.star9}
+                                                        star10={group922Props.star10}
+                                                        className={group922Props.className}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div
+                                                className="audio"
+                                                style={{backgroundImage: `url(${audio})`}}
+                                            >
+                                                <div
+                                                    className="icon-1"
+                                                    style={{backgroundImage: `url(${icon2})`}}
+                                                >
+                                                    <img
+                                                        className="affordable-1"
+                                                        src={affordable1}
+                                                    />
+                                                </div>
+                                                <div className="flex-col-1">
+                                                    <div
+                                                        className="audio-callnunito-bold-ebony-clay-16px"
+                                                    >
+                                                        {audioCall}
+                                                    </div>
+                                                    <div
+                                                        className="call-your-doctor-dirnunito-bold-lynch-12px"
+                                                    >
+                                                        {callYourDoctorDir}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="overlap-group3">
+                                            <Communication/>
+                                            <Group6903
+                                                messageProps={group6903Props.messageProps}
+                                            />
+                                            <Group6904/>
+                                            <Group6905/>
+                                        </div>
+                                        <div
+                                            className="headingnunito-semi-bold-ebony-clay-18px"
+                                        >
+                                            {heading}
                                         </div>
                                     </div>
-                                    <p className="hospitalnamenunito-bold-lynch-14px">
-                                        One of the leading Multi-Specialty Hospitals in Ernakulam with 3- Decades of service excellence&amp; with 300
-                                        beds and a full complement of specialist doctors
-                                    </p>
-                                </div>
-
-                         
-
-                            
-
-                                <div className="card-sec">
-
-
-                                    <div className="card card-1">
-                                        <img src={doctorsvg} alt="doctor svg" />
-                                        <p><b>1000+</b><br />Doctors</p>
+                                    <Group6946/>
+                                    <div className="overlap-group12">
+                                        <div className="group-6955">
+                                            <img className="round" src={round}/>
+                                            <div className="overlap-group8">
+                                                <Group6912/>
+                                                <div className="overlap-group1-1">
+                                                    <TextMessage/>
+                                                    <div className="group-34">
+                                                        <div
+                                                            className="timenunito-normal-ghost-14px"
+                                                        >
+                                                            {time}
+                                                        </div>
+                                                        <div className="icon-outline-back">
+                                                            <div className="overlap-group-1">
+                                                                <img
+                                                                    className="icon-outline-ba-background-mask"
+                                                                    src={iconOutlineBackBackgroundMask}
+                                                                />
+                                                                <img
+                                                                    className="arrow-chevronleft"
+                                                                    src={arrowChevron_Left}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="linegp">
+                                            <div
+                                                className="message"
+                                                style={{backgroundImage: `url(${message})`}}
+                                            >
+                                                <div className="overlap-group-2">
+                                                    <img
+                                                        className="oxygen-mask-1"
+                                                        src={oxygenMask1}
+                                                    />
+                                                    <img
+                                                        className="rectangle-3"
+                                                        src={rectangle4}
+                                                    />
+                                                </div>
+                                                <div className="overlap-group1-2">
+                                                    <div
+                                                        className="availablenunito-bold-lynch-12px"
+                                                    >
+                                                        {available}
+                                                    </div>
+                                                    <div className="group-6956">
+                                                        <div
+                                                            className="messagingnunito-bold-ebony-clay-14px"
+                                                        >
+                                                            {messaging}
+                                                        </div>
+                                                        <div
+                                                            className="tick-icon"
+                                                            style={{backgroundImage: `url(${tickIcon})`}}
+                                                        >
+                                                            <img
+                                                                className="tick-icon-1"
+                                                                src={tickIcon2}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="star">
+                                                <div
+                                                    className="text-6nunito-normal-pale-sky-12px"
+                                                >
+                                                    {text23}
+                                                </div>
+                                                <Group6921
+                                                    icon={group6921Props.icon}
+                                                    icon2={group6921Props.icon2}
+                                                    icon3={group6921Props.icon3}
+                                                    icon4={group6921Props.icon4}
+                                                    icon5={group6921Props.icon5}
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
-
-
-
-
-                                    <div className="card card-1">
-                                        <img src={layoutsvg} alt="layout svg" />
-                                        <p><b>good</b><br />Layout</p>
+                                    <div className="group-6950">
+                                        <div
+                                            className="message-1"
+                                            style={{backgroundImage: `url(${message2})`}}
+                                        >
+                                            <div
+                                                className="icon-2"
+                                                style={{backgroundImage: `url(${icon3})`}}
+                                            >
+                                                <img
+                                                    className="intensivist-1"
+                                                    src={intensivist1}
+                                                />
+                                            </div>
+                                            <div className="group-6926">
+                                                <div
+                                                    className="messaging-1nunito-bold-ebony-clay-14px"
+                                                >
+                                                    {messaging2}
+                                                </div>
+                                                <div className="group-6957">
+                                                    <div
+                                                        className="chat-me-up-share-phnunito-bold-lynch-12px"
+                                                    >
+                                                        {chatMeUpSharePh}
+                                                    </div>
+                                                    <div
+                                                        className="overlap-group1-3"
+                                                        style={{backgroundImage: `url(${overlapGroup1})`}}
+                                                    >
+                                                        <div
+                                                            className="x"
+                                                            style={{backgroundImage: `url(${x})`}}
+                                                        >
+                                                            <div
+                                                                className="overlap-group-3"
+                                                                style={{backgroundImage: `url(${overlapGroup})`}}
+                                                            >
+                                                                <img
+                                                                    className="vector-18"
+                                                                    src={vector19}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="group-6925">
+                                            <div className="text-7">
+                                                {text24}
+                                            </div>
+                                            <Group6921
+                                                icon={group69212Props.icon}
+                                                icon2={group69212Props.icon2}
+                                                icon3={group69212Props.icon3}
+                                                icon4={group69212Props.icon4}
+                                                icon5={group69212Props.icon5}
+                                            />
+                                        </div>
                                     </div>
-
-
-
-                                    <div className="card card-1">
-                                        <img src={reviewsvg} alt="review svg" />
-                                        <p><b>4.5<br /></b>Ratings<br />&amp; Reviews</p>
-                                    </div>
-
-                                </div>
-
-                           
-
-                            <div className="px-3 thick-border-bottom py-3">
-                                <h5>Details</h5>
-                                <div className="d-flex align-items-center  flex-row">
-                                    <GrLocation />
                                     <div
-                                        className="">{[model.address.village, model.address.suburb, model.address.county, model.address.state].filter(Boolean).join(', ')}</div>
-                                </div>
-                                <div className="d-flex align-items-center mt-2">
-                                    <div><h6>Infrastructure Quality</h6></div>
-                                    <div className="ml-3"
-                                        onClick={(event) => {
-                                            this.setState({ popovertext: 'The Quality and Affordability of the available services' })
-                                            this.handleClick(event)
-                                        }}
-                                    ><h6><AiOutlineInfoCircle /></h6></div>
-                                </div>
-
-                                <div className="d-flex align-items-center flex-row">
-                                    <div className={"w-50"}>Oxygen</div>
-                                    <StarRating rating={model.oxygen_rating} />
-                                </div>
-                                <div className="d-flex align-items-center mt-2 flex-row">
-                                    <div className={"w-50"}>Affordability</div>
-                                    <StarRating rating={model.financial_rating} />
-                                </div>
-                                <div className="d-flex align-items-center mt-2 flex-row">
-                                    <div className={"w-50"}>Covid</div>
-                                    <StarRating rating={model.covid_rating} />
-                                </div>
-                                <div className="d-flex align-items-center mt-2">
-                                    <div><h6>Infrastructure Availability</h6></div>
-                                    <div className="ml-3"
-                                        onClick={(event) => {
-                                            this.setState({ popovertext: 'Percentage Probability of Availing the services' })
-                                            this.handleClick(event)
-                                        }}
-                                    ><h6><AiOutlineInfoCircle /></h6></div>
-                                    <Popover
-                                        id={'popovers'}
-                                        open={open}
-                                        anchorEl={this.state.open_availability}
-                                        onClose={this.handleClose}
-                                        anchorOrigin={{
-                                            vertical: 'bottom',
-                                            horizontal: 'center',
-                                        }}
-                                        transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'center',
-                                        }}
+                                        className="message-2"
+                                        style={{backgroundImage: `url(${message3})`}}
                                     >
-                                        <div className="p-2">{this.state.popovertext}</div>
-                                    </Popover>
+                                        <Icon2
+                                            icon={icon2Props.icon}
+                                            ventilator1={icon2Props.ventilator1}
+                                        />
+                                        <div className="overlap-group2-2">
+                                            <div className="overlap-group1-4">
+                                                <div
+                                                    className="tick-icon-2"
+                                                    style={{backgroundImage: `url(${tickIcon3})`}}
+                                                ></div>
+                                                <div
+                                                    className="chat-me-up-share-ph-1nunito-bold-lynch-12px"
+                                                >
+                                                    {chatMeUpSharePh2}
+                                                </div>
+                                                <div
+                                                    className="help-circle"
+                                                    style={{backgroundImage: `url(${helpCircle})`}}
+                                                >
+                                                    <div
+                                                        className="overlap-group-4"
+                                                        style={{backgroundImage: `url(${overlapGroup2})`}}
+                                                    >
+                                                        <img
+                                                            className="vector-19"
+                                                            src={vector20}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                className="messaging-2nunito-bold-ebony-clay-14px"
+                                            >
+                                                {messaging3}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="group-6952">
+                                        <div
+                                            className="message-3"
+                                            style={{backgroundImage: `url(${message4})`}}
+                                        >
+                                            <Icon2
+                                                icon={icon22Props.icon}
+                                                ventilator1={icon22Props.ventilator1}
+                                                className={icon22Props.className}
+                                            />
+                                            <div
+                                                className="messaging-3nunito-bold-ebony-clay-14px"
+                                            >
+                                                {messaging4}
+                                            </div>
+                                        </div>
+                                        <Group6927
+                                            group6921Props={group6927Props.group6921Props}
+                                        />
+                                    </div>
+                                    <div className="group-6953">
+                                        <div
+                                            className="message-4"
+                                            style={{backgroundImage: `url(${message5})`}}
+                                        >
+                                            <Icon2
+                                                icon={icon23Props.icon}
+                                                ventilator1={icon23Props.ventilator1}
+                                                className={icon23Props.className}
+                                            />
+                                            <div
+                                                className="messaging-4nunito-bold-ebony-clay-14px"
+                                            >
+                                                {messaging5}
+                                            </div>
+                                        </div>
+                                        <Group6927
+                                            className={group69272Props.className}
+                                            group6921Props={group69272Props.group6921Props}
+                                        />
+                                    </div>
+                                    <Group6946
+                                        className={group6946Props.className}
+                                    />
                                 </div>
-
-                                <div className="d-flex align-items-center flex-row">
-                                    <div className={"w-50"}>Oxygen</div>
-                                    <div>{model.oxygen_availability} %</div>
+                                <img className="bg" src={bg}/>
+                                <div className="dr-bellamy-nicholas">
+                                    {drBellamyNicholas}
                                 </div>
-                                <div className="d-flex align-items-center mt-2 flex-row">
-                                    <div className={"w-50"}>ICU</div>
-                                    <div> {model.icu_availability} %</div>
-                                </div>
-                                <div className="d-flex align-items-center mt-2 flex-row">
-                                    <div className={"w-50"}>ventilator</div>
-                                    <div> {model.ventilator_availability} %</div>
-                                </div>
-
-                                <div className="d-flex align-items-center mt-2 flex-row">
-                                    <div className={"w-50"}>Average Daily Cost</div>
-                                    <div>Rs. {model.avg_cost}</div>
-                                </div>
+                                <About2 icon={about2Props.icon}/>
+                                <img className="line-break" src={lineBreak}/>
+                                <img className="line-break-1" src={lineBreak2}/>
+                                <img className="line-break-2" src={lineBreak3}/>
+                                <Button/>
                             </div>
                         </div>
-
-
-
-
-
-                        {/* <div className="px-3 border-bottom bg-white py-3">
-                                <div className="d-flex align-items-center mt-2">
-                                <div><h5>Reviews</h5></div>
-                                <div className="ml-3"
-                                     onClick={(event) => {
-                                         this.setState({popovertext: 'The Reviews are automatically monitored for foul language. Reviews are averaged with temporal weightage'})
-                                         this.handleClick(event)
-                                     }}
-                                ><h6><AiOutlineInfoCircle/></h6></div>
-
-                            </div>
-                            <div className="d-flex justify-content-center">
-
-                                <button onClick={() => {
-                                    if (this.state.auth) {
-                                        this.props.history.push(currentLocation + "#review")
-                                        this.setState({show_review: !this.state.show_review})
-                                    } else {
-                                        this.performAuth()
-                                    }
-                                }}
-                                        className="d-flex align-items-center mt-2 py-0 btn btn-light  bg-white rounder thin-border">
-                                    <MdRateReview className="text-dark"/>
-                                    <div className="p-1 px-2">write a review</div>
-                                </button>
-                                {
-                                    this.state.auth &&
-                                    <CSSTransition classNames="filter-screen" in={this.state.show_review} timeout={300}
-                                                   unmountOnExit>
-                                        <FullScreenReview refresh_parent={this.refresh} marker={model.id} close={() => {
-                                            this.props.history.goBack()
-                                            this.refreshReviews().then()
-                                            this.setState({show_review: false})
-                                        }}/>
-                                    </CSSTransition>}
-                            </div> 
-                        </div>*/}
-
-                        {model.comment.reverse().map((comment: {
-                            id: number;
-                            written_by_name: string;
-                            datef: string;
-                            care_rating: number;
-                            oxygen_rating: number;
-                            financial_rating: number;
-                            covid_rating: number;
-                            comment: string;
-                            oxygen_availability: number;
-                            icu_availability: number;
-                            ventilator_availability: number;
-                        }) =>
-                        (
-                            <div key={comment.id}
-                                className="px-3 border-bottom bg-white align-items-center  text-left py-2 ">
-                                <div className="d-flex flex-row line-height-small justify-content-between mb-3">
-                                    <div className="d-flex flex-row ">
-                                        <IoPersonCircleSharp size={35} height={30} />
-                                        <div>
-                                            <div className="h6 m-0"><b>{comment.written_by_name}</b></div>
-                                            <small>{comment.datef.split('-').reverse().join('-')}</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="d-flex flex-row justify-content-center">
-                                    <div className="d-flex flex-column w-50">
-                                        <small>Care Rating</small>
-                                        <StarRating rating={comment.care_rating} />
-                                    </div>
-                                    <div className="d-flex flex-column w-50">
-                                        <small>Oxygen Rating</small>
-                                        <StarRating rating={comment.oxygen_rating} />
-                                    </div>
-                                </div>
-                                <div className="d-flex flex-row justify-content-center">
-                                    <div className="d-flex flex-column w-50">
-                                        <small>Affordability Rating</small>
-                                        <StarRating rating={comment.financial_rating} />
-                                    </div>
-                                    <div className="d-flex flex-column w-50">
-                                        <small>Covid Rating</small>
-                                        <StarRating rating={comment.covid_rating} />
-                                    </div>
-
-                                </div>
-                                <div className="py-2 pl-3">"{comment.comment}"</div>
-
-
-                                <div className="d-flex flex-row justify-content-center">
-
-                                    <div className="d-flex flex-column w-50" onClick={(event) => {
-                                        let used = comment.oxygen_availability === 2 ? 'Available' :
-                                            comment.oxygen_availability === 1 ? 'Not Available' : 'not need'
-                                        this.setState({ popovertext: `Oxygen was ${used}` })
-                                        this.handleClick(event)
-                                    }}>
-                                        <h6 className="d-flex align-items-center">
-                                            <span className="mr-1">Oxygen </span>
-                                            {comment.oxygen_availability === 0 ?
-                                                <AiFillQuestionCircle className="text-secondary" /> :
-                                                comment.oxygen_availability === 1 ?
-                                                    <AiFillCloseCircle className="text-danger" /> :
-                                                    <AiFillCheckCircle className="text-success" />}
-                                        </h6>
-                                    </div>
-
-
-                                    <div className="d-flex flex-column w-50" onClick={(event) => {
-                                        let used = comment.icu_availability === 2 ? 'Available' :
-                                            comment.icu_availability === 1 ? 'Not Available' : 'not need'
-                                        this.setState({ popovertext: `ICU beds were ${used}` })
-                                        this.handleClick(event)
-                                    }}>
-                                        <h6 className="d-flex align-items-center">
-                                            <span className="mr-1">ICU beds</span>
-                                            {comment.icu_availability === 0 ?
-                                                <AiFillQuestionCircle className="text-secondary" /> :
-                                                comment.icu_availability === 1 ?
-                                                    <AiFillCloseCircle className="text-danger" /> :
-                                                    <AiFillCheckCircle className="text-success" />}
-                                        </h6>
-                                    </div>
-
-
-                                </div>
-                                <div className="d-flex flex-row justify-content-between" onClick={(event) => {
-                                    let used = comment.ventilator_availability === 2 ? 'Available' :
-                                        comment.ventilator_availability === 1 ? 'Not Available' : 'not need'
-                                    this.setState({ popovertext: `Ventilator beds were ${used}` })
-                                    this.handleClick(event)
-                                }}>
-                                    <div className="d-flex flex-column w-50">
-                                        <h6 className="d-flex align-items-center">
-                                            <span
-                                                className="mr-1">Ventilator beds</span>
-                                            {comment.ventilator_availability === 0 ?
-                                                <AiFillQuestionCircle className="text-secondary" /> :
-                                                comment.ventilator_availability === 1 ?
-                                                    <AiFillCloseCircle className="text-danger" /> :
-                                                    <AiFillCheckCircle className="text-success" />}
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                        )
-                        )}
-
-                    </Container>
+                    </div>
                 </> :
                 <Container fluid={true} className="my-5 py-5 ">
-                    <Loader type="Bars" color="#3a77ff" height={50} width={50} />
+                    <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
                 </Container>
 
 
