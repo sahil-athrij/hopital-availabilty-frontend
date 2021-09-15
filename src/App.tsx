@@ -102,7 +102,7 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                     <Switch>
                         <Route path="/doctor/:docId" children={DoctorComponent} /> {/* Show details about a doctor */}
                         <Route path="/details/:hspId">
-                            <NavBar/>
+                            {/*<NavBar/>*/}
                             <Details/>
                             {/* If the current URL is /search, this route is rendered
             while the rest are ignored */}
