@@ -759,46 +759,28 @@
 
 .overlap-group10 {
     align-items: center;
-    background-size: 100% 100%;
     display: flex;
     flex-direction: column;
-    left: 0;
-    min-height: 1859px;
-    padding: 38px 0;
-    position: absolute;
-    top: 0;
-    width: 414px;
+    width: 100%;
 }
 
-.flex-row {
-    align-items: flex-start;
-    display: flex;
-    height: 206px;
-    min-width: 360px;
-    position: relative;
-}
 
-.image {
-    align-self: flex-end;
+
+.details-image {
     height: 178px;
-    margin-left: 53px;
     width: 178px;
 }
 
-.icon {
+.details-icon {
     height: 18px;
-    margin-left: 85px;
-    margin-top: 11px;
-    width: 4px;
 }
 
 .overlap-group13 {
     height: 127px;
-    margin-right: 1.0px;
-    margin-top: 33px;
     position: relative;
-    width: 281px;
+    width: 100%;
 }
+
 
 .overlap-group11 {
     height: 113px;
@@ -1672,15 +1654,13 @@
     width: 414px;
 }
 
-.dr-bellamy-nicholas {
+.details-name {
     color: var(--ebony-clay);
     font-family: var(--font-family-nunito);
     font-size: var(--font-size-xxxl);
     font-weight: 600;
-    left: 84px;
     letter-spacing: 0.33px;
     line-height: 24px;
-    position: absolute;
     text-align: center;
     top: 242px;
     white-space: nowrap;
@@ -1718,11 +1698,10 @@
     width: 40px;
 }
 
-.icon-3 {
+.doctors-icon3 {
     height: 14px;
-    margin-left: 12px;
-    margin-top: 13px;
     width: 16px;
+    margin-top: 19px;
 }
 
 .group-6916 {
@@ -1795,8 +1774,6 @@
 
 .overlap-group-5 {
     align-items: flex-start;
-    background-image: url(icons/vector-12@2x.png);
-    background-size: 100% 100%;
     display: flex;
     height: 24px;
     margin-top: -2.0px;
@@ -1809,16 +1786,14 @@
     width: 10px;
 }
 
-.viralogist {
+.details-place {
     font-weight: 600;
-    height: 19px;
+    height: 36px;
     letter-spacing: 0.23px;
     line-height: 16px;
-    margin-left: 2px;
-    margin-top: 1px;
-    text-align: center;
+    text-align: left;
     white-space: nowrap;
-    width: 260.2336120605469px;
+    color: #6B779A;
 }
 
 .group-6918 {
@@ -1849,7 +1824,6 @@
     background-size: 100% 100%;
     display: flex;
     height: 53px;
-    margin-top: 12px;
     width: 53px;
 }
 
@@ -2274,7 +2248,7 @@
     background-size: 100% 100%;
     display: flex;
     height: 50px;
-    min-width: 50px;
+    width: 50px;
     padding: 0 13px;
 }
 
@@ -2518,19 +2492,6 @@
     margin-left: 26px;
 }
 
-.about {
-    align-items: flex-start;
-    background-image: url(icons/about-backgroundmask.png);
-    background-size: 100% 100%;
-    display: flex;
-    flex-direction: column;
-    height: 134px;
-    left: 27px;
-    overflow: hidden;
-    position: absolute;
-    top: 426px;
-    width: 360px;
-}
 
 .flex-row-1 {
     align-items: center;
@@ -2545,18 +2506,18 @@
     letter-spacing: 0.30px;
     line-height: 21px;
     min-height: 25px;
-    min-width: 55px;
     white-space: nowrap;
+    font-size: 18px;
+    width: 36px;
+    color: #222B45;
+
 }
 
-.about-2 {
-    font-weight: 600;
-    letter-spacing: 0.30px;
-    line-height: 21px;
-    margin-left: 243px;
-    min-height: 25px;
-    min-width: 29px;
-    white-space: nowrap;
+.doctor-about-2 {
+    display: flex;
+    flex-direction: row;
+    font-size: 18px;
+    color: #222B45;
 }
 
 .icon-10 {
@@ -2628,40 +2589,38 @@
 
 /* card section style */
 
-.card-sec{
-    display: flex;
-    flex-direction: row;
-    justify-content:space-around;
-    margin-top: 30px;
-}
 
-.card-sec .card{
+
+.card-about{
     border-radius: 21px;
     background: #fff;
-    box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+    box-shadow: 0 6px 10px rgb(0 0 0 / 8%), 0 0 6px rgb(0 0 0 / 5%);
     transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
     cursor: pointer;
-    width:100px;
-    height:100px;
-    padding: 5px;
+    width: 30%;
+    height: 145px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.card-sec .card-1:hover{
+.card-about-1:hover{
     transform: scale(1.05);
     box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
     border: solid 2px blue;
 }
 
-.card-sec .card :focus{
+.card-about :focus{
     border: solid 2px blue;
 }
 
-.card-sec .card p{
+.card-about p{
     font-size: small;
     text-align: center;
 }
 
-.card-sec .card img{
+.card-about img{
     width:100%;
     height:40%;
 }
@@ -2669,16 +2628,14 @@
 
 /* about section style */
 
-.about {
+.hosp-about {
     align-items: flex-start;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    padding-top: 20px;
+    padding-top: 24px;
     padding-bottom: 20px;
-    width: auto;
-    height: 300px;
-    margin: 10px;
+    font-size: 14px;
+    color: #6B779A;
 }
 
 .about-sub{
@@ -2694,4 +2651,7 @@
     display: flex;
     flex-direction: row;
     align-self: flex-end;
+}
+.staricon {
+
 }

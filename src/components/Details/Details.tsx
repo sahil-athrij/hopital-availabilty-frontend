@@ -17,9 +17,9 @@ import icon from "./icons/icon-1@2x.png"
 import icon2 from "./icons/icon@2x.png"
 import vector21 from "./icons/vector-21@2x.png"
 import vector5 from "./icons/vector-5@2x.png"
-import vector4 from "./icons/vector-4@2x.png"
+import vector4 from "./icons/shareicon.svg"
 import vector26 from "./icons/vector-26@2x.png"
-import map_pin from "./icons/map-pin-backgroundmask@2x.png"
+import map_pin from "./icons/map-pin.svg"
 
 import  { DepartmentCards } from "./DepatrmentCards"
 
@@ -100,57 +100,62 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                     className="overlap-group10"
 
                                 >
-                                    <div className="flex-row">
-                                        <div className="back">
+                                    <div className="w-100 flex-row container pt-5">
+                                        <div className="w-100 d-flex flex-row justify-content-between">
                                             <img alt={""}
-                                                 className="icon-3"
+                                                 className="details-icon"
                                                  src={icon2}
                                             />
+                                            <img alt={""} className="details-icon" src={icon}/>
                                         </div>
-                                        <img alt={""} className="image" src={image}/>
-                                        <img alt={""} className="icon" src={icon}/>
+
+                                        <img alt={""} className="details-image m-0" src={image}/>
                                     </div>
-                                    <div className="dr-bellamy-nicholas">
+
+                                    <div className="details-name p-1">
                                         Ernakulam Medical Centre
                                     </div>
-                                    <div className="overlap-group13">
-                                        <Group6916/>
-                                        <div className="overlap-group11">
-                                            <Group6907/>
+                                    <div className="overlap-group13 justify-content-center d-flex flex-column">
+                                        <Group6907 />
+
+                                        <div className="w-100 d-flex justify-content-around">
+                                            <Group6916/>
                                             <Group6918/>
+                                            <Group6917/>
                                         </div>
-                                        <Group6917/>
+
                                     </div>
-                                    <div className="about">
-                                        <div className="flex-rownunito-semi-bold-ebony-clay-18px">
+                                    <div className="hosp-about">
+                                        <div className="w-100 d-flex flex-row justify-content-between nunito-semi-bold-ebony-clay-18px">
                                             <div className="about-1">
                                                 About
                                             </div>
-                                            <div className="about-2">
+                                            <div className="doctor-about-2">
                                                 4.5
+                                                <img alt={""} className="staricon" src={starsvg} />
                                             </div>
-                                            <img alt={""} className="icon" src={starsvg} />
+
                                         </div>
-                                        <p className="hospitalnamenunito-bold-lynch-14px">
+                                        <p className="hospitalname text-justify nunito-bold-lynch-14px">
                                             One of the leading Multi-Specialty Hospitals in Ernakulam with 3- Decades of service excellence&amp; with 300
                                             beds and a full complement of specialist doctors
                                         </p>
                                     </div>
-                                    <div className="card-sec">
+                                    <div className="container d-flex justify-content-between">
 
-                                        <div className="card card-1">
+                                        <div className="card-about card-1">
                                             <img src={doctorsvg} alt={"doctor svg"} />
-                                            <p><b>1000+</b><br/>Doctors</p>
+                                            <p className="m-0"><b>1000+</b><br/>Doctors</p>
                                         </div>
 
-                                        <div className="card card-1">
+                                        <div className="card-about card-1">
                                             <img src={layoutsvg} alt={"layout svg"} />
-                                            <p><b>good</b><br/>Layout</p>
+                                            <p className="m-0"><b>good</b><br/>Layout</p>
                                         </div>
 
-                                        <div className="card card-1">
+                                        <div className="card-about card-1">
                                             <img src={reviewsvg} alt={"review svg"} />
-                                            <p><b>4.5<br/></b>Ratings<br/>&amp; Reviews</p>
+                                            <p className="m-0"><b>4.5<br/></b>Ratings<br/>&amp; Reviews</p>
                                         </div>
 
                                     </div>
@@ -173,13 +178,13 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
 class Group6916 extends React.Component {
     render() {
         return (
-            <div className="group-6916">
+            <div className="d-flex flex-column align-items-center">
                 <div className="group-6841">
                     <div className="turnright">
                         <div className="turn-right"/>
                     </div>
                 </div>
-                <div className="x1000 nunito-semi-bold-ebony-clay-17px">
+                <div className="x1000  nunito-semi-bold-ebony-clay-17px">
                     Phone
                 </div>
             </div>
@@ -190,7 +195,7 @@ class Group6916 extends React.Component {
 class Group6907 extends React.Component {
     render() {
         return (
-            <div className="group-6907">
+            <div className="w-100 d-flex flex-row justify-content-center">
                 <div className="map-pin">
                     <div className="overlap-group-5">
                         <img alt={""}
@@ -199,7 +204,7 @@ class Group6907 extends React.Component {
                         />
                     </div>
                 </div>
-                <div className="viralogist nunito-semi-bold-lynch-14px">
+                <div className="details-place">
                     Kakkanad,Pallinada, Kannayanur,Kerala
                 </div>
             </div>
@@ -211,9 +216,9 @@ class Group6907 extends React.Component {
 class Group6918 extends React.Component {
     render() {
         return (
-            <div className="group-6918">
+            <div className="d-flex flex-column align-items-center">
                 <Group6906/>
-                <div className="x45 nunito-semi-bold-ebony-clay-17px">
+                <div className="  nunito-semi-bold-ebony-clay-17px">
                     Share
                 </div>
             </div>
@@ -225,32 +230,17 @@ class Group6918 extends React.Component {
 class Group6906 extends React.Component {
     render() {
         return (
-            <div className="group-6906">
-                <div className="share-2">
-                    <div className="overlap-group-6">
-                        <img alt={""}
-                             className="vector-21"
-                             src={vector21}
-                        />
-                        <img alt={""}
-                             className="vector-22"
-                             src={vector21}
-                        />
-                        <img alt={""}
-                             className="vector-23"
-                             src={vector21}
-                        />
+            <div className="group-6839">
+
+                    <div className="overlap-group-7">
+
                         <img alt={""}
                              className="vector-24"
                              src={vector4}
                         />
-                        <img alt={""}
-                             className="vector-25"
-                             src={vector5}
-                        />
+
                     </div>
                 </div>
-            </div>
         );
     }
 }
@@ -259,7 +249,7 @@ class Group6906 extends React.Component {
 class Group6917 extends React.Component {
     render() {
         return (
-            <div className="group-6917">
+            <div className="d-flex flex-column align-items-center">
                 <div className="group-6839">
                     <div className="overlap-group-7">
                         <img alt={""}
@@ -269,7 +259,7 @@ class Group6917 extends React.Component {
                     </div>
                 </div>
                 <div
-                    className="x10-yrs-1 nunito-semi-bold-ebony-clay-16px"
+                    className="x10-yrs-1  nunito-semi-bold-ebony-clay-16px"
                 >
                     Route Map
                 </div>
