@@ -15,13 +15,12 @@ import starsvg from '../../images/star.svg';
 import image from "./icons/image@2x.png"
 import icon from "./icons/icon-1@2x.png"
 import icon2 from "./icons/icon@2x.png"
-import vector21 from "./icons/vector-21@2x.png"
-import vector5 from "./icons/vector-5@2x.png"
 import vector4 from "./icons/shareicon.svg"
 import vector26 from "./icons/vector-26@2x.png"
 import map_pin from "./icons/map-pin.svg"
 
 import  { DepartmentCards } from "./DepatrmentCards"
+import {DoctorCards} from "./DoctorCards";
 
 
 interface DetailsState extends AuthState {
@@ -159,11 +158,11 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                         </div>
 
                                     </div>
-                                    <DepartmentCards models={model.departments} />
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <DoctorCards models={model.doctors} />
                 </> :
                 <Container fluid={true} className="my-5 py-5 ">
                     <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
@@ -269,4 +268,4 @@ class Group6917 extends React.Component {
 }
 
 
-export const Details = withRouter(DetailsLoc)
+export const Details = withRouter(DetailsLoc);

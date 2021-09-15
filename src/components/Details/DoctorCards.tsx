@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import {DoctorObject} from "../../api/model";
 import doctor_fallback from "./icons/doctor-fallback.png";
@@ -16,8 +16,8 @@ class Card extends React.Component<CardProps, { open: boolean }> {
 
     render() {
         return (
-            this.state.open ? <Redirect to={`/doctor/${this.props.model.id}`}/> :
-                <div className="klimisch-1" onClick={() => this.setState({open: true})}>
+            <Link to={`/doctor/${this.props.model.id}`}>
+                <div className="klimisch-1">
                     <div className="overlap-group1">
                         <div className="overlap-group">
                             <img
@@ -38,6 +38,7 @@ class Card extends React.Component<CardProps, { open: boolean }> {
                         </div>
                     </div>
                 </div>
+            </Link>
         );
     }
 }

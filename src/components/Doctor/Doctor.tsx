@@ -45,6 +45,8 @@ interface CommunicationProps {
     class: string
 }
 
+const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+
 class DoctorStats extends React.Component<StatsProps, {}> {
     render() {
         return (
@@ -164,7 +166,14 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                 <div className={"about "}>
                     <div className="about-doctor nunito-semi-bold-ebony-clay-18px">Working Time</div>
                     <p className="dr-bellamy-nicholas nunito-bold-lynch-14px">
-                        {model.working_time}
+                        {model.working_time.map(({working_time, hospital}, i) => (
+                                <p key={i}>
+                                    {DAYS[working_time.day]} -
+                                    {working_time.starting_time} to {working_time.ending_time} at
+                                    {hospital}
+                                </p>
+                            )
+                        )}
                     </p>
                 </div>
                 <div className="communication">
