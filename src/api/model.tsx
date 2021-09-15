@@ -34,7 +34,7 @@ export class MarkerObject extends ModelObject {
         super(data, baseUrl);
         this.fields = ["id", "Phone", "size", "financial_rating", "avg_cost", "covid_rating", "beds_available", "care_rating",
             "oxygen_rating", "ventilator_availability", "oxygen_availability", "icu_availability", "lat", "lng", "images",
-            "display_address", "name", "datef", 'address', 'comment', 'departments']
+            "display_address", "name", "datef", 'address', 'comment', 'departments', 'doctors']
         this.getData()
 
     }
