@@ -17,9 +17,9 @@ class Card extends React.Component<CardProps, { open: boolean }> {
     render() {
         return (
             <Link to={`/doctor/${this.props.model.id}`}>
-                <div className="klimisch-1">
-                    <div className="overlap-group1">
-                        <div className="overlap-group">
+                <div>
+                    <div>
+                        <div>
                             <img
                                 src={this.props.model.image?.uri || doctor_fallback}
                                 alt={""}
@@ -27,13 +27,13 @@ class Card extends React.Component<CardProps, { open: boolean }> {
                                 height={"80px"}
                             />
                         </div>
-                        <div className="x45-13">
+                        <div>
                             ⭐️ {this.props.model.rating || 0} ({(this.props.model.reviews || []).length} reviews)
                         </div>
-                        <div className="surgeon nunito-black-lynch-12px">
+                        <div className="nunito-black-lynch-12px">
                             {this.props.model.specialization || "General"}
                         </div>
-                        <div className="dr-klimisch-j nunito-black-ebony-clay-16px">
+                        <div className="nunito-black-ebony-clay-16px">
                             {this.props.model.name}
                         </div>
                     </div>
@@ -48,11 +48,9 @@ export class DoctorCards extends Component<{ models: DoctorObject[] }, {}> {
 
     render() {
         return (
-            <div className="container-center-horizontal">
-                <div className="doctorsscreen">
-                    {this.props.models.map((model, i) => <Card model={model} key={i}/>)}
-                </div>
-            </div>
+            <>
+                {this.props.models.map((model, i) => <Card model={model} key={i}/>)}
+            </>
         )
     }
 }
