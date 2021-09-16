@@ -29,11 +29,11 @@
     padding: 0 1.0px;
 }
 
-.card-about{
+.card-about {
     border-radius: 21px;
     background: #fff;
     box-shadow: 0 6px 10px rgb(0 0 0 / 8%), 0 0 6px rgb(0 0 0 / 5%);
-    transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+    transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
     cursor: pointer;
     width: 30%;
     height: 145px;
@@ -47,19 +47,19 @@
     border: solid 2px blue;
 }
 
-.card-about:hover{
+.card-about:hover {
     transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
 }
 
-.card-about p{
+.card-about p {
     font-size: small;
     text-align: center;
 }
 
-.card-about img{
-    width:100%;
-    height:40%;
+.card-about img {
+    width: 100%;
+    height: 40%;
 }
 
 .hosp-about {
@@ -70,4 +70,22 @@
     padding-bottom: 20px;
     font-size: 14px;
     color: #6B779A;
+}
+
+.searchbar {
+    align-items: center;
+    justify-content: left;
+    width: 90%;
+    margin: auto;
+    border-radius: 10px;
+    background-color: rgba(107, 119, 154, 0.05);
+    height: 50px;
+}
+
+.search-for-doctors {
+    color: var(--lynch);
+    font-family: var(--font-family-nunito);
+    font-size: 1.2rem;
+    font-weight: 700;
+    white-space: nowrap;
 }
