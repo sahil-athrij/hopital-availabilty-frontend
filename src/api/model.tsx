@@ -109,11 +109,12 @@ export class DepartmentObject extends ModelObject {
     images: Array<{ image: string, useinmarker: boolean, hospital: number, review: number }> = [];
     doctors: Array<DoctorObject> = [];
     name_id = -1;
+    rating: number = -1;
 
     constructor(data: ModelData, baseUrl: string) {
 
         super(data, baseUrl);
-        this.fields = ['name', 'x', 'y', 'hospital', 'images', 'doctors', 'name_id']
+        this.fields = ['name', 'x', 'y', 'hospital', 'images', 'doctors', 'name_id', 'rating']
         this.getData()
 
     }

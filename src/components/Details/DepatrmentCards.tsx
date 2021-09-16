@@ -3,32 +3,31 @@ import {DepartmentObject} from "../../api/model";
 
 import {Container} from "react-bootstrap";
 import "./DepartmentCards.css";
-import deptimage from "../../images/doctor.svg";
-import str from "../../images/star.svg";
+import star from "../../images/star.svg";
 
-export class DepartmentCards extends Component<{ models: DepartmentObject[] },{}> {
+export class DepartmentCards extends Component<{ models: DepartmentObject[] }, {}> {
     render() {
-        console.log(this.props.models)
         return (
-            <Container fluid={true} className='m-0 p-0'>
-                <div className="dpts">
-                  {this.props.models.map((model, i) => <h1>{model.name}</h1>)}
-                  
-                    <div className="dpts-pic">
-                        <img src={deptimage} alt="dpt"/>
+            this.props.models.length ?
+                <Container fluid={true} className='m-0 p-0'>
+                    <div className="dpts">
+                        {this.props.models.map((model, i) => (
+                            <div id={String(i)}>
+                                <div className="dpts-pic">
+                                    <img src={model.images[0]?.image || "fallback_image.png"} alt="dpt"/>
+                                </div>
+
+                                <div className="dpts-cnt">
+                                    <p><b>{model.name.name}</b><br/><small>{model.rating}</small></p>
+                                </div>
+
+                                <div className="dpts-rtg">
+                                    <img src={star} alt="rating"/>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-
-                    <div className="dpts-cnt">
-                        <p><b>Anaesthesiology</b><br/><small>Ratings 1.0</small></p>
-                    </div>
-
-                    <div className="dpts-rtg">
-                        <img src={str} alt="rating" />
-                    </div>
-
-                </div>
-
-            </Container>
+                </Container> : <p>No Departments</p>
         )
     }
 }
