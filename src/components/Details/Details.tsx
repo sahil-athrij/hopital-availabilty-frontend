@@ -4,6 +4,7 @@ import React from "react";
 
 import './details.css'
 import {Container} from "react-bootstrap";
+import SwipeableViews from 'react-swipeable-views';
 import Loader from "react-loader-spinner";
 import {withRouter} from "react-router";
 
@@ -20,7 +21,7 @@ import phone_icon from "./icons/vector-26@2x.png"
 import map_pin from "./icons/map-pin.svg"
 import direction_icon from "./icons/primary@2x.png"
 
-// import {DepartmentCards} from "./DepatrmentCards"
+import {DepartmentCards} from "./DepatrmentCards"
 import {DoctorCards} from "./DoctorCards";
 
 
@@ -31,6 +32,34 @@ interface DetailsState extends AuthState {
     open_availability: HTMLElement | null,
     popovertext: string,
     show_review: boolean,
+    tab: number
+}
+
+interface TabPanelProps {
+    children?: React.ReactNode;
+    index: any;
+    value: any;
+}
+
+
+function TabPanel(props: TabPanelProps) {
+    const {children, value, index, ...other} = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`full-width-tabpanel-${index}`}
+            aria-labelledby={`full-width-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+
+                <>{children}</>
+
+            )}
+        </div>
+    );
 }
 
 
@@ -45,7 +74,8 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
             ready: false,
             open_availability: null,
             popovertext: 'Percentage Probability of Availing the services',
-            show_review: false
+            show_review: false,
+            tab: 0
         }
     }
 
@@ -92,7 +122,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
         return (
             this.state.ready ?
                 <>
-                    <div className="d-flex flex-column w-100 container">
+                    <div className="d-flex flex-column w-100 container pb-4 mb-3">
                         <div className="w-100 flex-row container pt-5">
                             <div className="w-100 d-flex flex-row justify-content-between">
                                 <img alt={""} width={"15px"} height={"15px"} src={icon2}
@@ -139,24 +169,46 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                         </div>
                         <div className="container d-flex justify-content-between">
 
-                            <div className="card-about card-1">
+                            <div className={`card-about card-1 ${this.state.tab == 0 && "active"}`}
+                                 onClick={() => this.setState({tab: 0})}>
                                 <img src={doctorsvg} alt={"doctor svg"}/>
                                 <p className="m-0"><b>{model.doctors.length}</b><br/>Doctors</p>
                             </div>
 
-                            <div className="card-about card-1">
+                            <div className={`card-about card-1 ${this.state.tab == 1 && "active"}`}
+                                 onClick={() => this.setState({tab: 1})}>
                                 <img src={layoutsvg} alt={"layout svg"}/>
                                 <p className="m-0"><b>good</b><br/>Layout</p>
                             </div>
 
-                            <div className="card-about card-1">
+                            <div className={`card-about card-1 ${this.state.tab == 2 && "active"}`}
+                                 onClick={() => this.setState({tab: 2})}>
                                 <img src={reviewsvg} alt={"review svg"}/>
                                 <p className="m-0"><b>{model.comment.length}<br/></b>Ratings<br/>&amp; Reviews</p>
                             </div>
 
                         </div>
                     </div>
-                    <DoctorCards models={model.doctors}/>
+                    <SwipeableViews
+                        className="pb-5 mb-5"
+                        axis={'x'}
+                        index={this.state.tab}
+                        onChangeIndex={(v) => {
+                            this.setState({tab: v});
+                        }}
+                    >
+                        <TabPanel value={this.state.tab} index={0}>
+                            <DoctorCards models={model.doctors}/>
+                        </TabPanel>
+
+                        <TabPanel value={this.state.tab} index={1}>
+                            <DepartmentCards models={model.departments}/>
+                        </TabPanel>
+
+                        <TabPanel value={this.state.tab} index={2}>
+                            Reviews {/* TODO add reviews card. */}
+                        </TabPanel>
+                    </SwipeableViews>
                 </> :
                 <Container fluid={true} className="my-5 py-5 ">
                     <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
