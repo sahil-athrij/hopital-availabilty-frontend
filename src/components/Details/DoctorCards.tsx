@@ -26,7 +26,7 @@ class Card extends React.Component<CardProps, { open: boolean }> {
                     <div>
                         <div>
                             <img
-                                src={this.props.model.image?.uri || doctor_fallback}
+                                src={this.props.model.image || doctor_fallback}
                                 alt={""}
                                 width={"80px"}
                                 height={"80px"}
@@ -67,17 +67,19 @@ export class DoctorCards extends Component<{ models: DoctorObject[] }, {}> {
                     </Link>
                     <Container className="d-flex flex-row">
                         <Link to={`/addDoctor`} className="flex-column col-6">
-                            <img
-                                src={add_doctor_icon}
-                                alt={""}
-                                width={"130px"}
-                                height={"75px"}
-                            />
-                            <div className="nunito-black-ebony-clay-16px">
-                                Add doctor
-                            </div>
+                            {/*<img*/}
+                            {/*    src={add_doctor_icon}*/}
+                            {/*    alt={""}*/}
+                            {/*    width={"130px"}*/}
+                            {/*    height={"75px"}*/}
+                            {/*/>*/}
+                            {/*<div className="nunito-black-ebony-clay-16px">*/}
+                            {/*    Add doctor*/}
+                            {/*</div>*/}
                         </Link>
-                        {this.props.models.map((model, i) => <Card model={model} key={i}/>)}
+                        <div className="d-flex flex-row flex-wrap">
+                            {this.props.models.map((model, i) => <Card model={model} key={i}/>)}
+                        </div>
                     </Container>
                 </> : <p>No Doctors</p>
         )
