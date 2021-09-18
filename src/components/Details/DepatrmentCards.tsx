@@ -13,16 +13,17 @@ export class DepartmentCards extends Component<{ models: DepartmentObject[] }, {
                     <div className="dpts">
                         {this.props.models.map((model, i) => (
                             <div id={String(i)}>
-                                <div className="dpts-pic">
-                                    <img src={model.images[0]?.image || "fallback_image.png"} alt="dpt"/>
-                                </div>
+                                <div className="dpts-pic d-flex justify-content-between p-2">
+                                    <div>
+                                        <img src={model.name.icon || "fallback_image.png"} alt="dpt"/>
 
-                                <div className="dpts-cnt">
-                                    <p><b>{model.name.name}</b><br/><small>{model.rating}</small></p>
-                                </div>
+                                        <p className="justify-content-start"><b>{model.name.name}</b><br/><small>Ratings {model.rating}</small></p>
+                                    </div>
+                                    <div className="dpts-rtg">
+                                        <img src={star} alt="rating"/>
+                                        <ArrowForwardIosIcon/>
+                                    </div>
 
-                                <div className="dpts-rtg">
-                                    <img src={star} alt="rating"/>
                                 </div>
                             </div>
                         ))}

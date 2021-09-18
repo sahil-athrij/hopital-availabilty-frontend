@@ -102,11 +102,10 @@ export class Comment extends ModelObject {
 }
 
 export class DepartmentObject extends ModelObject {
-    name: { id: number, name: string | undefined } = {id: -1, name: undefined};
+    name: { id: number, icon?:string, name?: string} = {id: -1};
     x = -1;
     y = -1;
     hospital = -1;
-    images: Array<{ image: string, useinmarker: boolean, hospital: number, review: number }> = [];
     doctors: Array<DoctorObject> = [];
     name_id = -1;
     rating: number = -1;
@@ -114,7 +113,7 @@ export class DepartmentObject extends ModelObject {
     constructor(data: ModelData, baseUrl: string) {
 
         super(data, baseUrl);
-        this.fields = ['name', 'x', 'y', 'hospital', 'images', 'doctors', 'name_id', 'rating']
+        this.fields = ['name', 'x', 'y', 'hospital', 'doctors', 'name_id', 'rating']
         this.getData()
 
     }
