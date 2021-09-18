@@ -20,6 +20,7 @@ import {green, pink} from '@material-ui/core/colors';
 import {Privacy} from "./components/Privacy/Privacy";
 import {Add} from "./components/AddHospital/Add";
 import {DoctorComponent} from './components/Doctor/Doctor';
+import {AddDoctorComponent} from './components/Doctor/Adddoctor'
 
 const theme = createMuiTheme({
     palette: {
@@ -100,6 +101,9 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                     <BottomNav/>
 
                     <Switch>
+                        <Route path="/doctor/add">
+                            <AddDoctorComponent/>
+                        </Route>
                         <Route path="/doctor/:docId" children={DoctorComponent} /> {/* Show details about a doctor */}
                         <Route path="/details/:hspId">
                             {/*<NavBar/>*/}
@@ -144,6 +148,7 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                             <NavBar/>
                             <Index/>
                         </Route>
+
 
                     </Switch>
                 </ThemeProvider>

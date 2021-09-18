@@ -1,17 +1,22 @@
 import React, {Component} from "react";
 import {Link} from 'react-router-dom';
+import './details.css'
 
-import {DoctorObject} from "../../api/model";
+import {DoctorObject, MarkerObject} from "../../api/model";
 import doctor_fallback from "./icons/doctor-fallback.png";
 import add_doctor_icon from "./icons/add-doctor.png";
 import {Container} from "react-bootstrap";
+import starsvg from '../../images/star.svg';
 
 import search_icon from "./icons/search-icon.svg";
+import {Button} from "@material-ui/core";
+import {AuthPropsLoc} from "../../api/auth";
 
 
 interface CardProps {
     model: DoctorObject
 }
+
 
 class Card extends React.Component<CardProps, { open: boolean }> {
     constructor(props: CardProps) {
@@ -21,29 +26,33 @@ class Card extends React.Component<CardProps, { open: boolean }> {
 
     render() {
         return (
-            <Link to={`/doctor/${this.props.model.id}`} className="flex-column col-6">
-                <div>
+            <div className="m-2 doctor-card ">
+                <Link to={`/doctor/${this.props.model.id}`}>
                     <div>
                         <div>
-                            <img
-                                src={this.props.model.image || doctor_fallback}
-                                alt={""}
-                                width={"80px"}
-                                height={"80px"}
-                            />
-                        </div>
-                        <div>
-                            ⭐️ {this.props.model.rating || 0} ({(this.props.model.reviews || []).length} reviews)
-                        </div>
-                        <div className="nunito-black-lynch-12px">
-                            {this.props.model.specialization || "General"}
-                        </div>
-                        <div className="nunito-black-ebony-clay-16px">
-                            {this.props.model.name}
+                            <div>
+                                <img className="Doc-icon"
+                                     src={this.props.model.image || doctor_fallback}
+                                     alt={""}
+                                     width={"80px"}
+                                     height={"80px"}
+                                />
+                                <div className="nunito-black-ebony-clay-16px">
+                                    {this.props.model.name}
+                                </div>
+                                <div className="nunito-black-lynch-12px">
+                                    {this.props.model.specialization || "General"}
+                                </div>
+                            </div>
+                            <div>
+                                <img
+                                    src={starsvg}/> {this.props.model.rating || 0} ({(this.props.model.reviews || []).length} reviews)
+                            </div>
+
                         </div>
                     </div>
-                </div>
-            </Link>
+                </Link>
+            </div>
         );
     }
 }
@@ -53,35 +62,29 @@ export class DoctorCards extends Component<{ models: DoctorObject[] }, {}> {
 
     render() {
         return (
-            this.props.models.length ?
-                <>
-                    <Link to="#searchDoctor" className="searchbar d-flex flex-row mb-3">
-                        <img
-                            alt="Search Icon"
-                            className="col-2 pr-0"
-                            src={search_icon}
-                            width="22px"
-                            height="22px"
-                        />
-                        <div className="search-for-doctors col-10 text-left pl-0">Search For Doctors</div>
+            <div>{this.props.models.length ?
+                <Link to="#searchDoctor" className="searchbar d-flex flex-row mb-3">
+                    <img
+                        alt="Search Icon"
+                        className="col-2 pr-0"
+                        src={search_icon}
+                        width="22px"
+                        height="22px"
+                    />
+                    <div className="search-for-doctors col-10 text-left pl-0">Search For Doctors</div>
+                </Link>:null}
+                <Container className="doc-container">
+
+                    <div className="doc-subc">
+
+                        {this.props.models.map((model, i) => <Card model={model} key={i}/>)}
+
+                    </div>
+                    <Link to="/doctor/add">
+                        <Button fullWidth variant="contained" color="primary">Add Doctor</Button>
                     </Link>
-                    <Container className="d-flex flex-row">
-                        <Link to={`/addDoctor`} className="flex-column col-6">
-                            {/*<img*/}
-                            {/*    src={add_doctor_icon}*/}
-                            {/*    alt={""}*/}
-                            {/*    width={"130px"}*/}
-                            {/*    height={"75px"}*/}
-                            {/*/>*/}
-                            {/*<div className="nunito-black-ebony-clay-16px">*/}
-                            {/*    Add doctor*/}
-                            {/*</div>*/}
-                        </Link>
-                        <div className="d-flex flex-row flex-wrap">
-                            {this.props.models.map((model, i) => <Card model={model} key={i}/>)}
-                        </div>
-                    </Container>
-                </> : <p>No Doctors</p>
+                </Container>
+            </div>
         )
     }
 }

@@ -5,11 +5,8 @@
       <paths name="vm">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/user/hopital-availabilty-frontend" local="$PROJECT_DIR$" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
-          <excludedPaths>
-            <excludedPath path="/home/user/hopital-availabilty-frontend/node_modules" />
-          </excludedPaths>
         </serverdata>
       </paths>
     </serverData>
