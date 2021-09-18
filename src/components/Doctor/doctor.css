@@ -13,7 +13,7 @@ body{
 
 .overlap-group4 {
     align-items: center;
-    background-color: lightyellow;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FCFAFA 100%), #2041C6;
     border-bottom-left-radius: 40px;
     border-bottom-right-radius: 40px;
     /*background-image: url(icons/bg@2x.svg);*/
