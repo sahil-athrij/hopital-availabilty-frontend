@@ -26,7 +26,7 @@ class Card extends React.Component<CardProps, { open: boolean }> {
                     <div>
                         <div>
                             <img
-                                src={this.props.model.image?.uri || doctor_fallback}
+                                src={this.props.model.image || doctor_fallback}
                                 alt={""}
                                 width={"80px"}
                                 height={"80px"}

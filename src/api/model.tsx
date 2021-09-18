@@ -154,7 +154,7 @@ export class DoctorObject extends ModelObject {
     experience: number = -1;
     specialization: string | undefined;
     about: string | undefined;
-    image: { uri: string | undefined } = {uri: undefined};
+    image: string | undefined;
 
     constructor(data: ModelData, baseUrl: string) {
         super(data, baseUrl);

@@ -8,17 +8,18 @@ body{
     display: flex;
     flex-direction: column;
     height: 100%;
-    position: relative;
     width: 100%;
 }
 
 .overlap-group4 {
     align-items: center;
-    background-image: url(icons/bg@2x.svg);
-    background-size: 100% 100%;
+    background-color: lightyellow;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    /*background-image: url(icons/bg@2x.svg);*/
+    /*background-size: 100% 100%;*/
     display: flex;
     flex-direction: column;
-    min-height: 470px;
     padding: 21px 0;
     width: 100%;
 }
@@ -29,44 +30,31 @@ body{
 }
 
 .image {
-    align-self: flex-end;
-    height: 178px;
-    margin-left: 24%;
-    width: 42.99516908212561%;
+    height: 7.5rem;
+    width: 7.5rem;
+    border-radius: 50%;
 }
 
 .icon-2 {
     height: 18px;
-    margin-left: 85px;
-    margin-top: 11px;
     width: 4px;
 }
 
 .text-1 {
     letter-spacing: 0.33px;
-    margin-left: 2.0px;
     margin-top: 13px;
-    min-height: 27px;
-    min-width: 47.34299516908213%;
     text-align: center;
 }
 
 .viralogist {
     letter-spacing: 0.23px;
-    margin-left: 2.0px;
     margin-top: 9px;
-    min-height: 19px;
-    min-width: 23.188405797101453%;
     text-align: center;
 }
 
 .flex-row-1 {
-    margin-left: 52px;
     align-items: flex-start;
     display: flex;
-    height: 132px;
-    margin-top: 20px;
-    min-width: 87.43961352657006%
 }
 
 .overlap-group {
@@ -77,18 +65,14 @@ body{
     #6a769a0d;
     display: flex;
     flex-direction: column;
-    min-height: 132px;
     padding: 1px 25px;
-    width: 27.05314009661836%;
 }
 
 .group {
     align-items: flex-end;
     background-size: 100% 100%;
     display: flex;
-    height: 63px;
     margin-left: 1px;
-    min-width: 11.835748792270532%;
     padding: 9px 12px;
 }
 
@@ -112,8 +96,6 @@ body{
 .stats-value {
     letter-spacing: 0.1rem;
     margin-top: 17px;
-    min-height: 23px;
-    min-width: 13.52657004830918%;
     text-align: center;
 }
 
@@ -121,8 +103,6 @@ body{
     letter-spacing: 0.37px;
     margin-left: 2px;
     margin-top: 1px;
-    min-height: 16px;
-    min-width: 12.077294685990339%;
     text-align: center;
 }
 
@@ -131,10 +111,8 @@ body{
     background-image: url(icons/rectangle-1@2x.svg);
     background-size: 100% 100%;
     display: flex;
-    height: 63px;
     justify-content: flex-end;
     margin-left: 1px;
-    min-width: 11.835748792270532%;
     padding: 9px 16px;
 }
 
@@ -142,8 +120,6 @@ body{
     letter-spacing: 0.49px;
     margin-left: 5px;
     margin-top: 16px;
-    min-height: 22px;
-    min-width: 12.077294685990339%;
     text-align: center;
 }
 
@@ -153,18 +129,14 @@ body{
     background-image: url(icons/rectangle-2@2x.svg);
     background-size: 100% 100%;
     display: flex;
-    height: 63px;
     justify-content: flex-end;
     margin-right: 0.5px;
-    min-width: 11.835748792270532%;
     padding: 9px 12.4px;
 }
 
 .ratings {
     letter-spacing: 0.37px;
     margin-top: 1px;
-    min-height: 16px;
-    min-width: 11.352657004830919%;
     text-align: center;
 }
 
@@ -173,26 +145,21 @@ body{
     align-self: flex-start;
     display: flex;
     flex-direction: column;
-    height: 214px;
     margin-left: 27px;
     margin-top: 32px;
-    width: 89.966184%;
 }
 
 .communication-1 {
     letter-spacing: 0.30px;
-    min-height: 25px;
     margin-left: 16px;
 }
 
 .message {
     align-items: flex-start;
     display: flex;
-    height: 51px;
     justify-content: left;
     margin-top: 20px;
     overflow: hidden;
-    width: 250.966184%;
 }
 
 
@@ -200,10 +167,7 @@ body{
     align-items: flex-start;
     border-radius: 15px;
     display: flex;
-    height: 52px;
     justify-content: flex-end;
-    margin-top: -7px;
-    min-width: 52px;
     padding: 16.0px 16.0px;
 }
 
@@ -231,28 +195,22 @@ body{
     flex-direction: column;
     margin-left: 9px;
     margin-top: 2.0px;
-    min-height: 40px;
-    width: 36.71497584541063%;
 }
 
 .messaging {
     letter-spacing: 0.27px;
-    min-height: 22px;
 }
 
 .chat-me-up-share-ph {
     letter-spacing: 0.20px;
     margin-top: 2px;
-    min-height: 16px;
 }
 
 .audio {
     align-items: flex-start;
     display: flex;
-    height: 50px;
     margin-top: 12px;
     overflow: hidden;
-    width: 165.792271%;
 }
 
 .flex-col-1 {
@@ -262,18 +220,14 @@ body{
     flex-direction: column;
     margin-left: 9px;
     margin-top: 2.0px;
-    min-height: 40px;
-    width: 54.299517%;
 }
 
 .video-call {
     align-items: flex-start;
     display: flex;
-    height: 50px;
     justify-content: left;
     margin-top: 12px;
     overflow: hidden;
-    width: 209.995169%
 }
 
 .icon-6 {
@@ -288,19 +242,15 @@ body{
     flex-direction: column;
     margin-left: 9px;
     margin-top: 2.0px;
-    min-height: 40px;
-    width: 34.743961%;
 }
 
 .video-call-1 {
     letter-spacing: 0.27px;
-    min-height: 22px;
 }
 
 .text-4 {
     letter-spacing: 0.20px;
     margin-top: 2px;
-    min-height: 16px;
 }
 
 .button {
@@ -308,7 +258,6 @@ body{
     display: flex;
     padding:1rem;
     justify-content: center;
-    width: 86.95652173913044%;
     margin: 2.5rem auto 5rem auto;
 }
 
@@ -317,17 +266,13 @@ body{
     background-color: #3E64FF;
     border-radius: 20px;
     display: flex;
-    height: 62px;
     justify-content: flex-end;
     margin-top: -1px;
-    min-width: 362px;
     padding: 18px 104.5px;
 }
 
 .book-appointment {
     letter-spacing: 0.49px;
-    min-height: 22px;
-    min-width: 35.99033816425121%;
     text-align: center;
 }
 
@@ -335,10 +280,8 @@ body{
     align-items: flex-start;
     display: flex;
     flex-direction: column;
-    height: 134px;
     margin-top: 41px;
     overflow: hidden;
-    width: 86.95652173913044%;
     margin-left: 44px;
     margin-top: 32px;
 }
@@ -346,26 +289,20 @@ body{
 .about-doctor {
     letter-spacing: 0.30px;
     margin-left: 1px;
-    min-height: 25px;
 }
 
 .dr-bellamy-nicholas {
     letter-spacing: 0.23px;
     line-height: 20px;
     margin-top: 9px;
-    min-height: 100px;
-    width: 87.43961352657006%;
 }
 
 .about.working-time {
-    height: 54px;
     margin-top: 32px;
 }
 
 .about.working-time .dr-bellamy-nicholas {
-    min-height: 20px;
     white-space: nowrap;
-    width: unset;
 }
 
 .container-center-horizontal {
@@ -373,7 +310,6 @@ body{
     flex-direction: row;
     justify-content: center;
     pointer-events: none;
-    width: 100%;
 }
 
 .container-center-horizontal > * {
