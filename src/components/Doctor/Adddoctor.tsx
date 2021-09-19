@@ -19,6 +19,7 @@ import Loader from "react-loader-spinner";
 import {withRouter} from "react-router";
 import {TextField} from "@material-ui/core";
 import {Button} from "@material-ui/core";
+import {Avatar} from '@material-ui/core';
 import React from "react";
 import close from "../../images/close.svg";
 
@@ -48,6 +49,10 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState> {
               <img src={close}/>
               <p className="align-self-center"><b>add doctor details</b></p>
               <Button variant="contained">Submit</Button>
+           </div>
+
+           <div className="d-flex justify-content-center align-items-center">
+             <Avatar src="/broken-image.jpg" />
            </div>
 
           <div className="m-4">
