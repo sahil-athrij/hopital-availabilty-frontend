@@ -4,6 +4,7 @@ import {DepartmentObject} from "../../api/model";
 import {Container} from "react-bootstrap";
 import "./DepartmentCards.css";
 import star from "../../images/star.svg";
+import vector from "../../images/vector.svg";
 
 export class DepartmentCards extends Component<{ models: DepartmentObject[] }, {}> {
     render() {
@@ -13,16 +14,20 @@ export class DepartmentCards extends Component<{ models: DepartmentObject[] }, {
                     <div className="dpts">
                         {this.props.models.map((model, i) => (
                             <div id={String(i)}>
-                                <div className="dpts-pic">
-                                    <img src={model.images[0]?.image || "fallback_image.png"} alt="dpt"/>
-                                </div>
+                                <div className="dpts-pic d-flex justify-content-between p-2">
+                                    <div className="d-flex justify-content-between p-2">
+                                        <img className="pic m-2" src={model.name.icon || "fallback_image.png"} alt="dpt"/>
 
-                                <div className="dpts-cnt">
-                                    <p><b>{model.name.name}</b><br/><small>{model.rating}</small></p>
-                                </div>
+                                        <p className="justify-content-start p-2"><b>{model.name.name}</b><br/><small>Ratings {model.rating}</small></p>
+                                    </div>
+                                    <div className="dpts-rtg d-flex flex-row justify-content-sm-around">
+                                        <img className="rtg align-self-start mt-4" src={star} alt="rating"/>
+                                        <div className="d-flex m-2 p-2">
+                                         <img className="arrw align-self-center" src={vector} alt="arrow"/>
+                                        </div>
+                                    </div>
 
-                                <div className="dpts-rtg">
-                                    <img src={star} alt="rating"/>
+
                                 </div>
                             </div>
                         ))}

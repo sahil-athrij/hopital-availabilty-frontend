@@ -1,29 +1,11 @@
-.dpts{
-    height: 10%;
-    width: 90%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
+.pic{
+    height:3rem;
 }
 
-.dpts-pic{
-    width: 10%;
-    height: 90%;
-    align-self: center;
-    background-color: rgb(255, 255, 255);
-    border-radius: 5px;
+.arrw{
+    height: 1.3rem;
 }
 
-.dpts-pic img{
-    width: 100%;
-}
-
-.dpts-cnt{
-    align-self: center;
-    text-align: justify;
-}
-
-.dpts-rtg{
-    align-self: center;
+.rtg{
+    height:1rem;
 }
