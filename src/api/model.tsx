@@ -8,7 +8,7 @@ interface ImageObject {
     useinmarker: boolean
 }
 
-interface WorkingTime {
+export interface WorkingTime {
     working_time: {
         day: number,
         starting_time: string,

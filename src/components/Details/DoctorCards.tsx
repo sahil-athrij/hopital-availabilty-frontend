@@ -80,8 +80,8 @@ export class DoctorCards extends Component<{ models: DoctorObject[] }, {}> {
                         {this.props.models.map((model, i) => <Card model={model} key={i}/>)}
 
                     </div>
-                    <Link to="/doctor/add">
-                        <Button className="doc-button"  color="primary" fullWidth  variant="contained" >Add Doctor</Button>
+                    <Link to="/doctor/add/123">
+                        <Button fullWidth variant="contained" color="primary">Add Doctor</Button>
                     </Link>
                 </Container>
             </div>
