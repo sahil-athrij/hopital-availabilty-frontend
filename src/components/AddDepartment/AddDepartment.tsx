@@ -3,6 +3,8 @@ import {withRouter} from "react-router";
 import {TextField} from "@material-ui/core";
 import {Button} from "@material-ui/core";
 import close from "../../images/close.svg";
+import "./AddDepartment.css";
+
 
 class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AuthState>
 {
@@ -11,24 +13,24 @@ class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AuthState>
         const {hspId} = this.props.match.params;
 
         return (
-            
-            <div>  
-            <div className="d-flex justify-content-between p-3 ">
+              
+            <div className="main h-100">  
+            <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
                <img src={close}/>
-               <p className="align-self-center"><b>Add Department details</b></p>
-               <Button variant="contained">Submit</Button>
+               <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Department details</b></p>
+               <Button className="sub" variant="contained">Submit</Button>
             </div>
  
            <div className="m-4">
  
              <TextField className="mt-4" fullWidth variant="outlined"  label="Department Name" InputLabelProps={{shrink: true,}} size="small"/>
-             <p className="m-0"><b>Facilities available</b></p>    
-             <TextField className="mt-4" fullWidth variant="outlined" select label="Is there a lab" InputLabelProps={{shrink: true,}} size="small" />
+             <p className="text-left mt-3 p-0"><small><b>Facilities available</b></small></p>    
+             <TextField fullWidth variant="outlined" select label="Is there a lab" InputLabelProps={{shrink: true,}} size="small" />
              <TextField className="mt-4" fullWidth variant="outlined" select label="Pharmacy" InputLabelProps={{shrink: true,}} size="small" />
              <TextField className="mt-4" fullWidth variant="outlined" select label="Facility number 1" InputLabelProps={{shrink: true,}} size="small" />
              <TextField className="mt-4" fullWidth variant="outlined"  label="Facility number 2" InputLabelProps={{shrink: true,}} size="small"/>
              <TextField className="mt-4" fullWidth variant="outlined"  label="Number of Doctors" InputLabelProps={{shrink: true,}} size="small"/>
-             <p className="mt-1"><b>Doctor Details</b></p>  
+             <p className="text-left mt-3"><small><b>Doctor Details</b></small></p>  
 
            </div>
  
