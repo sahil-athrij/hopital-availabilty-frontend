@@ -12,7 +12,7 @@ import L from "leaflet";
 import {BiCurrentLocation, GrLocation} from "react-icons/all";
 import {get} from "../../api/api";
 import {Suggestion} from "../FullScreen/FullScreenLocation";
-import {TextField} from "@material-ui/core";
+import {TextField} from "@mui/material";
 import {Marker} from "../../api/model";
 import {withRouter} from "react-router";
 

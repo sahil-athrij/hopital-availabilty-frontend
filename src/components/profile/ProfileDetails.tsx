@@ -6,8 +6,8 @@ import React from "react";
 import {CSSTransition} from "react-transition-group";
 import {FullScreenShare} from "../FullScreen/FullScreenShare";
 import SwipeableViews from 'react-swipeable-views';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import {Patient, PatientObject} from "../../api/model";
 import {RequestDisplay} from "./RequestDisplay";
 

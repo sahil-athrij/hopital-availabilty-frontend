@@ -9,7 +9,7 @@ import {Container} from "react-bootstrap";
 import starsvg from '../../images/star.svg';
 
 import search_icon from "./icons/search-icon.svg";
-import {Button} from "@material-ui/core";
+import {Button} from "@mui/material";
 import {AuthPropsLoc} from "../../api/auth";
 
 

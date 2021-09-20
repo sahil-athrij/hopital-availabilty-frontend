@@ -3,7 +3,7 @@ import {ReactComponent as Back} from "../../images/back.svg";
 import {AiFillHome, AiOutlinePlusCircle, FaHandsHelping, IoMdHelpCircleOutline, IoPersonCircle} from "react-icons/all";
 import {AuthComponent, AuthPropsLoc, AuthState, reactUrl} from "../../api/auth";
 import {withRouter} from "react-router";
-import {Link} from "@material-ui/core";
+import {Link} from "@mui/material";
 import {CSSTransition} from "react-transition-group";
 import {FullScreenShare} from "./FullScreenShare";
 import React from "react";
