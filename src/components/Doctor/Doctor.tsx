@@ -175,7 +175,7 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                     <p className="dr-bellamy-nicholas nunito-bold-lynch-14px">
                         {model.working_time.map(({working_time, hospital}, i) => (
                                 <p key={i}>
-                                    {DAYS[working_time.day]} -
+                                    {DAYS[working_time.day as number]} -
                                     {working_time.starting_time} to {working_time.ending_time} at
                                     {hospital}
                                 </p>

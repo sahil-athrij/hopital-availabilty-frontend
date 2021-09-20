@@ -10,9 +10,9 @@ interface ImageObject {
 
 export interface WorkingTime {
     working_time: {
-        day: number,
-        starting_time: string,
-        ending_time: string
+        day: number | null,
+        starting_time: string | null,
+        ending_time: string | null
     },
     hospital: number
 }
@@ -113,7 +113,7 @@ export class DepartmentObject extends ModelObject {
     constructor(data: ModelData, baseUrl: string) {
 
         super(data, baseUrl);
-        this.fields = ['name', 'x', 'y', 'hospital', 'doctors', 'name_id', 'rating']
+        this.fields = ['name', 'x', 'y', 'hospital', 'doctors', 'name_id', 'rating', 'id']
         this.getData()
 
     }
@@ -230,7 +230,7 @@ export class susObject extends ModelObject {
 
 export const Review = new Model(baseUrl + '/api/review/', ReviewObject)
 export const Sus = new Model(baseUrl + '/api/suspicious/', susObject)
-export const Department = new Model(baseUrl + '/internals/departments/', DoctorObject)
+export const Department = new Model(baseUrl + '/internals/departments/', DepartmentObject)
 export const Marker = new Model(baseUrl + '/api/marker/', MarkerObject)
 export const Doctor = new Model(baseUrl + '/internals/doctors/', DoctorObject)
 export const Patient = new Model(baseUrl + '/api/patient/', PatientObject)
