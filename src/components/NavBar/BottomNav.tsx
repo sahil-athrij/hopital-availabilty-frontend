@@ -1,4 +1,4 @@
-import {BottomNavigation, BottomNavigationAction} from "@material-ui/core";
+import {BottomNavigation, BottomNavigationAction} from "@mui/material";
 import React from "react";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {withRouter} from "react-router";

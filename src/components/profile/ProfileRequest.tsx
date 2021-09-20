@@ -11,7 +11,7 @@ import {
     StepLabel,
     Stepper,
     TextField
-} from "@material-ui/core";
+} from "@mui/material";
 import Switch from "react-bootstrap/Switch";
 import {toast} from "react-toastify";
 import {Patient} from "../../api/model";

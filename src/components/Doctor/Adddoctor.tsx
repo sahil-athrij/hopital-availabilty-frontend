@@ -17,9 +17,9 @@ import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {Container} from "react-bootstrap";
 import Loader from "react-loader-spinner";
 import {withRouter} from "react-router";
-import {TextField} from "@material-ui/core";
-import {Button} from "@material-ui/core";
-import {Avatar} from '@material-ui/core';
+import {TextField} from "@mui/material";
+import {Button} from "@mui/material";
+import {Avatar} from '@mui/material';
 import React from "react";
 import close from "../../images/close.svg";
 

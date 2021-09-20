@@ -9,7 +9,7 @@ import {Container} from "react-bootstrap";
 import starsvg from '../../images/star.svg';
 
 import search_icon from "./icons/search-icon.svg";
-import {Button} from "@material-ui/core";
+import {Button} from "@mui/material";
 import {AuthPropsLoc} from "../../api/auth";
 
 
@@ -81,7 +81,7 @@ export class DoctorCards extends Component<{ models: DoctorObject[] }, {}> {
 
                     </div>
                     <Link to="/doctor/add">
-                        <Button fullWidth variant="contained" color="primary">Add Doctor</Button>
+                        <Button className="doc-button"  color="primary" fullWidth  variant="contained" >Add Doctor</Button>
                     </Link>
                 </Container>
             </div>

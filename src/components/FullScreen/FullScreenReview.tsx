@@ -4,7 +4,7 @@ import {ReactComponent as Back} from "../../images/back.svg";
 import {IoPersonCircleSharp} from "react-icons/all";
 import {StarRatingReview} from "../inputs/StarRatingReview";
 import {YesNoInput} from "../inputs/YesNoInput";
-import {InputAdornment, TextField} from "@material-ui/core";
+import {InputAdornment, TextField} from "@mui/material";
 import {Review} from "../../api/model";
 import {AuthComponent, AuthProps, AuthState} from "../../api/auth";
 import {toast} from "react-toastify";
