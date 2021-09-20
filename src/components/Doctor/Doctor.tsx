@@ -45,10 +45,12 @@ interface CommunicationProps {
     class: string
 }
 
+const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+
 class DoctorStats extends React.Component<StatsProps, {}> {
     render() {
         return (
-            <div className="overlap-group">
+            <div className="overlap-group mx-2">
                 <div className={`group ${this.props.class}`}>
                     <img
                         alt={this.props.title}
@@ -125,22 +127,29 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
         return (
             <>
                 <div className="overlap-group4">
-                    <div className="flex-row">
-                        <div className="left-align">
+                    <div className="d-flex justify-content-between w-100 px-3 align-items-centre">
+                        {/*<div className="left-align">*/}
                             <img alt={""}
                                  onClick={() => history.goBack()}
-                                 className="icon-1"
+                                 className="icon-1 mx-3"
                                  src={icon1}/>
-                        </div>
+
+                        {/*</div>*/}
+
+
                         <img alt={""}
-                             className="image"
-                             src={model.image?.uri ? model.image.uri : image}
-                        />
-                        <img alt={""}
-                             className="icon-2"
+                             className="icon-2 mx-3"
                              src={icon}
                         />
+
+
                     </div>
+
+                    <img alt={""}
+                         className="image"
+                         src={model.image? model.image : image}
+                    />
+
                     <div className="text-1 nunito-semi-bold-ebony-clay-20px">
                         {model.name}
                     </div>
@@ -164,7 +173,14 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                 <div className={"about "}>
                     <div className="about-doctor nunito-semi-bold-ebony-clay-18px">Working Time</div>
                     <p className="dr-bellamy-nicholas nunito-bold-lynch-14px">
-                        {model.working_time}
+                        {model.working_time.map(({working_time, hospital}, i) => (
+                                <p key={i}>
+                                    {DAYS[working_time.day]} -
+                                    {working_time.starting_time} to {working_time.ending_time} at
+                                    {hospital}
+                                </p>
+                            )
+                        )}
                     </p>
                 </div>
                 <div className="communication">

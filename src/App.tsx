@@ -14,12 +14,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import './index.css'
 import './App.css'
 import {BottomNav} from "./components/NavBar/BottomNav";
-import {createMuiTheme} from "@material-ui/core/styles";
-import {ThemeProvider} from "@material-ui/styles";
-import {green, pink} from '@material-ui/core/colors';
+import {createMuiTheme} from "@mui/material/styles";
+import {ThemeProvider} from "@mui/styles";
+import {green, pink} from '@mui/material/colors';
 import {Privacy} from "./components/Privacy/Privacy";
 import {Add} from "./components/AddHospital/Add";
 import {DoctorComponent} from './components/Doctor/Doctor';
+import {AddDoctorComponent} from './components/Doctor/Adddoctor'
+import {AddDepartmentComponent} from "./components/AddDepartment/AddDepartment";
 
 const theme = createMuiTheme({
     palette: {
@@ -100,13 +102,10 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                     <BottomNav/>
 
                     <Switch>
+                        <Route path="/doctor/add/:hspId" children={AddDoctorComponent} />
+                        <Route path="/department/add/:hspId" children={AddDepartmentComponent} />
                         <Route path="/doctor/:docId" children={DoctorComponent} /> {/* Show details about a doctor */}
-                        <Route path="/details/:hspId">
-                            <NavBar/>
-                            <Details/>
-                            {/* If the current URL is /search, this route is rendered
-            while the rest are ignored */}
-                        </Route>
+                        <Route path="/details/:hspId" children={Details} /> {/* Show details about a hospital */}
                         <Route path="/search">
                             <NavBar/>
                             <Search/>
@@ -144,6 +143,7 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                             <NavBar/>
                             <Index/>
                         </Route>
+
 
                     </Switch>
                 </ThemeProvider>

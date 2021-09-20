@@ -1,3 +1,172 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:700|Nunito:400,700,600,900|Lato:400,700,300,500,600|Montserrat:400,700|Playfair+Display:400,700|Roboto:400|Source+Sans+Pro:700");
+
+:root {
+    --black:
+            rgba(0, 0, 0, 1);
+    --cerulean:
+            rgba(0, 153, 212, 1);
+    --absolute-zero:
+            rgba(3, 55, 184, 1);
+    --tangaroa:
+            rgba(8, 22, 56, 1);
+    --licorice:
+            rgba(20, 20, 20, 1);
+    --vulcan:
+            rgba(20, 22, 25, 1);
+    --mirage:
+            rgba(20, 27, 45, 1);
+    --mirage-2:
+            rgba(24, 23, 37, 1);
+    --bay-of-many:
+            rgba(28, 57, 136, 1);
+    --ebony-clay:
+            rgba(34, 43, 69, 1);
+    --ebony-clay-2:
+            rgba(37, 43, 66, 1);
+    --outer-space:
+            rgba(44, 57, 75, 1);
+    --mine-shaft:
+            rgba(48, 48, 48, 1);
+    --pickled-bluewood:
+            rgba(50, 73, 94, 1);
+    --oxford-blue:
+            rgba(51, 71, 86, 1);
+    --royal-blue:
+            rgba(62, 100, 255, 1);
+    --cape-cod:
+            rgba(66, 66, 66, 1);
+    --abbey:
+            rgba(79, 79, 79, 1);
+    --chicago:
+            rgba(93, 92, 93, 1);
+    --blueberry:
+            rgba(93, 140, 255, 1);
+    --storm-dust:
+            rgba(96, 98, 103, 1);
+    --pale-sky-2:
+            rgba(102, 117, 128, 1);
+    --pale-sky:
+            rgba(104, 118, 132, 1);
+    --granite-gray:
+            rgba(105, 105, 105, 1);
+    --lynch:
+            rgba(106, 118, 154, 1);
+    --sonic-silver:
+            rgba(114, 114, 114, 1);
+    --suva-gray:
+            rgba(133, 131, 131, 1);
+    --silver-2:
+            rgba(189, 189, 189, 1);
+    --silver:
+            rgba(190, 190, 191, 1);
+    --ghost:
+            rgba(199, 201, 217, 1);
+    --hint-of-red:
+            rgba(249, 249, 249, 1);
+    --atomic-tangerine:
+            rgba(255, 171, 113, 1);
+    --white:
+            rgba(255, 255, 255, 1);
+
+    --font-size-xxxs: 8px;
+    --font-size-xxs: 12px;
+    --font-size-xs: 14px;
+    --font-size-s: 15px;
+    --font-size-m: 16px;
+    --font-size-l: 17px;
+    --font-size-xl: 18px;
+
+    --font-family-helvetica: "Helvetica";
+    --font-family-lato: "Lato";
+    --font-family-montserrat: "Montserrat";
+    --font-family-nunito: "Nunito";
+    --font-family-open_sans: "Open Sans";
+    --font-family-playfair_display: "Playfair Display";
+    --font-family-roboto: "Roboto";
+    --font-family-source_sans_pro: "Source Sans Pro";
+}
+
+.nunito-bold-lynch-12px {
+    color: var(--lynch);
+    font-family: var(--font-family-nunito);
+    font-size: var(--font-size-xxs);
+    font-weight: 700;
+    font-style: normal;
+}
+
+
+.nunito-semi-bold-ebony-clay-18px {
+    color: var(--ebony-clay);
+    font-family: var(--font-family-nunito);
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    font-style: normal;
+}
+
+.nunito-bold-white-16px {
+    color: var(--white);
+    font-family: var(--font-family-nunito);
+    font-size: var(--font-size-m);
+    font-weight: 700;
+    font-style: normal;
+}
+
+.nunito-black-ebony-clay-16px {
+    color: var(--ebony-clay);
+    font-family: var(--font-family-nunito);
+    font-size: var(--font-size-m);
+    font-weight: 900;
+    font-style: normal;
+}
+
+.nunito-bold-lynch-14px {
+    color: var(--lynch);
+    font-family: var(--font-family-nunito);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    font-style: normal;
+}
+
+.nunito-semi-bold-ebony-clay-20px {
+    color: var(--ebony-clay);
+    font-family: var(--font-family-nunito);
+    font-size: 20px;
+    font-weight: 600;
+    font-style: normal;
+}
+
+.nunito-semi-bold-ebony-clay-17px {
+    color: var(--ebony-clay);
+    font-family: var(--font-family-nunito);
+    font-size: var(--font-size-l);
+    font-weight: 600;
+    font-style: normal;
+}
+
+.nunito-semi-bold-lynch-14px {
+    color: var(--lynch);
+    font-family: var(--font-family-nunito);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    font-style: normal;
+}
+
+.nunito-black-lynch-12px {
+    color: var(--lynch);
+    font-family: var(--font-family-nunito);
+    font-size: var(--font-size-xxs);
+    font-weight: 900;
+    font-style: normal;
+}
+
+.nunito-bold-ebony-clay-16px {
+    color: var(--ebony-clay);
+    font-family: var(--font-family-nunito);
+    font-size: var(--font-size-m);
+    font-weight: 700;
+    font-style: normal;
+}
+
 .App {
     text-align: center;
 }

@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import {Container} from "react-bootstrap";
-import Slider from "@material-ui/core/Slider";
-import {Input, withStyles} from "@material-ui/core";
+import Slider from "@mui/material/Slider";
+import { withStyles} from "@mui/styles";
+import { Input} from "@mui/material";
 import {getParam, setParam} from "../../api/QueryCreator";
 
 import './stars.css'
@@ -81,7 +82,7 @@ export class SliderRatingInput extends Component<SliderRatingInputProps> {
                 </label>
                 <Container className="flex-row align-items-center justify-content-between">
                     <AirbnbSlider
-                        ThumbComponent={AirbnbThumbComponent}
+                        // ThumbComponent={AirbnbThumbComponent}
                         className="w-100 slider-input"
                         step={20}
                         value={value}
@@ -161,7 +162,7 @@ export class DoubleSliderRatingInput extends Component<DoubleSliderRatingInputPr
                 <Container className="flex-row align-items-center justify-content-between">
                     <AirbnbSlider
                         className="w-100 slider-input"
-                        ThumbComponent={AirbnbThumbComponent}
+                        // ThumbComponent={AirbnbThumbComponent}
                         step={1000}
                         min={0}
                         max={20000}

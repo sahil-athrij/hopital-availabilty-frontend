@@ -8,6 +8,15 @@ interface ImageObject {
     useinmarker: boolean
 }
 
+interface WorkingTime {
+    working_time: {
+        day: number,
+        starting_time: string,
+        ending_time: string
+    },
+    hospital: number
+}
+
 export class MarkerObject extends ModelObject {
     lng: any;
     comment: object[] | any
@@ -25,7 +34,7 @@ export class MarkerObject extends ModelObject {
     images?: ImageObject[]
     ventilator_availability: number = 0;
     lat: any;
-    doctors : DoctorObject[] = [];
+    doctors: DoctorObject[] = [];
     about: string | undefined;
     departments: Array<DepartmentObject> = [];
 
@@ -34,7 +43,7 @@ export class MarkerObject extends ModelObject {
         super(data, baseUrl);
         this.fields = ["id", "Phone", "size", "financial_rating", "avg_cost", "covid_rating", "beds_available", "care_rating",
             "oxygen_rating", "ventilator_availability", "oxygen_availability", "icu_availability", "lat", "lng", "images",
-            "display_address", "name", "datef", 'address', 'comment', 'departments']
+            "display_address", "name", "datef", 'address', 'comment', 'departments', 'doctors']
         this.getData()
 
     }
@@ -59,51 +68,52 @@ export class MarkerObject extends ModelObject {
 
 
 }
+
 export class Comment extends ModelObject {
-    id =-1;
+    id = -1;
     marker = -1;
     financial_rating = -1;
     avg_cost = -1;
     covid_rating = -1;
-    care_rating	 = -1;
+    care_rating = -1;
     oxygen_rating = -1;
     beds_available = -1;
-    size= -1;
+    size = -1;
     oxygen_availability: number = 0;
-    ventilator_availability =-1;
+    ventilator_availability = -1;
     icu_availability: number = 0;
-    comment:string ="";
-    written_by: number =-1;
-    written_by_name="";
+    comment: string = "";
+    written_by: number = -1;
+    written_by_name = "";
     images?: ImageObject[];
-    datef : string = "";
+    datef: string = "";
 
     constructor(data: ModelData, baseUrl: string) {
 
         super(data, baseUrl);
         this.fields = ['id', 'marker', 'financial_rating', 'avg_cost', 'covid_rating', 'care_rating', 'oxygen_rating',
-        'beds_available', 'size', 'ventilator_availability', 'oxygen_availability',
-        'icu_availability', 'comment', 'written_by', 'images', 'written_by_name', 'datef']
+            'beds_available', 'size', 'ventilator_availability', 'oxygen_availability',
+            'icu_availability', 'comment', 'written_by', 'images', 'written_by_name', 'datef']
         this.getData()
 
     }
 
 
-
 }
+
 export class DepartmentObject extends ModelObject {
-    name: { id: number, name: string | undefined } = {id: -1, name: undefined};
+    name: { id: number, icon?:string, name?: string} = {id: -1};
     x = -1;
     y = -1;
     hospital = -1;
-    images: Array<{ image: string, useinmarker: boolean, hospital: number, review: number }> = [];
     doctors: Array<DoctorObject> = [];
     name_id = -1;
+    rating: number = -1;
 
     constructor(data: ModelData, baseUrl: string) {
 
         super(data, baseUrl);
-        this.fields = ['name', 'x', 'y', 'hospital', 'images', 'doctors', 'name_id']
+        this.fields = ['name', 'x', 'y', 'hospital', 'doctors', 'name_id', 'rating']
         this.getData()
 
     }
@@ -136,14 +146,14 @@ export class DoctorObject extends ModelObject {
     hospital: Array<number> = [];
     departments: Array<number> = [];
     user: number = -1;
-    working_time: string | undefined;
+    working_time: Array<WorkingTime> = [];
     rating: number = -1;
     reviews: [] = [];
     patients: number = -1;
     experience: number = -1;
     specialization: string | undefined;
     about: string | undefined;
-    image: { uri: string | undefined } = {uri: undefined};
+    image: string | undefined;
 
     constructor(data: ModelData, baseUrl: string) {
         super(data, baseUrl);
