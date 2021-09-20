@@ -203,10 +203,9 @@ export default class Model {
             return new this.modelClass(data, this.baseurl)
         } catch (e) {
             let errors;
-            errors = await e.json()
+            errors = await (e as {json: () => Promise<any>}).json()
             console.log(errors)
             throw errors
-
         }
     }
 

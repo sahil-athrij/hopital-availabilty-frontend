@@ -22,7 +22,7 @@ import {green, pink} from '@mui/material/colors';
 import {Privacy} from "./components/Privacy/Privacy";
 import {Add} from "./components/AddHospital/Add";
 import {DoctorComponent} from './components/Doctor/Doctor';
-import {AddDoctorComponent} from './components/AddDoctor/Adddoctor'
+import {AddDoctorComponent} from './components/AddDoctor/AddDoctor';
 import {AddDepartmentComponent} from "./components/AddDepartment/AddDepartment";
 
 const theme = createMuiTheme({

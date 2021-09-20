@@ -104,7 +104,8 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState> {
         this.setState({
             allDepartments: departments.results as Array<DepartmentObject>,
             hospital: [hospital],
-            ready: true
+            ready: true,
+            departments: [1]
         });
     }
 
