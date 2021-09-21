@@ -169,19 +169,19 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                         </div>
                         <div className="container d-flex justify-content-between">
 
-                            <div className={`card-about card-1 ${this.state.tab == 0 && "active"}`}
+                            <div className={`card-about card-1 ${this.state.tab === 0 && "active"}`}
                                  onClick={() => this.setState({tab: 0})}>
                                 <img src={doctorsvg} alt={"doctor svg"}/>
                                 <p className="m-0"><b>{model.doctors.length}</b><br/>Doctors</p>
                             </div>
 
-                            <div className={`card-about card-1 ${this.state.tab == 1 && "active"}`}
+                            <div className={`card-about card-1 ${this.state.tab === 1 && "active"}`}
                                  onClick={() => this.setState({tab: 1})}>
                                 <img src={layoutsvg} alt={"layout svg"}/>
                                 <p className="m-0"><b>good</b><br/>Layout</p>
                             </div>
 
-                            <div className={`card-about card-1 ${this.state.tab == 2 && "active"}`}
+                            <div className={`card-about card-1 ${this.state.tab === 2 && "active"}`}
                                  onClick={() => this.setState({tab: 2})}>
                                 <img src={reviewsvg} alt={"review svg"}/>
                                 <p className="m-0"><b>{model.comment.length}<br/></b>Ratings<br/>&amp; Reviews</p>
@@ -198,7 +198,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                         }}
                     >
                         <TabPanel value={this.state.tab} index={0}>
-                            <DoctorCards models={model.doctors}/>
+                            <DoctorCards models={model.doctors} hospital={model.id}/>
                         </TabPanel>
 
                         <TabPanel value={this.state.tab} index={1}>
@@ -228,6 +228,7 @@ class ActionButton extends React.Component<{ src: string, caption: string, actio
                     href={this.props.action || "#"}
                     onClick={() => this.props.share && navigator.share(this.props.share)} // TODO use proper share
                     target={this.props.action ? "_blank" : "_self"}
+                    rel="noreferrer"
                 >
                     <div className="group-6839">
                         <div className="overlap-group-7">

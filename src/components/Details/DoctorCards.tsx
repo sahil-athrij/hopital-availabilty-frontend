@@ -2,15 +2,13 @@ import React, {Component} from "react";
 import {Link} from 'react-router-dom';
 import './details.css'
 
-import {DoctorObject, MarkerObject} from "../../api/model";
+import {DoctorObject} from "../../api/model";
 import doctor_fallback from "./icons/doctor-fallback.png";
-import add_doctor_icon from "./icons/add-doctor.png";
 import {Container} from "react-bootstrap";
 import starsvg from '../../images/star.svg';
 
 import search_icon from "./icons/search-icon.svg";
 import {Button} from "@mui/material";
-import {AuthPropsLoc} from "../../api/auth";
 
 
 interface CardProps {
@@ -46,7 +44,7 @@ class Card extends React.Component<CardProps, { open: boolean }> {
                             </div>
                             <div>
                                 <img
-                                    src={starsvg}/> {this.props.model.rating || 0} ({(this.props.model.reviews || []).length} reviews)
+                                    src={starsvg} alt={"star"}/> {this.props.model.rating || 0} ({(this.props.model.reviews || []).length} reviews)
                             </div>
 
                         </div>
@@ -58,7 +56,7 @@ class Card extends React.Component<CardProps, { open: boolean }> {
 }
 
 
-export class DoctorCards extends Component<{ models: DoctorObject[] }, {}> {
+export class DoctorCards extends Component<{ models: DoctorObject[], hospital: number }, {}> {
 
     render() {
         return (
@@ -80,7 +78,7 @@ export class DoctorCards extends Component<{ models: DoctorObject[] }, {}> {
                         {this.props.models.map((model, i) => <Card model={model} key={i}/>)}
 
                     </div>
-                    <Link to="/doctor/add/123">
+                    <Link to={`/doctor/add/${this.props.hospital}`}>
                         <Button fullWidth variant="contained" color="primary">Add Doctor</Button>
                     </Link>
                 </Container>
