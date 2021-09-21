@@ -228,6 +228,7 @@ class ActionButton extends React.Component<{ src: string, caption: string, actio
                     href={this.props.action || "#"}
                     onClick={() => this.props.share && navigator.share(this.props.share)} // TODO use proper share
                     target={this.props.action ? "_blank" : "_self"}
+                    rel="noreferrer"
                 >
                     <div className="group-6839">
                         <div className="overlap-group-7">
