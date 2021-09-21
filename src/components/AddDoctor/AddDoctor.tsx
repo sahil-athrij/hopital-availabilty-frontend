@@ -8,8 +8,7 @@ import close from "../../images/close.svg";
 import {Skeleton} from "antd";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TableContainer from "@mui/material/TableContainer";
-import {Table, TableHead, TableRow, TableCell, TableBody, FormControl, Button} from "@mui/material";
-import Select from "@mui/material/Select";
+import {Table, TableHead, TableRow, TableCell, TableBody, Button} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import MobileTimePicker from "@mui/lab/MobileTimePicker";
 import TextField from "@mui/material/TextField";
@@ -56,7 +55,7 @@ export class TimePickers extends Component<{ hospital: number, onChange: (times:
         times[key].working_time[type] = value;
         const {starting_time, ending_time, day} = times[key].working_time;
 
-        if (times.length == key + 1 && starting_time && ending_time && day)
+        if (times.length === key + 1 && starting_time && ending_time && day !== null)
             times.push(JSON.parse(JSON.stringify(this.time_template)));
 
         this.setState({times});
@@ -130,26 +129,28 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState> {
 
     saveDoctor = async () => {
         console.log(this.state)
-        const toSend = this.state as { [key: string]: any };
+        const toSend = this.state;
 
-        toSend.user = undefined;
-        toSend.department = [toSend.department];
+        toSend.user = null;
 
-        toSend.working_time = toSend.working_time.map(({
-                                                           working_time,
-                                                           hospital
-                                                       }: { working_time: any, hospital: any }) => {
-            return {
-                hospital,
-                working_time: {
-                    starting_time: new Date(working_time.starting_time).toTimeString().split(' ')[0],
-                    ending_time: new Date(working_time.ending_time).toTimeString().split(' ')[0]
+        toSend.working_time = toSend.working_time
+            .filter(({working_time}) => working_time.day != null)
+            .map(({
+                      working_time,
+                      hospital
+                  }) => {
+                return {
+                    hospital,
+                    working_time: {
+                        starting_time: new Date(working_time.starting_time || "").toTimeString().split(' ')[0],
+                        ending_time: new Date(working_time.ending_time || "").toTimeString().split(' ')[0],
+                        day: working_time.day
+                    }
                 }
-            }
-        });
+            });
 
         if (this.state.name && this.state.phone_number)
-            Doctor.create(toSend)
+            Doctor.create({...toSend, department: [toSend.department]})
                 .then(() => {
                     this.props.history.push(`/details/${this.state.hospital}`)
                     toast.success('thank you for the contribution', {
@@ -171,7 +172,7 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState> {
             this.state.ready ?
                 <div>
                     <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
-                        <img src={close} onClick={() => this.props.history.goBack()}/>
+                        <img src={close} onClick={() => this.props.history.goBack()} alt={"close"}/>
                         <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Doctor</b></p>
                         <Button className="sub" variant="contained" onClick={this.saveDoctor}>Submit</Button>
                     </div>
@@ -215,7 +216,7 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState> {
                 :
                 <div className="main h-100">
                     <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
-                        <img src={close} onClick={() => this.props.history.goBack()}/>
+                        <img src={close} onClick={() => this.props.history.goBack()} alt={"close"}/>
                         <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Doctor</b></p>
                         <Button className="sub" variant="contained">Submit</Button>
                     </div>
