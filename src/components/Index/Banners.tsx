@@ -1,10 +1,10 @@
 import React from 'react';
-import {makeStyles, Theme, useTheme} from '@material-ui/core/styles';
-import MobileStepper from '@material-ui/core/MobileStepper';
+import {makeStyles, Theme, useTheme} from '@mui/material/styles';
+import MobileStepper from '@mui/material/MobileStepper';
 
-import Button from '@material-ui/core/Button';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import Button from '@mui/material/Button';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 import {autoPlay, virtualize} from 'react-swipeable-views-utils';
 import Hospital from '../../images/hospital.jpg';
@@ -12,15 +12,18 @@ import Help from '../../images/help.jpg';
 import AddHospital from '../../images/addHospital.jpg';
 import GiveHelp from '../../images/giveHelp.jpg';
 import {useHistory, useLocation, withRouter} from "react-router";
-import {withStyles} from "@material-ui/core";
+import {withStyles} from "@mui/styles";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
-import {createStyles, WithStyles} from "@material-ui/styles";
+import {createStyles, WithStyles} from "@mui/styles";
 
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const VirtualizeSwipeableViews = virtualize(AutoPlaySwipeableViews);
-
+ /**
+  * Describes about the details of Carosals
+  * Array containing feautures of needmedi
+  */
 const SliderSteps = [
     {
         label: 'Search Hospitals',
@@ -49,7 +52,9 @@ const SliderSteps = [
     },
 
 ];
-
+/**
+ * Styling of Swipable-Sliders
+ */
 const styles = (theme: Theme) => createStyles({
     root: {
         background: "transparent"
@@ -88,6 +93,9 @@ const styles = (theme: Theme) => createStyles({
         borderRadius: "0px 30px 30px 0px"
     },
 })
+/**
+ * @extends Authstate
+ */
 
 interface SwipeableTextMobileState extends AuthState {
     activeStep: number
@@ -95,12 +103,17 @@ interface SwipeableTextMobileState extends AuthState {
 
 interface SwipeableTextMobileProps extends AuthPropsLoc, WithStyles<typeof styles> {
 }
-
+/**
+ * Describes the type of argument of carousel()
+ */
 
 interface CarouselParams {
     key: number;
     index: number;
 }
+/**
+ * Displays the components of slidersteps in a swipable format
+ */
 
 class SwipeableTextMobileStepperLoc extends AuthComponent<SwipeableTextMobileProps, SwipeableTextMobileState> {
     constructor(props: SwipeableTextMobileProps) {
@@ -108,31 +121,58 @@ class SwipeableTextMobileStepperLoc extends AuthComponent<SwipeableTextMobilePro
         this.state = {...this.state, activeStep: 0}
 
     }
+    /**
+     * function to change the Carousel
+     * @param value: number
+     */
 
     setActiveStep = (value: number) => {
         this.setState({activeStep: value})
     }
+    /**
+     * Handles the next button related with the carousel
+     */
+
     handleNext = () => {
         this.setActiveStep(this.state.activeStep + 1);
     };
+    /**
+     * Handles the back button related with the carousel
+     */
+
     handleBack = () => {
         this.setActiveStep(this.state.activeStep - 1);
     };
 
     maxSteps = SliderSteps.length;
-
+    /**
+     * Returns the same number if it is less than the maximum limit of array
+     * Return the first number if the number exceeds the maximum limit
+     * @returns number 
+     */
     calcIndex = () => {
         return Math.abs(this.state.activeStep - this.maxSteps * Math.floor(this.state.activeStep / this.maxSteps))
     }
+    /**
+     * Functions to set a new state 
+     * @param step number 
+     */
+
     handleStepChange = (step: number) => {
         this.setActiveStep(step);
     };
-
+    /**
+     * Returns the individual carousels 
+     * @returns { JSX.Element } Banners Component
+     */
     Carousel = ({key, index}: CarouselParams) => {
         const {classes} = this.props;
         const dataIndex = this.calcIndex()
         let step = SliderSteps[dataIndex]
         return <div className="p-2 pb-4 d-flex align-items-center flex-column" key={key}>
+          
+           {/* Only renders two cards before and after from the current card */}
+
             {Math.abs(this.state.activeStep - index) <= 2 ? (
                 <>
                     <div
@@ -158,6 +198,10 @@ class SwipeableTextMobileStepperLoc extends AuthComponent<SwipeableTextMobilePro
         </div>
 
     }
+    /**
+     * Renders the swipable carousels
+     * @returns { JSX.Element } Banners Component
+     */
 
     render() {
         const {classes} = this.props;
@@ -170,6 +214,11 @@ class SwipeableTextMobileStepperLoc extends AuthComponent<SwipeableTextMobilePro
                     // @ts-ignore
                     slideRenderer={this.Carousel}
                     enableMouseEvents/>
+    
+    {/**
+     * Describes the bottom layer of banner
+     */}
+
                 <MobileStepper
                     variant="dots"
                     steps={this.maxSteps}

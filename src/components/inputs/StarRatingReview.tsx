@@ -9,7 +9,7 @@ export function getStarType(type?: string) {
     let className;
     if (type === 'financial') {
         SvgInput = FaMoneyBillAlt
-        className = 'financial-full'
+        className = 'financial-full'    
     } else if (type === 'covid') {
         SvgInput = CgPill
         className = 'covid-full'

@@ -1,0 +1,318 @@
+body{
+    font-family: 'Nunito', "Segoe UI", Roboto, sans-serif;
+}
+
+.doctor-s-details {
+    align-items: center;
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.overlap-group4 {
+    align-items: center;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FCFAFA 100%), #2041C6;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    /*background-image: url(icons/bg@2x.svg);*/
+    /*background-size: 100% 100%;*/
+    display: flex;
+    flex-direction: column;
+    padding: 21px 0;
+    width: 100%;
+}
+
+.icon-1 {
+    height: 14px;
+    width: 16px;
+}
+
+.image {
+    height: 7.5rem;
+    width: 7.5rem;
+    border-radius: 50%;
+}
+
+.icon-2 {
+    height: 18px;
+    width: 4px;
+}
+
+.text-1 {
+    letter-spacing: 0.33px;
+    margin-top: 13px;
+    text-align: center;
+}
+
+.viralogist {
+    letter-spacing: 0.23px;
+    margin-top: 9px;
+    text-align: center;
+}
+
+.flex-row-1 {
+    align-items: flex-start;
+    display: flex;
+}
+
+.overlap-group {
+    align-items: center;
+    background-color: var(--white);
+    border-radius: 21px;
+    box-shadow: 0 10px 25px
+    #6a769a0d;
+    display: flex;
+    flex-direction: column;
+    padding: 1px 25px;
+}
+
+.group {
+    align-items: flex-end;
+    background-size: 100% 100%;
+    display: flex;
+    margin-left: 1px;
+    padding: 9px 12px;
+}
+
+.group.blue {
+    background-image: url(icons/rectangle@2x.svg);
+}
+
+.group.red {
+    background-image: url(icons/rectangle@2x.svg);
+}
+
+.group.yellow {
+    background-image: url(icons/rectangle@2x.svg);
+}
+
+.icon-3 {
+    height: 22px;
+    width: 25px;
+}
+
+.stats-value {
+    letter-spacing: 0.1rem;
+    margin-top: 17px;
+    text-align: center;
+}
+
+.patients {
+    letter-spacing: 0.37px;
+    margin-left: 2px;
+    margin-top: 1px;
+    text-align: center;
+}
+
+.group-1 {
+    align-items: flex-end;
+    background-image: url(icons/rectangle-1@2x.svg);
+    background-size: 100% 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 1px;
+    padding: 9px 16px;
+}
+
+.address {
+    letter-spacing: 0.49px;
+    margin-left: 5px;
+    margin-top: 16px;
+    text-align: center;
+}
+
+
+.group-2 {
+    align-items: flex-end;
+    background-image: url(icons/rectangle-2@2x.svg);
+    background-size: 100% 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 0.5px;
+    padding: 9px 12.4px;
+}
+
+.ratings {
+    letter-spacing: 0.37px;
+    margin-top: 1px;
+    text-align: center;
+}
+
+.communication {
+    align-items: flex-start;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    margin-left: 27px;
+    margin-top: 32px;
+}
+
+.communication-1 {
+    letter-spacing: 0.30px;
+    margin-left: 16px;
+}
+
+.message {
+    align-items: flex-start;
+    display: flex;
+    justify-content: left;
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+
+.overlap-group-1 {
+    align-items: flex-start;
+    border-radius: 15px;
+    display: flex;
+    justify-content: flex-end;
+    padding: 16.0px 16.0px;
+}
+
+.overlap-group-1.red {
+    background-color: #eda1ab26;
+}
+
+.overlap-group-1.blue {
+    background-color: #7acefa26;
+}
+
+.overlap-group-1.green {
+    background-color: #f7c48026;
+}
+
+.icon {
+    height: 20px;
+    width: 20px;
+}
+
+.flex-col {
+    align-items: flex-start;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    margin-left: 9px;
+    margin-top: 2.0px;
+}
+
+.messaging {
+    letter-spacing: 0.27px;
+}
+
+.chat-me-up-share-ph {
+    letter-spacing: 0.20px;
+    margin-top: 2px;
+}
+
+.audio {
+    align-items: flex-start;
+    display: flex;
+    margin-top: 12px;
+    overflow: hidden;
+}
+
+.flex-col-1 {
+    align-items: flex-start;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    margin-left: 9px;
+    margin-top: 2.0px;
+}
+
+.video-call {
+    align-items: flex-start;
+    display: flex;
+    justify-content: left;
+    margin-top: 12px;
+    overflow: hidden;
+}
+
+.icon-6 {
+    height: 14px;
+    width: 20px;
+}
+
+.flex-col-2 {
+    align-items: flex-start;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    margin-left: 9px;
+    margin-top: 2.0px;
+}
+
+.video-call-1 {
+    letter-spacing: 0.27px;
+}
+
+.text-4 {
+    letter-spacing: 0.20px;
+    margin-top: 2px;
+}
+
+.button {
+    align-items: flex-start;
+    display: flex;
+    padding:1rem;
+    justify-content: center;
+    margin: 2.5rem auto 5rem auto;
+}
+
+.overlap-group3 {
+    align-items: flex-end;
+    background-color: #3E64FF;
+    border-radius: 20px;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -1px;
+    padding: 18px 104.5px;
+}
+
+.book-appointment {
+    letter-spacing: 0.49px;
+    text-align: center;
+}
+
+.about {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    margin-top: 41px;
+    overflow: hidden;
+    margin-left: 44px;
+    margin-top: 32px;
+}
+
+.about-doctor {
+    letter-spacing: 0.30px;
+    margin-left: 1px;
+}
+
+.dr-bellamy-nicholas {
+    letter-spacing: 0.23px;
+    line-height: 20px;
+    margin-top: 9px;
+}
+
+.about.working-time {
+    margin-top: 32px;
+}
+
+.about.working-time .dr-bellamy-nicholas {
+    white-space: nowrap;
+}
+
+.container-center-horizontal {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.container-center-horizontal > * {
+    flex-shrink: 0;
+    pointer-events: auto;
+}

@@ -16,11 +16,15 @@ interface IndexState extends AuthState {
     lng?: string,
 }
 
+/**
+ * @extends  AuthComponent<AuthPropsLoc, IndexState> 
+ */
+
 class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> {
 
     constructor(props: AuthPropsLoc) {
         super(props);
-        let lat = getParam('lat',)
+        let lat = getParam('lat',) // Obtain value Of lat stored in local storage during previous query
         let lng = getParam('lng',)
         this.state = {
             ...this.state,
@@ -28,20 +32,23 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> {
             lat, lng
         }
     }
-
+    /**
+     * Descibes the Index page including swipable carousels
+     * @returns { JSX.Element } index Component
+     */
 
     render() {
 
         return (
             <React.Fragment>
                 <Container fluid={true} className=" mt-5 p-5 bg-grey">
-
                 </Container>
                 <Container className="bg-grey">
                     <SwipeableTextMobileStepper/>
                 </Container>
                 <Container className="pt-3 text-left">
-                    {this.state.lat && this.state.lng ? <>
+                    {/* Displays the component when lat and lng are non-null */}
+                    {this.state.lat && this.state.lng ? <> 
                         <h6>Hospitals Near You</h6>
                         <Col xs={12} id="searchresults">
                         <SearchResults updateParent={() => {}}/>

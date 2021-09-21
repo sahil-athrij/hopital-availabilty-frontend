@@ -8,7 +8,7 @@ interface StarRatingProp extends ResponsiveProps {
 }
 
 export class StarRating extends ResponsiveComponent<StarRatingProp, ResponsiveState> {
-
+//Rating stars
     makeStars() {
         let rows = [];
         for (let i = 1; i <= 5; i++) {

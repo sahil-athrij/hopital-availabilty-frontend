@@ -1,8 +1,9 @@
 import {getAuth} from "./auth";
 import {ModelRegistry} from "./model";
 
-export const baseUrl = "https://needmedi.com"
-// export const baseUrl = "http://127.0.0.1:8000"
+// export const baseUrl = "https://needmedi.com" 
+// export const baseUrl = "http://127.0.0.1:8000" 
+export const baseUrl = "http://10.147.19.10:8080"
 
 
 export async function get(url: string, kwargs = {}, headers = {}) {
@@ -202,10 +203,9 @@ export default class Model {
             return new this.modelClass(data, this.baseurl)
         } catch (e) {
             let errors;
-            errors = await e.json()
+            errors = await (e as {json: () => Promise<any>}).json()
             console.log(errors)
             throw errors
-
         }
     }
 

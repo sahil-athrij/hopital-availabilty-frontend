@@ -10,6 +10,10 @@ module.exports = {
                 exclude: /node_modules/,
             },
             {
+                test: /\.png$/,
+                loader: "url-loader?mimetype=image/png"
+            },
+            {
                 test: /\.css$/,
                 use: [
                     'style-loader',
@@ -20,7 +24,7 @@ module.exports = {
                         },
                     },
                 ],
-            }
+            },
         ],
     },
 

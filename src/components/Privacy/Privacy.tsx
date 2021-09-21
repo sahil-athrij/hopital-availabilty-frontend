@@ -2,9 +2,14 @@ import React from "react";
 import {Component} from "react";
 import {Container} from "react-bootstrap";
 
-
+/**
+ * Describes the privacy and policy of needmedi.com 
+ */
 export class Privacy extends Component {
-
+    /**
+     * Renders the Privacy component
+     * @returns { JSX.Element } Privacy Component
+     */
     render () {
         return (
         <Container>
