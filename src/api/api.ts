@@ -89,7 +89,6 @@ export class ModelObject {
     baseUrl;
     id: number;
     fields: string[] = ['id'];
-    excluded_fields: string[] = [];
 
     constructor(data: ModelData, baseUrl: string) {
         this.data = data
