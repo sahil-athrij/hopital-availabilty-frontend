@@ -105,7 +105,7 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
 
                     <Switch>
                         <Route path="/doctor/add/:hospital" children={AddDoctorComponent} />
-                        <Route path="/department/add/:hspId" children={AddDepartmentComponent} />
+                        <Route path="/department/add/:hospital" children={AddDepartmentComponent} />
                         <Route path="/doctor/:docId" children={DoctorComponent} /> {/* Show details about a doctor */}
                         <Route path="/details/:hspId" children={Details} /> {/* Show details about a hospital */}
                         <Route path="/search">

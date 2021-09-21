@@ -101,6 +101,17 @@ export class Comment extends ModelObject {
 
 }
 
+export class DepartmentNameObject extends ModelObject{
+    icon?:string;
+    name?: string;
+
+    constructor(data: ModelData, baseUrl: string) {
+        super(data, baseUrl);
+        this.fields = ['name','icon', 'id']
+        this.getData()
+    }
+}
+
 export class DepartmentObject extends ModelObject {
     name: { id: number, icon?:string, name?: string} = {id: -1};
     x = -1;
@@ -234,6 +245,7 @@ export const Department = new Model(baseUrl + '/internals/departments/', Departm
 export const Marker = new Model(baseUrl + '/api/marker/', MarkerObject)
 export const Doctor = new Model(baseUrl + '/internals/doctors/', DoctorObject)
 export const Patient = new Model(baseUrl + '/api/patient/', PatientObject)
+export const DepartmentName = new Model(baseUrl + '/internals/department_names/', DepartmentNameObject)
 
 export type ModelRegistry =
     typeof MarkerObject

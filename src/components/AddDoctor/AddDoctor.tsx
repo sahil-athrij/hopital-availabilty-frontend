@@ -15,6 +15,7 @@ import MobileTimePicker from "@mui/lab/MobileTimePicker";
 import TextField from "@mui/material/TextField";
 import Avatar from "@mui/material/Avatar";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import {toast} from "react-toastify";
 
 
 interface AddDoctorState extends AuthState {
@@ -134,7 +135,10 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState> {
         toSend.user = undefined;
         toSend.department = [toSend.department];
 
-        toSend.working_time = toSend.working_time.map(({working_time, hospital}: {working_time: any, hospital: any}) => {
+        toSend.working_time = toSend.working_time.map(({
+                                                           working_time,
+                                                           hospital
+                                                       }: { working_time: any, hospital: any }) => {
             return {
                 hospital,
                 working_time: {
@@ -144,17 +148,32 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState> {
             }
         });
 
-        await Doctor.create(toSend)
+        if (this.state.name && this.state.phone_number)
+            Doctor.create(toSend)
+                .then(() => {
+                    this.props.history.push(`/details/${this.state.hospital}`)
+                    toast.success('thank you for the contribution', {
+                        position: 'bottom-center'
+                    })
+                }).catch((error) => {
+                toast.error(error.details, {
+                    position: 'bottom-center'
+                })
+            })
+        else
+            toast.error("please enter the required details", {
+                position: 'bottom-center'
+            })
     }
 
     render() {
         return (
             this.state.ready ?
                 <div>
-                    <div className="d-flex justify-content-between p-3 ">
-                        <img src={close} alt={"exit"}/>
-                        <p className="align-self-center"><b>add doctor details</b></p>
-                        <Button variant="contained" onClick={this.saveDoctor}>Submit</Button>
+                    <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
+                        <img src={close} onClick={() => this.props.history.goBack()}/>
+                        <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Doctor</b></p>
+                        <Button className="sub" variant="contained" onClick={this.saveDoctor}>Submit</Button>
                     </div>
 
                     <div className="d-flex justify-content-center align-items-center">
@@ -194,11 +213,11 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState> {
 
                 </div>
                 :
-                <div>
-                    <div className="d-flex justify-content-between p-3 ">
-                        <img src={close} alt={"exit"}/>
-                        <p className="align-self-center"><b>add doctor details</b></p>
-                        <Button variant="contained" disabled={true}>Submit</Button>
+                <div className="main h-100">
+                    <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
+                        <img src={close} onClick={() => this.props.history.goBack()}/>
+                        <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Doctor</b></p>
+                        <Button className="sub" variant="contained">Submit</Button>
                     </div>
                     <div className="d-flex justify-content-center align-items-center">
                         <Avatar src="/broken-image.jpg"/>
