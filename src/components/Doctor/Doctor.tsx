@@ -18,6 +18,7 @@ import {Container} from "react-bootstrap";
 import Loader from "react-loader-spinner";
 import {withRouter} from "react-router";
 import React from "react";
+import {BigBlueButton} from "../Utils";
 
 interface DetailsState extends AuthState {
     id: number,
@@ -129,10 +130,10 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                 <div className="overlap-group4">
                     <div className="d-flex justify-content-between w-100 px-3 align-items-centre">
                         {/*<div className="left-align">*/}
-                            <img alt={""}
-                                 onClick={() => history.goBack()}
-                                 className="icon-1 mx-3"
-                                 src={icon1}/>
+                        <img alt={""}
+                             onClick={() => history.goBack()}
+                             className="icon-1 mx-3"
+                             src={icon1}/>
 
                         {/*</div>*/}
 
@@ -147,7 +148,7 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
 
                     <img alt={""}
                          className="image"
-                         src={model.image? model.image : image}
+                         src={model.image ? model.image : image}
                     />
 
                     <div className="text-1 nunito-semi-bold-ebony-clay-20px">
@@ -204,15 +205,9 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                         title={"Video Call"}
                         text={"See your doctor live."}/>
                 </div>
-                <div className="button">
-                    <div className="overlap-group3">
-                        <div
-                            className="book-appointment nunito-bold-white-16px"
-                            onClick={() => alert("Will be available in the next release.")}
-                        >Book Appointment
-                        </div>
-                    </div>
-                </div>
+                <Container className="pb-5">
+                   <BigBlueButton text="Book Appointment" />
+                </Container>
             </>
         )
     }
