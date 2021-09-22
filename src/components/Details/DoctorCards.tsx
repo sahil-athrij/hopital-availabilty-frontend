@@ -8,7 +8,7 @@ import {Container} from "react-bootstrap";
 import starsvg from '../../images/star.svg';
 
 import search_icon from "./icons/search-icon.svg";
-import {Button} from "@mui/material";
+import {BigBlueButton} from "../Utils";
 
 
 interface CardProps {
@@ -79,7 +79,7 @@ export class DoctorCards extends Component<{ models: DoctorObject[], hospital: n
 
                     </div>
                     <Link to={`/doctor/add/${this.props.hospital}`}>
-                        <Button fullWidth variant="contained" color="primary">Add Doctor</Button>
+                        <BigBlueButton text="Add Doctor"/>
                     </Link>
                 </Container>
             </div>
