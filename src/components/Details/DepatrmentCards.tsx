@@ -3,7 +3,6 @@ import {DepartmentObject} from "../../api/model";
 
 import {Container} from "react-bootstrap";
 import "./DepartmentCards.css";
-import star from "../../images/star.svg";
 import vector from "../../images/vector.svg";
 import {BigBlueButton, StarRating} from "../Utils";
 

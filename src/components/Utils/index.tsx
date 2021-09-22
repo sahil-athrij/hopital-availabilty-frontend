@@ -5,7 +5,7 @@ import {Container} from "react-bootstrap";
 import star from "../../images/star.svg";
 import fadestar from "../../images/fadestar.svg"
 
-const num = 5;
+
 const BigBlueButtonStyle = {
     letterSpacing: "0.49px",
     borderRadius: "20px",
