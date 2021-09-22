@@ -142,8 +142,8 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState> {
                 return {
                     hospital,
                     working_time: {
-                        starting_time: new Date(working_time.starting_time || "").toTimeString().split(' ')[0],
-                        ending_time: new Date(working_time.ending_time || "").toTimeString().split(' ')[0],
+                        starting_time: new Date(working_time.starting_time as string).toTimeString().split(' ')[0],
+                        ending_time: new Date(working_time.ending_time as string).toTimeString().split(' ')[0],
                         day: working_time.day
                     }
                 }
