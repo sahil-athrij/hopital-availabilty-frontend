@@ -36,7 +36,7 @@
     transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
     cursor: pointer;
     width: 30%;
-    height: 145px;
+    height: 110px;
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -85,15 +85,14 @@
 .search-for-doctors {
     color: var(--lynch);
     font-family: var(--font-family-nunito);
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 700;
     white-space: nowrap;
 }
 .doctor-card {
     background: #FFFFFF;
-     box-shadow: 0 10px 60px rgb(0 0 0 / 6%);
+     box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.0625);
     border-radius: 20px;
-     border: 10px;
     display: block;
     width: 150px;
     height: 13rem;
@@ -123,4 +122,26 @@
     width: 100%;
     border-radius: 20px!important;
     text-transform: none!important;
+}
+
+.bck-btn{
+    width: 40px;
+    height: 40px;
+    background: #FFFFFF;
+    border: 1px solid #F1F4F7;
+    box-sizing: border-box;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+}
+
+.hbg-mnu{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
 }

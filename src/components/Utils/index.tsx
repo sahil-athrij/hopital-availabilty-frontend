@@ -15,7 +15,8 @@ const BigBlueButtonStyle = {
 export const BigBlueButton = ({text}: { text: string }) => (
     <Button
         className="nunito-bold-white-16px p-3 my-3 "
-        fullWidth variant="contained" sx={{...BigBlueButtonStyle, textTransform: "none"}}>{text}</Button>)
+        fullWidth variant="contained" 
+        sx={{...BigBlueButtonStyle, textTransform: "none", background: "#3E64FF", fontWeight: "700px"}}>{text}</Button>)
 
 export const StarRating = ({rating}: { rating: number }) => (
     <Container>
