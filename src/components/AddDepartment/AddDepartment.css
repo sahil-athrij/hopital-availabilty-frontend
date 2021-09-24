@@ -3,10 +3,12 @@
     height: 100vh;
 }
 .sub {
+    font-family: Nunito!important;
     background: #3e64ff!important;;
     color:#ffffff!important;
-    border-radius: 10px!important;
     text-transform: none!important;
+    background: linear-gradient(180deg, #0338B9 0%, #3E64FF 100%)!important;
+    border-radius: 10px!important;
 }
 
 .head-sec{
