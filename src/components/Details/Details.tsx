@@ -23,6 +23,7 @@ import direction_icon from "./icons/primary@2x.png"
 
 import {DepartmentCards} from "./DepatrmentCards"
 import {DoctorCards} from "./DoctorCards";
+import ReviewCards from "./ReviewCards"; 
 
 
 interface DetailsState extends AuthState {
@@ -211,7 +212,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                         </TabPanel>
 
                         <TabPanel value={this.state.tab} index={2}>
-                            Reviews {/* TODO add reviews card. */}
+                            <ReviewCards model={model}/> 
                         </TabPanel>
                     </SwipeableViews>
                 </> :

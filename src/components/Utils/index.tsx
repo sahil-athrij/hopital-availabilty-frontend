@@ -12,11 +12,12 @@ const BigBlueButtonStyle = {
     background: "linear-gradient(180deg, #0338B9 0%, #3E64FF 100%)",
 }
 
-export const BigBlueButton = ({text}: { text: string }) => (
+export const BigBlueButton = ({text,...props}: { text: string }) => (
     <Button
+        {...props}
         className="nunito-bold-white-16px p-3 my-3 "
         fullWidth variant="contained" 
-        sx={{...BigBlueButtonStyle, textTransform: "none", background: "#3E64FF", fontWeight: "700px"}}>{text}</Button>)
+        sx={{...BigBlueButtonStyle, textTransform: "none", fontWeight: "700px"}}>{text}</Button>)
 
 export const StarRating = ({rating}: { rating: number }) => (
     <Container>

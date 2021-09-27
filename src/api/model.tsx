@@ -195,13 +195,30 @@ export class DoctorObject extends ModelObject {
 }
 
 export class ReviewObject extends ModelObject {
-
+    id: number = 0;
+    marker: number = 0;
+    financial_rating: number = 0;
+    avg_cost: number = 0;
+    covid_rating: number = 0;
+    beds_available: number = 0;
+    care_rating: number = 0;
+    oxygen_rating: number = 0;
+    ventilator_availability: number = 0;
+    oxygen_availability: number = 0;
+    icu_availability: number = 0;
+    comment: string = '';
+    datef: string = '';
+    images: object[] | any;
+    day: number = 0;
+    written_by_name: string = '';
+    written_by: string = '';
+    size: number = 0;
 
     constructor(data: ModelData, baseUrl: string) {
         super(data, baseUrl);
         this.fields = ["id", "marker", "financial_rating", "avg_cost", "covid_rating", "beds_available", "care_rating",
             "oxygen_rating", "ventilator_availability", "oxygen_availability", "icu_availability", "comment", "datef",
-            "images", "day",]
+            "images", "day", "written_by_name", "written_by", "size"]
         this.getData()
     }
 }
