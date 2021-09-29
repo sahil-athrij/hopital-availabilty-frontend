@@ -1,50 +1,126 @@
-import React, { Component } from 'react';
-import { Container } from 'react-bootstrap';
-import {MarkerObject} from '../../api/model';
-import {BigBlueButton, StarRating} from "../Utils";
+import React, { Component } from "react";
+import { Container } from "react-bootstrap";
+import { MarkerObject } from "../../api/model";
+import { BigBlueButton, StarRating } from "../Utils";
+import oxygen from "../../images/oxygen.svg";
+import affordability from "../../images/affordability.svg";
+import icu from "../../images/icu.svg";
+import ventilator from "../../images/ventilator.svg";
 
-interface ReviewObject{
-    model: MarkerObject;
+interface ReviewObject {
+  model: MarkerObject;
 }
 
 export default class ReviewCards extends Component<ReviewObject> {
+  render() {
+    return (
+      <div>
+        <div>
+          <div className="d-flex mt-1 pl-4">
+            <h6>
+              <b>Infrastructure Quality</b>
+            </h6>
+          </div>
 
-    render() {
-        return (
-            <div>
-                {this.props.model.oxygen_rating}
+          <div className="dpts-pic d-flex justify-content-between pl-3">
+            <div className="d-flex justify-content-between ">
+              <img className="pic m-2" src={oxygen} alt="dpt" />
 
-                        <div className="dpts">
-                                <div>
-                                    <div className="dpts-pic d-flex justify-content-between p-2">
-                                        <div className="d-flex justify-content-between p-2">
-                                            <img className="pic m-2" src={model.name.icon || "fallback_image.png"}
-                                                 alt="dpt"/>
-
-                                            <p className="justify-content-start p-2">
-                                                <b>Oxygen</b><br/><small>Ratings {this.props.model.oxygen_rating}</small></p>
-                                        </div>
-                                        <div className="dpts-rtg d-flex flex-row justify-content-sm-around">
-                                          <StarRating rating={model.rating}/>
-                                            <div className="d-flex m-2 p-2">
-                                                <img className="arrw align-self-center" src={vector} alt="arrow"/>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-            
-                        </div>
-
-            
-            <Container className="p-4">
-                <BigBlueButton text="Add Department"/>
-            </Container>
-           
-
-
+              <p className="justify-content-start pt-2 text-left">
+                <b>Oxygen</b>
+                <br />
+                <small>Ratings {this.props.model.oxygen_rating}</small>
+              </p>
             </div>
-        )
-    }
+            <div className="d-flex align-items-baseline">
+              <StarRating rating={this.props.model.oxygen_rating} />
+            </div>
+          </div>
+
+          <div className="dpts-pic d-flex justify-content-between pl-3">
+            <div className="d-flex justify-content-between ">
+              <img className="pic m-2" src={affordability} alt="dpt" />
+
+              <p className="justify-content-start pt-2 text-left">
+                <b>Affordability</b>
+                <br />
+                <small>Ratings {this.props.model.financial_rating}</small>
+              </p>
+            </div>
+            <div className="d-flex align-items-baseline">
+              <StarRating rating={this.props.model.financial_rating} />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div className="d-flex mt-4 pl-4">
+            <h6>
+              <b>Infrastructure Availability</b>
+            </h6>
+          </div>
+
+          <div className="dpts-pic d-flex justify-content-between pl-3">
+            <div className="d-flex justify-content-between ">
+              <img className="pic m-2" src={oxygen} alt="dpt" />
+
+              <p className="justify-content-start pt-2 text-left">
+                <b>Oxygen</b>
+                <br />
+                <small>Availability {this.props.model.oxygen_availability}%</small>
+              </p>
+            </div>
+            <div className="d-flex align-items-center mr-1 pr-4">
+              <h6 style={{textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"}}><b>{this.props.model.oxygen_availability}%</b></h6>  
+            </div>
+          </div>
+
+          <div className="dpts-pic d-flex justify-content-between pl-3">
+            <div className="d-flex justify-content-between ">
+              <img className="pic m-2" src={icu} alt="dpt" />
+
+              <p className="justify-content-start pt-2 text-left">
+                <b>ICU</b>
+                <br />
+                <small>Availability {this.props.model.icu_availability}%</small>
+              </p>
+            </div>
+            <div className="d-flex align-items-center mr-1 pr-4">
+              <h6 style={{textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"}}><b>{this.props.model.icu_availability}%</b></h6>  
+            </div>
+          </div>
+
+          <div className="dpts-pic d-flex justify-content-between pl-3">
+            <div className="d-flex justify-content-between ">
+              <img className="pic m-2" src={ventilator} alt="dpt" />
+
+              <p className="justify-content-start pt-2 text-left">
+                <b>Ventilator</b>
+                <br />
+                <small>Availability {this.props.model.ventilator_availability}%</small>
+              </p>
+            </div>
+            <div className="d-flex align-items-center mr-1 pr-4">
+              <h6 style={{textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"}}><b>{this.props.model.ventilator_availability}%</b></h6>  
+            </div>
+          </div>
+
+        </div>
+
+        <div>
+
+        <div className="d-flex mt-4 pl-4">
+            <h6>
+              <b>Ratings and Reviews</b>
+            </h6>
+          </div> 
+
+        </div>
+
+        <Container className="p-4">
+          <BigBlueButton text="Write a Review" />
+        </Container>
+      </div>
+    );
+  }
 }
