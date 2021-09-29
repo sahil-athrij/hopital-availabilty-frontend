@@ -6,6 +6,10 @@ import oxygen from "../../images/oxygen.svg";
 import affordability from "../../images/affordability.svg";
 import icu from "../../images/icu.svg";
 import ventilator from "../../images/ventilator.svg";
+import ratingline from "../../images/Ratings-line.svg";
+import stars from "../../images/5stars.svg";
+import info from "../../images/info.svg"; 
+import profile from "../../images/profile-image.svg";  
 
 interface ReviewObject {
   model: MarkerObject;
@@ -109,16 +113,54 @@ export default class ReviewCards extends Component<ReviewObject> {
 
         <div>
 
-        <div className="d-flex mt-4 pl-4">
-            <h6>
-              <b>Ratings and Reviews</b>
-            </h6>
-          </div> 
+              <div className="d-flex mt-4 pl-4">
+                <h6>
+                <b>Ratings and Reviews</b>
+                </h6>
+               </div> 
+
+               <div className="d-flex justify-content-between align-items-center px-4">
+
+                <div className="d-flex flex-column m-0 p-0">
+
+                    <h4 className="m-0 p-0"><b>{this.props.model.care_rating}</b></h4>
+                    <img src={stars} alt="star" />
+                    <p className="m-0 p-0"><small>(21)</small></p>
+
+                </div>
+
+                <div>
+
+                  <img src={ratingline} alt="rating line" />
+
+                </div>
+
+                <div>
+
+                    <img src={info} alt="info" />
+
+                </div>
+
+               </div>
+
+        </div>
+
+        <div>
+
+            <div className="d-flex flex-column text-left mt-4 pl-4">
+                    <h6 className="m-0"><b>Rate and Review</b></h6>
+                    <p className="p-0 m-0"><small>Share your experience to help others</small></p>
+            </div> 
+
+            <div className="d-flex">
+                <img src={profile} alt="img" />
+                <img src={stars} alt="alt" />
+            </div>
 
         </div>
 
         <Container className="p-4">
-          <BigBlueButton text="Write a Review" />
+          <BigBlueButton text="Write a Review"/> 
         </Container>
       </div>
     );
