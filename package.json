@@ -36,8 +36,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "sync:to": "rsync -aPzs --delete --exclude-from='.gitignore' ./ react:ar",
-    "sync:from": "rsync -aPzs --exclude-from='.gitignore' react:ar/ ."
+    "sync:to": "rsync -aPzs --delete --exclude-from='.gitignore' ./ react:hopital-availabilty-frontend"
   },
   "eslintConfig": {
     "extends": [
