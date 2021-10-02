@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Container } from "react-bootstrap";
 import { MarkerObject } from "../../api/model";
-import { BigBlueButton, StarRating } from "../Utils";
+import { BigBlueButton, StarRating, RatingBar} from "../Utils";
 import oxygen from "../../images/oxygen.svg";
 import affordability from "../../images/affordability.svg";
 import icu from "../../images/icu.svg";
@@ -119,31 +119,12 @@ export default class ReviewCards extends Component<ReviewObject> {
                 </h6>
                </div> 
 
-               <div className="d-flex justify-content-between align-items-center px-4">
-
-                <div className="d-flex flex-column m-0 p-0">
-
-                    <h4 className="m-0 p-0"><b>{this.props.model.care_rating}</b></h4>
-                    <img src={stars} alt="star" />
-                    <p className="m-0 p-0"><small>(21)</small></p>
-
-                </div>
-
-                <div>
-
-                  <img src={ratingline} alt="rating line" />
-
-                </div>
-
-                <div>
-
-                    <img src={info} alt="info" />
-
-                </div>
-
-               </div>
+               <RatingBar />
+            
 
         </div>
+
+       
 
         <div>
 
