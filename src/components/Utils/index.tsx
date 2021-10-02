@@ -25,6 +25,9 @@ export const StarRating = ({rating}: { rating: number }) => (
 
         {[...Array(Math.round(rating))].map((e, i) => <img key={i} className="rtg align-self-start mt-4 ml-1" src={star}
                                                alt="rating"/>)}
-    </Container>
+    </Container>)
+
+export const Star = () => (
+  <img src="../../images/addHospital.jpg"/>
 
 )
