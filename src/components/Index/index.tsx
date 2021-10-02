@@ -8,12 +8,7 @@ import SwipeableTextMobileStepper from "./Banners";
 import {getParam} from "../../api/QueryCreator";
 
 import {SearchResults} from "../cards/SearchResultCard";
-import Homecover from "../../images/Needmedihome.svg"
-import {Link} from 'react-router-dom';
-import Righticon from "../../images/righticon.svg"
-import Addhosp from "../../images/addhospcard.svg"
-import Givehelp from "../../images/givehelpcard.svg"
-import Searchhosp from "../../images/searchhospcard.svg"
+
 
 interface IndexState extends AuthState {
     display: boolean
@@ -22,7 +17,7 @@ interface IndexState extends AuthState {
 }
 
 /**
- * @extends  AuthComponent<AuthPropsLoc, IndexState>
+ * @extends  AuthComponent<AuthPropsLoc, IndexState> 
  */
 
 class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> {
@@ -37,7 +32,6 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> {
             lat, lng
         }
     }
-
     /**
      * Descibes the Index page including swipable carousels
      * @returns { JSX.Element } index Component
@@ -47,54 +41,19 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> {
 
         return (
             <React.Fragment>
-                <Container fluid={true} className="mt-4 p-5 ">
+                <Container fluid={true} className=" mt-5 p-5 bg-grey">
                 </Container>
-                <div className="usertext text-left mt-1">
-                    {this.state.user?.username ? `Welcome, ${this.state.user.username}` : "Welcome"}
-                </div>
-                <Container className="text-left">
-                    <img className="needmedi" src={Homecover}/>
-                    <Link to="/profile/addRequest">
-                        <div className="helpbar">
-                            <div className="rigtharrow"><img className="iconimg" src={Righticon}/></div>
-                            <h5 className="problem">Any problems?</h5>
-
-                            <h6 className="probsec">Request Medical help here</h6>
-                        </div>
-                    </Link>
+                <Container className="bg-grey">
+                    <SwipeableTextMobileStepper/>
                 </Container>
-                <Container className="w-100">
-                    <div className="servicehead text-left">
-                        Services
-                    </div>
-                    <div className="ml-2 container d-flex justify-content-between">
-
-                        <div className="homecard">
-                            <img src={Addhosp}/>
-                        </div>
-                        <div className="homecard">
-                            <img src={Givehelp}/>
-                        </div>
-                        <div className="homecard">
-                            <img src={Searchhosp}/>
-                        </div>
-
-
-                    </div>
-                </Container>
-
-                <Container className="mb-5 pt-3 text-left">
+                <Container className="pt-3 text-left">
                     {/* Displays the component when lat and lng are non-null */}
-                    {this.state.lat && this.state.lng ? <>
-                        <div className=" d-flex justify-content-between">
-                        <h6 className="hospnear">Hospitals Near You</h6>
-                         <p className=" mr-1">See All</p>
-                        </div>
+                    {this.state.lat && this.state.lng ? <> 
+                        <h6>Hospitals Near You</h6>
                         <Col xs={12} id="searchresults">
-                            <SearchResults updateParent={() => {
-                            }}/>
+                        <SearchResults updateParent={() => {}}/>
                         </Col>
-                    </> : <></>
+                        </>:<></>
                     }
                 </Container>
 

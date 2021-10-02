@@ -10,12 +10,8 @@ import {getParam} from "../../api/QueryCreator";
 import Loader from "react-loader-spinner";
 import {AuthPropsLoc} from "../../api/auth";
 import {ResponsiveState} from "../ResponsiveComponent";
-import Ekmmed from "../../images/ekmmed.svg"
+
 import './searchCards.css'
-import SmallStar from "../../images/smallstar.svg";
-import Phonecall from "../../images/phonecall.svg";
-import Videocall from "../../images/videocall.svg";
-import Routemap from "../../images/routemap.svg";
 
 interface SearchCardsProps extends AuthPropsLoc {
     model: MarkerObject
@@ -29,52 +25,30 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
         return (
             <Link style={{textDecoration: "none"}} className='text-dark' to={"/details/" + this.props.model.id}>
                {/* Show hospital image */}
-                <Card className="cardstyle  flex-row  mb-3">
+                <Card className="flex-row  mb-3">
                     {this.props.model.images && this.props.model.images[0] ?
-                        <img src={this.props.model.images[0].image}  width={"100px"} height={"100px"} className=" rounded-circle w-30 flex-shrink-0 mr-2 p-2 px-3 p-md-4" alt="imageview" />
 
-                        :  <img src={Ekmmed} width={"100px"} height={"100px"} className=" rounded-circle w-30 flex-shrink-0 mr-2 p-2 px-3 p-md-4" alt="imageview" />
-
+                            <div style={{backgroundImage: `url(${this.props.model.images[0].image})`}}
+                                 className="w-30 flex-shrink-0 background-contain mr-2"/>
+                        :
+                        <img src={hospitalsvg} className="w-30 flex-shrink-0 mr-2 p-2 px-3 p-md-4" alt="imageview"/>
                     }
                     <Card.Body className="w-70 flex-1 bg-white text-left p-0 py-1">
                         <div    
                                 // Get hospital details and split it at first comma to get hospital name
-                            className="mt-1 justify-content-between hospital-title">
-                            <div className="pr-5">
-                                {this.props.model.name != null ? this.props.model.name.split(',')[0] : ''}
-                            </div>
-                            <div className="ratingvalue d-flex align-items-center justify-content-between">
-                               {this.props.model.care_rating}
-                            <img alt={""} className="mr-4" src={SmallStar}/>
-                            </div>
-                        </div>
-
+                            className="mt-1 hospital-title">{this.props.model.name != null ? this.props.model.name.split(',')[0] : ''}</div>
+                        
                         {/* star rating scale */}
-                        {/*<StarRating rating={this.props.model.care_rating}/>*/}
+                        <StarRating rating={this.props.model.care_rating}/>
                         <div className="d-flex address-container justify-content-between">
 
                             {/* fetching hospital address */}
-                        <div className={"hospital-address"}>
+                        <span className={"hospital-address"}>
                             {this.props.model.address.suburb && this.props.model.address.suburb + ' ,'}     
                             {this.props.model.address.village && this.props.model.address.village + ' ,'}
                             {this.props.model.address.state_district && this.props.model.address.state_district + ' ,'}
                             {this.props.model.address.state && this.props.model.address.state}
-                        </div>
-
-
-
-                            <div className="container d-flex justify-content-between">
-                                  <div className="pvrtab">
-                                      <img src={Videocall}/>
-                                  </div>
-                                <div className="pvrtab">
-                                    <img src={Phonecall}/>
-                                </div>
-                                <div className="pvrtab">
-                                    <img src={Routemap}/>
-                                </div>
-
-                            </div>
+                        </span>
                         </div>
                         <span
                             className="hospital-phone">{this.props.model.Phone !== '0000000000' && this.props.model.Phone}  {/*Fetching phone number if available*/}
@@ -109,11 +83,10 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
                                     }
                                 }}>
 
-
-                                {/*<button className="button-holder text-center">*/}
-                                {/*    <RiDirectionLine size={20} className="text-primary"/>*/}
-                                {/*</button>*/}
-                                {/*Route Map*/}
+                                <button className="button-holder text-center">
+                                    <RiDirectionLine size={20} className="text-primary"/>
+                                </button>
+                                Route Map
                             </div>
 
                         </Row>
