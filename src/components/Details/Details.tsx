@@ -11,7 +11,7 @@ import {withRouter} from "react-router";
 import doctorsvg from '../../images/doctor.svg';
 import layoutsvg from '../../images/layout.svg';
 import reviewsvg from '../../images/review.svg';
-import starsvg from '../../images/star.svg';
+import starsvg from '../../images/borderstar.svg';
 
 import image from "./icons/image@2x.png"
 import icon from "./icons/icon-1@2x.png"
@@ -164,7 +164,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                                 </div>
                                 <div className="d-flex flex-row">
                                     {model.care_rating}
-                                    <img alt={""} className="staricon" src={starsvg}/>
+                                    <img alt={""} className="pl-1" src={starsvg}/>
                                 </div>
 
                             </div>
