@@ -1,3 +1,8 @@
-.rt-bar{
-    color:red;
+.MuiLinearProgress-determinate .css-5xe99f-MuiLinearProgress-bar1 {
+
+    background-color:#F7C480 !important;
+}
+
+.MuiLinearProgress-determinate{
+    background-color: #C4C4C4 !important;
 }
