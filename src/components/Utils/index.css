@@ -6,3 +6,7 @@
 .MuiLinearProgress-determinate{
     background-color: #C4C4C4 !important;
 }
+
+.css-iljtu2-MuiRating-root{
+    font-size: unset !important;
+}
