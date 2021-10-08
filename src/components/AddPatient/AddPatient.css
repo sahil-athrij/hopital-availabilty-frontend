@@ -1,0 +1,31 @@
+
+.wholetab {
+    margin-top: 1rem;
+    background: #F0F0F0;
+    border-radius: 10px;
+}
+.nxtbutton {
+    background: linear-gradient(110.55deg, rgba(3, 56, 185, 0.5) 0%, #3E64FF 63.64%);
+    border-radius: 10px;
+}
+
+.mainhead {
+    text-align: left;
+    font-weight: bold;
+    font-size: 15px;
+}
+.helper {
+    text-align: right;
+    color: #707C8B;
+    font-size: 11px;
+    margin-top: .30rem;
+
+}
+.manmsg {
+    font-size: .4rem;
+    color: #868383;
+    position: relative;
+    bottom: 0;
+    margin-bottom: 4.4rem;
+
+}

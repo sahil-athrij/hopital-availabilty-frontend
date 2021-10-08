@@ -10,7 +10,7 @@ import {getParam} from "../../api/QueryCreator";
 import Loader from "react-loader-spinner";
 import {AuthPropsLoc} from "../../api/auth";
 import {ResponsiveState} from "../ResponsiveComponent";
-import Ekmmed from "../../images/ekmmed.svg"
+import Ekmmed from "../../images/Black.png"
 import './searchCards.css'
 import SmallStar from "../../images/smallstar.svg";
 import Phonecall from "../../images/phonecall.svg";
@@ -29,13 +29,16 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
         return (
             <Link style={{textDecoration: "none"}} className='text-dark' to={"/details/" + this.props.model.id}>
                {/* Show hospital image */}
-                <Card className="cardstyle  flex-row  mb-3">
-                    {this.props.model.images && this.props.model.images[0] ?
-                        <img src={this.props.model.images[0].image}  width={"100px"} height={"100px"} className=" rounded-circle w-30 flex-shrink-0 mr-2 p-2 px-3 p-md-4" alt="imageview" />
+                <Card className="cardstyle  flex-row mb-3 ">
 
-                        :  <img src={Ekmmed} width={"100px"} height={"100px"} className=" rounded-circle w-30 flex-shrink-0 mr-2 p-2 px-3 p-md-4" alt="imageview" />
+                    {this.props.model.images && this.props.model.images[0] ?
+
+                        <img src={this.props.model.images[0].image}   className="  circle w-25 flex-shrink-0 mr-2 p-1 px-2 p-md-4" alt="imageview" />
+
+                        :  <img src={Ekmmed}  className=" circle m-3 align-self-center rounded-circle flex-shrink-0 mr-2 p-1 px-2 p-md-4" alt="imageview" />
 
                     }
+
                     <Card.Body className="w-70 flex-1 bg-white text-left p-0 py-1">
                         <div    
                                 // Get hospital details and split it at first comma to get hospital name

@@ -24,6 +24,7 @@ import {Add} from "./components/AddHospital/Add";
 import {DoctorComponent} from './components/Doctor/Doctor';
 import {AddDoctorComponent} from './components/AddDoctor/AddDoctor';
 import {AddDepartmentComponent} from "./components/AddDepartment/AddDepartment";
+import {Addpatient} from "./components/AddPatient/AddPatient";
 
 const theme = createMuiTheme({
     palette: {
@@ -139,7 +140,12 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                         <Route path="/privacypolicy/">
                             <Privacy/>
                         </Route>
-                        {/* If the current URL is /, this route is rendered
+                        <Route path="/AddMedical/">
+                            <BottomNav/>
+                            <Addpatient/>
+                        </Route>
+
+                    {/* If the current URL is /, this route is rendered
             while the rest are ignored */}
                         <Route path="/">
                             <NavBar/>

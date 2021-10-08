@@ -233,10 +233,17 @@ export class PatientObject extends ModelObject {
     gender_name: string = '';
     symdays: string = '';
     spo2: number = 0;
-    bedtype_name: string = '';
+    bedtype_name: number=0;
     blood: string = '';
     ct: boolean = false;
     ctscore: string = '';
+    oxy_bed:boolean=false;
+    attendername: string='';
+    attenderphone: string='';
+    relation: string='';
+    hospitalpref: string='';
+    srfid: string='';
+    bunum: string='';
 
     constructor(data: ModelData, baseUrl: string) {
         super(data, baseUrl);
