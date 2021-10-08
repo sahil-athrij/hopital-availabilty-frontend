@@ -73,10 +73,9 @@ export const RatingBar = () => (
                 <LinearProgress sx={{ width: '100%', color: 'grey.500' }} className="rt-bar mb-1" variant="determinate" value={50} />
                 <LinearProgress sx={{ width: '100%', color: 'grey.500' }} className="rt-bar mb-1" variant="determinate" value={50} />
             </div>
-            <Tooltip title="need to be updated" arrow>
-            sdsd
+
                <InfoOutlinedIcon sx={{color:"#6B779A"}}/>
-            </Tooltip>
+
         </div>
     </>
 );

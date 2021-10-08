@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import { Container } from "react-bootstrap";
 import { MarkerObject } from "../../api/model";
-import { BigBlueButton, StarRating, RatingBar} from "../Utils";
+import { BigBlueButton, StarRating} from "../Utils";
 import oxygen from "../../images/oxygen.svg";
 import affordability from "../../images/affordability.svg";
 import icu from "../../images/icu.svg";
 import ventilator from "../../images/ventilator.svg";
-import ratingline from "../../images/Ratings-line.svg";
 import stars from "../../images/5stars.svg";
-import info from "../../images/info.svg"; 
-import profile from "../../images/profile-image.svg";  
+import profile from "../../images/profile-image.svg";
+import Rating from "@mui/material/Rating";
+import LinearProgress from "@mui/material/LinearProgress";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 interface ReviewObject {
   model: MarkerObject;
@@ -119,7 +120,7 @@ export default class ReviewCards extends Component<ReviewObject> {
                 </h6>
                </div> 
 
-               <RatingBar />
+               <RatingBar reviews={this.props.model.comment}/>
             
 
         </div>
@@ -133,9 +134,9 @@ export default class ReviewCards extends Component<ReviewObject> {
                     <p className="p-0 m-0"><small>Share your experience to help others</small></p>
             </div> 
 
-            <div className="d-flex">
+            <div className="d-flex mx-4 ">
                 <img src={profile} alt="img" />
-                <img src={stars} alt="alt" />
+                <Rating name="size-large" defaultValue={0} size="large" />
             </div>
 
         </div>
@@ -144,6 +145,82 @@ export default class ReviewCards extends Component<ReviewObject> {
           <BigBlueButton text="Write a Review"/> 
         </Container>
       </div>
+    );
+  }
+}
+
+
+interface RatingObject {
+  reviews: ReviewObject[];
+}
+
+class RatingBar extends Component<RatingObject> {
+
+  avgRating = () => {
+
+    let rating = {
+      sum: 0,
+      ones: 0,
+      twos: 0,
+      threes: 0,
+      fours: 0,
+      fives: 0
+    }
+
+    this.props.reviews.map((comment, index) => {
+      rating.sum += comment.total_rating;
+      switch(comment.total_rating){
+        case 1:
+          rating.ones += 1;
+          break;
+        case 2:
+          rating.twos += 1;
+          break;
+        case 3:
+          rating.threes += 1;
+          break;
+        case 4:
+          rating.fours += 1;
+          break;
+        case 5:
+          rating.fives += 1;
+          break;
+      }
+
+
+
+    })
+
+  }
+
+  render() {
+    this.avgRating();
+    return (
+        <>
+          <div className="d-flex justify-content-between align-items-center px-4">
+            <div className="d-flex flex-column m-0 p-0">
+              <h4 className="m-0 p-0">
+                <b>21</b>
+              </h4>
+              <Rating className="w-25" name="disabled" value={3.6} disabled precision={0.1} />
+
+              <p className="m-0 p-0">
+                <small>({this.props.reviews.length})</small>
+              </p>
+            </div>
+
+            <div className="w-100 mx-4">
+              <LinearProgress sx={{ width: '100%', color: 'grey.500' }} className="rt-bar mb-1" variant="determinate" value={50} />
+              <LinearProgress sx={{ width: '100%', color: 'grey.500' }} className="rt-bar mb-1" variant="determinate" value={50} />
+              <LinearProgress sx={{ width: '100%', color: 'grey.500' }} className="rt-bar mb-1" variant="determinate" value={50} />
+              <LinearProgress sx={{ width: '100%', color: 'grey.500' }} className="rt-bar mb-1" variant="determinate" value={50} />
+              <LinearProgress sx={{ width: '100%', color: 'grey.500' }} className="rt-bar mb-1" variant="determinate" value={50} />
+            </div>
+
+            <InfoOutlinedIcon sx={{color:"#6B779A"}}/>
+
+          </div>
+        </>
     );
   }
 }
