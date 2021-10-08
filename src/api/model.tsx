@@ -237,6 +237,13 @@ export class PatientObject extends ModelObject {
     blood: string = '';
     ct: boolean = false;
     ctscore: string = '';
+    oxy_bed:boolean=false;
+    attendername: string='';
+    attenderphone: string='';
+    relation: string='';
+    hospitalpref: string='';
+    srfid: string='';
+    bunum: string='';
 
     constructor(data: ModelData, baseUrl: string) {
         super(data, baseUrl);
