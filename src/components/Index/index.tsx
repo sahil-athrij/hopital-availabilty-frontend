@@ -47,14 +47,14 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> {
 
         return (
             <React.Fragment>
-                <Container fluid={true} className="mt-4 p-5 ">
+                <Container fluid={true} className="mt-2 p-5 ">
                 </Container>
-                <div className="usertext text-left mt-1">
+                <div className="usertext text-left mb-2">
                     {this.state.user?.username ? `Welcome, ${this.state.user.username}` : "Welcome"}
                 </div>
                 <Container className="text-left">
                     <img className="needmedi" src={Homecover}/>
-                    <Link to="/profile/addRequest">
+                    <Link to="/addRequest">
                         <div className="helpbar">
                             <div className="rigtharrow"><img className="iconimg" src={Righticon}/></div>
                             <h5 className="problem">Any problems?</h5>
@@ -83,7 +83,7 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> {
                     </div>
                 </Container>
 
-                <Container className="mb-5 pt-3 text-left">
+                <Container className="mb-5 pb-3 pt-3 text-left">
                     {/* Displays the component when lat and lng are non-null */}
                     {this.state.lat && this.state.lng ? <>
                         <div className=" d-flex justify-content-between">

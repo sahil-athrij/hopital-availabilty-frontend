@@ -34,7 +34,7 @@ class BottomNavLoc extends AuthComponent<AuthPropsLoc, BottomNavState> {
      * @returns string
      */
     getActive() {
-        return this.props.location.pathname.includes('/profile/addRequest') ? '/profile/addRequest' :
+        return this.props.location.pathname.includes('/addRequest') ? '//addRequest' :
             this.props.location.pathname.includes('/addHospital') ? '/addHospital' :
                 this.props.location.pathname.includes('/profile') ? '/profile/' : '/'
     }
@@ -55,7 +55,7 @@ class BottomNavLoc extends AuthComponent<AuthPropsLoc, BottomNavState> {
     }
     icons = [{path: "/addHospital", iconbf: Addhosp, iconaf: Addhospaf},
         {path: "/", iconbf: Explore, iconaf: Exploreaf}, {path: "/help", iconbf: Help, iconaf: Helpaf},
-        {path: "/profile/addRequest", iconbf: Request, iconaf: Requestaf}, {
+        {path: "//addRequest", iconbf: Request, iconaf: Requestaf}, {
             path: "/profile/",
             iconbf: Account,
             iconaf: Accountaf

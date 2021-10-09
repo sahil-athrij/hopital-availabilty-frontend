@@ -140,9 +140,10 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                         <Route path="/privacypolicy/">
                             <Privacy/>
                         </Route>
-                        <Route path="/AddMedical/">
+                        <Route path={"/addRequest"}>
                             <BottomNav/>
                             <Addpatient/>
+
                         </Route>
 
                     {/* If the current URL is /, this route is rendered

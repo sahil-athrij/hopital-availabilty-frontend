@@ -58,7 +58,32 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState> {
             activeStep: 0,
             avail_attender: false,
             avail_hospital: false,
-            symptoms:'',
+            Name: '',
+            age: 0,
+            gender: '',
+            address: '',
+
+            symptoms: "",
+            symdays: new Date().toISOString().substring(0, 10),
+            spo2: 0,
+            oxy_bed: false,
+
+
+            blood: '',
+            ct: false,
+            covidresult: false,
+            ctscore: '',
+
+
+
+            attendername: '',
+            attenderphone: '',
+            relation: '',
+
+
+            hospitalpref: '',
+            srfid: '',
+            bunum: "",
 
 
         }
