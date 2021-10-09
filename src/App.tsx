@@ -132,7 +132,7 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                         {/* If the current URL is /AddHospital, this route is rendered
             while the rest are ignored */}
                         <Route path="/AddHospital/">
-                            <NavBar/>
+                           <BottomNav/>
                             <Add/>
                         </Route>
                         {/* If the current URL is /privacypolicy, this route is rendered

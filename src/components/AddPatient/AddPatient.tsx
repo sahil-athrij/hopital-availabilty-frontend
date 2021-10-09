@@ -5,7 +5,7 @@ import {ResponsiveProps} from "../ResponsiveComponent";
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import {Chip,  ListItem, TextField} from "@mui/material";
+import {Chip,  ListItem, TextField,Container} from "@mui/material";
 import './AddPatient.css'
 import close from "../../images/close.svg";
 import MenuItem from "@mui/material/MenuItem";
@@ -314,10 +314,10 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState> {
         } else {
             console.log(this.state)
             return (
-                <div className="d-flex flex-column justify-content-between">
-                    <Box className='mb-auto px-2' sx={{width: '100%'}}>
+                <div className="d-flex flex-column vh-100">
+                    <Box className='px-2' sx={{width: '100%'}}>
 
-                        <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
+                        <Container className="head-sec d-flex justify-content-between p-3 shadow-none ">
                             <img src={close} onClick={() => this.props.history.goBack()} alt={"close"}/>
                             <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Medical Details</b>
                             </p>
@@ -326,8 +326,7 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState> {
                                         variant="contained">Submit</Button>) : (
                                 <Button disabled sx={{borderRadius: '10px', background: '#F0F0F0'}}
                                         variant="contained">Submit</Button>)}
-
-                        </div>
+                        </Container>
 
                         <ListItem className='wholetab'
                                   value={this.state.activeStep}
@@ -389,9 +388,10 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState> {
 
 
                     </Box>
-                    <div className="text-center">
+
+                    <Container sx={{marginBottom:"4rem"}} className="mt-auto text-center bg-grey ">
                         <p className="manmsg">All * are mandatory, we’ll help you connect with a Doctor soon</p>
-                    </div>
+                    </Container>
 
                 </div>
 
