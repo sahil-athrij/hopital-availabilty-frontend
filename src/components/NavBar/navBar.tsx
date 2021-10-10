@@ -1,16 +1,12 @@
 import React from "react";
 import {RouteComponentProps, withRouter} from "react-router";
 import {FullScreenSearch} from "../FullScreen/fullScreenSearch";
-import { AuthState} from "../../api/auth";
-import {Link} from "react-router-dom";
+import {AuthComponent, AuthState} from "../../api/auth";
 import {FullScreenUser} from "../FullScreen/FullSreenUser";
 import {getParam} from "../../api/QueryCreator";
-import {FullScreenFilter} from "../FullScreen/FullScreenFilter";
-import {FullScreenLocation} from "../FullScreen/FullScreenLocation";
-import {BiSearch, BiSlider} from "react-icons/all";
 import {CSSTransition} from "react-transition-group";
 import {Container, Navbar} from "react-bootstrap";
-import {ResponsiveComponent, ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
+import { ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
 import {ReactComponent as Burger} from "../../images/burger.svg";
 
 
@@ -35,7 +31,7 @@ interface NavBarState extends ResponsiveState, AuthState{
     show_user: boolean,
 }
 
-export class NavBarLoc extends ResponsiveComponent<NavBarProp, NavBarState> {
+export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState> {
 /**
  * Constructor description.
  * initialize loc, query
@@ -98,7 +94,7 @@ export class NavBarLoc extends ResponsiveComponent<NavBarProp, NavBarState> {
                             }} >
                                 Search hospitals
                             </div>
-                            <Avatar className="mr-2">A</Avatar>
+                            <Avatar  className="mr-2">{this.state.user? this.state.user.username[0]:'?'}</Avatar>
 
 
 

@@ -19,14 +19,15 @@ import Accountaf from "../../images/accnt_af.svg"
  */
 interface BottomNavState extends AuthState {
     value: string
-    active:number
+    active: number
 }
 
 class BottomNavLoc extends AuthComponent<AuthPropsLoc, BottomNavState> {
     constructor(props: AuthPropsLoc) {
         super(props);
-        let value = this.getActive()
-        this.state = {...this.state, value}
+        let tempvalue: number = this.getActive()
+        let value: string = this.icons[tempvalue].path
+        this.state = {...this.state, value, active: tempvalue}
     }
 
     /**
@@ -34,28 +35,34 @@ class BottomNavLoc extends AuthComponent<AuthPropsLoc, BottomNavState> {
      * @returns string
      */
     getActive() {
-        return this.props.location.pathname.includes('/addRequest') ? '//addRequest' :
-            this.props.location.pathname.includes('/addHospital') ? '/addHospital' :
-                this.props.location.pathname.includes('/profile') ? '/profile/' : '/'
+        return this.props.location.pathname.includes('/addRequest') ? 3 :
+            this.props.location.pathname.includes('/addHospital') ? 0 :
+                this.props.location.pathname.includes('/profile/') ? 4 : this.props.location.pathname.includes('/help') ? 2 : 1
     }
 
     hashChange = () => {
         console.log(this.getActive())
-        this.setState({value: this.getActive()}) //passing string corresponding to path to value
+        let tempvalue: number = this.getActive()
+        let value: string = this.icons[tempvalue].path
+
+        this.setState({value: value, active: tempvalue}) //passing string corresponding to path to value
     }
 
     /**
      * set the value to state and redirect to value
      * @param event
      * @param value
+     * @param active
      */
-    handleChange = (event: React.ChangeEvent<{}>, value: string) => {
-        this.setState({value})
+    handleChange = (event: React.ChangeEvent<{}>, value: string, active: number) => {
+        this.setState({value, active})
         this.props.history.push(value)
+        this.props.history.push(value)
+        this.props.history.goBack()
     }
     icons = [{path: "/addHospital", iconbf: Addhosp, iconaf: Addhospaf},
         {path: "/", iconbf: Explore, iconaf: Exploreaf}, {path: "/help", iconbf: Help, iconaf: Helpaf},
-        {path: "//addRequest", iconbf: Request, iconaf: Requestaf}, {
+        {path: "/addRequest", iconbf: Request, iconaf: Requestaf}, {
             path: "/profile/",
             iconbf: Account,
             iconaf: Accountaf
@@ -64,10 +71,13 @@ class BottomNavLoc extends AuthComponent<AuthPropsLoc, BottomNavState> {
     render(): JSX.Element {
         return <React.Fragment>
             <BottomNavigation value={this.state.value} className='bottomnavbar fixed-bottom'
-                              onChange={this.handleChange}>
+            >
                 {this.icons.map((icon, key) => (
-                    <BottomNavigationAction onClick={()=>(this.setState({active:key}))} key={key} value={icon.path}
-                                            icon={<img  alt="" src={this.state.active===key?icon.iconaf:icon.iconbf}/>}/>))}
+                    <BottomNavigationAction onClick={(event) =>
+                        (this.handleChange(event,icon.path,key))} key={key}
+                                            value={icon.path}     //TODO Onclick correction
+                                            icon={<img alt=""
+                                                       src={this.state.active === key ? icon.iconaf : icon.iconbf}/>}/>))}
             </BottomNavigation>
         </React.Fragment>
 

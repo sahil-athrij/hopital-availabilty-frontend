@@ -31,7 +31,7 @@ export class MarkerObject extends ModelObject {
     avg_cost: number = 0
     icu_availability: number = 0;
     model: any;
-    images?: ImageObject[]
+    images: ImageObject[] =[]
     ventilator_availability: number = 0;
     lat: any;
     doctors: DoctorObject[] = [];

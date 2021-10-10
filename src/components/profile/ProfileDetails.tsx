@@ -1,49 +1,49 @@
 import {AuthComponent, AuthPropsLoc, AuthState, reactUrl} from "../../api/auth";
 import {Container} from "react-bootstrap";
-import {AiOutlinePlus, HiOutlineClipboardCopy, IoPersonCircle} from "react-icons/all";
 import {withRouter} from "react-router";
 import React from "react";
 import {CSSTransition} from "react-transition-group";
 import {FullScreenShare} from "../FullScreen/FullScreenShare";
-import SwipeableViews from 'react-swipeable-views';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import {Patient, PatientObject} from "../../api/model";
-import {RequestDisplay} from "./RequestDisplay";
+import icon1 from "../../images/backicon.svg";
+import icon from "../Doctor/icons/icon@2x.svg";
+import Editbutn from "../../images/editButton.svg"
+import {Avatar, Slider} from "@mui/material";
+import "./ProfileDetails.css"
+import {withStyles} from "@mui/styles";
+import Givehand from "../../images/Medicaidaccnt.svg";
+import Friendship from "../../images/friendshipaccnt.svg";
+import reviewsvg from "../../images/review.svg";
+import Bloodgrp from "../../images/bloodgroup.svg";
+import CovidPos from "../../images/corpos.svg";
+import CovidNeg from "../../images/corneg.svg";
+import Button from "@mui/material/Button";
 
-interface TabPanelProps {
-    children?: React.ReactNode;
-    index: any;
-    value: any;
-}
+import Maleicon from "../../images/male.svg";
+import Femaleicon from "../../images/female.svg";
+import TransGen from "../../images/TransGend.svg";
+import PrefNSay from "../../images/genderless.svg";
 
 
-function TabPanel(props: TabPanelProps) {
-    const {children, value, index, ...other} = props;
+const AirbnbSlider = withStyles({
+    root: {
+        color: '#0338B9 !important',
+        height: 3,
+        padding: '13px 0',
+    },
 
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`full-width-tabpanel-${index}`}
-            aria-labelledby={`full-width-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
+    active: {},
+    track: {
+        height: 3,
+    },
+    rail: {
+        color: '#d8d8d8 !important',
+        opacity: 1,
+        height: 3,
+    },
+})(Slider);
 
-                <>{children}</>
 
-            )}
-        </div>
-    );
-}
-
-function a11yProps(index: any) {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    };
-}
 
 interface ProfileDetailsState extends AuthState {
     show_share: boolean;
@@ -80,103 +80,172 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
         this.setState({requests: data.results, friend_request: data1.results})
     }
 
-    render() {
-        let {user} = this.state
-        let currentLocation = this.props.location.search + this.props.location.hash
+    getgender = (gender: string) => {
+        if (gender === "M") {
+            return (
+                <img src={Maleicon}  alt=""/>)
+            // eslint-disable-next-line eqeqeq
+        } else if (gender === "F") {
+            return (
+                <img src={Femaleicon}  alt=""/>
+            )
+        } else if (gender === "NB") {
+            return (
+                <img src={TransGen} alt=""/>
+            )
+        } else if (gender === "NP") {
+            return (
+                <img src={PrefNSay}  alt=""/>
+            )
+        }
 
-        return (
-            <React.Fragment>
-                <div className={'d-flex flex-column bg-grey min-vh-100 flex-fill'}>
-                    <Container className="mt-5 pt-5 px-0 pb-0 neumorphic-input ">
-                        <div className="d-flex flex-row px-3 mb-4">
-                            <IoPersonCircle className=" text-dark mr-2" size={100}/>
-                            <div className="d-flex flex-fill flex-grow-1">
-                                <div className="w-100 flex-fill flex-column d-flex">
-                                    <div className="d-flex flex-row justify-content-center mb-2">
-                                        <div className="d-flex flex-column w-50 border-right-dark">
-                                            <h5 className="m-0">{this.state.user ? this.state.user.tokens.invited : ''}</h5>
-                                            <small>Friends Invited</small>
+    }
+
+
+    getTab = () => {
+        if (this.state.tab === 0) {
+            return (
+                <div className="">
+                    <Container className="maincont">
+                        {this.state.requests ? (this.state.requests.map((obj) => (
+                            <div>
+
+                                <div className="mx-1">
+                                    <div className="maincard d-flex flex-row justify-content-between ">
+
+                                        <div className="  text-left pl-4 pt-4">
+                                            <h1 className="title m-0">{obj.Name}{this.getgender(obj.gender)}</h1>
+                                            <div className="subtitle">
+                                                <div>Age:{obj.age}</div>
+                                                <div>Symptoms:{obj.symptoms}</div>
+                                                <div>Since:{obj.symdays}</div>
+                                            </div>
+                                        </div>
+                                        <div className=" subtitle pr-4 pt-4 ">
+                                            <div className="mt-1">{obj.blood} <img src={Bloodgrp}  alt=""/></div>
+                                            <div className="mt-1">Covid:{obj.covidresult ? (<img src={CovidPos}  alt=""/>) : (
+                                                <img src={CovidNeg}  alt=""/>)}</div>
+                                            <div className="mt-1">CT score:{obj.ctscore}</div>
+                                            <Button sx={{
+                                                borderRadius: "10px",
+                                                marginBottom: "1rem",
+                                                textTransform: 'none',
+                                                paddingX: "1.25rem",
+                                                paddingY: ".25rem",marginTop:".5rem"
+                                            }} className="helpbutn"
+                                                    variant="contained">Edit</Button>
+
                                         </div>
 
-                                        <div className="d-flex flex-column w-50">
-                                            <h5 className="m-0">{this.state.user ? this.state.user.tokens.points : ''}</h5>
-                                            <small>Points</small>
-                                        </div>
+
                                     </div>
-                                    <button onClick={() =>
-                                        this.props.history.push('/profile/edit')
-                                    }
-                                            className=" input-holder py-2 btn w-100"><b>Edit Profile</b>
-                                    </button>
                                 </div>
                             </div>
+                        ))) : null}
 
-                        </div>
-                        <div className="d-flex flex-row px-3">
-                            <div className="d-flex flex-column text-capitalize text-left">
-                                <h5><b>{this.state.user ? this.state.user.username : ''}</b></h5>
-                                <button className="d-flex align-items-center"
-                                        onClick={() => {
-                                            this.props.history.push(currentLocation + "#share")
-                                            this.setState({show_share: !this.state.show_share})
-                                        }}>
-                                    Invite your Friends : <div
-                                    className="mr-2">{this.state.user ? this.state.user.tokens.private_token : ''}
-                                </div>
-                                    <HiOutlineClipboardCopy size={20}/>
-                                </button>
 
-                            </div>
-                        </div>
-                        <Tabs variant="fullWidth" value={this.state.tab}
-                              onChange={(e, v) => this.setState({tab: v})}
-                              aria-label="simple tabs example">
-                            <Tab label="My Requests" {...a11yProps(0)} />
-                            <Tab label="Friends" {...a11yProps(1)} />
-                            <Tab label="Item Three" {...a11yProps(2)} />
-                        </Tabs>
                     </Container>
 
-                    <SwipeableViews
-                        axis={'x'}
-                        index={this.state.tab}
-                        onChangeIndex={(v) => {
-                            this.setState({tab: v});
-                        }}
-                    >
-                        <TabPanel value={this.state.tab} index={0}>
-                            <Container className={"py-4 mb-5 flex-fill request-holder"}
-                            >
+                </div>
+            )
+        } else if (this.state.tab === 1) {
+            return (
+                <div className="m-4">
 
-                                <button onClick={() => {
-                                    this.props.history.push('//addRequest')
-                                    this.props.history.push('//addRequest')
-                                    this.props.history.goBack()
-                                }}
-                                        className={"neumorphic-input w-100 btn p-3 bg-white round-15 d-flex flex-column align-items-center justify-content-center"}>
-                                    <AiOutlinePlus className="text-success" size={20}/>
-                                    Add New Request
-                                </button>
-                                {this.state.requests.map((request) =>
-                                    <RequestDisplay request={request}/>
-                                )
+                  Tab2
+                </div>
 
-                                }
-                            </Container>
-                        </TabPanel>
-                        <TabPanel value={this.state.tab} index={1}>
-                            <Container className={"py-4 mb-5 flex-fill request-holder"}
-                            >
-                                {this.state.friend_request.map((request) =>
-                                    <RequestDisplay request={request}/>)
-                                }
-                            </Container>
+            )
+        } else if (this.state.tab === 2) {
+            return (
+                <div className="m-4">
+                    Tab3
+                </div>
 
-                        </TabPanel>
-                        <TabPanel value={this.state.tab} index={2}>
-                            Item Three
-                        </TabPanel>
-                    </SwipeableViews>
+            )
+
+        }
+
+    }
+
+    render() {
+        let {user} = this.state
+
+        return (
+            <div>
+
+            <React.Fragment>
+                <div className="">
+                    <Container className="w-100">
+                        <div className="d-flex justify-content-between w-100 px-0  mt-4  ">
+                            {/*<div className="left-align">*/}
+                            <img alt={""}
+                                onClick={() => this.props.history.goBack()}
+                                 className=" mb-4  "
+                                 src={icon1}/>
+                            <p className="Yourprof w-100 text-left align-self-center ">Your Profile</p>
+
+                            <img alt={""}
+                                 className="threedot  pt-1"
+                                 src={icon}
+                            />
+
+                        </div>
+                    <div className="userbox d-flex flex-row align-content-around">
+                        <Avatar src={this.state.user?.uploaded_images[0]?.image} sx={{marginRight:"10px",width:"75px",height:"75px"}}>{this.state.user? this.state.user.username[0]:'?'}</Avatar>
+                        <div className="d-flex flex-grow-1 flex-column text-left">
+                            <p className="profname">{this.state.user?.username}</p>
+                            <p className="email">{this.state.user?.email}</p>
+                            <p className="invitecode">Invite code: 8038RRR</p>
+                        </div>
+                        <button
+                              className="editbutn "  ><b><img src={Editbutn}  alt=""/></b>
+                        </button>
+                    </div>
+                        <div className="bg-grey px-4  mx-4 mb-4">
+                            <div className="d-flex flex-row align-items-center">
+                                <div className="d-flex flex-column">
+                                    <p className="point1">75</p>
+                                    <p className="point2">Points</p>
+                                </div>
+                                <AirbnbSlider className="slider mx-2"
+                                        size="small"
+                                        defaultValue={70}
+                                        aria-label="Small"
+                                        valueLabelDisplay="auto"
+                                        disabled
+                                />
+                                <div className="d-flex flex-column ">
+                                    <p className="point3">100</p>
+                                    <p className="point4">Points</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="container d-flex justify-content-between mb-4 p-0">
+
+                            <div className={`card-about card-1 ${this.state.tab === 0 && "active"}`}
+                                 onClick={() => this.setState({tab: 0})}>
+                                <img src={Givehand} alt={"doctor svg"}/>
+                                <p className="m-0"><b>1</b><br/>Requests</p>
+                            </div>
+
+                            <div className={`card-about card-1 ${this.state.tab === 1 && "active"}`}
+                                 onClick={() => this.setState({tab: 1})}>
+                                <img src={Friendship} alt={"layout svg"}/>
+                                <p className="m-0"><b>good</b><br/>Friends</p>
+                            </div>
+
+                            <div className={`card-about card-1 ${this.state.tab === 2 && "active"}`}
+                                 onClick={() => this.setState({tab: 2})}>
+                                <img src={reviewsvg} alt={"review svg"}/>
+                                <p className="m-0"><b><br/></b>Item three</p>
+                            </div>
+
+
+                        </div>
+                    </Container>
+                    {this.getTab()}
+
                 </div>
 
                 <CSSTransition classNames="filter-screen" in={this.state.show_share} timeout={300}
@@ -189,6 +258,7 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                         }}/>
                 </CSSTransition>
             </React.Fragment>
+             </div>
         )
 
     }

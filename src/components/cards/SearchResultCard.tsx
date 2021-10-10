@@ -1,21 +1,18 @@
 import React, {Component} from "react";
-import {StarRating} from "./StarRating";
 import {Marker, MarkerObject} from "../../api/model";
 import {Card, Container, Row} from "react-bootstrap";
-import hospitalsvg from "../../images/hospitalsvg.svg";
 import {Link} from "react-router-dom";
 import {withRouter} from "react-router";
-import {BiPhoneOutgoing, RiDirectionLine} from "react-icons/all";
 import {getParam} from "../../api/QueryCreator";
 import Loader from "react-loader-spinner";
 import {AuthPropsLoc} from "../../api/auth";
 import {ResponsiveState} from "../ResponsiveComponent";
-import Ekmmed from "../../images/Black.png"
 import './searchCards.css'
 import SmallStar from "../../images/smallstar.svg";
 import Phonecall from "../../images/phonecall.svg";
 import Videocall from "../../images/videocall.svg";
 import Routemap from "../../images/routemap.svg";
+import {Avatar} from "@mui/material";
 
 interface SearchCardsProps extends AuthPropsLoc {
     model: MarkerObject
@@ -30,14 +27,8 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
             <Link style={{textDecoration: "none"}} className='text-dark' to={"/details/" + this.props.model.id}>
                {/* Show hospital image */}
                 <Card className="cardstyle  flex-row mb-3 ">
+                <Avatar className="align-self-center" sx={{width:"37px",height:"37px"}} src={this.props.model.images[0]?.image}/>
 
-                    {this.props.model.images && this.props.model.images[0] ?
-
-                        <img src={this.props.model.images[0].image}   className="  circle w-25 flex-shrink-0 mr-2 p-1 px-2 p-md-4" alt="imageview" />
-
-                        :  <img src={Ekmmed}  className=" circle m-3 align-self-center rounded-circle flex-shrink-0 mr-2 p-1 px-2 p-md-4" alt="imageview" />
-
-                    }
 
                     <Card.Body className="w-70 flex-1 bg-white text-left p-0 py-1">
                         <div    
@@ -68,13 +59,13 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
 
                             <div className="container d-flex justify-content-between">
                                   <div className="pvrtab">
-                                      <img src={Videocall}/>
+                                      <img src={Videocall}  alt=""/>
                                   </div>
                                 <div className="pvrtab">
-                                    <img src={Phonecall}/>
+                                    <img src={Phonecall}  alt=""/>
                                 </div>
                                 <div className="pvrtab">
-                                    <img src={Routemap}/>
+                                    <img src={Routemap}  alt=""/>
                                 </div>
 
                             </div>
@@ -92,10 +83,6 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
                                     document.location.href = 'tel:' + this.props.model.Phone;
 
                                 }}>
-                                <button className="button-holder text-center">
-                                    <BiPhoneOutgoing size={20} className="text-primary"/>
-                                </button>
-                                Phone
                             </div>}
                             
                             {/** 
