@@ -146,7 +146,7 @@ export default class ReviewCards extends Component<ReviewState> {
         </div>
 
         <div>
-         z
+         
           <div className="d-flex mx-4 mt-2">
             <img src={profile} alt="img" />
             <Rating
