@@ -113,8 +113,6 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                         <Route path="/doctor/:docId" children={DoctorComponent} /> {/* Show details about a doctor */} 
                         <Route path="/details/reviews/:hspId">
                             <AddHospitalReview/>
-
-
                         </Route>  
                         <Route path="/details/:hspId" children={Details} /> {/* Show details about a hospital */}
                         <Route path="/search">
