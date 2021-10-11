@@ -386,7 +386,7 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState> {
 
                             {
                                 this.tabs.map((label, index) => (
-                                    <div className="d-flex">{
+                                    <div key={index} className="d-flex">{
                                         index !== 0 && index !== this.state.activeStep && index !== this.state.activeStep + 1 ?
                                             <img src={lineicon} alt=''/> : null
                                     }

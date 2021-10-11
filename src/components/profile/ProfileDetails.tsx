@@ -5,10 +5,11 @@ import React from "react";
 import {CSSTransition} from "react-transition-group";
 import {FullScreenShare} from "../FullScreen/FullScreenShare";
 import {Patient, PatientObject} from "../../api/model";
+import {Link} from 'react-router-dom';
 import icon1 from "../../images/backicon.svg";
 import icon from "../Doctor/icons/icon@2x.svg";
 import Editbutn from "../../images/editButton.svg"
-import {Avatar, Slider} from "@mui/material";
+import {Avatar,  Slider} from "@mui/material";
 import "./ProfileDetails.css"
 import {withStyles} from "@mui/styles";
 import Givehand from "../../images/Medicaidaccnt.svg";
@@ -23,6 +24,7 @@ import Maleicon from "../../images/male.svg";
 import Femaleicon from "../../images/female.svg";
 import TransGen from "../../images/TransGend.svg";
 import PrefNSay from "../../images/genderless.svg";
+import {BigBlueButton} from "../Utils";
 
 
 const AirbnbSlider = withStyles({
@@ -245,7 +247,11 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                         </div>
                     </Container>
                     {this.getTab()}
-
+                    <Container>
+                        <Link to="/addRequest">
+                   <BigBlueButton text="+ Add New Request"/>
+                        </Link>
+                    </Container>
                 </div>
 
                 <CSSTransition classNames="filter-screen" in={this.state.show_share} timeout={300}
