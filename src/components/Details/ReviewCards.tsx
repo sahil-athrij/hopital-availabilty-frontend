@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Container } from "react-bootstrap";
 import { MarkerObject, ReviewObject } from "../../api/model";
 import { BigBlueButton, StarRating } from "../Utils";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 import oxygen from "../../images/oxygen.svg";
 import affordability from "../../images/affordability.svg";
 import icu from "../../images/icu.svg";
@@ -10,7 +10,7 @@ import starsvg from "../../images/borderstar.svg";
 import ventilator from "../../images/ventilator.svg";
 import care from "../../images/care.svg";
 import profile from "../../images/profile-image.svg";
-import Avatar from '@mui/material/Avatar';
+import Avatar from "@mui/material/Avatar";
 import tick from "../../images/Tick icon.svg";
 import cross from "../../images/Cross icon.svg";
 import Rating from "@mui/material/Rating";
@@ -21,16 +21,13 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import stars from "../../images/5stars.svg";
-import profile from "../../images/profile-image.svg"; 
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 interface ReviewState {
   model: MarkerObject;
 }
 
 export default class ReviewCards extends Component<ReviewState> {
-
   render() {
     return (
       <div>
@@ -146,7 +143,15 @@ export default class ReviewCards extends Component<ReviewState> {
         </div>
 
         <div>
-         
+          <div className="d-flex flex-column text-left mt-4 pl-4">
+            <h6 className="m-0">
+              <b>Rate and Review</b>
+            </h6>
+            <p className="p-0 m-0">
+              <small>Share your experience to help others</small>
+            </p>
+          </div>
+
           <div className="d-flex mx-4 mt-2">
             <img src={profile} alt="img" />
             <Rating
@@ -158,205 +163,248 @@ export default class ReviewCards extends Component<ReviewState> {
           </div>
 
           <div>
-            {this.props.model.comment.map((comment:ReviewObject, index:number) =>(
-             <Accordion sx={{boxShadow:"none", border: 0}} className="mr-2">
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon fontSize="small" />} 
-              >
-                <Typography>
-                  <div className="d-flex justify-content-between mx-2 w-100 p-1">
-                    <div className="mr-2 ">
-                      <Avatar src={profile} alt="img" >{comment.written_by_name}</Avatar>
-                    </div>
-                    <div className="d-flex justify-content-center align-items-center ml-1">
-                      <p className="d-flex justify-content-between align-items-center p-0 m-0">
-                        <small><b style={{color:"#303030"}}>{comment.written_by_name}</b></small>                        
-                      </p>
-                    </div>
-                    <div className="d-flex align-items-center justify-content-end flex-grow-1 pr-3">
-                      <p className="d-flex align-items-center p-0 mr-2 my-0">
-                      <small style={{ color: "#C7C9D9" }} className="ml-2">
-                        {comment.datef}
-                        </small>
-                      </p>
+            {this.props.model.comment.map(
+              (comment: ReviewObject, index: number) => (
+                <Accordion
+                  sx={{ boxShadow: "none", border: 0 }}
+                  className="mr-2"
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon fontSize="small" />}
+                  >
+                    <Typography>
+                      <div className="d-flex justify-content-between mx-2 w-100 p-1">
+                        <div className="mr-2 ">
+                          <Avatar src={profile} alt="img">
+                            {comment.written_by_name}
+                          </Avatar>
+                        </div>
+                        <div className="d-flex justify-content-center align-items-center ml-1">
+                          <p className="d-flex justify-content-between align-items-center p-0 m-0">
+                            <small>
+                              <b style={{ color: "#303030" }}>
+                                {comment.written_by_name}
+                              </b>
+                            </small>
+                          </p>
+                        </div>
+                        <div className="d-flex align-items-center justify-content-end flex-grow-1 pr-3">
+                          <p className="d-flex align-items-center p-0 mr-2 my-0">
+                            <small
+                              style={{ color: "#C7C9D9" }}
+                              className="ml-2"
+                            >
+                              {comment.datef}
+                            </small>
+                          </p>
+                          <p
+                            style={{ color: "#687684" }}
+                            className="justify-content-center align-items-center p-0 m-0"
+                          >
+                            {comment.total_rating}
+                          </p>
+                          <img alt={""} className="pl-1" src={starsvg} />
+                        </div>
+                      </div>
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography>
                       <p
-                        style={{ color: "#687684" }}
-                        className="justify-content-center align-items-center p-0 m-0"
+                        style={{ color: "#868383" }}
+                        className="ml-4 text-left"
                       >
-                      {comment.total_rating}
+                        {comment.comment}
                       </p>
-                      <img alt={""} className="pl-1" src={starsvg} />
-                    </div>
-                  </div>
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>
-                    <p style={{color:"#868383"}} className="ml-4 text-left">{comment.comment}</p>
-                  <div className="dpts-pic d-flex justify-content-between pl-3">
-                    <div className="d-flex justify-content-between ">
-                      <img className="pic m-2" src={oxygen} alt="dpt" />
+                      <div className="dpts-pic d-flex justify-content-between pl-3">
+                        <div className="d-flex justify-content-between ">
+                          <img className="pic m-2" src={oxygen} alt="dpt" />
 
-                      <p className="justify-content-start pt-2 text-left">
-                        <b style={{color: "#222B45"}}>Oxygen Availability</b>
-                        <br />
-                        
-                          {comment.oxygen_availability?(<small style={{color: "#6B779A"}}>Available <img src={tick} alt={"tick"}/></small>)
-                          :<small style={{color: "#6B779A"}}>Unavailable <img src={cross} alt={"cross"} /></small>}  
-                        
-                      </p>
-                    </div>
-                    <div className="d-flex align-items-center justify-content-center flex-column text-right mr-1 ">
-                      <h6 className="align-self-end mb-0 mr-2"
-                        style={{
-                          color:"#687684"
-                        }}
-                      >
-                        {comment.oxygen_rating}
-                      </h6>
-                      <Rating
-              className="mr-1"
-              name="disabled"
-              value={comment.oxygen_rating}
-              disabled
-              precision={0.5}
-            />
-                    </div>
-                  </div>
+                          <p className="justify-content-start pt-2 text-left">
+                            <b style={{ color: "#222B45" }}>
+                              Oxygen Availability
+                            </b>
+                            <br />
 
-                      <div className="d-flex mt-4 pl-4">
-                <h6>
-                <b>Ratings and Reviews</b>
-                </h6>
-               </div>
-               <RatingBar />
-        </div>
-                  <div className="dpts-pic d-flex justify-content-between pl-3">
-                    <div className="d-flex justify-content-between ">
-                      <img className="pic m-2" src={icu} alt="dpt" />
+                            {comment.oxygen_availability ? (
+                              <small style={{ color: "#6B779A" }}>
+                                Available <img src={tick} alt={"tick"} />
+                              </small>
+                            ) : (
+                              <small style={{ color: "#6B779A" }}>
+                                Unavailable <img src={cross} alt={"cross"} />
+                              </small>
+                            )}
+                          </p>
+                        </div>
+                        <div className="d-flex align-items-center justify-content-center flex-column text-right mr-1 ">
+                          <h6
+                            className="align-self-end mb-0 mr-2"
+                            style={{
+                              color: "#687684",
+                            }}
+                          >
+                            {comment.oxygen_rating}
+                          </h6>
+                          <Rating
+                            className="mr-1"
+                            name="disabled"
+                            value={comment.oxygen_rating}
+                            disabled
+                            precision={0.5}
+                          />
+                        </div>
+                      </div>
 
-                      <p className="justify-content-start pt-2 text-left">
-                        <b style={{color: "#222B45"}}>ICU Availability</b>
-                        <br />
-                        
-                          {comment.icu_availability?(<small style={{color: "#6B779A"}}>Available <img src={tick} alt={"tick"}/></small>)
-                          :<small style={{color: "#6B779A"}}>Unavailable <img src={cross} alt={"cross"} /></small>}  
-                        
-                      </p>
-                    </div>
-                    <div className="d-flex align-items-center justify-content-center flex-column text-right mr-1 ">
-                      <h6 className="align-self-end mb-0 mr-2"
-                        style={{
-                          color:"#687684"
-                        }}
-                      >
-                        {comment.icu_availability}
-                      </h6>
-                      <Rating
-              className="mr-1"
-              name="disabled"
-              value={comment.icu_availability}
-              disabled
-              precision={0.5}
-            />
-                    </div>
-                  </div>
+                      <div className="dpts-pic d-flex justify-content-between pl-3">
+                        <div className="d-flex justify-content-between ">
+                          <img className="pic m-2" src={icu} alt="dpt" />
 
-                  <div className="dpts-pic d-flex justify-content-between pl-3">
-                    <div className="d-flex justify-content-between ">
-                      <img className="pic m-2" src={ventilator} alt="dpt" />
+                          <p className="justify-content-start pt-2 text-left">
+                            <b style={{ color: "#222B45" }}>ICU Availability</b>
+                            <br />
 
-                      <p className="justify-content-start pt-2 text-left">
-                        <b style={{color: "#222B45"}}>Ventilator Availability</b>
-                        <br />
-                        
-                          {comment.ventilator_availability?(<small style={{color: "#6B779A"}}>Available <img src={tick} alt={"tick"}/></small>)
-                          :<small style={{color: "#6B779A"}}>Unavailable <img src={cross} alt={"cross"} /></small>}  
-                        
-                      </p>
-                    </div>
-                    <div className="d-flex align-items-center justify-content-center flex-column text-right mr-1 ">
-                      <h6 className="align-self-end mb-0 mr-2"
-                        style={{
-                          color:"#687684"
-                        }}
-                      >
-                        {comment.ventilator_availability}
-                      </h6>
-                      <Rating
-              className="mr-1"
-              name="disabled"
-              value={comment.ventilator_availability}
-              disabled
-              precision={0.5}
-            />
-                    </div>
-                  </div>
+                            {comment.icu_availability ? (
+                              <small style={{ color: "#6B779A" }}>
+                                Available <img src={tick} alt={"tick"} />
+                              </small>
+                            ) : (
+                              <small style={{ color: "#6B779A" }}>
+                                Unavailable <img src={cross} alt={"cross"} />
+                              </small>
+                            )}
+                          </p>
+                        </div>
+                        <div className="d-flex align-items-center justify-content-center flex-column text-right mr-1 ">
+                          <h6
+                            className="align-self-end mb-0 mr-2"
+                            style={{
+                              color: "#687684",
+                            }}
+                          >
+                            {comment.icu_availability}
+                          </h6>
+                          <Rating
+                            className="mr-1"
+                            name="disabled"
+                            value={comment.icu_availability}
+                            disabled
+                            precision={0.5}
+                          />
+                        </div>
+                      </div>
 
+                      <div className="dpts-pic d-flex justify-content-between pl-3">
+                        <div className="d-flex justify-content-between ">
+                          <img className="pic m-2" src={ventilator} alt="dpt" />
 
-                  <div className="dpts-pic d-flex justify-content-between pl-3">
-                    <div className="d-flex justify-content-between ">
-                      <img className="pic m-2" src={care} alt="dpt" />
+                          <p className="justify-content-start pt-2 text-left">
+                            <b style={{ color: "#222B45" }}>
+                              Ventilator Availability
+                            </b>
+                            <br />
 
-                      <p className="d-flex justify-content-center align-items-center pt-2 text-left">
-                        <b style={{color: "#222B45"}}>Care Rating</b>                       
-                      </p>
-                    </div>
-                    <div className="d-flex align-items-center justify-content-center flex-column text-right mr-1 ">
-                      <h6 className="align-self-end mb-0 mr-2"
-                        style={{
-                          color:"#687684"
-                        }}
-                      >
-                        {comment.care_rating}
-                      </h6>
-                      <Rating
-              className="mr-1"
-              name="disabled"
-              value={comment.care_rating}
-              disabled
-              precision={0.5}
-            />
-                    </div>
-                  </div>
+                            {comment.ventilator_availability ? (
+                              <small style={{ color: "#6B779A" }}>
+                                Available <img src={tick} alt={"tick"} />
+                              </small>
+                            ) : (
+                              <small style={{ color: "#6B779A" }}>
+                                Unavailable <img src={cross} alt={"cross"} />
+                              </small>
+                            )}
+                          </p>
+                        </div>
+                        <div className="d-flex align-items-center justify-content-center flex-column text-right mr-1 ">
+                          <h6
+                            className="align-self-end mb-0 mr-2"
+                            style={{
+                              color: "#687684",
+                            }}
+                          >
+                            {comment.ventilator_availability}
+                          </h6>
+                          <Rating
+                            className="mr-1"
+                            name="disabled"
+                            value={comment.ventilator_availability}
+                            disabled
+                            precision={0.5}
+                          />
+                        </div>
+                      </div>
 
-                   <div className="dpts-pic d-flex justify-content-between pl-3">
-                    <div className="d-flex justify-content-between ">
-                      <img className="pic m-2" src={affordability} alt="dpt" />
+                      <div className="dpts-pic d-flex justify-content-between pl-3">
+                        <div className="d-flex justify-content-between ">
+                          <img className="pic m-2" src={care} alt="dpt" />
 
-                      <p className="d-flex justify-content-center align-items-center pt-2 text-left">
-                        <b style={{color: "#222B45"}}>Affordability Rating</b>                       
-                      </p>
-                    </div>
-                    <div className="d-flex align-items-center justify-content-center flex-column text-right mr-1 ">
-                      <h6 className="align-self-end mb-0 mr-2"
-                        style={{
-                          color:"#687684"
-                        }}
-                      >
-                        {comment.financial_rating}
-                      </h6>
-                      <Rating
-              className="mr-1"
-              name="disabled"
-              value={comment.financial_rating}
-              disabled
-              precision={0.5}
-            />
-                    </div>
-                  </div>        
+                          <p className="d-flex justify-content-center align-items-center pt-2 text-left">
+                            <b style={{ color: "#222B45" }}>Care Rating</b>
+                          </p>
+                        </div>
+                        <div className="d-flex align-items-center justify-content-center flex-column text-right mr-1 ">
+                          <h6
+                            className="align-self-end mb-0 mr-2"
+                            style={{
+                              color: "#687684",
+                            }}
+                          >
+                            {comment.care_rating}
+                          </h6>
+                          <Rating
+                            className="mr-1"
+                            name="disabled"
+                            value={comment.care_rating}
+                            disabled
+                            precision={0.5}
+                          />
+                        </div>
+                      </div>
 
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-            ))}
+                      <div className="dpts-pic d-flex justify-content-between pl-3">
+                        <div className="d-flex justify-content-between ">
+                          <img
+                            className="pic m-2"
+                            src={affordability}
+                            alt="dpt"
+                          />
+
+                          <p className="d-flex justify-content-center align-items-center pt-2 text-left">
+                            <b style={{ color: "#222B45" }}>
+                              Affordability Rating
+                            </b>
+                          </p>
+                        </div>
+                        <div className="d-flex align-items-center justify-content-center flex-column text-right mr-1 ">
+                          <h6
+                            className="align-self-end mb-0 mr-2"
+                            style={{
+                              color: "#687684",
+                            }}
+                          >
+                            {comment.financial_rating}
+                          </h6>
+                          <Rating
+                            className="mr-1"
+                            name="disabled"
+                            value={comment.financial_rating}
+                            disabled
+                            precision={0.5}
+                          />
+                        </div>
+                      </div>
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+              )
+            )}
           </div>
         </div>
 
         <Container className="p-4">
           <Link to={`/details/reviews/${this.props.model.id}`}>
             <BigBlueButton text="Write a Review" />
-          </Link>  
+          </Link>
         </Container>
       </div>
     );
@@ -365,12 +413,10 @@ export default class ReviewCards extends Component<ReviewState> {
 
 interface RatingState {
   reviews: ReviewObject[];
-  
 }
 
 class RatingBar extends Component<RatingState> {
   avgRating = () => {
-
     const length = this.props.reviews.length;
     let sum = 0;
 
@@ -406,7 +452,7 @@ class RatingBar extends Component<RatingState> {
       }
     });
 
-    rating.avg = sum/length;
+    rating.avg = sum / length;
     rating.ones /= length;
     rating.twos /= length;
     rating.threes /= length;
@@ -416,7 +462,6 @@ class RatingBar extends Component<RatingState> {
     return rating;
   };
 
-   
   render() {
     const ratingData = this.avgRating();
     console.log(ratingData);
