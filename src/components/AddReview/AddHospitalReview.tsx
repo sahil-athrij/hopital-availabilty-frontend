@@ -8,19 +8,32 @@ import profile from "../../images/profile-image.svg";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import { Marker, MarkerObject, Review } from "../../api/model";
 import { toast } from "react-toastify";
+import { withRouter } from "react-router";
+import { withStyles } from "@mui/styles";
 
+
+const RatingStyler = withStyles({
+  icon: {
+      padding: '5rem',
+  },
+
+  active: {},
+  track: {
+      height: 3,
+  },
+})(Rating);
 
 interface AddHospitalReviewState extends AuthState {
   model: MarkerObject,
   ready: boolean,  
   id: number,
-    total_rating: number, 
-    financial_rating: number,
+    total_rating: null | number, 
+    financial_rating: null | number,
     avg_cost: number,
-    covid_rating: number,
+    covid_rating: number | null,
     beds_available: number,
-    care_rating: number,
-    oxygen_rating: number,
+    care_rating: number | null,
+    oxygen_rating: null | number,
     ventilator_availability: number,
     oxygen_availability: number,
     icu_availability: number,
@@ -34,7 +47,7 @@ interface AddHospitalReviewState extends AuthState {
 
 }
 
-export default class AddHospitalReview extends AuthComponent<AuthPropsLoc, AddHospitalReviewState> {
+class AddHospitalReviewLoc extends AuthComponent<AuthPropsLoc, AddHospitalReviewState> {
 
   constructor(props: AuthPropsLoc) {
     super(props);
@@ -98,6 +111,7 @@ savePatient = async () => {
 
 async refreshReviews() {
   this.setState({ready: false})
+  console.log(this.props.match.params)
   //TODO: fix later
   // @ts-ignore
   let {hspId} = this.props.match.params
@@ -112,6 +126,7 @@ async componentDidMount() {
   super.componentDidMount()
   await this.refreshReviews()
 }
+
 
   render() {
     return (
@@ -140,13 +155,11 @@ async componentDidMount() {
         </div>
 
         <div className="d-flex mx-4 px-4 mt-4">
-            <Rating
-              className="required mx-4 justify-content-between"
+            <RatingStyler
               name="size-large"
-              defaultValue={this.state.total_rating}
               size="large"
               onChange={(event, value) =>
-                this.setState({total_rating: Number(value)})}
+                this.setState({total_rating: value})}
             />
           </div>
 
@@ -223,10 +236,9 @@ async componentDidMount() {
             <Rating
               className="required mx-1 mt-1 justify-content-between"
               name="size-large"
-              defaultValue={this.state.care_rating}
               size="large"
               onChange={(event, value) =>
-                this.setState({care_rating: Number(value)})}
+                this.setState({care_rating: value})}
             />            
           </div>
 
@@ -239,10 +251,9 @@ async componentDidMount() {
             <Rating
               className="required mx-1 mt-1 justify-content-between"
               name="size-large"
-              defaultValue={this.state.oxygen_rating}
               size="large"
               onChange={(event, value) =>
-                this.setState({oxygen_rating: Number(value)})}
+                this.setState({oxygen_rating: value})}
             />            
           </div>
 
@@ -255,10 +266,9 @@ async componentDidMount() {
             <Rating
               className="required mx-1 mt-1 justify-content-between"
               name="size-large"
-              defaultValue={this.state.financial_rating}
               size="large"
               onChange={(event, value) =>
-                this.setState({financial_rating: Number(value)})}
+                this.setState({financial_rating: value})}
             />            
           </div>
 
@@ -279,3 +289,6 @@ async componentDidMount() {
     );
   }
 }
+
+
+export const AddHospitalReview = withRouter(AddHospitalReviewLoc);
