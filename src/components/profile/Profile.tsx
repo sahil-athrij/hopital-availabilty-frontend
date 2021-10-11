@@ -2,10 +2,9 @@ import {AuthComponent, AuthProps, AuthState} from "../../api/auth";
 import React from "react";
 import {Route} from "react-router";
 import {ProfileDetails} from "./ProfileDetails";
-import {ProfileRequest} from "./ProfileRequest";
-
 import './profile.css'
 import {RequestDetails} from "./RequestDisplay";
+import {Addpatient} from "../AddPatient/AddPatient";
 
 export class Profile extends AuthComponent<AuthProps, AuthState> {
     render() {
@@ -15,9 +14,7 @@ export class Profile extends AuthComponent<AuthProps, AuthState> {
                     <Route path={"/profile/edit"}>
                         <div>whit</div>
                     </Route>
-                    <Route path={"/profile/addRequest"}>
-                        <ProfileRequest/>
-                    </Route>
+
                     <Route path="/profile/request/:requestId">
                         <RequestDetails/>
                     </Route>

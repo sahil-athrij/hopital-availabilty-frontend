@@ -135,7 +135,7 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                              className="icon-1 mx-3"
                              src={icon1}/>
 
-                        {/*</div>*/}
+
 
 
                         <img alt={""}

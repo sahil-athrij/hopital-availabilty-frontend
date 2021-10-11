@@ -4,7 +4,6 @@ import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {withRouter} from "react-router";
 
 import './index.css'
-import SwipeableTextMobileStepper from "./Banners";
 import {getParam} from "../../api/QueryCreator";
 
 import {SearchResults} from "../cards/SearchResultCard";
@@ -47,16 +46,16 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> {
 
         return (
             <React.Fragment>
-                <Container fluid={true} className="mt-4 p-5 ">
+                <Container fluid={true} className="mt-2 p-5 ">
                 </Container>
-                <div className="usertext text-left mt-1">
-                    {this.state.user?.username ? `Welcome, ${this.state.user.username}` : "Welcome"}
+                <div className="usertext text-left mb-2">
+                    {this.state.user?.firstname ? `Welcome, ${this.state.user.firstname}` : "Welcome"}
                 </div>
                 <Container className="text-left">
-                    <img className="needmedi" src={Homecover}/>
-                    <Link to="/profile/addRequest">
+                    <img className="needmedi" src={Homecover}  alt=""/>
+                    <Link to="/addRequest">
                         <div className="helpbar">
-                            <div className="rigtharrow"><img className="iconimg" src={Righticon}/></div>
+                            <div className="rigtharrow"><img className="iconimg" src={Righticon}  alt=""/></div>
                             <h5 className="problem">Any problems?</h5>
 
                             <h6 className="probsec">Request Medical help here</h6>
@@ -70,20 +69,20 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> {
                     <div className="ml-2 container d-flex justify-content-between">
 
                         <div className="homecard">
-                            <img src={Addhosp}/>
+                            <img src={Addhosp}  alt=""/>
                         </div>
                         <div className="homecard">
-                            <img src={Givehelp}/>
+                            <img src={Givehelp}  alt=""/>
                         </div>
                         <div className="homecard">
-                            <img src={Searchhosp}/>
+                            <img src={Searchhosp}  alt=""/>
                         </div>
 
 
                     </div>
                 </Container>
 
-                <Container className="mb-5 pt-3 text-left">
+                <Container className="mb-5 pb-3 pt-3 text-left">
                     {/* Displays the component when lat and lng are non-null */}
                     {this.state.lat && this.state.lng ? <>
                         <div className=" d-flex justify-content-between">

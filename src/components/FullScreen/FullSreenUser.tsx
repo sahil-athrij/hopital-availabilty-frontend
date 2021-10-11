@@ -126,8 +126,8 @@ class UserMenuBoxLoc extends AuthComponent<MenuBoxProps, UserMenuBoxState> {
                     <Link className="d-flex flex-row align-items-center text-dark my-2"
                           onClick={() => {
                               // two push required to counteract goBack
-                              this.props.history.replace('/profile/addRequest')
-                              this.props.history.push('/profile/addRequest')
+                              this.props.history.replace('//addRequest')
+                              this.props.history.push('//addRequest')
                               this.props.close()
                           }}>
                         <FaHandsHelping size={25}/>
