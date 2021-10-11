@@ -8,19 +8,25 @@ import profile from "../../images/profile-image.svg";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import { Marker, MarkerObject, Review } from "../../api/model";
 import { toast } from "react-toastify";
+import { withRouter } from "react-router";
+import { withStyles } from "@mui/styles";
 
+
+const RatingStyler = withStyles({
+  icon: {
+      padding: '1rem',
+  },
+})(Rating);
 
 interface AddHospitalReviewState extends AuthState {
   model: MarkerObject,
   ready: boolean,  
-  id: number,
-    total_rating: number, 
-    financial_rating: number,
+  marker: number,
+    total_rating: null | number, 
+    financial_rating: null | number,
     avg_cost: number,
-    covid_rating: number,
-    beds_available: number,
-    care_rating: number,
-    oxygen_rating: number,
+    care_rating: number | null,
+    oxygen_rating: null | number,
     ventilator_availability: number,
     oxygen_availability: number,
     icu_availability: number,
@@ -34,7 +40,7 @@ interface AddHospitalReviewState extends AuthState {
 
 }
 
-export default class AddHospitalReview extends AuthComponent<AuthPropsLoc, AddHospitalReviewState> {
+class AddHospitalReviewLoc extends AuthComponent<AuthPropsLoc, AddHospitalReviewState> {
 
   constructor(props: AuthPropsLoc) {
     super(props);
@@ -43,10 +49,8 @@ export default class AddHospitalReview extends AuthComponent<AuthPropsLoc, AddHo
         total_rating:0, 
         financial_rating: 0,
         avg_cost:0,
-        covid_rating:0,
-        beds_available:0,
         care_rating:0,
-        id: 0,
+        marker: 0,
         ready: false,
         oxygen_rating:0,
         ventilator_availability:0,
@@ -72,14 +76,10 @@ export default class AddHospitalReview extends AuthComponent<AuthPropsLoc, AddHo
 }
 
 savePatient = async () => {
-  console.log(this.state)
-  const toSend = this.state;
-
-  toSend.user = null;
 
 
   if (this.state.total_rating && this.state.care_rating && this.state.financial_rating && this.state.oxygen_rating)
-      Review.create({...toSend,})
+      Review.create({...this.state,user:null})
           .then(() => {
               this.props.history.push(`/`)
               toast.success('Successfully added your details', {
@@ -98,13 +98,13 @@ savePatient = async () => {
 
 async refreshReviews() {
   this.setState({ready: false})
+  console.log(this.props.match.params)
   //TODO: fix later
   // @ts-ignore
   let {hspId} = this.props.match.params
-  console.log(hspId);
   let marker = await Marker.get(hspId) as MarkerObject
 
-  this.setState({model: marker, ready: true, id: hspId})
+  this.setState({ready: true, marker: hspId, model:marker})
 
 }
 
@@ -113,13 +113,18 @@ async componentDidMount() {
   await this.refreshReviews()
 }
 
+
   render() {
+    if (!this.state.auth) {
+      this.performAuth()
+      return (<></>)
+  } else {
     return (
       <div className="pb-4">
         <div style={{boxShadow: "0px 10px 60px rgba(0, 0, 0, 0.0625)"}} className="d-flex justify-content-between p-3 h-25"> 
           <img src={close} onClick={() => this.props.history.goBack()} alt={"close"} />
           <p className="align-self-center m-0 p-0 justify-content-center">
-            <b>Hospital Name</b>
+            <b>{this.state.model?.name}</b>
           </p>
           <Button onClick={this.savePatient} className="sub" variant="contained">
             Submit
@@ -131,7 +136,7 @@ async componentDidMount() {
 
           <div className="d-flex flex-column justify-content-center text-left ml-2">
             <h6 className="m-0">
-              <b>Unknown User</b>
+              <b>{this.state.user? this.state.user.username:"Unknown User"}</b>
             </h6>
             <p className="p-0 m-0">
               <small>Share your experience to help others</small>
@@ -139,14 +144,12 @@ async componentDidMount() {
           </div>
         </div>
 
-        <div className="d-flex mx-4 px-4 mt-4">
-            <Rating
-              className="required mx-4 justify-content-between"
+        <div className="d-flex mx-4 mt-4">
+            <RatingStyler
               name="size-large"
-              defaultValue={this.state.total_rating}
               size="large"
               onChange={(event, value) =>
-                this.setState({total_rating: Number(value)})}
+                this.setState({total_rating: value})}
             />
           </div>
 
@@ -215,52 +218,46 @@ async componentDidMount() {
             
           </TextField>
 
-          <div className="d-flex flex-column text-left mt-4 pl-4">
-            <h6 className="m-0">
+          <div className="d-flex flex-column text-left mt-4">
+            <h6 className="m-0 pl-4">
               <b>General Care Quality</b>
             </h6>
 
-            <Rating
-              className="required mx-1 mt-1 justify-content-between"
+            <RatingStyler
               name="size-large"
-              defaultValue={this.state.care_rating}
               size="large"
               onChange={(event, value) =>
-                this.setState({care_rating: Number(value)})}
-            />            
+                this.setState({care_rating: value})}
+            />          
           </div>
 
 
-          <div className="d-flex flex-column text-left mt-4 pl-4">
-            <h6 className="m-0">
+               <div className="d-flex flex-column text-left mt-4">
+            <h6 className="m-0 pl-4">
               <b>Infrastructure Quality</b>
             </h6>
 
-            <Rating
-              className="required mx-1 mt-1 justify-content-between"
+            <RatingStyler
               name="size-large"
-              defaultValue={this.state.oxygen_rating}
               size="large"
               onChange={(event, value) =>
-                this.setState({oxygen_rating: Number(value)})}
-            />            
-          </div>
+                this.setState({oxygen_rating: value})}
+            />          
+          </div>    
 
 
-          <div className="d-flex flex-column text-left mt-4 pl-4">
-            <h6 className="m-0">
+          <div className="d-flex flex-column text-left mt-4">
+            <h6 className="m-0 pl-4">
               <b>Affordability</b>
             </h6>
 
-            <Rating
-              className="required mx-1 mt-1 justify-content-between"
+            <RatingStyler
               name="size-large"
-              defaultValue={this.state.financial_rating}
               size="large"
               onChange={(event, value) =>
-                this.setState({financial_rating: Number(value)})}
-            />            
-          </div>
+                this.setState({financial_rating: value})}
+            />          
+          </div> 
 
           <TextField
             className="my-4"
@@ -277,5 +274,9 @@ async componentDidMount() {
         </div>
       </div>
     );
+            }
   }
 }
+
+
+export const AddHospitalReview = withRouter(AddHospitalReviewLoc);

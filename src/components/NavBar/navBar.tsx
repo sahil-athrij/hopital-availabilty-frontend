@@ -94,7 +94,7 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState> {
                             }} >
                                 Search hospitals
                             </div>
-                            <Avatar  className="mr-2">{this.state.user? this.state.user.username[0]:'?'}</Avatar>
+                            <Avatar  className="mr-2">{this.state.user? this.state.user.username?this.state.user.username[0]:'?':'?'}</Avatar>
 
 
 
