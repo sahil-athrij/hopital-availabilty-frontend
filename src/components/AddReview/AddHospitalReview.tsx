@@ -14,12 +14,7 @@ import { withStyles } from "@mui/styles";
 
 const RatingStyler = withStyles({
   icon: {
-      padding: '5rem',
-  },
-
-  active: {},
-  track: {
-      height: 3,
+      padding: '1rem',
   },
 })(Rating);
 
@@ -154,7 +149,7 @@ async componentDidMount() {
           </div>
         </div>
 
-        <div className="d-flex mx-4 px-4 mt-4">
+        <div className="d-flex mx-4 mt-4">
             <RatingStyler
               name="size-large"
               size="large"
@@ -228,49 +223,46 @@ async componentDidMount() {
             
           </TextField>
 
-          <div className="d-flex flex-column text-left mt-4 pl-4">
-            <h6 className="m-0">
+          <div className="d-flex flex-column text-left mt-4">
+            <h6 className="m-0 pl-4">
               <b>General Care Quality</b>
             </h6>
 
-            <Rating
-              className="required mx-1 mt-1 justify-content-between"
+            <RatingStyler
               name="size-large"
               size="large"
               onChange={(event, value) =>
                 this.setState({care_rating: value})}
-            />            
+            />          
           </div>
 
 
-          <div className="d-flex flex-column text-left mt-4 pl-4">
-            <h6 className="m-0">
+               <div className="d-flex flex-column text-left mt-4">
+            <h6 className="m-0 pl-4">
               <b>Infrastructure Quality</b>
             </h6>
 
-            <Rating
-              className="required mx-1 mt-1 justify-content-between"
+            <RatingStyler
               name="size-large"
               size="large"
               onChange={(event, value) =>
                 this.setState({oxygen_rating: value})}
-            />            
-          </div>
+            />          
+          </div>    
 
 
-          <div className="d-flex flex-column text-left mt-4 pl-4">
-            <h6 className="m-0">
+          <div className="d-flex flex-column text-left mt-4">
+            <h6 className="m-0 pl-4">
               <b>Affordability</b>
             </h6>
 
-            <Rating
-              className="required mx-1 mt-1 justify-content-between"
+            <RatingStyler
               name="size-large"
               size="large"
               onChange={(event, value) =>
                 this.setState({financial_rating: value})}
-            />            
-          </div>
+            />          
+          </div> 
 
           <TextField
             className="my-4"
