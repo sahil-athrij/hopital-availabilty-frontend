@@ -22,6 +22,14 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { withStyles } from "@mui/styles";
+
+
+const RatingStyler = withStyles({
+  icon: {
+      padding: '0.8rem',
+  },
+})(Rating);
 
 interface ReviewState {
   model: MarkerObject;
@@ -152,10 +160,9 @@ export default class ReviewCards extends Component<ReviewState> {
             </p>
           </div>
 
-          <div className="d-flex mx-4 mt-2">
+          <div className="d-flex mx-4 pr-4 mt-2">
             <img src={profile} alt="img" />
-            <Rating
-              className="required m-3 justify-content-between"
+            <RatingStyler
               name="size-large"
               defaultValue={0}
               size="large"
