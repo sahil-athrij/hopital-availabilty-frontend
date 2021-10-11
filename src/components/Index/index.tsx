@@ -1,5 +1,5 @@
 import React from "react";
-import {Col, Container} from "react-bootstrap";
+import { Col, Container} from "react-bootstrap";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {withRouter} from "react-router";
 
@@ -13,6 +13,10 @@ import Righticon from "../../images/righticon.svg"
 import Addhosp from "../../images/addhospcard.svg"
 import Givehelp from "../../images/givehelpcard.svg"
 import Searchhosp from "../../images/searchhospcard.svg"
+// import Ambulance from "../../images/ambulance.svg"
+// import Medicine from "../../images/Medicine.svg"
+
+import BackRight from "../../images/backright.svg"
 
 interface IndexState extends AuthState {
     display: boolean
@@ -52,10 +56,10 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> {
                     {this.state.user?.firstname ? `Welcome, ${this.state.user.firstname}` : "Welcome"}
                 </div>
                 <Container className="text-left">
-                    <img className="needmedi" src={Homecover}  alt=""/>
+                    <img className="needmedi" src={Homecover} alt=""/>
                     <Link to="/addRequest">
                         <div className="helpbar">
-                            <div className="rigtharrow"><img className="iconimg" src={Righticon}  alt=""/></div>
+                            <div className="rigtharrow"><img className="iconimg" src={Righticon} alt=""/></div>
                             <h5 className="problem">Any problems?</h5>
 
                             <h6 className="probsec">Request Medical help here</h6>
@@ -63,8 +67,9 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> {
                     </Link>
                 </Container>
                 <Container className="w-100">
-                    <div className="servicehead text-left">
+                    <div className="servicehead text-left d-flex justify-content-between mb-3">
                         Services
+                        <img className="mr-4" src={BackRight} alt=""/>
                     </div>
                     <div className="ml-2 container d-flex justify-content-between">
 
@@ -79,15 +84,15 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> {
                         </div>
 
 
-                    </div>
+                        </div>
                 </Container>
 
                 <Container className="mb-5 pb-3 pt-3 text-left">
                     {/* Displays the component when lat and lng are non-null */}
                     {this.state.lat && this.state.lng ? <>
                         <div className=" d-flex justify-content-between">
-                        <h6 className="hospnear">Hospitals Near You</h6>
-                         <p className=" mr-1">See All</p>
+                            <h6 className="hospnear">Hospitals Near You</h6>
+                            <p className=" mr-1">See All</p>
                         </div>
                         <Col xs={12} id="searchresults">
                             <SearchResults updateParent={() => {
