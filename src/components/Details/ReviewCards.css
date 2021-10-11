@@ -10,3 +10,15 @@
 .css-iljtu2-MuiRating-root{
     font-size: unset !important;
 }
+
+.required .css-dqr9h-MuiRating-label{
+    margin-right: 1.5rem !important;
+}
+
+.css-ahj2mt-MuiTypography-root{
+    width: 100% !important;
+}
+
+.css-1elwnq4-MuiPaper-root-MuiAccordion-root:first-of-type{
+    box-shadow: none !important;
+}
