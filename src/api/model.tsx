@@ -19,7 +19,7 @@ export interface WorkingTime {
 
 export class MarkerObject extends ModelObject {
     lng: any;
-    comment: object[] | any
+    comment: ReviewObject[] | any
     oxygen_availability: number = 0;
     covid_rating: number = 0;
     financial_rating: number = 0;
@@ -197,6 +197,7 @@ export class DoctorObject extends ModelObject {
 export class ReviewObject extends ModelObject {
     id: number = 0;
     marker: number = 0;
+    total_rating: number = 0;
     financial_rating: number = 0;
     avg_cost: number = 0;
     covid_rating: number = 0;
@@ -216,7 +217,7 @@ export class ReviewObject extends ModelObject {
 
     constructor(data: ModelData, baseUrl: string) {
         super(data, baseUrl);
-        this.fields = ["id", "marker", "financial_rating", "avg_cost", "covid_rating", "beds_available", "care_rating",
+        this.fields = ["id", "marker", "total_rating", "financial_rating", "avg_cost", "covid_rating", "beds_available", "care_rating",
             "oxygen_rating", "ventilator_availability", "oxygen_availability", "icu_availability", "comment", "datef",
             "images", "day", "written_by_name", "written_by", "size"]
         this.getData()

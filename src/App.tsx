@@ -26,6 +26,8 @@ import {AddDoctorComponent} from './components/AddDoctor/AddDoctor';
 import {AddDepartmentComponent} from "./components/AddDepartment/AddDepartment";
 import {Addpatient} from "./components/AddPatient/AddPatient";
 import {Givehelp} from "./components/GiveHelp/GiveHelp";
+import {AddHospitalReview} from './components/AddReview/AddHospitalReview';
+
 
 const theme = createMuiTheme({
     palette: {
@@ -108,7 +110,10 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                     <Switch>
                         <Route path="/doctor/add/:hospital" children={AddDoctorComponent} />
                         <Route path="/department/add/:hospital" children={AddDepartmentComponent} />
-                        <Route path="/doctor/:docId" children={DoctorComponent} /> {/* Show details about a doctor */}
+                        <Route path="/doctor/:docId" children={DoctorComponent} /> {/* Show details about a doctor */} 
+                        <Route path="/details/reviews/:hspId">
+                            <AddHospitalReview/>
+                        </Route>  
                         <Route path="/details/:hspId" children={Details} /> {/* Show details about a hospital */}
                         <Route path="/search">
                             <NavBar/>
