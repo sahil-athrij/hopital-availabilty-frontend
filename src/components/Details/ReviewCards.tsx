@@ -144,15 +144,6 @@ export default class ReviewCards extends Component<ReviewState> {
         </div>
 
         <div>
-          <div className="d-flex flex-column text-left mt-4 pl-4">
-            <h6 className="m-0">
-              <b>Rate and Review</b>
-            </h6>
-            <p className="p-0 m-0">
-              <small>Share your experience to help others</small>
-            </p>
-          </div>
-
           <div className="d-flex mx-4 mt-2">
             <img src={profile} alt="img" />
             <Rating
