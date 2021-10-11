@@ -24,6 +24,10 @@ import {Add} from "./components/AddHospital/Add";
 import {DoctorComponent} from './components/Doctor/Doctor';
 import {AddDoctorComponent} from './components/AddDoctor/AddDoctor';
 import {AddDepartmentComponent} from "./components/AddDepartment/AddDepartment";
+import {Addpatient} from "./components/AddPatient/AddPatient";
+import {Givehelp} from "./components/GiveHelp/GiveHelp";
+import {AddHospitalReview} from './components/AddReview/AddHospitalReview';
+
 
 const theme = createMuiTheme({
     palette: {
@@ -106,7 +110,10 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                     <Switch>
                         <Route path="/doctor/add/:hospital" children={AddDoctorComponent} />
                         <Route path="/department/add/:hospital" children={AddDepartmentComponent} />
-                        <Route path="/doctor/:docId" children={DoctorComponent} /> {/* Show details about a doctor */}
+                        <Route path="/doctor/:docId" children={DoctorComponent} /> {/* Show details about a doctor */} 
+                        <Route path="/details/reviews/:hspId">
+                            <AddHospitalReview/>
+                        </Route>  
                         <Route path="/details/:hspId" children={Details} /> {/* Show details about a hospital */}
                         <Route path="/search">
                             <NavBar/>
@@ -115,7 +122,7 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                         {/* If the current URL is /profile, this route is rendered
             while the rest are ignored */}
                         <Route path="/profile/">
-                            <NavBar/>
+
                             <Profile/>
                             {/* If the current URL is /set_token, this route is rendered
             while the rest are ignored */}
@@ -131,7 +138,7 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                         {/* If the current URL is /AddHospital, this route is rendered
             while the rest are ignored */}
                         <Route path="/AddHospital/">
-                            <NavBar/>
+                           <BottomNav/>
                             <Add/>
                         </Route>
                         {/* If the current URL is /privacypolicy, this route is rendered
@@ -139,7 +146,16 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                         <Route path="/privacypolicy/">
                             <Privacy/>
                         </Route>
-                        {/* If the current URL is /, this route is rendered
+                        <Route path={"/addRequest"}>
+                            <BottomNav/>
+                            <Addpatient/>
+                        </Route>
+                        <Route path={"/help"}>
+                            <BottomNav/>
+                            <Givehelp/>
+                        </Route>
+
+                    {/* If the current URL is /, this route is rendered
             while the rest are ignored */}
                         <Route path="/">
                             <NavBar/>

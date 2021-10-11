@@ -19,7 +19,7 @@ export interface WorkingTime {
 
 export class MarkerObject extends ModelObject {
     lng: any;
-    comment: object[] | any
+    comment: ReviewObject[] | any
     oxygen_availability: number = 0;
     covid_rating: number = 0;
     financial_rating: number = 0;
@@ -31,7 +31,7 @@ export class MarkerObject extends ModelObject {
     avg_cost: number = 0
     icu_availability: number = 0;
     model: any;
-    images?: ImageObject[]
+    images: ImageObject[] =[]
     ventilator_availability: number = 0;
     lat: any;
     doctors: DoctorObject[] = [];
@@ -195,13 +195,31 @@ export class DoctorObject extends ModelObject {
 }
 
 export class ReviewObject extends ModelObject {
-
+    id: number = 0;
+    marker: number = 0;
+    total_rating: number = 0;
+    financial_rating: number = 0;
+    avg_cost: number = 0;
+    covid_rating: number = 0;
+    beds_available: number = 0;
+    care_rating: number = 0;
+    oxygen_rating: number = 0;
+    ventilator_availability: number = 0;
+    oxygen_availability: number = 0;
+    icu_availability: number = 0;
+    comment: string = '';
+    datef: string = '';
+    images: object[] | any;
+    day: number = 0;
+    written_by_name: string = '';
+    written_by: string = '';
+    size: number = 0;
 
     constructor(data: ModelData, baseUrl: string) {
         super(data, baseUrl);
-        this.fields = ["id", "marker", "financial_rating", "avg_cost", "covid_rating", "beds_available", "care_rating",
+        this.fields = ["id", "marker", "total_rating", "financial_rating", "avg_cost", "covid_rating", "beds_available", "care_rating",
             "oxygen_rating", "ventilator_availability", "oxygen_availability", "icu_availability", "comment", "datef",
-            "images", "day",]
+            "images", "day", "written_by_name", "written_by", "size"]
         this.getData()
     }
 }
@@ -216,10 +234,17 @@ export class PatientObject extends ModelObject {
     gender_name: string = '';
     symdays: string = '';
     spo2: number = 0;
-    bedtype_name: string = '';
+    bedtype_name: number=0;
     blood: string = '';
     ct: boolean = false;
     ctscore: string = '';
+    oxy_bed:boolean=false;
+    attendername: string='';
+    attenderphone: string='';
+    relation: string='';
+    hospitalpref: string='';
+    srfid: string='';
+    bunum: string='';
 
     constructor(data: ModelData, baseUrl: string) {
         super(data, baseUrl);

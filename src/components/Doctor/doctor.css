@@ -277,7 +277,6 @@ body{
     align-items: flex-start;
     display: flex;
     flex-direction: column;
-    margin-top: 41px;
     overflow: hidden;
     margin-left: 44px;
     margin-top: 32px;
@@ -312,4 +311,9 @@ body{
 .container-center-horizontal > * {
     flex-shrink: 0;
     pointer-events: auto;
+}
+.headtext {
+    font-weight: 600;
+    font-size: 18px;
+    color: #000000;
 }

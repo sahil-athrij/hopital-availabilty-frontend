@@ -35,7 +35,7 @@ const SliderSteps = [
         label: 'Request Help',
         imgPath: Help,
         description: 'Request Volunteers and friends for Medical Help',
-        url: '/profile/addRequest'
+        url: '/addRequest'
     },
     {
         label: 'Add Hospital',

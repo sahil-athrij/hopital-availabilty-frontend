@@ -1,25 +1,20 @@
 .hospital-address {
-    color: #70757A;
-    line-height: 1.25rem;
-    font-size: .875rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 70%;
-    display: inline-block;
-    white-space: nowrap;
-    width: 70%;
+    width: 100%;
     font-weight: 500;
+    font-size: 14px;
+    line-height: 15px;
+    color: #606267;
 
 }
 
 .hospital-title {
-    font-size: 1rem;
-    letter-spacing: .00625em;
-    /*font-family: Google Sans, Roboto, Arial, sans-serif;*/
-    font-weight: 500;
-    line-height: 20px;
-    color: #202124;
-    white-space: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 18px;
+    display: flex;
+    color: #606267;
+
+
 }
 
 .hospital-phone {
@@ -73,4 +68,30 @@
     background-size:cover;
     background-repeat:no-repeat;
     background-position: center;
+}
+.cardstyle {
+    box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.0625);
+    border-radius: 20px;
+    background: white;
+    width: 100%;
+    justify-content: space-around;
+}
+.ratingvalue {
+    font-size: 12px;
+
+}
+.pvrtab {
+    width: 30%;
+    height: 44px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.circle {
+    border-radius: 50px;
+    object-fit: cover;
+    width: 51px;
+    height: 38px;
+
 }

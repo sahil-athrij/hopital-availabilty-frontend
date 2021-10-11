@@ -23,6 +23,7 @@ import direction_icon from "./icons/primary@2x.png"
 
 import {DepartmentCards} from "./DepatrmentCards"
 import {DoctorCards} from "./DoctorCards";
+import ReviewCards from "./ReviewCards"; 
 
 
 interface DetailsState extends AuthState {
@@ -123,11 +124,15 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
             this.state.ready ?
                 <>
                     <div className="d-flex flex-column w-100 container pb-4 mb-3">
-                        <div className="w-100 flex-row container pt-5">
-                            <div className="w-100 d-flex flex-row justify-content-between">
-                                <img alt={""} width={"15px"} height={"15px"} src={icon2}
-                                     onClick={() => this.props.history.goBack()}/>
-                                <img alt={""} width={"5px"} height={"15px"} src={icon}/>
+                        <div className="w-100 flex-row container px-0 mx-0 pt-4">
+                            <div className="w-100 d-flex flex-row justify-content-between p-0">
+                                    <div className="bck-btn m-0">
+                                        <img alt={""} width={"15px"} height={"15px"} src={icon2}
+                                        onClick={() => this.props.history.goBack()}/>
+                                    </div>
+                                    <div className="hbg-mnu m-0">
+                                        <img alt={""} width={"5px"} height={"15px"} src={icon}/>
+                                    </div>
                             </div>
 
                             <img alt={""} className="m-0" height={"178px"} width={"178px"} src={image}/>
@@ -191,6 +196,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                     </div>
                     <SwipeableViews
                         className="pb-5 mb-5"
+                        style={{background: "linear-gradient(0deg, white, #fafafa)"}}
                         axis={'x'}
                         index={this.state.tab}
                         onChangeIndex={(v) => {
@@ -206,7 +212,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                         </TabPanel>
 
                         <TabPanel value={this.state.tab} index={2}>
-                            Reviews {/* TODO add reviews card. */}
+                            <ReviewCards model={model}/> 
                         </TabPanel>
                     </SwipeableViews>
                 </> :

@@ -15,6 +15,8 @@ import {Suggestion} from "../FullScreen/FullScreenLocation";
 import {TextField} from "@mui/material";
 import {Marker} from "../../api/model";
 import {withRouter} from "react-router";
+import close from "../../images/close.svg";
+import Button from "@mui/material/Button";
 
 let DefaultIcon = L.icon({
     iconUrl: icon,
@@ -147,8 +149,8 @@ function LocationMarker(props: LocationMarkerProps) {
     )
 
     useEffect(() => {
-        if(navigator.geolocation){
-             navigator.geolocation.getCurrentPosition(()=>map.locate)
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(() => map.locate)
         }
     }, []);
     useEffect(() => {
@@ -320,13 +322,19 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
         } else {
             console.log(this.state.center)
             return (
-                <div className="bg-grey d-flex flex-column  justify-content-between min-vh-100">
+                <div >
+                    <Container className=" px-0 pb-3 h-100 pt-0 bg-white neumorphic-input">
+                        <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
+                            <img src={close} onClick={() => this.props.history.goBack()} alt={"close"}/>
+                            <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Medical Details</b>
+                            </p>
+                            {this.state.position === 1 ? (
+                                <Button onClick={() => this.postData()} className="sub"
+                                        variant="contained">Submit</Button>) : (
+                                <Button disabled sx={{borderRadius: '10px', background: '#F0F0F0'}}
+                                        variant="contained">Submit</Button>)}
 
-                    <Container className="mt-5 pt-4 ">
-                        <h4><b>Add Hospital</b></h4>
-                    </Container>
-                    <Container className=" px-0 pb-3 pt-0 bg-white neumorphic-input">
-
+                        </div>
                         {this.state.position === 0 &&
                         <div>
                             <MapContainer center={this.state.center} scrollWheelZoom={true} touchZoom={true}
@@ -337,7 +345,7 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                                 <TileLayer
                                     attribution='Map data &copy;  <a href=&quot;https://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, Imagery &copy; <a href=&quot;https://www.mapbox.com/&quot;>Mapbox</a>'
                                     url="https://api.mapbox.com/styles/v1/sahilathrij/ckr296izue2ls18pdnk1z2dd6/tiles/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoic2FoaWxhdGhyaWoiLCJhIjoiY2tyMjdtMzhmMjY4djJ1cWhpNms5azc1dCJ9.qfosI4PHQv8XO8bHqd-IQg"
-                                    tileSize={512} zoomOffset= {-1}
+                                    tileSize={512} zoomOffset={-1}
                                 />
                                 <LocationMarker updateCenter={this.setCenter} center={this.state.center}/>
 
@@ -348,26 +356,31 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                         }
                         {this.state.position === 1 &&
                         <div className="d-flex flex-column px-3">
+
                             <h6 className="text-left"><b>Hospital Information</b></h6>
                             <TextField label="Hospital Name" required={true} variant="outlined"
                                        autoFocus
-                                       className="my-1" type="text"
+                                       fullWidth
+                                       className="my-2"
+                                       size="small"
+                                       InputLabelProps={{shrink: true,}}
                                        value={this.state.name}
                                        onChange={(event) =>
                                            this.setValue("name", event)}
-                                       helperText="Please enter Hospital Name"
+
                             />
-                            <TextField label="Phone Number" required={true} variant="outlined"
-                                       className="my-1" type="text"
-                                       value={this.state.Phone}
+                            <TextField value={this.state.Phone} className="my-2" fullWidth variant="outlined"
+                                       required={true} label="Phone Number *"
+                                       InputLabelProps={{shrink: true,}} size="small"
                                        onChange={(event) =>
                                            this.setValue("Phone", event)}
-                                       helperText="Please enter Hospital Phone"
+
                             />
 
                             <TextField label="Type of Center" required={true} variant="outlined"
                                        select
-                                       className="my-1" type="select"
+                                       size="small"
+                                       className="my-2" type="select"
                                        helperText="Please enter Type of Wellness Center"
                                        SelectProps={{
                                            native: true,
@@ -384,7 +397,8 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                             </TextField>
                             <TextField label="Hospital Type" required={true} variant="outlined"
                                        select
-                                       className="my-1" type="select"
+                                       size="small"
+                                       className="my-2" type="select"
                                        helperText="Please enter category of hospital"
                                        SelectProps={{
                                            native: true,
@@ -403,6 +417,7 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
 
                             <TextField label="Type of Ownership" required={true} variant="outlined"
                                        select
+                                       size="small"
                                        className="my-1" type="select"
                                        helperText="Please enter type of Ownership"
                                        SelectProps={{
@@ -432,16 +447,8 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                                 <button className="btn w-50 btn-primary blue-gradient"
                                         onClick={() => {
                                             this.setPosition(this.state.position + 1)
-                                        }}> Next</button> :
-                                <button className="btn w-50 btn-success"
-                                        onClick={() => this.postData()}> Submit</button>}
+                                        }}> Next</button> :null}
                         </div>
-                    </Container>
-
-                    <Container className=" py-2 bg-white neumorphic-input p-0 ">
-
-
-                        <div className="space-50"/>
                     </Container>
                 </div>
 
