@@ -1,6 +1,6 @@
 
 .wholetab {
-    margin-top: 1rem;
+
     background: #F0F0F0;
     border-radius: 10px;
 }
@@ -24,8 +24,7 @@
 .manmsg {
     font-size: .4rem;
     color: #868383;
-    position: relative;
-    bottom: 0;
-    margin-bottom: 4.4rem;
+    display: flow;
+    margin-top: auto;
 
 }

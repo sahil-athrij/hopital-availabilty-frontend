@@ -1,0 +1,26 @@
+.maincard {
+    background: #FFFFFF;
+    box-shadow: 0 10px 60px rgba(0, 0, 0, 0.0625);
+    border-radius: 20px;
+    margin-top:1.5rem;
+
+}
+.tophead {
+    background: #FFFFFF;
+    box-shadow: 0 10px 60px rgba(0, 0, 0, 0.0625);
+
+}
+.title {
+    font-size: 16px;
+    color: #222B45;
+}
+.subtitle {
+    font-size: 12px;
+    color: #606267;
+}
+.helpbutn {
+    background: linear-gradient(180deg, #0338B9 0%, #3E64FF 100%);
+}
+.maincont {
+    padding-bottom: 4.5rem;
+}

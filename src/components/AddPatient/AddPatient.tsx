@@ -5,7 +5,7 @@ import {ResponsiveProps} from "../ResponsiveComponent";
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import {Chip,  ListItem, TextField} from "@mui/material";
+import {Chip,  ListItem, TextField,Container} from "@mui/material";
 import './AddPatient.css'
 import close from "../../images/close.svg";
 import MenuItem from "@mui/material/MenuItem";
@@ -25,15 +25,15 @@ interface AddPatientState extends AuthState {
     gender: string;
     address: string;
     symptoms: string;
-    covidresult: boolean;
+    covidresult?: number;
     gender_name: string;
     symdays: string;
-    spo2: number;
-    bedtype_name: number;
+    spo2?: number;
+    bedtype: number;
     blood: string;
-    ct: boolean;
+    ct?:number ;
     ctscore: string;
-    oxy_bed: boolean;
+    oxy_bed?: number;
     attendername: string;
     attenderphone: string;
     relation: string;
@@ -58,7 +58,33 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState> {
             activeStep: 0,
             avail_attender: false,
             avail_hospital: false,
-            symptoms:'',
+            Name: '',
+
+            gender: '',
+            address: '',
+
+            symptoms: "",
+            symdays: new Date().toISOString().substring(0, 10),
+            spo2: undefined,
+            oxy_bed:undefined,
+            bedtype:1,
+
+
+            blood: '',
+            ct: undefined,
+            covidresult: undefined,
+            ctscore: '',
+
+
+
+            attendername: '',
+            attenderphone: '',
+            relation: '',
+
+
+            hospitalpref: '',
+            srfid: '',
+            bunum: "",
 
 
         }
@@ -88,18 +114,21 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState> {
 
                     <TextField value={this.state.Name} className="mt-2" fullWidth variant="outlined" label="Patient Name *"
                                InputLabelProps={{shrink: true,}} size="small"
-                               onChange={({target}) => this.setState({Name: target.value})}
+                               onChange={(event) =>
+                                   this.setValue("Name", event)}
                     />
 
 
-                    <TextField value={this.state.age} className="mt-4" fullWidth variant="outlined" label="Age *"
+                    <TextField type="number" value={this.state.age} className="mt-4" fullWidth variant="outlined" label="Age *"
                                InputLabelProps={{shrink: true,}} size="small"
-                               onChange={({target}) => this.setState({age: Number(target.value)})}
+                               onChange={(event) =>
+                                   this.setValue("age", event)}
                     />
                     <TextField value={this.state.gender} className="mt-4" fullWidth variant="outlined" select label="Gender *"
                                InputLabelProps={{shrink: true,}} size="small"
 
-                               onChange={({target}) => this.setState({gender: target.value})}
+                               onChange={(event) =>
+                                   this.setValue("gender", event)}
                     >
                         <MenuItem value={"M"}>Male</MenuItem>
                         <MenuItem value={"F"}>Female</MenuItem>
@@ -121,16 +150,19 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState> {
                     <TextField value={this.state.symptoms} className="mt-2" fullWidth variant="outlined"
                                label="Symptoms *"
                                InputLabelProps={{shrink: true,}} size="small"
-                               onChange={({target}) => this.setState({symptoms: target.value})}
+                               onChange={(event) =>
+                                   this.setValue("symptoms", event)}
                     />
                     <TextField value={this.state.symdays} type="date" className="mt-4" fullWidth variant="outlined" label="Symptoms Start Date *"
                                InputLabelProps={{shrink: true,}} size="small"
-                               onChange={({target}) => this.setState({symdays: target.value})}
+                               onChange={(event) =>
+                                   this.setValue("symdays", event)}
                     />
 
-                    <TextField value={this.state.spo2} className="mt-4" fullWidth variant="outlined" label="Blood oxygen level *"
+                    <TextField type="number" value={this.state.spo2} className="mt-4" fullWidth variant="outlined" label="Blood oxygen level *"
                                InputLabelProps={{shrink: true,}} size="small"
-                               onChange={({target}) => this.setState({spo2: Number(target.value)})}
+                               onChange={(event) =>
+                                   this.setValue("spo2", event)}
 
                     />
                     <p className="helper">if available</p>
@@ -138,15 +170,16 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState> {
                                label="Is the patient on oxygen support *"
                                InputLabelProps={{shrink: true,}} size="small"
 
-                               onChange={({target}) => this.setState({oxy_bed: Boolean(target.value)})}
-                    >
+                               onChange={(event) =>
+                                   this.setValue("oxy_bed", event)}>
+
                         <MenuItem value={1}>Yes</MenuItem>
                         <MenuItem value={0}>No</MenuItem>
                     </TextField>
-                    <TextField value={this.state.bedtype_name} className="mt-4" fullWidth variant="outlined" select label="Required bed type *"
+                    <TextField value={this.state.bedtype} className="mt-4" fullWidth variant="outlined" select label="Required bed type *"
                                InputLabelProps={{shrink: true,}} size="small"
 
-                               onChange={({target}) => this.setState({bedtype_name: Number(target.value)})}
+                               onChange={({target}) => this.setState({bedtype: Number(target.value)})}
                     >
                         <MenuItem value={1}>Normal</MenuItem>
                         <MenuItem value={2}>Ventilator</MenuItem>
@@ -164,7 +197,8 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState> {
                     <TextField value={this.state.blood} className="mt-4" fullWidth variant="outlined" select label="Patient blood group *"
                                InputLabelProps={{shrink: true,}} size="small"
 
-                               onChange={({target}) => this.setState({blood: target.value})}
+                               onChange={(event) =>
+                                   this.setValue("blood", event)}
                     >
 
                         {this.bloodgroups.map((value => (
@@ -176,7 +210,8 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState> {
                     <TextField value={this.state.covidresult} className="mt-4" fullWidth variant="outlined" select label="Covid result *"
                                InputLabelProps={{shrink: true,}} size="small"
 
-                               onChange={({target}) => this.setState({covidresult: Boolean(target.value)})}
+                               onChange={(event) =>
+                                   this.setValue("covidresult", event)}
                     >
                         <MenuItem value={1}>Possitive</MenuItem>
                         <MenuItem value={0}>Negative</MenuItem>
@@ -184,15 +219,17 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState> {
                     <TextField value={this.state.ct} className="mt-4" fullWidth variant="outlined" select label="Was a CT scan done ? *"
                                InputLabelProps={{shrink: true,}} size="small"
 
-                               onChange={({target}) => this.setState({ct: Boolean(target.value)})}
-                    >
+                               onChange={(event) =>
+                                   this.setValue("ct", event)}>
+
                         <MenuItem value={1}>Yes</MenuItem>
                         <MenuItem value={0}>No</MenuItem>
                     </TextField>
 
                     <TextField value={this.state.ctscore} className="mt-4" fullWidth variant="outlined" label="If Yes, Please enter the CT score"
                                InputLabelProps={{shrink: true,}} size="small"
-                               onChange={({target}) => this.setState({ctscore: target.value})}
+                               onChange={(event) =>
+                                   this.setValue("ctscore", event)}
                     />
                 </div>
 
@@ -202,7 +239,7 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState> {
                     <div className=" d-flex justify-content-between align-items-centre">
                         <p className="mainhead">Is there an attender</p>
                         <Checkbox className="pb-3" checked={this.state.avail_attender} onClick={() => {
-                            this.setState({avail_attender: !this.state.avail_attender})
+                            this.setState({avail_attender: !this.state.avail_attender})      //TODO checkbox alignment
                         }} size="small"/>
                     </div>
                     {this.state.avail_attender ? (
@@ -210,17 +247,20 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState> {
                             <TextField value={this.state.attendername} className="mt-4" fullWidth variant="outlined" label="Attender Name *"
                                        InputLabelProps={{shrink: true,}} size="small"
 
-                                       onChange={({target}) => this.setState({attendername: target.value})}
+                                       onChange={(event) =>
+                                           this.setValue("attendername", event)}
                             />
                             <TextField value={this.state.attenderphone} className="mt-4" fullWidth variant="outlined" label="Attender Phone number"
                                        InputLabelProps={{shrink: true,}} size="small"
 
-                                       onChange={({target}) => this.setState({attenderphone: target.value})}
+                                       onChange={(event) =>
+                                           this.setValue("attenderphone", event)}
                             />
 
                             <TextField value={this.state.relation} className="mt-4" fullWidth variant="outlined" label="Relation with the patient*"
                                        InputLabelProps={{shrink: true,}} size="small"
-                                       onChange={({target}) => this.setState({relation: target.value})}
+                                       onChange={(event) =>
+                                           this.setValue("relation", event)}
                             />
                         </div>) : null}
 
@@ -234,7 +274,7 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState> {
                     <div className=" d-flex justify-content-between align-items-centre">
                         <p className="mainhead">Was the patient taken to a hospital?</p>
                         <Checkbox checked={this.state.avail_hospital} onClick={() => {
-                            this.setState({avail_hospital: !this.state.avail_hospital})
+                            this.setState({avail_hospital: !this.state.avail_hospital})  //TODO checkbox alignment
                         }} size="small"/>
                     </div>
                     {this.state.avail_hospital ? (
@@ -262,6 +302,18 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState> {
             )
         }
 
+
+    }
+    setValue = (name: string, event: string | boolean | React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        let value
+        if (typeof event !== "boolean" && typeof event !== 'string') {
+            value = event.target.value
+        } else {
+            value = event
+        }
+        //TODO: fix ts ignore
+        // @ts-ignore
+        this.setState({[name]: value})
 
     }
 
@@ -314,10 +366,10 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState> {
         } else {
             console.log(this.state)
             return (
-                <div className="d-flex flex-column justify-content-between">
-                    <Box className='mb-auto px-2' sx={{width: '100%'}}>
+                <div className="d-flex flex-column vh-100">
+                    <Box className='px-2' sx={{width: '100%'}}>
 
-                        <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
+                        <Container className="head-sec d-flex justify-content-between p-3 shadow-none ">
                             <img src={close} onClick={() => this.props.history.goBack()} alt={"close"}/>
                             <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Medical Details</b>
                             </p>
@@ -326,8 +378,7 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState> {
                                         variant="contained">Submit</Button>) : (
                                 <Button disabled sx={{borderRadius: '10px', background: '#F0F0F0'}}
                                         variant="contained">Submit</Button>)}
-
-                        </div>
+                        </Container>
 
                         <ListItem className='wholetab'
                                   value={this.state.activeStep}
@@ -389,9 +440,10 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState> {
 
 
                     </Box>
-                    <div className="text-center">
+
+                    <Container sx={{marginBottom:"4rem"}} className="mt-auto text-center bg-grey ">
                         <p className="manmsg">All * are mandatory, we’ll help you connect with a Doctor soon</p>
-                    </div>
+                    </Container>
 
                 </div>
 

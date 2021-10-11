@@ -6,9 +6,7 @@ import oxygen from "../../images/oxygen.svg";
 import affordability from "../../images/affordability.svg";
 import icu from "../../images/icu.svg";
 import ventilator from "../../images/ventilator.svg";
-import ratingline from "../../images/Ratings-line.svg";
 import stars from "../../images/5stars.svg";
-import info from "../../images/info.svg"; 
 import profile from "../../images/profile-image.svg";  
 
 interface ReviewObject {
@@ -25,7 +23,6 @@ export default class ReviewCards extends Component<ReviewObject> {
               <b>Infrastructure Quality</b>
             </h6>
           </div>
-
           <div className="dpts-pic d-flex justify-content-between pl-3">
             <div className="d-flex justify-content-between ">
               <img className="pic m-2" src={oxygen} alt="dpt" />
@@ -40,7 +37,6 @@ export default class ReviewCards extends Component<ReviewObject> {
               <StarRating rating={this.props.model.oxygen_rating} />
             </div>
           </div>
-
           <div className="dpts-pic d-flex justify-content-between pl-3">
             <div className="d-flex justify-content-between ">
               <img className="pic m-2" src={affordability} alt="dpt" />
@@ -63,7 +59,6 @@ export default class ReviewCards extends Component<ReviewObject> {
               <b>Infrastructure Availability</b>
             </h6>
           </div>
-
           <div className="dpts-pic d-flex justify-content-between pl-3">
             <div className="d-flex justify-content-between ">
               <img className="pic m-2" src={oxygen} alt="dpt" />
@@ -78,7 +73,6 @@ export default class ReviewCards extends Component<ReviewObject> {
               <h6 style={{textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"}}><b>{this.props.model.oxygen_availability}%</b></h6>  
             </div>
           </div>
-
           <div className="dpts-pic d-flex justify-content-between pl-3">
             <div className="d-flex justify-content-between ">
               <img className="pic m-2" src={icu} alt="dpt" />
@@ -93,7 +87,6 @@ export default class ReviewCards extends Component<ReviewObject> {
               <h6 style={{textShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"}}><b>{this.props.model.icu_availability}%</b></h6>  
             </div>
           </div>
-
           <div className="dpts-pic d-flex justify-content-between pl-3">
             <div className="d-flex justify-content-between ">
               <img className="pic m-2" src={ventilator} alt="dpt" />
@@ -110,18 +103,13 @@ export default class ReviewCards extends Component<ReviewObject> {
           </div>
 
         </div>
-
         <div>
-
               <div className="d-flex mt-4 pl-4">
                 <h6>
                 <b>Ratings and Reviews</b>
                 </h6>
-               </div> 
-
+               </div>
                <RatingBar />
-            
-
         </div>
 
        
