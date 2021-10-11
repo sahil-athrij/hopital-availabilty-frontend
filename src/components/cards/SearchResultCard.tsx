@@ -13,6 +13,7 @@ import Phonecall from "../../images/phonecall.svg";
 import Videocall from "../../images/videocall.svg";
 import Routemap from "../../images/routemap.svg";
 import {Avatar} from "@mui/material";
+import Ekmmed from "../../images/ekmmed.svg"
 
 interface SearchCardsProps extends AuthPropsLoc {
     model: MarkerObject
@@ -27,7 +28,7 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
             <Link style={{textDecoration: "none"}} className='text-dark' to={"/details/" + this.props.model.id}>
                {/* Show hospital image */}
                 <Card className="cardstyle  flex-row mb-3 ">
-                <Avatar className="align-self-center" sx={{width:"37px",height:"37px"}} src={this.props.model.images[0]?.image}/>
+                <Avatar className="align-self-center" sx={{width:"37px",height:"37px"}} src={this.props.model.images[0]?.image?this.props.model.images[0]?.image:Ekmmed}/>
 
 
                     <Card.Body className="w-70 flex-1 bg-white text-left p-0 py-1">
