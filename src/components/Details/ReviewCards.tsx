@@ -22,6 +22,8 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import stars from "../../images/5stars.svg";
+import profile from "../../images/profile-image.svg"; 
 
 interface ReviewState {
   model: MarkerObject;
@@ -222,7 +224,13 @@ export default class ReviewCards extends Component<ReviewState> {
                     </div>
                   </div>
 
-
+                      <div className="d-flex mt-4 pl-4">
+                <h6>
+                <b>Ratings and Reviews</b>
+                </h6>
+               </div>
+               <RatingBar />
+        </div>
                   <div className="dpts-pic d-flex justify-content-between pl-3">
                     <div className="d-flex justify-content-between ">
                       <img className="pic m-2" src={icu} alt="dpt" />
