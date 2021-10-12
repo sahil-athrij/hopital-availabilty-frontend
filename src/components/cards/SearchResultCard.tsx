@@ -26,21 +26,22 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
 
         return (
             <Link style={{textDecoration: "none"}} className='text-dark' to={"/details/" + this.props.model.id}>
-               {/* Show hospital image */}
+                {/* Show hospital image */}
                 <Card className="cardstyle  flex-row mb-3 ">
-                <Avatar className="align-self-center" sx={{width:"37px",height:"37px"}} src={this.props.model.images[0]?.image?this.props.model.images[0]?.image:Ekmmed}/>
+                    <Avatar className="align-self-center" sx={{width: "37px", height: "37px"}}
+                            src={this.props.model.images[0]?.image ? this.props.model.images[0]?.image : Ekmmed}/>
 
 
                     <Card.Body className="w-70 flex-1 bg-white text-left p-0 py-1">
-                        <div    
-                                // Get hospital details and split it at first comma to get hospital name
+                        <div
+                            // Get hospital details and split it at first comma to get hospital name
                             className="mt-1 justify-content-between hospital-title">
-                            <div className="pr-5 w-100">
+                            <div className="w-75">
                                 {this.props.model.name != null ? this.props.model.name.split(',')[0] : ''}
                             </div>
                             <div className="ratingvalue d-flex align-items-center justify-content-between">
-                               {this.props.model.care_rating}
-                            <img alt={""} className="mr-4" src={SmallStar}/>
+                                {this.props.model.care_rating}
+                                <img alt={""}  src={SmallStar}/>
                             </div>
                         </div>
 
@@ -49,30 +50,29 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
                         <div className="d-flex address-container justify-content-between">
 
                             {/* fetching hospital address */}
-                        <div className={"hospital-address"}>
-                            {this.props.model.address.suburb && this.props.model.address.suburb + ' ,'}     
-                            {this.props.model.address.village && this.props.model.address.village + ' ,'}
-                            {this.props.model.address.state_district && this.props.model.address.state_district + ' ,'}
-                            {this.props.model.address.state && this.props.model.address.state}
-                        </div>
-
-
-
-                            <div className="container d-flex justify-content-between">
-                                  <div className="pvrtab">
-                                      <img src={Videocall}  alt=""/>
-                                  </div>
-                                <div className="pvrtab">
-                                    <img src={Phonecall}  alt=""/>
-                                </div>
-                                <div className="pvrtab">
-                                    <img src={Routemap}  alt=""/>
-                                </div>
-
+                            <div className={"hospital-address"}>
+                                {this.props.model.address.suburb && this.props.model.address.suburb + ' ,'}
+                                {this.props.model.address.village && this.props.model.address.village + ' ,'}
+                                {this.props.model.address.state_district && this.props.model.address.state_district + ' ,'}
+                                {this.props.model.address.state && this.props.model.address.state}
                             </div>
+
                         </div>
+                        <div className="container d-flex justify-content-between">
+                            <div className="pvrtab">
+                                <img src={Videocall} alt=""/>
+                            </div>
+                            <div className="pvrtab">
+                                <img src={Phonecall} alt=""/>
+                            </div>
+                            <div className="pvrtab">
+                                <img src={Routemap} alt=""/>
+                            </div>
+
+                        </div>
+
                         <span
-                            className="hospital-phone">{this.props.model.Phone !== '0000000000' && this.props.model.Phone}  {/*Fetching phone number if available*/}
+                            className="hospital-phone">{this.props.model.Phone !== '0000000000' && this.props.model.Phone} {/*Fetching phone number if available*/}
                     </span>
                         <Row className="w-100 justify-content-end m-0">
                             {this.props.model.Phone !== '0000000000' &&  //if phone number is available show phone icon and phone number
@@ -85,10 +85,10 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
 
                                 }}>
                             </div>}
-                            
-                            {/** 
+
+                            {/**
                              * Show route map option
-                            */}
+                             */}
                             <div
                                 className="d-flex justify-content-end button-container phone-button align-items-center flex-column"
                                 onClick={(event) => {
@@ -150,7 +150,7 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
         Marker.filter({search: query, lat: lat, lng: lng, limit: 10}).then((markers) => {
             let next = markers.next
             let results = markers.results
-            this.setState({models: results, next: next, reset: true, loc: loc, query: query,offset: 10})
+            this.setState({models: results, next: next, reset: true, loc: loc, query: query, offset: 10})
         })
 
         this.setState({reset: false})
@@ -170,7 +170,7 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
             this.props.updateParent()
             Marker.filter({search: query, lat: lat, lng: lng, limit: 10}).then((markers) => {
                 let {results, next} = markers
-                this.setState({models: results, next: next, reset: true, loc: loc, query: query,offset: 10})
+                this.setState({models: results, next: next, reset: true, loc: loc, query: query, offset: 10})
             })
             // this.setState({reset: false})
         }
