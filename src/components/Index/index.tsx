@@ -71,7 +71,7 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> {
                         Services
                         <img className="mr-4" src={BackRight} alt=""/>
                     </div>
-                    <div className="ml-2 container d-flex justify-content-between">
+                    <div className=" d-flex justify-content-between">
 
                         <div className="homecard">
                             <img src={Addhosp}  alt=""/>

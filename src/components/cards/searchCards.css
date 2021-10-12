@@ -12,6 +12,7 @@
     font-size: 18px;
     line-height: 18px;
     display: flex;
+    flex-wrap: wrap;
     color: #606267;
 
 

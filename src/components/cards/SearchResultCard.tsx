@@ -35,7 +35,7 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
                         <div    
                                 // Get hospital details and split it at first comma to get hospital name
                             className="mt-1 justify-content-between hospital-title">
-                            <div className="pr-5">
+                            <div className="pr-5 w-100">
                                 {this.props.model.name != null ? this.props.model.name.split(',')[0] : ''}
                             </div>
                             <div className="ratingvalue d-flex align-items-center justify-content-between">
