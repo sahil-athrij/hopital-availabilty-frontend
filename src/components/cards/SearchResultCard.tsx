@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Marker, MarkerObject} from "../../api/model";
-import {Card, Container, Row} from "react-bootstrap";
+import { Container} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {withRouter} from "react-router";
 import {getParam} from "../../api/QueryCreator";
@@ -15,6 +15,7 @@ import Routemap from "../../images/routemap.svg";
 import {Avatar} from "@mui/material";
 import Ekmmed from "../../images/ekmmed.svg"
 
+
 interface SearchCardsProps extends AuthPropsLoc {
     model: MarkerObject
 }
@@ -26,22 +27,25 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
 
         return (
             <Link style={{textDecoration: "none"}} className='text-dark' to={"/details/" + this.props.model.id}>
-                {/* Show hospital image */}
-                <Card className="cardstyle  flex-row mb-3 ">
-                    <Avatar className="align-self-center" sx={{width: "37px", height: "37px"}}
-                            src={this.props.model.images[0]?.image ? this.props.model.images[0]?.image : Ekmmed}/>
+               {/* Show hospital image */}
+                <div className="cardstyle  flex-row mb-3 justify-content-between d-flex">
+                    <div className="align-self-center">
+                <Avatar className="align-self-center" sx={{width:"37px",height:"37px",marginLeft:"10px"}} src={this.props.model.images[0]?.image?this.props.model.images[0]?.image:Ekmmed}/>
+                    </div>
 
 
-                    <Card.Body className="w-70 flex-1 bg-white text-left p-0 py-1">
+                    <div className="flex-grow-1 ml-3 flex-1 bg-white text-left align-self-center ">
                         <div
-                            // Get hospital details and split it at first comma to get hospital name
-                            className="mt-1 justify-content-between hospital-title">
+                                // Get hospital details and split it at first comma to get hospital name
+                            className="mt-3  justify-content-between hospital-title">
                             <div className="w-75">
                                 {this.props.model.name != null ? this.props.model.name.split(',')[0] : ''}
                             </div>
-                            <div className="ratingvalue d-flex align-items-center justify-content-between">
-                                {this.props.model.care_rating}
-                                <img alt={""}  src={SmallStar}/>
+                            <div className="ratingvalue d-flex  align-items-center justify-content-center">
+                                <div>
+                               {this.props.model.care_rating}
+                                </div>
+                            <img alt={""} className="staricon" src={SmallStar}/>
                             </div>
                         </div>
 
@@ -50,48 +54,38 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
                         <div className="d-flex address-container justify-content-between">
 
                             {/* fetching hospital address */}
-                            <div className={"hospital-address"}>
-                                {this.props.model.address.suburb && this.props.model.address.suburb + ' ,'}
-                                {this.props.model.address.village && this.props.model.address.village + ' ,'}
-                                {this.props.model.address.state_district && this.props.model.address.state_district + ' ,'}
-                                {this.props.model.address.state && this.props.model.address.state}
-                            </div>
-
-                        </div>
-                        <div className="container d-flex justify-content-between">
-                            <div className="pvrtab">
-                                <img src={Videocall} alt=""/>
-                            </div>
-                            <div className="pvrtab">
-                                <img src={Phonecall} alt=""/>
-                            </div>
-                            <div className="pvrtab">
-                                <img src={Routemap} alt=""/>
-                            </div>
-
+                        <div className={"hospital-address"}>
+                            {this.props.model.address.suburb && this.props.model.address.suburb + ' ,'}     
+                            {this.props.model.address.village && this.props.model.address.village + ' ,'}
+                            {this.props.model.address.state_district && this.props.model.address.state_district + ' ,'}
+                            {this.props.model.address.state && this.props.model.address.state}
                         </div>
 
-                        <span
-                            className="hospital-phone">{this.props.model.Phone !== '0000000000' && this.props.model.Phone} {/*Fetching phone number if available*/}
-                    </span>
-                        <Row className="w-100 justify-content-end m-0">
-                            {this.props.model.Phone !== '0000000000' &&  //if phone number is available show phone icon and phone number
-                            <div
-                                className="d-flex justify-content-end phone-button button-container align-items-center flex-column"
-                                onClick={(event) => {
+
+
+                            <div className="container d-flex justify-content-between">
+                                  <div className="pvrtab"  onClick={(event) => {
+                                      event.preventDefault()
+                                      event.stopPropagation()
+                                      alert("Will be available on next update")
+                                  }}>
+                                      <img src={Videocall}  alt=""/>
+                                  </div>
+                                {this.props.model.Phone !== '0000000000' ?
+                                (<div className="pvrtab"  onClick={(event) => {
                                     event.preventDefault()
                                     event.stopPropagation()
                                     document.location.href = 'tel:' + this.props.model.Phone;
 
+                                }}><img src={Phonecall}  alt=""/>
+                                    </div>):(<div className="pvrtab"  onClick={(event) => {
+                                    event.preventDefault()
+                                    event.stopPropagation()
+                                    alert("Mobile no is not available for selected hospital")
                                 }}>
-                            </div>}
-
-                            {/**
-                             * Show route map option
-                             */}
-                            <div
-                                className="d-flex justify-content-end button-container phone-button align-items-center flex-column"
-                                onClick={(event) => {
+                                    <img src={Phonecall}  alt=""/>
+                                </div>)}
+                                <div className="pvrtab"  onClick={(event) => {
                                     event.preventDefault()
                                     event.stopPropagation()
                                     const win = window.open(`https://www.google.com/maps/search/${this.props.model.name}/@${this.props.model.lat},${this.props.model.lng},19.88z`, "_blank");
@@ -99,17 +93,13 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
                                         win.focus();
                                     }
                                 }}>
+                                    <img src={Routemap}  alt=""/>
+                                </div>
 
-
-                                {/*<button className="button-holder text-center">*/}
-                                {/*    <RiDirectionLine size={20} className="text-primary"/>*/}
-                                {/*</button>*/}
-                                {/*Route Map*/}
                             </div>
-
-                        </Row>
-                    </Card.Body>
-                </Card>
+                        </div>
+                    </div>
+                </div>
             </Link>
 
         )

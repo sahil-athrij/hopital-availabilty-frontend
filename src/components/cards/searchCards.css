@@ -9,12 +9,11 @@
 
 .hospital-title {
     font-weight: 600;
-    font-size: 18px;
+    font-size: 16px;
     line-height: 18px;
     display: flex;
     flex-wrap: wrap;
     color: #606267;
-
 
 }
 
@@ -71,7 +70,7 @@
     background-position: center;
 }
 .cardstyle {
-    box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.0625);
+    box-shadow: 0 10px 60px rgba(0, 0, 0, 0.0625);
     border-radius: 20px;
     background: white;
     width: 100%;
@@ -95,4 +94,7 @@
     width: 51px;
     height: 38px;
 
+}
+.staricon {
+    margin-bottom: 1.5px;
 }
