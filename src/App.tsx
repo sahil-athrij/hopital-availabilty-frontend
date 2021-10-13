@@ -16,7 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './index.css'
 import './App.css'
 import {BottomNav} from "./components/NavBar/BottomNav";
-import {createMuiTheme} from "@mui/material/styles";
+
 import {ThemeProvider} from "@mui/styles";
 import {green, pink} from '@mui/material/colors';
 import {Privacy} from "./components/Privacy/Privacy";
@@ -27,9 +27,10 @@ import {AddDepartmentComponent} from "./components/AddDepartment/AddDepartment";
 import {Addpatient} from "./components/AddPatient/AddPatient";
 import {Givehelp} from "./components/GiveHelp/GiveHelp";
 import {AddHospitalReview} from './components/AddReview/AddHospitalReview';
+import { createTheme } from '@mui/material/styles';
 
 
-const theme = createMuiTheme({
+const theme = createTheme({
     palette: {
         primary: {
             main: '#0091ea',

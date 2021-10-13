@@ -97,7 +97,7 @@
     margin-top: 1.25rem;
 }
 .homecard {
-    width: 30%;
+    width: 31.5%;
     height: 145px;
     align-items: center;
     display: flex;
@@ -116,4 +116,11 @@
 #searchresults {
     padding-left: 0;
     padding-right: 0;
+}
+.cardtxt {
+    color: #222B45;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 1rem;
+    line-height: .8rem;
 }

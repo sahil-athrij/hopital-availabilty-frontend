@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Marker, MarkerObject} from "../../api/model";
-import {Card, Container, Row} from "react-bootstrap";
+import { Container, Row} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {withRouter} from "react-router";
 import {getParam} from "../../api/QueryCreator";
@@ -27,20 +27,24 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
         return (
             <Link style={{textDecoration: "none"}} className='text-dark' to={"/details/" + this.props.model.id}>
                {/* Show hospital image */}
-                <Card className="cardstyle  flex-row mb-3 ">
-                <Avatar className="align-self-center" sx={{width:"37px",height:"37px"}} src={this.props.model.images[0]?.image?this.props.model.images[0]?.image:Ekmmed}/>
+                <div className="cardstyle  flex-row mb-3 justify-content-between d-flex">
+                    <div className="align-self-center">
+                <Avatar className="align-self-center" sx={{width:"37px",height:"37px",marginLeft:"10px"}} src={this.props.model.images[0]?.image?this.props.model.images[0]?.image:Ekmmed}/>
+                    </div>
 
 
-                    <Card.Body className="w-70 flex-1 bg-white text-left p-0 py-1">
-                        <div    
+                    <div className="flex-grow-1 ml-3 flex-1 bg-white text-left align-self-center ">
+                        <div
                                 // Get hospital details and split it at first comma to get hospital name
-                            className="mt-1 justify-content-between hospital-title">
+                            className="mt-3  justify-content-between hospital-title">
                             <div className="pr-5">
                                 {this.props.model.name != null ? this.props.model.name.split(',')[0] : ''}
                             </div>
-                            <div className="ratingvalue d-flex align-items-center justify-content-between">
+                            <div className="ratingvalue d-flex  align-items-center justify-content-center">
+                                <div>
                                {this.props.model.care_rating}
-                            <img alt={""} className="mr-4" src={SmallStar}/>
+                                </div>
+                            <img alt={""} className="staricon mr-4" src={SmallStar}/>
                             </div>
                         </div>
 
@@ -108,8 +112,8 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
                             </div>
 
                         </Row>
-                    </Card.Body>
-                </Card>
+                    </div>
+                </div>
             </Link>
 
         )

@@ -13,10 +13,9 @@ import Righticon from "../../images/righticon.svg"
 import Addhosp from "../../images/addhospcard.svg"
 import Givehelp from "../../images/givehelpcard.svg"
 import Searchhosp from "../../images/searchhospcard.svg"
-// import Ambulance from "../../images/ambulance.svg"
-// import Medicine from "../../images/Medicine.svg"
-
-import BackRight from "../../images/backright.svg"
+import Ambulance from "../../images/ambulance.svg"
+import Medicine from "../../images/Medicine.svg"
+import Doc from "../../images/Doc.svg"
 
 interface IndexState extends AuthState {
     display: boolean
@@ -69,22 +68,37 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> {
                 <Container className="w-100">
                     <div className="servicehead text-left d-flex justify-content-between mb-3">
                         Services
-                        <img className="mr-4" src={BackRight} alt=""/>
                     </div>
-                    <div className="ml-2 container d-flex justify-content-between">
+                    <div className="container d-flex justify-content-between  p-0 align-self-center">
 
                         <div className="homecard">
                             <img src={Addhosp}  alt=""/>
+                            <div className="cardtxt ">Add Hospital</div>
                         </div>
                         <div className="homecard">
                             <img src={Givehelp}  alt=""/>
+                            <div className="cardtxt ">Give help</div>
                         </div>
                         <div className="homecard">
                             <img src={Searchhosp}  alt=""/>
+                            <div className="cardtxt m-0">Search Hospitals</div>
                         </div>
-
-
                         </div>
+                    <div className="container d-flex justify-content-between my-2 p-0 align-self-center">
+
+                        <div className="homecard d-flex flex-column ">
+                            <img src={Ambulance}  alt=""/>
+                            <div className="cardtxt ">Ambulance</div>
+                        </div>
+                        <div className="homecard">
+                            <img src={Medicine}  alt=""/>
+                            <div className="cardtxt ">Medicine</div>
+                        </div>
+                        <div className="homecard">
+                            <img src={Doc}  alt=""/>
+                            <div className="cardtxt">Doctor</div>
+                        </div>
+                    </div>
                 </Container>
 
                 <Container className="mb-5 pb-3 pt-3 text-left">
