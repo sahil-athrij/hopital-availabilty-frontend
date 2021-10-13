@@ -70,7 +70,6 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> {
                         Services
                     </div>
                     <div className="container d-flex justify-content-between  p-0 align-self-center">
-
                         <div className="homecard">
                             <img src={Addhosp}  alt=""/>
                             <div className="cardtxt ">Add Hospital</div>

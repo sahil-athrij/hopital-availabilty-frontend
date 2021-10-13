@@ -38,14 +38,14 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
                         <div
                                 // Get hospital details and split it at first comma to get hospital name
                             className="mt-3  justify-content-between hospital-title">
-                            <div className="pr-5">
+                            <div className="w-75">
                                 {this.props.model.name != null ? this.props.model.name.split(',')[0] : ''}
                             </div>
                             <div className="ratingvalue d-flex  align-items-center justify-content-center">
                                 <div>
                                {this.props.model.care_rating}
                                 </div>
-                            <img alt={""} className="staricon mr-4" src={SmallStar}/>
+                            <img alt={""} className="staricon" src={SmallStar}/>
                             </div>
                         </div>
 
@@ -140,7 +140,7 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
         Marker.filter({search: query, lat: lat, lng: lng, limit: 10}).then((markers) => {
             let next = markers.next
             let results = markers.results
-            this.setState({models: results, next: next, reset: true, loc: loc, query: query,offset: 10})
+            this.setState({models: results, next: next, reset: true, loc: loc, query: query, offset: 10})
         })
 
         this.setState({reset: false})
@@ -160,7 +160,7 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
             this.props.updateParent()
             Marker.filter({search: query, lat: lat, lng: lng, limit: 10}).then((markers) => {
                 let {results, next} = markers
-                this.setState({models: results, next: next, reset: true, loc: loc, query: query,offset: 10})
+                this.setState({models: results, next: next, reset: true, loc: loc, query: query, offset: 10})
             })
             // this.setState({reset: false})
         }
