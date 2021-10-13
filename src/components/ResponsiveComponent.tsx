@@ -9,34 +9,41 @@ export interface ResponsiveState {
 }
 
 export class ResponsiveComponent<P extends ResponsiveProps, S extends ResponsiveState, SS = any>
-    extends React.Component <P, S, SS> {
-    state: S
+    extends React.Component <P, S, SS> 
+{
+    state: S;
 
-    constructor(props: P) {
+    constructor(props: P) 
+    {
         super(props);
         // @ts-ignore
         this.state = {width: window.innerWidth};
     }
 
-    hashChange = () => {
-    }
-    hashPush = () => {
-    }
+    hashChange = () => 
+    {
+    };
+    hashPush = () => 
+    {
+    };
 
-    componentDidMount() {
-        window.addEventListener('resize', this.handleWindowSizeChange);
+    componentDidMount() 
+    {
+        window.addEventListener("resize", this.handleWindowSizeChange);
         window.addEventListener("popstate", this.hashChange, false);
     }
 
     // make sure to remove the listener
     // when the component is not mounted anymore
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.handleWindowSizeChange);
+    componentWillUnmount() 
+    {
+        window.removeEventListener("resize", this.handleWindowSizeChange);
         window.removeEventListener("popstate", this.hashChange, false);
 
     }
 
-    handleWindowSizeChange = () => {
+    handleWindowSizeChange = () => 
+    {
         if (window.innerWidth < 500 && this.state.width > 500)
             this.setState({width: 500});
         else if (window.innerWidth > 500 && this.state.width < 500)
@@ -44,7 +51,8 @@ export class ResponsiveComponent<P extends ResponsiveProps, S extends Responsive
 
     };
 
-    render() {
+    render() 
+    {
         return (
             <React.Fragment>
                 {this.props.children}

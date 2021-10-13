@@ -1,54 +1,54 @@
-import React from 'react';
-import {makeStyles, Theme, useTheme} from '@mui/material/styles';
-import MobileStepper from '@mui/material/MobileStepper';
+import React from "react";
+import {makeStyles, Theme, useTheme} from "@mui/material/styles";
+import MobileStepper from "@mui/material/MobileStepper";
 
-import Button from '@mui/material/Button';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import SwipeableViews from 'react-swipeable-views';
-import {autoPlay, virtualize} from 'react-swipeable-views-utils';
-import Hospital from '../../images/hospital.jpg';
-import Help from '../../images/help.jpg';
-import AddHospital from '../../images/addHospital.jpg';
-import GiveHelp from '../../images/giveHelp.jpg';
+import Button from "@mui/material/Button";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import SwipeableViews from "react-swipeable-views";
+import {autoPlay, virtualize} from "react-swipeable-views-utils";
+import Hospital from "../../images/hospital.jpg";
+import Help from "../../images/help.jpg";
+import AddHospital from "../../images/addHospital.jpg";
+import GiveHelp from "../../images/giveHelp.jpg";
 import {useHistory, useLocation, withRouter} from "react-router";
-import {withStyles} from "@mui/styles";
+import {withStyles, createStyles, WithStyles} from "@mui/styles";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
-import {createStyles, WithStyles} from "@mui/styles";
+
 
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const VirtualizeSwipeableViews = virtualize(AutoPlaySwipeableViews);
- /**
+/**
   * Describes about the details of Carosals
   * Array containing feautures of needmedi
   */
 const SliderSteps = [
     {
-        label: 'Search Hospitals',
-        description: 'Search for nearby top hospitals',
+        label: "Search Hospitals",
+        description: "Search for nearby top hospitals",
         imgPath: Hospital,
-        url: '#search'
+        url: "#search"
     },
     {
-        label: 'Request Help',
+        label: "Request Help",
         imgPath: Help,
-        description: 'Request Volunteers and friends for Medical Help',
-        url: '/addRequest'
+        description: "Request Volunteers and friends for Medical Help",
+        url: "/addRequest"
     },
     {
-        label: 'Add Hospital',
+        label: "Add Hospital",
         imgPath: AddHospital,
-        description: 'Add Hospital info so others can find help',
-        url: '/addHospital'
+        description: "Add Hospital info so others can find help",
+        url: "/addHospital"
 
     },
     {
-        label: 'Give Help',
+        label: "Give Help",
         imgPath: GiveHelp,
-        description: 'See Friends medical request and Help them if you can',
-        url: '/profile/'
+        description: "See Friends medical request and Help them if you can",
+        url: "/profile/"
     },
 
 ];
@@ -64,7 +64,7 @@ const styles = (theme: Theme) => createStyles({
         background: "#0091ea",
         // boxShadow: "1.33056px 1.33056px 3.99167px rgba(0, 0, 0, 0.1)",
         borderRadius: "30px",
-        overflow: 'hidden'
+        overflow: "hidden"
     },
     shadow: {
         position: "absolute",
@@ -74,7 +74,7 @@ const styles = (theme: Theme) => createStyles({
         filter: "blur(12px)",
         borderRadius: "16px",
         bottom: "25px",
-        width: '92%',
+        width: "92%",
     },
 
     top: {
@@ -85,14 +85,14 @@ const styles = (theme: Theme) => createStyles({
 
     },
     img: {
-        display: 'block',
+        display: "block",
         width: "145px",
         height: "150px",
         backgroundSize: "cover",
         backgroundPosition: "center",
         borderRadius: "0px 30px 30px 0px"
     },
-})
+});
 /**
  * @extends Authstate
  */
@@ -115,10 +115,12 @@ interface CarouselParams {
  * Displays the components of slidersteps in a swipable format
  */
 
-class SwipeableTextMobileStepperLoc extends AuthComponent<SwipeableTextMobileProps, SwipeableTextMobileState> {
-    constructor(props: SwipeableTextMobileProps) {
+class SwipeableTextMobileStepperLoc extends AuthComponent<SwipeableTextMobileProps, SwipeableTextMobileState> 
+{
+    constructor(props: SwipeableTextMobileProps) 
+    {
         super(props);
-        this.state = {...this.state, activeStep: 0}
+        this.state = {...this.state, activeStep: 0};
 
     }
     /**
@@ -126,21 +128,24 @@ class SwipeableTextMobileStepperLoc extends AuthComponent<SwipeableTextMobilePro
      * @param value: number
      */
 
-    setActiveStep = (value: number) => {
-        this.setState({activeStep: value})
-    }
+    setActiveStep = (value: number) => 
+    {
+        this.setState({activeStep: value});
+    };
     /**
      * Handles the next button related with the carousel
      */
 
-    handleNext = () => {
+    handleNext = () => 
+    {
         this.setActiveStep(this.state.activeStep + 1);
     };
     /**
      * Handles the back button related with the carousel
      */
 
-    handleBack = () => {
+    handleBack = () => 
+    {
         this.setActiveStep(this.state.activeStep - 1);
     };
 
@@ -150,28 +155,31 @@ class SwipeableTextMobileStepperLoc extends AuthComponent<SwipeableTextMobilePro
      * Return the first number if the number exceeds the maximum limit
      * @returns number 
      */
-    calcIndex = () => {
-        return Math.abs(this.state.activeStep - this.maxSteps * Math.floor(this.state.activeStep / this.maxSteps))
-    }
+    calcIndex = () => 
+    {
+        return Math.abs(this.state.activeStep - this.maxSteps * Math.floor(this.state.activeStep / this.maxSteps));
+    };
     /**
      * Functions to set a new state 
      * @param step number 
      */
 
-    handleStepChange = (step: number) => {
+    handleStepChange = (step: number) => 
+    {
         this.setActiveStep(step);
     };
     /**
      * Returns the individual carousels 
      * @returns { JSX.Element } Banners Component
      */
-    Carousel = ({key, index}: CarouselParams) => {
+    Carousel = ({key, index}: CarouselParams) => 
+    {
         const {classes} = this.props;
-        const dataIndex = this.calcIndex()
-        let step = SliderSteps[dataIndex]
+        const dataIndex = this.calcIndex();
+        const step = SliderSteps[dataIndex];
         return <div className="p-2 pb-4 d-flex align-items-center flex-column" key={key}>
           
-           {/* Only renders two cards before and after from the current card */}
+            {/* Only renders two cards before and after from the current card */}
 
             {Math.abs(this.state.activeStep - index) <= 2 ? (
                 <>
@@ -181,29 +189,31 @@ class SwipeableTextMobileStepperLoc extends AuthComponent<SwipeableTextMobilePro
                             <div><h4><b>{step.label}</b></h4></div>
                             <div><b>{step.description}</b></div>
                             <button className="py-0 mt-2 btn btn-light"
-                                    onClick={() => {
-                                        this.props.history.push(step.url)
-                                        this.props.history.push(step.url)
-                                        this.props.history.goBack()
-                                    }}
+                                onClick={() => 
+                                {
+                                    this.props.history.push(step.url);
+                                    this.props.history.push(step.url);
+                                    this.props.history.goBack();
+                                }}
                             ><b>&gt;{step.label}</b></button>
                         </div>
 
                         <div className={classes.img}
-                             style={{backgroundImage: `url(${step.imgPath})`}}/>
+                            style={{backgroundImage: `url(${step.imgPath})`}}/>
                     </div>
                     <div className={classes.shadow}/>
                 </>
             ) : null}
-        </div>
+        </div>;
 
-    }
+    };
     /**
      * Renders the swipable carousels
      * @returns { JSX.Element } Banners Component
      */
 
-    render() {
+    render() 
+    {
         const {classes} = this.props;
         return (
             <div className={classes.root}>
@@ -215,7 +225,7 @@ class SwipeableTextMobileStepperLoc extends AuthComponent<SwipeableTextMobilePro
                     slideRenderer={this.Carousel}
                     enableMouseEvents/>
     
-    {/**
+                {/**
      * Describes the bottom layer of banner
      */}
 

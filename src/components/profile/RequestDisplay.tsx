@@ -10,18 +10,21 @@ interface RequestDisplayProps extends AuthPropsLoc {
     request: PatientObject
 }
 
-class RequestDisplayLoc extends AuthComponent<RequestDisplayProps, AuthState> {
+class RequestDisplayLoc extends AuthComponent<RequestDisplayProps, AuthState> 
+{
 
-    render(): JSX.Element {
-        let {request} = this.props
+    render(): JSX.Element 
+    {
+        const {request} = this.props;
         return (
             <>
-                <button onClick={() => {
-                    this.props.history.push(`/profile/request/${request.id}`)
-                    this.props.history.push(`/profile/request/${request.id}`)
-                    this.props.history.goBack()
+                <button onClick={() => 
+                {
+                    this.props.history.push(`/profile/request/${request.id}`);
+                    this.props.history.push(`/profile/request/${request.id}`);
+                    this.props.history.goBack();
                 }}
-                        className={"neumorphic-input mt-3 w-100 btn text-left p-3 bg-white round-15 d-flex  flex-column"}>
+                className={"neumorphic-input mt-3 w-100 btn text-left p-3 bg-white round-15 d-flex  flex-column"}>
 
 
                     <div>
@@ -30,44 +33,47 @@ class RequestDisplayLoc extends AuthComponent<RequestDisplayProps, AuthState> {
                     <div className="d-flex flex-row justify-content-between w-100">
                         <div className="d-flex flex-column">
                             <div><b>Symptoms:</b></div>
-                            {request.symptoms.replace(/\n/g, ', ')}
+                            {request.symptoms.replace(/\n/g, ", ")}
                         </div>
                         <div className="d-flex flex-column">
 
                             <div><b>Conditions:</b></div>
                             <div>
                                 Covid Negative : {request.covidresult ? <IoCloseCircleSharp className="text-danger"/> :
-                                <IoCheckmarkCircleSharp className="text-primary"/>}
+                                    <IoCheckmarkCircleSharp className="text-primary"/>}
                             </div>
                         </div>
                     </div>
                 </button>
             </>
-        )
+        );
     }
 }
 
 
-export const RequestDisplay = withRouter(RequestDisplayLoc)
+export const RequestDisplay = withRouter(RequestDisplayLoc);
 
 
 interface RequestDetailsState extends AuthState {
     request?: PatientObject
 }
 
-class RequestDetailsLoc extends AuthComponent<AuthPropsLoc, RequestDetailsState> {
+class RequestDetailsLoc extends AuthComponent<AuthPropsLoc, RequestDetailsState> 
+{
 
-    async componentDidMount() {
+    async componentDidMount() 
+    {
         super.componentDidMount();
         //TODO: Fix Later
         // @ts-ignore
-        let {requestId} = this.props.match.params
-        let data = await Patient.get(requestId, {}, true)
-        this.setState({request: data as PatientObject})
+        const {requestId} = this.props.match.params;
+        const data = await Patient.get(requestId, {}, true);
+        this.setState({request: data as PatientObject});
     }
 
-    render() {
-        let {request} = this.state
+    render() 
+    {
+        const {request} = this.state;
         return <>
             {request ?
                 <Container className="pt-4 px-0 bg-grey min-vh-100">
@@ -84,12 +90,12 @@ class RequestDetailsLoc extends AuthComponent<AuthPropsLoc, RequestDetailsState>
                             <div><b>{request.address}</b></div>
                         </div>
                         <div className="w-75 py-1">Symptoms :
-                            <div><b>{request.symptoms.replace(/\n/g, ', ')}</b></div>
+                            <div><b>{request.symptoms.replace(/\n/g, ", ")}</b></div>
                         </div>
                         <div className="d-flex flex-row py-1">
                             <div className="w-50">
                                 <div>Start Date :</div>
-                                <b> {request.symdays.split('-').reverse().join('-')}</b>
+                                <b> {request.symdays.split("-").reverse().join("-")}</b>
                             </div>
                             <div className="w-50 align-items-start d-flex">
                                 <div className="align-items-center d-flex">Covid Negative :
@@ -117,7 +123,7 @@ class RequestDetailsLoc extends AuthComponent<AuthPropsLoc, RequestDetailsState>
                         <div className="d-flex flex-row py-1">
                             <div className="w-50">
                                 <span>CT scan Done :</span>
-                                <b>{request.ct ? 'Yes' : 'No'}</b>
+                                <b>{request.ct ? "Yes" : "No"}</b>
                             </div>
                             <div className="w-50"> CT Score : <b>{request.ctscore}</b></div>
                         </div>
@@ -126,9 +132,9 @@ class RequestDetailsLoc extends AuthComponent<AuthPropsLoc, RequestDetailsState>
                 <Container fluid={true} className="my-5 py-5 ">
                     <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
                 </Container>}
-        </>
+        </>;
 
     }
 }
 
-export const RequestDetails = withRouter(RequestDetailsLoc)
+export const RequestDetails = withRouter(RequestDetailsLoc);

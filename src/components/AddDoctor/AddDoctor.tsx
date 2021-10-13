@@ -13,7 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 import MobileTimePicker from "@mui/lab/MobileTimePicker";
 import TextField from "@mui/material/TextField";
 import Avatar from "@mui/material/Avatar";
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import {toast} from "react-toastify";
 
 
@@ -30,12 +30,14 @@ interface AddDoctorState extends AuthState {
     ready?: boolean
 }
 
-export class TimePickers extends Component<{ hospital: number, onChange: (times: Array<WorkingTime>) => void }, { times: Array<WorkingTime> }> {
+export class TimePickers extends Component<{ hospital: number, onChange: (times: Array<WorkingTime>) => void }, { times: Array<WorkingTime> }> 
+{
 
     days: Array<string>;
     time_template: WorkingTime;
 
-    constructor(props: { hospital: number, onChange: (times: Array<WorkingTime>) => void }) {
+    constructor(props: { hospital: number, onChange: (times: Array<WorkingTime>) => void }) 
+    {
         super(props);
 
         this.time_template = {
@@ -44,10 +46,11 @@ export class TimePickers extends Component<{ hospital: number, onChange: (times:
         };
         this.days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-        this.state = {times: [JSON.parse(JSON.stringify(this.time_template))]}
+        this.state = {times: [JSON.parse(JSON.stringify(this.time_template))]};
     }
 
-    handleChange(value: string | number, type: "starting_time" | "ending_time" | "day", key: number) {
+    handleChange(value: string | number, type: "starting_time" | "ending_time" | "day", key: number) 
+    {
         const {times} = this.state;
 
         // TODO: fix if ts is still broken
@@ -62,7 +65,8 @@ export class TimePickers extends Component<{ hospital: number, onChange: (times:
         this.props.onChange(times);
     }
 
-    render() {
+    render() 
+    {
         return (
             <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <TableContainer>
@@ -79,8 +83,8 @@ export class TimePickers extends Component<{ hospital: number, onChange: (times:
                                 <TableRow>
                                     <TableCell className="px-0 col-5 pr-1" component="th" scope="row">
                                         <TextField select fullWidth label="-" size="small"
-                                                   value={item.working_time.day}
-                                                   onChange={({target}) => this.handleChange(Number(target.value), "day", key)}>
+                                            value={item.working_time.day}
+                                            onChange={({target}) => this.handleChange(Number(target.value), "day", key)}>
                                             {this.days.map((day, key) => (
                                                 <MenuItem value={key}>{day}</MenuItem>)
                                             )
@@ -92,14 +96,14 @@ export class TimePickers extends Component<{ hospital: number, onChange: (times:
                                             value={item.working_time.starting_time}
                                             onChange={(value) => value && this.handleChange(value, "starting_time", key)}
                                             renderInput={(params) => <TextField {...params} label="-"
-                                                                                size="small"/>}
+                                                size="small"/>}
                                         /></TableCell>
                                     <TableCell className="px-0" align="right">
                                         <MobileTimePicker
                                             value={item.working_time.ending_time}
                                             onChange={(value) => value && this.handleChange(value, "ending_time", key)}
                                             renderInput={(params) => <TextField {...params} label="-"
-                                                                                size="small"/>}
+                                                size="small"/>}
                                         /></TableCell>
 
                                 </TableRow>
@@ -112,9 +116,11 @@ export class TimePickers extends Component<{ hospital: number, onChange: (times:
     }
 }
 
-class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState> {
+class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState> 
+{
 
-    async componentDidMount() {
+    async componentDidMount() 
+    {
         super.componentDidMount();
         // @ts-ignore
         const {hospital} = this.props.match.params;
@@ -127,8 +133,9 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState> {
         });
     }
 
-    saveDoctor = async () => {
-        console.log(this.state)
+    saveDoctor = async () => 
+    {
+        console.log(this.state);
         const toSend = this.state;
 
         toSend.user = null;
@@ -136,38 +143,42 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState> {
         toSend.working_time = toSend.working_time
             .filter(({working_time}) => working_time.day != null)
             .map(({
-                      working_time,
-                      hospital
-                  }) => {
+                working_time,
+                hospital
+            }) => 
+            {
                 return {
                     hospital,
                     working_time: {
-                        starting_time: new Date(working_time.starting_time as string).toTimeString().split(' ')[0],
-                        ending_time: new Date(working_time.ending_time as string).toTimeString().split(' ')[0],
+                        starting_time: new Date(working_time.starting_time as string).toTimeString().split(" ")[0],
+                        ending_time: new Date(working_time.ending_time as string).toTimeString().split(" ")[0],
                         day: working_time.day
                     }
-                }
+                };
             });
 
         if (this.state.name && this.state.phone_number)
             Doctor.create({...toSend, department: [toSend.department]})
-                .then(() => {
-                    this.props.history.push(`/details/${this.state.hospital}`)
-                    toast.success('thank you for the contribution', {
-                        position: 'bottom-center'
-                    })
-                }).catch((error) => {
-                toast.error(error.details, {
-                    position: 'bottom-center'
-                })
-            })
+                .then(() => 
+                {
+                    this.props.history.push(`/details/${this.state.hospital}`);
+                    toast.success("thank you for the contribution", {
+                        position: "bottom-center"
+                    });
+                }).catch((error) => 
+                {
+                    toast.error(error.details, {
+                        position: "bottom-center"
+                    });
+                });
         else
             toast.error("please enter the required details", {
-                position: 'bottom-center'
-            })
-    }
+                position: "bottom-center"
+            });
+    };
 
-    render() {
+    render() 
+    {
         return (
             this.state.ready ?
                 <div>
@@ -184,32 +195,32 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState> {
                     <div className="m-4">
 
                         <TextField className="mt-2" fullWidth variant="outlined" label="Name"
-                                   InputLabelProps={{shrink: true,}} size="small"
-                                   onChange={({target}) => this.setState({name: target.value})}/>
+                            InputLabelProps={{shrink: true, }} size="small"
+                            onChange={({target}) => this.setState({name: target.value})}/>
 
                         <TextField className="mt-4" fullWidth variant="outlined" select label="Department"
-                                   InputLabelProps={{shrink: true,}} size="small"
-                                   onChange={({target}) => this.setState({department: Number(target.value)})}>
+                            InputLabelProps={{shrink: true, }} size="small"
+                            onChange={({target}) => this.setState({department: Number(target.value)})}>
                             {this.state.allDepartments.map(({name, id}, i) =>
                                 <MenuItem value={id} key={i}>{name.name}</MenuItem>
                             )}
                             <MenuItem value={"add"} key={"add"}
-                                      onClick={() => this.props.history.push(`/department/add/${this.state.hospital}`)}>
+                                onClick={() => this.props.history.push(`/department/add/${this.state.hospital}`)}>
                                 Add New Department
                             </MenuItem>
                         </TextField>
 
                         <TextField className="mt-4" fullWidth variant="outlined" label="Years Of Experience"
-                                   InputLabelProps={{shrink: true,}} size="small"
-                                   onChange={({target}) => this.setState({experience: Number(target.value)})}/>
+                            InputLabelProps={{shrink: true, }} size="small"
+                            onChange={({target}) => this.setState({experience: Number(target.value)})}/>
                         <TextField className="mt-4" fullWidth variant="outlined" label="Contact Number"
-                                   InputLabelProps={{shrink: true,}} size="small"
-                                   onChange={({target}) => this.setState({phone_number: Number(target.value)})}/>
+                            InputLabelProps={{shrink: true, }} size="small"
+                            onChange={({target}) => this.setState({phone_number: Number(target.value)})}/>
                         <TimePickers hospital={this.state.hospital[0]}
-                                     onChange={(times) => this.setState({working_time: times})}/>
+                            onChange={(times) => this.setState({working_time: times})}/>
                         <TextField className="mt-4" fullWidth variant="outlined" label="Tell us more"
-                                   InputLabelProps={{shrink: true,}} size="small"
-                                   onChange={({target}) => this.setState({about: target.value})}/>
+                            InputLabelProps={{shrink: true, }} size="small"
+                            onChange={({target}) => this.setState({about: target.value})}/>
                     </div>
 
                 </div>
@@ -239,4 +250,4 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState> {
 }
 
 
-export const AddDoctorComponent = withRouter(AddDoctor)
+export const AddDoctorComponent = withRouter(AddDoctor);

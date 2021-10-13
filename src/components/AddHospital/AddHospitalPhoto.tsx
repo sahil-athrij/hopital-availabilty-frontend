@@ -11,9 +11,7 @@ interface AddHospitalPhotoProps {
     hspId: string
 }
 
-interface AddHospitalPhotoPropsLoc extends RouteComponentProps<AddHospitalPhotoProps> {
-
-}
+type AddHospitalPhotoPropsLoc = RouteComponentProps<AddHospitalPhotoProps>
 
 interface AddHospitalPhotoState extends AuthState {
     id: number,
@@ -25,78 +23,90 @@ interface AddHospitalPhotoState extends AuthState {
     done: boolean
 }
 
-export class AddHospitalPhotoLoc extends AuthComponent<AddHospitalPhotoPropsLoc, AddHospitalPhotoState> {
+export class AddHospitalPhotoLoc extends AuthComponent<AddHospitalPhotoPropsLoc, AddHospitalPhotoState> 
+{
     fileInput: React.RefObject<HTMLInputElement>;
 
 
-    constructor(props: AddHospitalPhotoPropsLoc) {
+    constructor(props: AddHospitalPhotoPropsLoc) 
+    {
         super(props);
         this.state = {
             ...this.state,
             id: 0,
             ready: false,
             done: false
-        }
+        };
         this.fileInput = React.createRef();
     }
 
-    async refreshReviews() {
-        this.setState({ready: false})
+    async refreshReviews() 
+    {
+        this.setState({ready: false});
 
-        let {hspId} = this.props.match.params
-        let marker = await Marker.get(hspId) as MarkerObject
+        const {hspId} = this.props.match.params;
+        const marker = await Marker.get(hspId) as MarkerObject;
 
-        this.setState({model: marker, ready: true})
+        this.setState({model: marker, ready: true});
 
     }
 
-    async componentDidMount() {
-        super.componentDidMount()
-        await this.refreshReviews()
+    async componentDidMount() 
+    {
+        super.componentDidMount();
+        await this.refreshReviews();
     }
 
-    handleFile = (event: ChangeEvent<HTMLInputElement>) => {
+    handleFile = (event: ChangeEvent<HTMLInputElement>) => 
+    {
         event.preventDefault();
-        console.log(event.target.value)
+        console.log(event.target.value);
 
-        let reader = new FileReader();
-        let file = event.target.files?.[0];
-        if (file) {
+        const reader = new FileReader();
+        const file = event.target.files?.[0];
+        if (file) 
+        {
 
-            reader.onloadend = () => {
+            reader.onloadend = () => 
+            {
                 this.setState({
                     file: file,
                     imagePreviewUrl: reader.result,
                     done: false
                 });
 
-            }
-            reader.readAsDataURL(file)
+            };
+            reader.readAsDataURL(file);
 
 
         }
-    }
-    handleClick = () => {
-        console.log(this.fileInput.current?.click())
-    }
-    handleSubmit = () => {
-        this.state.model.addPhoto(this.state.file as File).then((r) => {
-            console.log(r)
-            toast.success('Thank you For Uploading Image', {
-                position: 'bottom-center'
-            })
-            this.setState({done:true})
+    };
+    handleClick = () => 
+    {
+        console.log(this.fileInput.current?.click());
+    };
+    handleSubmit = () => 
+    {
+        this.state.model.addPhoto(this.state.file as File).then((r) => 
+        {
+            console.log(r);
+            toast.success("Thank you For Uploading Image", {
+                position: "bottom-center"
+            });
+            this.setState({done:true});
 
-        }).catch(async (e) => {
-            let message = await e.json()
-            console.log(message)
+        }).catch(async (e) => 
+        {
+            const message = await e.json();
+            console.log(message);
             toast.error(message.detail, {
-                position: 'bottom-center'
-            })
-        })
-    }
+                position: "bottom-center"
+            });
+        });
+    };
 
-    render() {
+    render() 
+    {
         return this.state.ready ?
             <div className="bg-grey d-flex flex-column   min-vh-100">
 
@@ -115,7 +125,7 @@ export class AddHospitalPhotoLoc extends AuthComponent<AddHospitalPhotoPropsLoc,
 
                                 <>
                                     <img src={this.state.imagePreviewUrl as string} alt="upload"
-                                         className={"w-100 rounded"}/>
+                                        className={"w-100 rounded"}/>
                                     <div>{this.state.file.name}</div>
                                 </>
                                 : <>
@@ -129,11 +139,14 @@ export class AddHospitalPhotoLoc extends AuthComponent<AddHospitalPhotoPropsLoc,
                         </div>
                         {this.state.file &&
                         (this.state.done ?
-                                <button className="btn-success btn blue-gradient rounder ml-auto mr-auto w-50"
-                                onClick={()=>{this.props.history.goBack()}}
-                                >Go Back</button> :
-                                <button className="btn-success btn green-gradient rounder ml-auto mr-auto w-50"
-                                        onClick={this.handleSubmit}>Submit</button>
+                            <button className="btn-success btn blue-gradient rounder ml-auto mr-auto w-50"
+                                onClick={()=>
+                                {
+                                    this.props.history.goBack();
+                                }}
+                            >Go Back</button> :
+                            <button className="btn-success btn green-gradient rounder ml-auto mr-auto w-50"
+                                onClick={this.handleSubmit}>Submit</button>
                         )}
                     </div>
                 </Container>
@@ -143,8 +156,8 @@ export class AddHospitalPhotoLoc extends AuthComponent<AddHospitalPhotoPropsLoc,
             <Container fluid={true} className="my-5 py-5 ">
                 <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
             </Container>
-            ;
+        ;
     }
 }
 
-export const AddHospitalPhoto = withRouter(AddHospitalPhotoLoc)
+export const AddHospitalPhoto = withRouter(AddHospitalPhotoLoc);

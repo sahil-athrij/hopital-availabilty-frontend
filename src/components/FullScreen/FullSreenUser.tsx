@@ -9,7 +9,7 @@ import {FullScreenShare} from "./FullScreenShare";
 import React from "react";
 import {FullScreenLocationProps} from "./FullScreenLocation";
 
-import './location.css'
+import "./location.css";
 
 
 interface MenuBoxProps extends AuthPropsLoc {
@@ -18,8 +18,10 @@ interface MenuBoxProps extends AuthPropsLoc {
 }
 
 
-export class AnonMenuBoxLoc extends AuthComponent<MenuBoxProps, AuthState> {
-    render() {
+export class AnonMenuBoxLoc extends AuthComponent<MenuBoxProps, AuthState> 
+{
+    render() 
+    {
 
         return (
             <div className="w-100">
@@ -33,22 +35,24 @@ export class AnonMenuBoxLoc extends AuthComponent<MenuBoxProps, AuthState> {
                 </div>
                 <div className="d-flex flex-column border-bottom w-100">
                     <Link className="d-flex flex-row align-items-center text-dark my-2"
-                          onClick={() => {
-                              // two push required to counteract goBack
-                              this.props.history.replace('/')
-                              this.props.history.push('/')
-                              this.props.close()
-                          }}>
+                        onClick={() => 
+                        {
+                            // two push required to counteract goBack
+                            this.props.history.replace("/");
+                            this.props.history.push("/");
+                            this.props.close();
+                        }}>
                         <AiFillHome size={25}/>
                         <p className="px-3 m-0">Home</p>
                     </Link>
                     <Link className="d-flex flex-row align-items-center text-dark my-2"
-                          onClick={() => {
-                              // two push required to counteract goBack
-                              this.props.history.replace('/addHospital')
-                              this.props.history.push('/addHospital')
-                              this.props.close()
-                          }}
+                        onClick={() => 
+                        {
+                            // two push required to counteract goBack
+                            this.props.history.replace("/addHospital");
+                            this.props.history.push("/addHospital");
+                            this.props.close();
+                        }}
                     >
                         <AiOutlinePlusCircle size={25}/>
                         <p className="px-3 m-0">Add Hospitals</p>
@@ -64,7 +68,7 @@ export class AnonMenuBoxLoc extends AuthComponent<MenuBoxProps, AuthState> {
                     </button>
                 </Container>
             </div>
-        )
+        );
     }
 }
 
@@ -72,26 +76,33 @@ interface UserMenuBoxState extends AuthState {
     show_share: boolean
 }
 
-class UserMenuBoxLoc extends AuthComponent<MenuBoxProps, UserMenuBoxState> {
-    constructor(props: MenuBoxProps) {
+class UserMenuBoxLoc extends AuthComponent<MenuBoxProps, UserMenuBoxState> 
+{
+    constructor(props: MenuBoxProps) 
+    {
         super(props);
         this.state = {
             ...this.state,
             show_share: false
-        }
+        };
     }
 
-    hashChange = () => {
-        if (!this.props.location.hash.includes('share')) {
-            this.setState({show_share: false})
-        } else {
-            this.setState({show_share: true})
-        }
-    }
+    hashChange = () => 
+    {
+        if (!this.props.location.hash.includes("share")) 
+        
+            this.setState({show_share: false});
+        
+        else 
+        
+            this.setState({show_share: true});
+        
+    };
 
-    render() {
-        let {user} = this.state
-        let currentLocation = this.props.location.search + this.props.location.hash
+    render() 
+    {
+        const {user} = this.state;
+        const currentLocation = this.props.location.search + this.props.location.hash;
 
 
         return (
@@ -100,47 +111,51 @@ class UserMenuBoxLoc extends AuthComponent<MenuBoxProps, UserMenuBoxState> {
 
                     <IoPersonCircle className=" text-dark mr-2" size={100}/>
                     <button className="d-flex flex-column text-left justify-content-center line-height-small"
-                            onClick={() => {
-                                // two push required to counteract goBack
-                                this.props.history.replace('/profile')
-                                this.props.history.push('/profile')
-                                this.props.close()
-                            }}
+                        onClick={() => 
+                        {
+                            // two push required to counteract goBack
+                            this.props.history.replace("/profile");
+                            this.props.history.push("/profile");
+                            this.props.close();
+                        }}
                     >
                         <p className="m-0">Hello,</p>
-                        <strong className="m-0 h3 py-1"><b>{user ? user.username : ''}</b></strong>
+                        <strong className="m-0 h3 py-1"><b>{user ? user.username : ""}</b></strong>
                         <p className="m-0 underline">View profile</p>
                     </button>
                 </div>
                 <div className="d-flex flex-column border-bottom w-100  font-weight-bold">
                     <Link className="d-flex flex-row align-items-center text-dark my-2"
-                          onClick={() => {
-                              // two push required to counteract goBack
-                              this.props.history.replace('/')
-                              this.props.history.push('/')
-                              this.props.close()
-                          }}>
+                        onClick={() => 
+                        {
+                            // two push required to counteract goBack
+                            this.props.history.replace("/");
+                            this.props.history.push("/");
+                            this.props.close();
+                        }}>
                         <AiFillHome size={25}/>
                         <p className="px-3 m-0">Home</p>
                     </Link>
                     <Link className="d-flex flex-row align-items-center text-dark my-2"
-                          onClick={() => {
-                              // two push required to counteract goBack
-                              this.props.history.replace('//addRequest')
-                              this.props.history.push('//addRequest')
-                              this.props.close()
-                          }}>
+                        onClick={() => 
+                        {
+                            // two push required to counteract goBack
+                            this.props.history.replace("//addRequest");
+                            this.props.history.push("//addRequest");
+                            this.props.close();
+                        }}>
                         <FaHandsHelping size={25}/>
                         <p className="px-3 m-0">Request Help</p>
                     </Link>
                     <Link className="d-flex flex-row align-items-center text-dark my-2"
 
-                          onClick={() => {
-                              // two push required to counteract goBack
-                              this.props.history.replace('/addHospital')
-                              this.props.history.push('/addHospital')
-                              this.props.close()
-                          }}
+                        onClick={() => 
+                        {
+                            // two push required to counteract goBack
+                            this.props.history.replace("/addHospital");
+                            this.props.history.push("/addHospital");
+                            this.props.close();
+                        }}
                     >
                         <AiOutlinePlusCircle size={25}/>
                         <p className="px-3 m-0">Add Hospitals</p>
@@ -153,49 +168,55 @@ class UserMenuBoxLoc extends AuthComponent<MenuBoxProps, UserMenuBoxState> {
 
 
                 <Container fluid={true} className="bg-white justify-content-between p-3">
-                    <button className="btn btn-primary blue-gradient  rounder  w-100 p-2" onClick={() => {
-                        this.props.history.push(currentLocation + "#share")
-                        this.setState({show_share: !this.state.show_share})
+                    <button className="btn btn-primary blue-gradient  rounder  w-100 p-2" onClick={() => 
+                    {
+                        this.props.history.push(currentLocation + "#share");
+                        this.setState({show_share: !this.state.show_share});
                     }}>
                         Invite Friends
                     </button>
                 </Container>
                 <Container fluid={true} className="bg-white justify-content-between p-3">
-                    <button className="btn btn-dark rounder w-100 p-2" onClick={() => {
-                        this.removeAuth()
-                        window.location.href = '/'
+                    <button className="btn btn-dark rounder w-100 p-2" onClick={() => 
+                    {
+                        this.removeAuth();
+                        window.location.href = "/";
 
                     }}>
                         Logout
                     </button>
                 </Container>
                 <CSSTransition classNames="filter-screen" in={this.state.show_share} timeout={300}
-                               unmountOnExit>
+                    unmountOnExit>
                     <FullScreenShare
-                        url={`${reactUrl}/invite?invite=${user ? user.tokens.private_token : ''}`}
-                        close={() => {
-                            this.props.history.goBack()
-                            this.setState({show_share: false})
+                        url={`${reactUrl}/invite?invite=${user ? user.tokens.private_token : ""}`}
+                        close={() => 
+                        {
+                            this.props.history.goBack();
+                            this.setState({show_share: false});
                         }}/>
                 </CSSTransition>
             </div>
-        )
+        );
     }
 }
 
-export const UserMenuBox = withRouter(UserMenuBoxLoc)
-export const AnonMenuBox = withRouter(AnonMenuBoxLoc)
+export const UserMenuBox = withRouter(UserMenuBoxLoc);
+export const AnonMenuBox = withRouter(AnonMenuBoxLoc);
 
 
-export class FullScreenUser extends AuthComponent<FullScreenLocationProps, AuthState> {
+export class FullScreenUser extends AuthComponent<FullScreenLocationProps, AuthState> 
+{
 
-    render() {
+    render() 
+    {
 
         return (<div className="fixed-top w-100 z-index-1031 h-100 bg-white header">
 
             <Container fluid={true} className="py-3 bg-grey justify-content-start">
-                <button className="BlueBackground p-2" onClick={() => {
-                    this.props.close()
+                <button className="BlueBackground p-2" onClick={() => 
+                {
+                    this.props.close();
                 }}>
                     <Back/>
                 </button>
@@ -210,7 +231,7 @@ export class FullScreenUser extends AuthComponent<FullScreenLocationProps, AuthS
                     <AnonMenuBox close={this.props.close}/>
                 }
             </Container>
-        </div>)
+        </div>);
     }
 }
 

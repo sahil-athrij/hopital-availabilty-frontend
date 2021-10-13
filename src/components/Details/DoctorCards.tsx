@@ -1,11 +1,11 @@
 import React, {Component} from "react";
-import {Link} from 'react-router-dom';
-import './details.css'
+import {Link} from "react-router-dom";
+import "./details.css";
 
 import {DoctorObject} from "../../api/model";
 import doctor_fallback from "./icons/doctor-fallback.png";
 import {Container} from "react-bootstrap";
-import starsvg from '../../images/star.svg';
+import starsvg from "../../images/star.svg";
 
 import search_icon from "./icons/search-icon.svg";
 import {BigBlueButton} from "../Utils";
@@ -16,13 +16,16 @@ interface CardProps {
 }
 
 
-class Card extends React.Component<CardProps, { open: boolean }> {
-    constructor(props: CardProps) {
+class Card extends React.Component<CardProps, { open: boolean }> 
+{
+    constructor(props: CardProps) 
+    {
         super(props);
-        this.setState({open: false})
+        this.setState({open: false});
     }
 
-    render() {
+    render() 
+    {
         return (
             <div className="m-2 doctor-card ">
                 <Link to={`/doctor/${this.props.model.id}`}>
@@ -30,10 +33,10 @@ class Card extends React.Component<CardProps, { open: boolean }> {
                         <div>
                             <div>
                                 <img className="Doc-icon"
-                                     src={this.props.model.image || doctor_fallback}
-                                     alt={""}
-                                     width={"80px"}
-                                     height={"80px"}
+                                    src={this.props.model.image || doctor_fallback}
+                                    alt={""}
+                                    width={"80px"}
+                                    height={"80px"}
                                 />
                                 <div className="nunito-black-ebony-clay-16px">
                                     {this.props.model.name}
@@ -56,9 +59,11 @@ class Card extends React.Component<CardProps, { open: boolean }> {
 }
 
 
-export class DoctorCards extends Component<{ models: DoctorObject[], hospital: number }, {}> {
+export class DoctorCards extends Component<{ models: DoctorObject[], hospital: number }, {}> 
+{
 
-    render() {
+    render() 
+    {
         return (
             <div>{this.props.models.length ?
                 <Link to="#searchDoctor" className="searchbar d-flex flex-row mb-3">
@@ -71,19 +76,19 @@ export class DoctorCards extends Component<{ models: DoctorObject[], hospital: n
                     />
                     <div className="search-for-doctors col-10 text-left pl-0">Search For Doctors</div>
                 </Link>:null}
-                <Container className="doc-container">
+            <Container className="doc-container">
 
-                    <div className="doc-subc">
+                <div className="doc-subc">
 
-                        {this.props.models.map((model, i) => <Card model={model} key={i}/>)}
+                    {this.props.models.map((model, i) => <Card model={model} key={i}/>)}
 
-                    </div>
-                    <Link to={`/doctor/add/${this.props.hospital}`}>
-                        <BigBlueButton text="Add Doctor"/>
-                    </Link>
-                </Container>
+                </div>
+                <Link to={`/doctor/add/${this.props.hospital}`}>
+                    <BigBlueButton text="Add Doctor"/>
+                </Link>
+            </Container>
             </div>
-        )
+        );
     }
 }
 

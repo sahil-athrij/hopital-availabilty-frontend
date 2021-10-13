@@ -1,12 +1,13 @@
 import {getAuth} from "./auth";
 import {ModelRegistry} from "./model";
 
-export const baseUrl = "https://needmedi.com"
+export const baseUrl = "https://needmedi.com";
 // export const baseUrl = "http://127.0.0.1:8000" 
 // export const baseUrl = "http://10.147.19.91:8080"
 
 
-export async function get(url: string, kwargs = {}, headers = {}) {
+export async function get(url: string, kwargs = {}, headers = {}) 
+{
     const response = await fetch(url + "?" + new URLSearchParams(kwargs),
         {
             headers: {
@@ -14,68 +15,83 @@ export async function get(url: string, kwargs = {}, headers = {}) {
             }
         }
     );
-    if (response.status > 300) {
-        throw (response)
-    } else {
+    if (response.status > 300) 
+    
+        throw (response);
+    
+    else 
+    {
 
-        console.log(response)
-        return response.json()
+        console.log(response);
+        return response.json();
     }
 }
 
-export async function post(url: RequestInfo, kwargs = {}, headers = {}) {
+export async function post(url: RequestInfo, kwargs = {}, headers = {}) 
+{
     const response = await fetch(url, {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            headers: {
-                'Content-Type': 'application/json',
-                ...headers
-            },
-            body: JSON.stringify(kwargs)
-        }
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json",
+            ...headers
+        },
+        body: JSON.stringify(kwargs)
+    }
     );
-    if (response.status > 300) {
-        throw (response)
-    } else {
+    if (response.status > 300) 
+    
+        throw (response);
+    
+    else 
+    {
 
-        console.log(response)
-        return response.json()
+        console.log(response);
+        return response.json();
     }
 }
 
-export async function filePost(url: RequestInfo, formData: FormData, headers = {}) {
+export async function filePost(url: RequestInfo, formData: FormData, headers = {}) 
+{
     const response = await fetch(url, {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            headers: {
-                ...headers
-            },
-            body: formData
-        }
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            ...headers
+        },
+        body: formData
+    }
     );
-    if (response.status > 300) {
-        throw (response)
-    } else {
-        console.log(response)
-        return response.json()
+    if (response.status > 300) 
+    
+        throw (response);
+    
+    else 
+    {
+        console.log(response);
+        return response.json();
     }
 }
 
 
-export async function patch(url: RequestInfo, kwargs = {}, headers = {}) {
+export async function patch(url: RequestInfo, kwargs = {}, headers = {}) 
+{
     const response = await fetch(url, {
-            method: 'PATCH', // *GET, POST, PUT, DELETE, etc.
-            headers: {
-                'Content-Type': 'application/json',
-                ...headers
-            },
-            body: JSON.stringify(kwargs)
-        }
+        method: "PATCH", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json",
+            ...headers
+        },
+        body: JSON.stringify(kwargs)
+    }
     );
-    if (response.status > 300) {
-        throw (response)
-    } else {
+    if (response.status > 300) 
+    
+        throw (response);
+    
+    else 
+    {
 
-        console.log(response)
-        return response.json()
+        console.log(response);
+        return response.json();
     }
 }
 
@@ -84,129 +100,156 @@ export interface ModelData {
 }
 
 
-export class ModelObject {
+export class ModelObject 
+{
     data;
     baseUrl;
     id: number;
-    fields: string[] = ['id'];
+    fields: string[] = ["id"];
 
-    constructor(data: ModelData, baseUrl: string) {
-        this.data = data
-        this.id = data.id as number
-        this.baseUrl = baseUrl
+    constructor(data: ModelData, baseUrl: string) 
+    {
+        this.data = data;
+        this.id = data.id as number;
+        this.baseUrl = baseUrl;
 
     }
 
-    getData() {
-        let self = this
-        this.fields.forEach(item => {
+    getData() 
+    {
+        const self = this;
+        this.fields.forEach(item => 
+        {
             //TODO: Fix TS ignore
             // @ts-ignore
-            self[item] = self.data[item]
-        })
+            self[item] = self.data[item];
+        });
     }
 
-    setData() {
-        let self = this
-        this.fields.forEach(item => {
+    setData() 
+    {
+        const self = this;
+        this.fields.forEach(item => 
+        {
             //TODO: Fix TS ignore
             // @ts-ignore
-            self.data[item] = self[item]
-        })
+            self.data[item] = self[item];
+        });
     }
 
-    save = async () => {
-        this.setData()
-        let headers = {'Authorization': `Bearer ${getAuth()}`}
-        return patch(`${this.baseUrl}${this.id}/`, this.data, headers)
-    }
+    save = async () => 
+    {
+        this.setData();
+        const headers = {"Authorization": `Bearer ${getAuth()}`};
+        return patch(`${this.baseUrl}${this.id}/`, this.data, headers);
+    };
 
 }
 
 
-export default class Model {
+export default class Model 
+{
     baseurl: string;
     modelClass: ModelRegistry;
 
-    constructor(baseUrl: string, modelClass: ModelRegistry) {
-        this.baseurl = baseUrl
-        this.modelClass = modelClass
+    constructor(baseUrl: string, modelClass: ModelRegistry) 
+    {
+        this.baseurl = baseUrl;
+        this.modelClass = modelClass;
     }
 
 
-    get = async (id: number | string, kwargs: {} = {},auth=false) => {
+    get = async (id: number | string, kwargs: {} = {}, auth=false) => 
+    {
         let headers = {};
 
-        if (auth) {
-            headers = {'Authorization': `Bearer ${getAuth()}`}
-        }
-        let data = await get(`${this.baseurl}${id}/`, kwargs,headers)
-        return new this.modelClass(data, this.baseurl)
+        if (auth) 
+        
+            headers = {"Authorization": `Bearer ${getAuth()}`};
+        
+        const data = await get(`${this.baseurl}${id}/`, kwargs, headers);
+        return new this.modelClass(data, this.baseurl);
 
     };
 
-    filter = async (kwargs = {}, auth = false) => {
-        try {
+    filter = async (kwargs = {}, auth = false) => 
+    {
+        try 
+        {
             let headers = {};
 
-            if (auth) {
-                headers = {'Authorization': `Bearer ${getAuth()}`}
-            }
-            let data = await get(`${this.baseurl}`, kwargs, headers)
+            if (auth) 
+            
+                headers = {"Authorization": `Bearer ${getAuth()}`};
+            
+            const data = await get(`${this.baseurl}`, kwargs, headers);
             //TODO: add return type
             let lst: any[];
             lst = [];
-            data.results.forEach((item: ModelData) => {
-                let obj = new this.modelClass(item, this.baseurl)
-                lst.push(obj)
-            })
-            return {results: lst, next: data.next}
-        } catch (e) {
+            data.results.forEach((item: ModelData) => 
+            {
+                const obj = new this.modelClass(item, this.baseurl);
+                lst.push(obj);
+            });
+            return {results: lst, next: data.next};
+        }
+        catch (e) 
+        {
             let errors;
-            errors = e
-            console.log(errors)
-            throw errors
+            errors = e;
+            console.log(errors);
+            throw errors;
 
         }
     };
     /*path doesn't need /
     * */
-    action_general = async (path: string, kwargs = {}, auth = false) => {
-        try {
+    action_general = async (path: string, kwargs = {}, auth = false) => 
+    {
+        try 
+        {
             let headers = {};
-            if (auth) {
-                headers = {'Authorization': `Bearer ${getAuth()}`}
-            }
-            let data = await get(`${this.baseurl}${path}`, kwargs, headers)
+            if (auth) 
+            
+                headers = {"Authorization": `Bearer ${getAuth()}`};
+            
+            const data = await get(`${this.baseurl}${path}`, kwargs, headers);
             //TODO: add return type
             let lst: any[];
             lst = [];
-            data.results.forEach((item: ModelData) => {
-                let obj = new this.modelClass(item, this.baseurl)
-                lst.push(obj)
-            })
-            return {results: lst, next: data.next}
-        } catch (e) {
+            data.results.forEach((item: ModelData) => 
+            {
+                const obj = new this.modelClass(item, this.baseurl);
+                lst.push(obj);
+            });
+            return {results: lst, next: data.next};
+        }
+        catch (e) 
+        {
             let errors;
-            errors = e
-            console.log(errors)
-            throw errors
+            errors = e;
+            console.log(errors);
+            throw errors;
         }
     };
 
     /**
      * @param {{}} kwargs
      */
-    async create(kwargs = {}) {
-        try {
-            let headers = {'Authorization': `Bearer ${getAuth()}`}
-            let data = await post(`${this.baseurl}`, kwargs, headers)
-            return new this.modelClass(data, this.baseurl)
-        } catch (e) {
+    async create(kwargs = {}) 
+    {
+        try 
+        {
+            const headers = {"Authorization": `Bearer ${getAuth()}`};
+            const data = await post(`${this.baseurl}`, kwargs, headers);
+            return new this.modelClass(data, this.baseurl);
+        }
+        catch (e) 
+        {
             let errors;
-            errors = await (e as {json: () => Promise<any>}).json()
-            console.log(errors)
-            throw errors
+            errors = await (e as {json: () => Promise<any>}).json();
+            console.log(errors);
+            throw errors;
         }
     }
 

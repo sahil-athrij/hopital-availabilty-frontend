@@ -1,7 +1,7 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'antd/dist/antd.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "antd/dist/antd.css";
 
-import {NavBar} from './components/NavBar/navBar';
+import {NavBar} from "./components/NavBar/navBar";
 import {Index} from "./components/Index";
 import React from "react";
 import {Route, RouteComponentProps, Switch, withRouter} from "react-router";
@@ -11,29 +11,29 @@ import {Details} from "./components/Details/Details";
 import {HandleInvite, HandleToken, refresh_user} from "./api/auth";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import {Profile} from "./components/profile/Profile";
-import {ToastContainer} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import './index.css'
-import './App.css'
+import {ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./index.css";
+import "./App.css";
 import {BottomNav} from "./components/NavBar/BottomNav";
 
 import {ThemeProvider} from "@mui/styles";
-import {green, pink} from '@mui/material/colors';
+import {green, pink} from "@mui/material/colors";
 import {Privacy} from "./components/Privacy/Privacy";
 import {Add} from "./components/AddHospital/Add";
-import {DoctorComponent} from './components/Doctor/Doctor';
-import {AddDoctorComponent} from './components/AddDoctor/AddDoctor';
+import {DoctorComponent} from "./components/Doctor/Doctor";
+import {AddDoctorComponent} from "./components/AddDoctor/AddDoctor";
 import {AddDepartmentComponent} from "./components/AddDepartment/AddDepartment";
 import {Addpatient} from "./components/AddPatient/AddPatient";
 import {Givehelp} from "./components/GiveHelp/GiveHelp";
-import {AddHospitalReview} from './components/AddReview/AddHospitalReview';
-import { createTheme } from '@mui/material/styles';
+import {AddHospitalReview} from "./components/AddReview/AddHospitalReview";
+import { createTheme } from "@mui/material/styles";
 
 
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#0091ea',
+            main: "#0091ea",
         },
         secondary: pink,
         success: green,
@@ -45,48 +45,51 @@ interface AppRouterProps {
 
 }
 
-interface AppProps extends RouteComponentProps<AppRouterProps> {
-    // Add your regular properties here
-}
+type AppProps = RouteComponentProps<AppRouterProps>
 
 interface AppDispatchProps {
     // Add your dispatcher properties here
 }
 
-class AppLoc extends React.Component<AppProps & AppDispatchProps> {
+class AppLoc extends React.Component<AppProps & AppDispatchProps> 
+{
     /**
      * Initialize props
      * Set the location into history stack
      */
 
-    constructor(props: AppProps & AppDispatchProps) {
+    constructor(props: AppProps & AppDispatchProps) 
+    {
         super(props);
-        let location = this.props.location.pathname + this.props.location.search
-        this.props.history.replace(location)
-        refresh_user()
+        const location = this.props.location.pathname + this.props.location.search;
+        this.props.history.replace(location);
+        refresh_user();
     }
 
     /**
      * componentDidMount() method allows us to execute the React code even after component is rendered
      */
-    componentDidMount() {
-        getParam('lat', '', true)
-        getParam('lng', '', true)
-        getParam('loc', 'Search Location', true)
-        getParam('query', 'Search Hospital', true)
+    componentDidMount() 
+    {
+        getParam("lat", "", true);
+        getParam("lng", "", true);
+        getParam("loc", "Search Location", true);
+        getParam("query", "Search Hospital", true);
     }
 
     /**
      * componentDidUpdate() method use to execute the code when the state of component changes
      */
-    componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
-        getParam('lat', '', true)
-        getParam('lng', '', true)
-        getParam('loc', 'Search Location', true)
-        getParam('query', 'Search Hospital', true)
+    componentDidUpdate(prevProps: any, prevState: any, snapshot: any) 
+    {
+        getParam("lat", "", true);
+        getParam("lng", "", true);
+        getParam("loc", "Search Location", true);
+        getParam("query", "Search Hospital", true);
     }
 
-    render() {
+    render() 
+    {
 
 
         return (
@@ -139,7 +142,7 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                         {/* If the current URL is /AddHospital, this route is rendered
             while the rest are ignored */}
                         <Route path="/AddHospital/">
-                           <BottomNav/>
+                            <BottomNav/>
                             <Add/>
                         </Route>
                         {/* If the current URL is /privacypolicy, this route is rendered
@@ -156,7 +159,7 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
                             <Givehelp/>
                         </Route>
 
-                    {/* If the current URL is /, this route is rendered
+                        {/* If the current URL is /, this route is rendered
             while the rest are ignored */}
                         <Route path="/">
                             <NavBar/>
@@ -171,5 +174,5 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps> {
     }
 }
 
-let App = withRouter(AppLoc);
+const App = withRouter(AppLoc);
 export default App;

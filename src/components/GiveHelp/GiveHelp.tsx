@@ -2,18 +2,18 @@ import {Patient, PatientObject} from "../../api/model";
 import {AuthComponent, AuthState} from "../../api/auth";
 import {RouteComponentProps, withRouter} from "react-router";
 import {ResponsiveProps} from "../ResponsiveComponent";
-import * as React from 'react';
+import * as React from "react";
 import close from "../../images/close.svg";
 import Button from "@mui/material/Button";
 import {Container} from "@mui/material";
-import "./GiveHelp.css"
-import Maleicon from "../../images/male.svg"
-import Femaleicon from "../../images/female.svg"
-import CovidPos from "../../images/corpos.svg"
-import CovidNeg from "../../images/corneg.svg"
-import Bloodgrp from "../../images/bloodgroup.svg"
-import TransGen from "../../images/TransGend.svg"
-import PrefNSay from "../../images/genderless.svg"
+import "./GiveHelp.css";
+import Maleicon from "../../images/male.svg";
+import Femaleicon from "../../images/female.svg";
+import CovidPos from "../../images/corpos.svg";
+import CovidNeg from "../../images/corneg.svg";
+import Bloodgrp from "../../images/bloodgroup.svg";
+import TransGen from "../../images/TransGend.svg";
+import PrefNSay from "../../images/genderless.svg";
 
 
 interface PatientState extends AuthState {
@@ -23,51 +23,61 @@ interface PatientState extends AuthState {
 }
 
 
-export interface AuthPropsLoc extends RouteComponentProps<ResponsiveProps> {
+export type AuthPropsLoc = RouteComponentProps<ResponsiveProps>
 
-}
+export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState> 
+{
 
-export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState> {
-
-    constructor(props: AuthPropsLoc) {
+    constructor(props: AuthPropsLoc) 
+    {
         super(props);
         this.state = {
             ...this.state,
 
 
-        }
+        };
 
 
     }
 
-    componentDidMount() {
+    componentDidMount() 
+    {
 
-        Patient.action_general("all",{}, true).then((patients) => {
-            let results = patients.results
-            this.setState({models: results})
-        })
-        console.log(this.state.models)
+        Patient.action_general("all", {}, true).then((patients) => 
+        {
+            const results = patients.results;
+            this.setState({models: results});
+        });
+        console.log(this.state.models);
     }
 
-    getgender = (gender: string) => {
-        if (gender === "M") {
+    getgender = (gender: string) => 
+    {
+        if (gender === "M") 
+        
             return (
-                <img src={Maleicon}  alt=""/>)
-        } else if (gender === "F") {
+                <img src={Maleicon}  alt=""/>);
+        
+        else if (gender === "F") 
+        
             return (
                 <img src={Femaleicon}  alt=""/>
-            )
-        } else if (gender === "NB") {
+            );
+        
+        else if (gender === "NB") 
+        
             return (
                 <img src={TransGen}  alt=""/>
-            )
-        } else if (gender === "NP") {
+            );
+        
+        else if (gender === "NP") 
+        
             return (
                 <img src={PrefNSay}  alt=""/>
-            )
-        }
+            );
+        
 
-    }
+    };
 
 
     // savePatient = async () => {
@@ -96,12 +106,16 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState> {
     // }
 
 
-    render() {
-        if (!this.state.auth) {
-            this.performAuth()
-            return (<></>)
-        } else {
-            console.log(this.state)
+    render() 
+    {
+        if (!this.state.auth) 
+        {
+            this.performAuth();
+            return (<></>);
+        }
+        else 
+        {
+            console.log(this.state);
             return (
                 <div className="mb-3">
 
@@ -110,7 +124,7 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState> {
                         <p className="align-self-center m-0 p-0 text-left flex-grow-1 pl-4"><b>Give Help</b>
                         </p>
                         <Button className="sub"
-                                variant="contained">Submit</Button>
+                            variant="contained">Submit</Button>
 
                     </Container>
 
@@ -137,11 +151,11 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState> {
                                             <Button sx={{
                                                 borderRadius: "10px",
                                                 marginBottom: "1rem",
-                                                textTransform: 'none',
+                                                textTransform: "none",
                                                 paddingX: "1.25rem",
-                                                paddingY: ".25rem",marginTop:".5rem"
+                                                paddingY: ".25rem", marginTop:".5rem"
                                             }} className="helpbutn"
-                                                    variant="contained">Help</Button>
+                                            variant="contained">Help</Button>
 
                                         </div>
 
@@ -157,10 +171,10 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState> {
                 </div>
 
 
-            )
+            );
         }
     }
 }
 
 
-export const Givehelp = withRouter(GiveHelp)
+export const Givehelp = withRouter(GiveHelp);

@@ -2,13 +2,16 @@ import {AuthComponent, AuthProps, AuthState} from "../../api/auth";
 import React from "react";
 import {Route} from "react-router";
 import {ProfileDetails} from "./ProfileDetails";
-import './profile.css'
+import "./profile.css";
 import {RequestDetails} from "./RequestDisplay";
 import {Addpatient} from "../AddPatient/AddPatient";
 
-export class Profile extends AuthComponent<AuthProps, AuthState> {
-    render() {
-        if (this.state.auth) {
+export class Profile extends AuthComponent<AuthProps, AuthState> 
+{
+    render() 
+    {
+        if (this.state.auth) 
+        
             return (
                 <React.Fragment>
                     <Route path={"/profile/edit"}>
@@ -23,10 +26,12 @@ export class Profile extends AuthComponent<AuthProps, AuthState> {
                         <ProfileDetails/>
                     </Route>
                 </React.Fragment>
-            )
-        } else {
-            this.performAuth()
-            return <></>
+            );
+        
+        else 
+        {
+            this.performAuth();
+            return <></>;
         }
     }
 }

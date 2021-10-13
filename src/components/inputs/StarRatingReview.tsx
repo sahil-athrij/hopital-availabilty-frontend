@@ -1,26 +1,34 @@
 import React, {Component, Fragment} from "react";
-import {Container,} from "react-bootstrap";
+import {Container, } from "react-bootstrap";
 import {CgPill, FaMoneyBillAlt, FaStar, SiAtom} from "react-icons/all";
 
-import './stars.css'
+import "./stars.css";
 
-export function getStarType(type?: string) {
+export function getStarType(type?: string) 
+{
     let SvgInput;
     let className;
-    if (type === 'financial') {
-        SvgInput = FaMoneyBillAlt
-        className = 'financial-full'    
-    } else if (type === 'covid') {
-        SvgInput = CgPill
-        className = 'covid-full'
-    } else if (type === 'oxygen') {
-        SvgInput = SiAtom
-        className = 'oxygen-full'
-    } else {
-        SvgInput = FaStar
-        className = 'star-full'
+    if (type === "financial") 
+    {
+        SvgInput = FaMoneyBillAlt;
+        className = "financial-full";    
     }
-    return {SvgInput, className}
+    else if (type === "covid") 
+    {
+        SvgInput = CgPill;
+        className = "covid-full";
+    }
+    else if (type === "oxygen") 
+    {
+        SvgInput = SiAtom;
+        className = "oxygen-full";
+    }
+    else 
+    {
+        SvgInput = FaStar;
+        className = "star-full";
+    }
+    return {SvgInput, className};
 }
 
 interface StarRatingProps {
@@ -32,14 +40,16 @@ interface StarRatingProps {
 
 }
 
-export class StarRatingReview extends Component<StarRatingProps> {
+export class StarRatingReview extends Component<StarRatingProps> 
+{
     state = {
         value: this.props.value,
-    }
+    };
 
-    render() {
-        let value = this.props.value;
-        let {className, SvgInput} = getStarType(this.props.type);
+    render() 
+    {
+        const value = this.props.value;
+        const {className, SvgInput} = getStarType(this.props.type);
         return (
             <React.Fragment>
                 <label htmlFor={this.props.name} className="">
@@ -48,26 +58,28 @@ export class StarRatingReview extends Component<StarRatingProps> {
                 <Container className="d-flex flex-row align-items-center justify-content-between">
                     {[1, 2, 3, 4, 5].map((number, i) =>
                         (<Fragment key={number}>
-                                <SvgInput name={this.props.name} size={value - 1 === i ? 25 : 20} spacing={5}
-                                          key={number}
-                                          className={(value <= i ? 'star-empty' : className) + " pointers "}
-                                          onClick={() => {
-                                              this.setState({value: number})
-                                              this.props.setValue(this.props.name, number)
-                                          }}/>
-                                <input type="radio" name={this.props.name} value={number} className="position-absolute"
-                                       style={{opacity: 0, left: "-300px"}}
-                                       checked={this.props.value === number}
-                                       onChange={(event) => {
-                                           this.setState({value: number})
-                                           this.props.setValue(this.props.name, number)
-                                       }}
-                                />
-                            </Fragment>
+                            <SvgInput name={this.props.name} size={value - 1 === i ? 25 : 20} spacing={5}
+                                key={number}
+                                className={(value <= i ? "star-empty" : className) + " pointers "}
+                                onClick={() => 
+                                {
+                                    this.setState({value: number});
+                                    this.props.setValue(this.props.name, number);
+                                }}/>
+                            <input type="radio" name={this.props.name} value={number} className="position-absolute"
+                                style={{opacity: 0, left: "-300px"}}
+                                checked={this.props.value === number}
+                                onChange={(event) => 
+                                {
+                                    this.setState({value: number});
+                                    this.props.setValue(this.props.name, number);
+                                }}
+                            />
+                        </Fragment>
                         )
                     )}
                 </Container>
             </React.Fragment>
-        )
+        );
     }
 }

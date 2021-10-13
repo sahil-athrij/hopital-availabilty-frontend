@@ -1,7 +1,7 @@
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {withRouter} from "react-router";
-import {MenuItem, TextField} from "@mui/material";
-import {Button} from "@mui/material";
+import {MenuItem, TextField, Button} from "@mui/material";
+
 import close from "../../images/close.svg";
 import "./AddDepartment.css";
 import {Department, DepartmentName, DepartmentObject, DepartmentNameObject} from "../../api/model";
@@ -16,9 +16,11 @@ interface AddDepartmentState extends AuthState {
 }
 
 
-class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AddDepartmentState> {
+class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AddDepartmentState> 
+{
 
-    async componentDidMount() {
+    async componentDidMount() 
+    {
         super.componentDidMount();
         // @ts-ignore
         const {hospital} = this.props.match.params;
@@ -31,21 +33,25 @@ class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AddDepartmentState> {
         });
     }
 
-    saveDepartment = () => {
+    saveDepartment = () => 
+    {
         Department.create({name_id: this.state.id, hospital: this.state.hospital})
-            .then(() => {
-                this.props.history.push(`/details/${this.state.hospital}`)
-                toast.success('thank you for the contribution', {
-                    position: 'bottom-center'
-                })
-            }).catch((error) => {
-            toast.error(error.details, {
-                position: 'bottom-center'
-            })
-        })
-    }
+            .then(() => 
+            {
+                this.props.history.push(`/details/${this.state.hospital}`);
+                toast.success("thank you for the contribution", {
+                    position: "bottom-center"
+                });
+            }).catch((error) => 
+            {
+                toast.error(error.details, {
+                    position: "bottom-center"
+                });
+            });
+    };
 
-    render(): JSX.Element {
+    render(): JSX.Element 
+    {
         // @ts-ignore
         const {hspId} = this.props.match.params;
 
@@ -62,8 +68,8 @@ class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AddDepartmentState> {
                     <div className="m-4">
 
                         <TextField className="mt-4" fullWidth variant="outlined" select label="Name"
-                                   InputLabelProps={{shrink: true,}} size="small"
-                                   onChange={({target}) => this.setState({id: Number(target.value)})}>
+                            InputLabelProps={{shrink: true, }} size="small"
+                            onChange={({target}) => this.setState({id: Number(target.value)})}>
                             {this.state.departments.map(({name, id}, i) =>
                                 <MenuItem value={id} key={i}>{name}</MenuItem>
                             )}

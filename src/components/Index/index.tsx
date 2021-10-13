@@ -3,19 +3,19 @@ import { Col, Container} from "react-bootstrap";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {withRouter} from "react-router";
 
-import './index.css'
+import "./index.css";
 import {getParam} from "../../api/QueryCreator";
 
 import {SearchResults} from "../cards/SearchResultCard";
-import Homecover from "../../images/Needmedihome.svg"
-import {Link} from 'react-router-dom';
-import Righticon from "../../images/righticon.svg"
-import Addhosp from "../../images/addhospcard.svg"
-import Givehelp from "../../images/givehelpcard.svg"
-import Searchhosp from "../../images/searchhospcard.svg"
-import Ambulance from "../../images/ambulance.svg"
-import Medicine from "../../images/Medicine.svg"
-import Doc from "../../images/Doc.svg"
+import Homecover from "../../images/Needmedihome.svg";
+import {Link} from "react-router-dom";
+import Righticon from "../../images/righticon.svg";
+import Addhosp from "../../images/addhospcard.svg";
+import Givehelp from "../../images/givehelpcard.svg";
+import Searchhosp from "../../images/searchhospcard.svg";
+import Ambulance from "../../images/ambulance.svg";
+import Medicine from "../../images/Medicine.svg";
+import Doc from "../../images/Doc.svg";
 
 interface IndexState extends AuthState {
     display: boolean
@@ -27,17 +27,19 @@ interface IndexState extends AuthState {
  * @extends  AuthComponent<AuthPropsLoc, IndexState>
  */
 
-class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> {
+class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> 
+{
 
-    constructor(props: AuthPropsLoc) {
+    constructor(props: AuthPropsLoc) 
+    {
         super(props);
-        let lat = getParam('lat',) // Obtain value Of lat stored in local storage during previous query
-        let lng = getParam('lng',)
+        const lat = getParam("lat",); // Obtain value Of lat stored in local storage during previous query
+        const lng = getParam("lng",);
         this.state = {
             ...this.state,
             display: true,
             lat, lng
-        }
+        };
     }
 
     /**
@@ -45,7 +47,8 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> {
      * @returns { JSX.Element } index Component
      */
 
-    render() {
+    render() 
+    {
 
         return (
             <React.Fragment>
@@ -82,7 +85,7 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> {
                             <img src={Searchhosp}  alt=""/>
                             <div className="cardtxt m-0">Search Hospitals</div>
                         </div>
-                        </div>
+                    </div>
                     <div className="container d-flex justify-content-between my-2 p-0 align-self-center">
 
                         <div className="homecard d-flex flex-column ">
@@ -108,14 +111,15 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> {
                             <p className=" mr-1">See All</p>
                         </div>
                         <Col xs={12} id="searchresults">
-                            <SearchResults updateParent={() => {
+                            <SearchResults updateParent={() => 
+                            {
                             }}/>
                         </Col>
                     </> : <></>
                     }
                 </Container>
 
-            </React.Fragment>)
+            </React.Fragment>);
     }
 
 }

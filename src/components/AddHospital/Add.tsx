@@ -5,9 +5,12 @@ import {Route} from "react-router";
 import {AddHospital} from "./AddHospital";
 import {AddHospitalPhoto} from "./AddHospitalPhoto";
 
-export class Add extends AuthComponent<AuthProps, AuthState> {
-    render() {
-        if (this.state.auth) {
+export class Add extends AuthComponent<AuthProps, AuthState> 
+{
+    render() 
+    {
+        if (this.state.auth) 
+        
             return (
                 <React.Fragment>
                     <Route path={"/addHospital/photo/:hspId"}>
@@ -17,10 +20,12 @@ export class Add extends AuthComponent<AuthProps, AuthState> {
                         <AddHospital/>
                     </Route>
                 </React.Fragment>
-            )
-        } else {
-            this.performAuth()
-            return <></>
+            );
+        
+        else 
+        {
+            this.performAuth();
+            return <></>;
         }
     }
 }
