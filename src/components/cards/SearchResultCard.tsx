@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Marker, MarkerObject} from "../../api/model";
-import { Container, Row} from "react-bootstrap";
+import { Container} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {withRouter} from "react-router";
 import {getParam} from "../../api/QueryCreator";
@@ -14,6 +14,7 @@ import Videocall from "../../images/videocall.svg";
 import Routemap from "../../images/routemap.svg";
 import {Avatar} from "@mui/material";
 import Ekmmed from "../../images/ekmmed.svg"
+
 
 interface SearchCardsProps extends AuthPropsLoc {
     model: MarkerObject
@@ -63,39 +64,28 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
 
 
                             <div className="container d-flex justify-content-between">
-                                  <div className="pvrtab">
+                                  <div className="pvrtab"  onClick={(event) => {
+                                      event.preventDefault()
+                                      event.stopPropagation()
+                                      alert("Will be available on next update")
+                                  }}>
                                       <img src={Videocall}  alt=""/>
                                   </div>
-                                <div className="pvrtab">
-                                    <img src={Phonecall}  alt=""/>
-                                </div>
-                                <div className="pvrtab">
-                                    <img src={Routemap}  alt=""/>
-                                </div>
-
-                            </div>
-                        </div>
-                        <span
-                            className="hospital-phone">{this.props.model.Phone !== '0000000000' && this.props.model.Phone}  {/*Fetching phone number if available*/}
-                    </span>
-                        <Row className="w-100 justify-content-end m-0">
-                            {this.props.model.Phone !== '0000000000' &&  //if phone number is available show phone icon and phone number
-                            <div
-                                className="d-flex justify-content-end phone-button button-container align-items-center flex-column"
-                                onClick={(event) => {
+                                {this.props.model.Phone !== '0000000000' ?
+                                (<div className="pvrtab"  onClick={(event) => {
                                     event.preventDefault()
                                     event.stopPropagation()
                                     document.location.href = 'tel:' + this.props.model.Phone;
 
+                                }}><img src={Phonecall}  alt=""/>
+                                    </div>):(<div className="pvrtab"  onClick={(event) => {
+                                    event.preventDefault()
+                                    event.stopPropagation()
+                                    alert("Mobile no is not available for selected hospital")
                                 }}>
-                            </div>}
-                            
-                            {/** 
-                             * Show route map option
-                            */}
-                            <div
-                                className="d-flex justify-content-end button-container phone-button align-items-center flex-column"
-                                onClick={(event) => {
+                                    <img src={Phonecall}  alt=""/>
+                                </div>)}
+                                <div className="pvrtab"  onClick={(event) => {
                                     event.preventDefault()
                                     event.stopPropagation()
                                     const win = window.open(`https://www.google.com/maps/search/${this.props.model.name}/@${this.props.model.lat},${this.props.model.lng},19.88z`, "_blank");
@@ -103,15 +93,11 @@ class SearchCardsLoc extends Component<SearchCardsProps> {
                                         win.focus();
                                     }
                                 }}>
+                                    <img src={Routemap}  alt=""/>
+                                </div>
 
-
-                                {/*<button className="button-holder text-center">*/}
-                                {/*    <RiDirectionLine size={20} className="text-primary"/>*/}
-                                {/*</button>*/}
-                                {/*Route Map*/}
                             </div>
-
-                        </Row>
+                        </div>
                     </div>
                 </div>
             </Link>
