@@ -48,9 +48,9 @@ export class Search extends ResponsiveComponent<SearchProps, SearchState>
         return (
             <Container fluid={true} className="my-5 py-5 ">
                 {this.state.query !== "Search Hospital" && this.state.query ?
-                    <div className="text-left pt-5 pt-sm-3">Showing Results for <b>"{this.state.query}"</b></div>
+                    <div className="text-left pt-5 pt-sm-3">Showing Results for <b>&quot;{this.state.query}&quot;</b></div>
                     :
-                    <div className="text-left pt-5 pt-sm-3">Showing Results in <b>"{this.state.loc}"</b></div>
+                    <div className="text-left pt-5 pt-sm-3">Showing Results in <b>&quot;{this.state.loc}&quot;</b></div>
 
                 }
                 <Row className="my-2  align-self-center" id="listview" role="tabpanel"
