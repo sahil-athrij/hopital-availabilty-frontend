@@ -1,6 +1,5 @@
 import { Button } from "@mui/material";
 import React from "react";
-import close from "../../images/close.svg";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import Rating from "@mui/material/Rating";
@@ -10,6 +9,7 @@ import { Marker, MarkerObject, Review } from "../../api/model";
 import { toast } from "react-toastify";
 import { withRouter } from "react-router";
 import { withStyles } from "@mui/styles";
+import CloseIcon from "@mui/icons-material/Close";
 
 
 const RatingStyler = withStyles({
@@ -32,7 +32,7 @@ interface AddHospitalReviewState extends AuthState {
     icu_availability: number,
     comment: string,
     datef: string,
-    images: object[] | any,
+    images:Record<string, unknown>[],
     day: number,
     written_by_name: string,
     written_by: string,
@@ -75,9 +75,8 @@ class AddHospitalReviewLoc extends AuthComponent<AuthPropsLoc, AddHospitalReview
         
             value = event;
         
-        //TODO: fix ts ignore
-        // @ts-ignore
-        this.setState({[name]: value});
+
+        this.setState(({[name]: value} as unknown as AddHospitalReviewState ));
 
     };
 
@@ -109,9 +108,7 @@ class AddHospitalReviewLoc extends AuthComponent<AuthPropsLoc, AddHospitalReview
     {
         this.setState({ready: false});
         console.log(this.props.match.params);
-        //TODO: fix later
-        // @ts-ignore
-        const {hspId} = this.props.match.params;
+        const {hspId} = this.props.match.params as unknown as {hspId:number} ;
         const marker = await Marker.get(hspId) as MarkerObject;
 
         this.setState({ready: true, marker: hspId, model:marker});
@@ -136,8 +133,8 @@ class AddHospitalReviewLoc extends AuthComponent<AuthPropsLoc, AddHospitalReview
         
             return (
                 <div className="pb-4">
-                    <div style={{boxShadow: "0px 10px 60px rgba(0, 0, 0, 0.0625)"}} className="d-flex justify-content-between p-3 h-25"> 
-                        <img src={close} onClick={() => this.props.history.goBack()} alt={"close"} />
+                    <div style={{boxShadow: "0px 10px 60px rgba(0, 0, 0, 0.0625)"}} className="d-flex justify-content-between p-3 h-25">
+                        <CloseIcon onClick={() => this.props.history.goBack()}/>
                         <p className="align-self-center m-0 p-0 justify-content-center">
                             <b>{this.state.model?.name}</b>
                         </p>
@@ -194,7 +191,7 @@ class AddHospitalReviewLoc extends AuthComponent<AuthPropsLoc, AddHospitalReview
                         >
                             <MenuItem value={0}>Available</MenuItem>
                             <MenuItem value={1}>Unavailable</MenuItem>
-                            <MenuItem value={2}>Didn't Avail</MenuItem>
+                            <MenuItem value={2}>Didn&apost Avail</MenuItem>
 
           
                         </TextField>
@@ -212,7 +209,7 @@ class AddHospitalReviewLoc extends AuthComponent<AuthPropsLoc, AddHospitalReview
                         >
                             <MenuItem value={0}>Available</MenuItem>
                             <MenuItem value={1}>Unavailable</MenuItem>
-                            <MenuItem value={2}>Didn't Avail</MenuItem>
+                            <MenuItem value={2}>Didn&apost Avail</MenuItem>
 
                         </TextField>
 
@@ -229,7 +226,7 @@ class AddHospitalReviewLoc extends AuthComponent<AuthPropsLoc, AddHospitalReview
                         >
                             <MenuItem value={0}>Available</MenuItem>
                             <MenuItem value={1}>Unavailable</MenuItem>
-                            <MenuItem value={2}>Didn't Avail</MenuItem>
+                            <MenuItem value={2}>Didn&apost Avail</MenuItem>
             
                         </TextField>
 

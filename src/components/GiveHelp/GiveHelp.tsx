@@ -1,9 +1,8 @@
 import {Patient, PatientObject} from "../../api/model";
 import {AuthComponent, AuthState} from "../../api/auth";
 import {RouteComponentProps, withRouter} from "react-router";
-import {ResponsiveProps} from "../ResponsiveComponent";
 import * as React from "react";
-import close from "../../images/close.svg";
+import CloseIcon from "@mui/icons-material/Close";
 import Button from "@mui/material/Button";
 import {Container} from "@mui/material";
 import "./GiveHelp.css";
@@ -23,7 +22,7 @@ interface PatientState extends AuthState {
 }
 
 
-export type AuthPropsLoc = RouteComponentProps<ResponsiveProps>
+export type AuthPropsLoc = RouteComponentProps<Record<string, string|undefined>>
 
 export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState> 
 {
@@ -120,7 +119,7 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
                 <div className="mb-3">
 
                     <Container className=" tophead d-flex justify-content-between p-3  ">
-                        <img src={close} onClick={() => this.props.history.goBack()} alt={"close"}/>
+                        <CloseIcon onClick={() => this.props.history.goBack()}/>
                         <p className="align-self-center m-0 p-0 text-left flex-grow-1 pl-4"><b>Give Help</b>
                         </p>
                         <Button className="sub"
@@ -129,8 +128,8 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
                     </Container>
 
                     <Container className="maincont">
-                        {this.state.models ? (this.state.models.map((obj) => (
-                            <div>
+                        {this.state.models ? (this.state.models.map((obj, key) => (
+                            <div key={key}>
 
                                 <div className="mx-1">
                                     <div className="maincard d-flex flex-row justify-content-between ">

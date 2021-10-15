@@ -1,4 +1,4 @@
-import {ResponsiveComponent, ResponsiveProps, ResponsiveState} from "../components/ResponsiveComponent";
+import {ResponsiveComponent, ResponsiveState} from "../components/ResponsiveComponent";
 import {RouteComponentProps, withRouter} from "react-router";
 import {getParam, getQueryVariable} from "./QueryCreator";
 import {baseUrl, post} from "./api";
@@ -77,7 +77,7 @@ export function refresh_user(tries = 0)
 
 }
 
-export function setObj(str: string, data: object | null) 
+export function setObj(str: string, data: Record<string, unknown> | null)
 {
     localStorage.setItem(str, JSON.stringify(data));
 
@@ -104,9 +104,8 @@ function makeid(length: number)
     return result;
 }
 
-export type AuthProps = ResponsiveProps
 
-export type AuthPropsLoc = RouteComponentProps<ResponsiveProps>
+export type AuthPropsLoc = RouteComponentProps<Record<string, string|undefined>>
 
 type token = {
     private_token: string,
@@ -133,8 +132,8 @@ export interface AuthState extends ResponsiveState {
     } | null
 }
 
-export class AuthComponent<P extends AuthProps, S extends AuthState>
-    extends ResponsiveComponent <P, S> 
+export class AuthComponent<P, S extends AuthState>
+    extends ResponsiveComponent <P, S>
 {
     constructor(props: P) 
     {

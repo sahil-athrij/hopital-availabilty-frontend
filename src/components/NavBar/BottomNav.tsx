@@ -54,11 +54,11 @@ class BottomNavLoc extends AuthComponent<AuthPropsLoc, BottomNavState>
 
     /**
      * set the value to state and redirect to value
-     * @param event
+     * @param _
      * @param value
      * @param active
      */
-    handleChange = (event: React.ChangeEvent<{}>, value: string, active: number) => 
+    handleChange = (_: unknown, value: string, active: number) =>
     {
         this.setState({value, active});
         this.props.history.push(value);

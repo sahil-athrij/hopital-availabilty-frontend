@@ -19,22 +19,22 @@ export interface WorkingTime {
 
 export class MarkerObject extends ModelObject 
 {
-    lng: any;
-    comment: ReviewObject[] | any;
+    lng=0;
+    comment: ReviewObject[]=[];
     oxygen_availability = 0;
     covid_rating = 0;
     financial_rating = 0;
     oxygen_rating = 0;
-    address: any;
+    address: Record<string, unknown>={};
     name: string | undefined;
     care_rating = 0;
     Phone: string | undefined;
     avg_cost = 0;
     icu_availability = 0;
-    model: any;
+    model: Record<string, unknown>={};
     images: ImageObject[] =[];
     ventilator_availability = 0;
-    lat: any;
+    lat=0;
     doctors: DoctorObject[] = [];
     about: string | undefined;
     departments: Array<DepartmentObject> = [];
@@ -222,7 +222,7 @@ export class ReviewObject extends ModelObject
     icu_availability = 0;
     comment = "";
     datef = "";
-    images: object[] | any;
+    images: Record<string, unknown>[]=[] ;
     day = 0;
     written_by_name = "";
     written_by = "";

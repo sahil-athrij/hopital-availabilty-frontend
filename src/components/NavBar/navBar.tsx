@@ -6,7 +6,7 @@ import {FullScreenUser} from "../FullScreen/FullSreenUser";
 import {getParam} from "../../api/QueryCreator";
 import {CSSTransition} from "react-transition-group";
 import {Container, Navbar} from "react-bootstrap";
-import { ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
+import {ResponsiveState} from "../ResponsiveComponent";
 import {ReactComponent as Burger} from "../../images/burger.svg";
 
 
@@ -14,7 +14,7 @@ import "./nabar.css";
 
 import {Avatar} from "antd";
 
-type NavBarProp = RouteComponentProps<ResponsiveProps>
+type NavBarProp = RouteComponentProps<Record<string, string|undefined>>
 /** 
  * properties of ResponsiveState is called in to NavBarState
  * Assigning type of variables
@@ -90,14 +90,14 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
                             }}>
                             <Burger/>
                         </Navbar.Toggle>
-                        <div className="srchtxt flex-grow-1" onClick={() => 
+                        <button className="srchtxt flex-grow-1" onClick={() =>
                         {
                             this.props.history.push(currentLocation + "#search");
 
                             this.setState({show_search: !this.state.show_search});
                         }} >
                                 Search hospitals
-                        </div>
+                        </button>
                         <Avatar  className="mr-2">{this.state.user? this.state.user.username?this.state.user.username[0]:"?":"?"}</Avatar>
 
 

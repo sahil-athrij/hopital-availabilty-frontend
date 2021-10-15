@@ -1,4 +1,4 @@
-import {ResponsiveComponent, ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
+import {ResponsiveComponent, ResponsiveState} from "../ResponsiveComponent";
 import {Container} from "react-bootstrap";
 import {StarRatingInput} from "../inputs/StarRatingInput";
 import {DoubleSliderRatingInput, SliderRatingInput} from "../inputs/SliderRatingInput";
@@ -9,7 +9,7 @@ import "./location.css";
 import "./filters.css";
 
 
-interface FilterProps extends ResponsiveProps {
+interface FilterProps {
     close: () => void
 }
 
@@ -37,27 +37,32 @@ export class FilterBox extends ResponsiveComponent<FilterProps, FilterState>
         return (
             <>
                 <div className="filter-list-holder text-left">
-                    <div className={"filter-element " + (this.state.selected === 0 ? "active" : "")}
+                    <div role="button" tabIndex={0} className={"filter-element " + (this.state.selected === 0 ? "active" : "")}
+                        onKeyPress={()=>null}
                         onClick={() => this.setState({selected: 0})}
                     >
                         By Care
                     </div>
-                    <div className={"filter-element " + (this.state.selected === 1 ? "active" : "")}
+                    <div role="button" tabIndex={0} className={"filter-element " + (this.state.selected === 1 ? "active" : "")}
+                        onKeyPress={()=>null}
                         onClick={() => this.setState({selected: 1})}
                     >
                         By Oxygen
                     </div>
-                    <div className={"filter-element " + (this.state.selected === 2 ? "active" : "")}
+                    <div  role="button" tabIndex={0} className={"filter-element " + (this.state.selected === 2 ? "active" : "")}
+                        onKeyPress={()=>null}
                         onClick={() => this.setState({selected: 2})}
                     >
                         By Budget
                     </div>
-                    <div className={"filter-element " + (this.state.selected === 3 ? "active" : "")}
+                    <div role="button" tabIndex={0} className={"filter-element " + (this.state.selected === 3 ? "active" : "")}
+                        onKeyPress={()=>null}
                         onClick={() => this.setState({selected: 3})}
                     >
                         by Beds
                     </div>
-                    <div className={"filter-element " + (this.state.selected === 4 ? "active" : "")}
+                    <div role="button" tabIndex={0} className={"filter-element " + (this.state.selected === 4 ? "active" : "")}
+                        onKeyPress={()=>null}
                         onClick={() => this.setState({selected: 4})}
                     >
                         <b>

@@ -64,10 +64,10 @@ class RequestDetailsLoc extends AuthComponent<AuthPropsLoc, RequestDetailsState>
     async componentDidMount() 
     {
         super.componentDidMount();
-        //TODO: Fix Later
-        // @ts-ignore
-        const {requestId} = this.props.match.params;
+
+        const requestId = Number(this.props.match.params.requestId);
         const data = await Patient.get(requestId, {}, true);
+
         this.setState({request: data as PatientObject});
     }
 

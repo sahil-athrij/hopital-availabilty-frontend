@@ -125,8 +125,8 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
             return (
                 <div className="">
                     <Container className="maincont">
-                        {this.state.requests ? (this.state.requests.map((obj) => (
-                            <div>
+                        {this.state.requests ? (this.state.requests.map((obj, key) => (
+                            <div key={key}>
 
                                 <div className="mx-1">
                                     <div className="maincard d-flex flex-row justify-content-between ">
@@ -230,7 +230,7 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                             <div className="d-flex justify-content-between w-100 px-0  mt-4  ">
                                 {/*<div className="left-align">*/}
                                 <img alt={""}
-                                    onClick={() => this.props.history.goBack()}
+                                    // onClick={() => this.props.history.goBack()}  //TODO
                                     className=" mb-4  "
                                     src={icon1}/>
                                 <p className="Yourprof w-100 text-left align-self-center ">Your Profile</p>
@@ -278,23 +278,23 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                             </div>
                             <div className="container d-flex justify-content-between mb-4 p-0">
 
-                                <div className={`card-about card-1 ${this.state.tab === 0 && "active"}`}
+                                <button className={`card-about card-1 ${this.state.tab === 0 && "active"}`}
                                     onClick={() => this.setState({tab: 0})}>
                                     <img src={Givehand} alt={"doctor svg"}/>
                                     <p className="m-0"><b>1</b><br/>Requests</p>
-                                </div>
+                                </button>
 
-                                <div className={`card-about card-1 ${this.state.tab === 1 && "active"}`}
+                                <button className={`card-about card-1 ${this.state.tab === 1 && "active"}`}
                                     onClick={() => this.setState({tab: 1})}>
                                     <img src={Friendship} alt={"layout svg"}/>
                                     <p className="m-0"><b>good</b><br/>Friends</p>
-                                </div>
+                                </button>
 
-                                <div className={`card-about card-1 ${this.state.tab === 2 && "active"}`}
+                                <button className={`card-about card-1 ${this.state.tab === 2 && "active"}`}
                                     onClick={() => this.setState({tab: 2})}>
                                     <img src={reviewsvg} alt={"review svg"}/>
                                     <p className="m-0"><b><br/></b>Item three</p>
-                                </div>
+                                </button>
 
 
                             </div>

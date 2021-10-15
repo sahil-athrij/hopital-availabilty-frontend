@@ -69,7 +69,7 @@ export class StarRatingReview extends Component<StarRatingProps>
                             <input type="radio" name={this.props.name} value={number} className="position-absolute"
                                 style={{opacity: 0, left: "-300px"}}
                                 checked={this.props.value === number}
-                                onChange={(event) => 
+                                onChange={() =>
                                 {
                                     this.setState({value: number});
                                     this.props.setValue(this.props.name, number);

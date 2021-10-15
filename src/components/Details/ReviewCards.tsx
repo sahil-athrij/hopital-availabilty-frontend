@@ -170,8 +170,8 @@ export default class ReviewCards extends Component<ReviewState>
 
                     <div>
                         {this.props.model.comment.map(
-                            (comment: ReviewObject, index: number) => (
-                                <Accordion
+                            (comment: ReviewObject, index:number) => (
+                                <Accordion key={index}
                                     sx={{ boxShadow: "none", border: 0 }}
                                     className="mr-2"
                                 >
@@ -438,7 +438,7 @@ class RatingBar extends Component<RatingState>
         };
 
         // eslint-disable-next-line array-callback-return
-        this.props.reviews.map((comment, index) => 
+        this.props.reviews.map((comment) =>
         {
             sum += comment.total_rating;
 

@@ -1,31 +1,22 @@
 import React from "react";
 
 
-export interface ResponsiveProps {
-}
-
 export interface ResponsiveState {
     width: number
 }
 
-export class ResponsiveComponent<P extends ResponsiveProps, S extends ResponsiveState, SS = any>
-    extends React.Component <P, S, SS> 
+export class ResponsiveComponent<P, S extends ResponsiveState >
+    extends React.Component <P, S>
 {
     state: S;
+    hashChange:()=>void=()=>undefined;
+    hashPush:()=>void=()=>undefined;
 
     constructor(props: P) 
     {
         super(props);
-        // @ts-ignore
-        this.state = {width: window.innerWidth};
+        this.state = {width: window.innerWidth} as S;
     }
-
-    hashChange = () => 
-    {
-    };
-    hashPush = () => 
-    {
-    };
 
     componentDidMount() 
     {

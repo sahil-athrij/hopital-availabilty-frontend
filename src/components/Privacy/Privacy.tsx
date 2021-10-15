@@ -28,7 +28,7 @@ export class Privacy extends Component
                     </li>
                     <br />
                     <li>
-                        <h4>Do we share you're data with any third parties?</h4>
+                        <h4>Do we share you &lsquo re data with any third parties?</h4>
                         <p>We currently do not use any third party application, which uses your info.</p>
                     </li>
                     <br />

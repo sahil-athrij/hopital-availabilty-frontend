@@ -1,10 +1,9 @@
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {withRouter} from "react-router";
 import {MenuItem, TextField, Button} from "@mui/material";
-
-import close from "../../images/close.svg";
+import CloseIcon from "@mui/icons-material/Close";
 import "./AddDepartment.css";
-import {Department, DepartmentName, DepartmentObject, DepartmentNameObject} from "../../api/model";
+import {Department, DepartmentName, DepartmentNameObject} from "../../api/model";
 import {Skeleton} from "antd";
 import {toast} from "react-toastify";
 
@@ -22,8 +21,9 @@ class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AddDepartmentState>
     async componentDidMount() 
     {
         super.componentDidMount();
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const {hospital} = this.props.match.params;
+        const {hospital} = this.props.match.params as { hospital: number };
         const departments = await DepartmentName.filter();
 
         this.setState({
@@ -52,14 +52,15 @@ class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AddDepartmentState>
 
     render(): JSX.Element 
     {
-        // @ts-ignore
-        const {hspId} = this.props.match.params;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore                                                                //TODO
+        // const {hspId} = this.props.match.params;
 
         return (
             this.state.ready ?
                 <div className="main h-100">
                     <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
-                        <img src={close} onClick={() => this.props.history.goBack()}/>
+                        <CloseIcon onClick={() => this.props.history.goBack()} />
                         <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Department details</b>
                         </p>
                         <Button className="sub" variant="contained" onClick={this.saveDepartment}>Submit</Button>
@@ -88,7 +89,7 @@ class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AddDepartmentState>
                 </div> :
                 <div className="main h-100">
                     <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
-                        <img src={close} onClick={() => this.props.history.goBack()}/>
+                        <CloseIcon onClick={() => this.props.history.goBack()}/>
                         <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Department details</b>
                         </p>
                         <Button className="sub" variant="contained" onClick={this.saveDepartment}>Submit</Button>

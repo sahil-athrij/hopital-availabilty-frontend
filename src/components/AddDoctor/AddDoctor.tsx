@@ -3,12 +3,12 @@ import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 
 import {withRouter} from "react-router";
 import React, {Component} from "react";
-import close from "../../images/close.svg";
+import CloseIcon from "@mui/icons-material/Close";
 
 import {Skeleton} from "antd";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TableContainer from "@mui/material/TableContainer";
-import {Table, TableHead, TableRow, TableCell, TableBody, Button} from "@mui/material";
+import {Button, Table, TableBody, TableCell, TableHead, TableRow} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import MobileTimePicker from "@mui/lab/MobileTimePicker";
 import TextField from "@mui/material/TextField";
@@ -54,6 +54,7 @@ export class TimePickers extends Component<{ hospital: number, onChange: (times:
         const {times} = this.state;
 
         // TODO: fix if ts is still broken
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         times[key].working_time[type] = value;
         const {starting_time, ending_time, day} = times[key].working_time;
@@ -80,13 +81,13 @@ export class TimePickers extends Component<{ hospital: number, onChange: (times:
                         </TableHead>
                         <TableBody>
                             {this.state.times.map((item, key) => (
-                                <TableRow>
+                                <TableRow key={key}>
                                     <TableCell className="px-0 col-5 pr-1" component="th" scope="row">
                                         <TextField select fullWidth label="-" size="small"
                                             value={item.working_time.day}
                                             onChange={({target}) => this.handleChange(Number(target.value), "day", key)}>
                                             {this.days.map((day, key) => (
-                                                <MenuItem value={key}>{day}</MenuItem>)
+                                                <MenuItem key={key}>{day}</MenuItem>)
                                             )
                                             }
                                         </TextField>
@@ -121,9 +122,10 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState>
 
     async componentDidMount() 
     {
-        super.componentDidMount();
+        super.componentDidMount(); //TODO
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const {hospital} = this.props.match.params;
+        const {hospital} = this.props.match.params as {hospital: number};
         const departments = await Department.filter({hospital});
 
         this.setState({
@@ -141,7 +143,7 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState>
         toSend.user = null;
 
         toSend.working_time = toSend.working_time
-            .filter(({working_time}) => working_time.day != null)
+            .filter(({working_time}) => working_time.day !== null)
             .map(({
                 working_time,
                 hospital
@@ -183,7 +185,7 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState>
             this.state.ready ?
                 <div>
                     <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
-                        <img src={close} onClick={() => this.props.history.goBack()} alt={"close"}/>
+                        <CloseIcon onClick={() => this.props.history.goBack()}/>
                         <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Doctor</b></p>
                         <Button className="sub" variant="contained" onClick={this.saveDoctor}>Submit</Button>
                     </div>
@@ -227,7 +229,7 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState>
                 :
                 <div className="main h-100">
                     <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
-                        <img src={close} onClick={() => this.props.history.goBack()} alt={"close"}/>
+                        <CloseIcon onClick={() => this.props.history.goBack()}/>
                         <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Doctor</b></p>
                         <Button className="sub" variant="contained">Submit</Button>
                     </div>

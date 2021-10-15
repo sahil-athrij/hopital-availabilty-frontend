@@ -6,7 +6,7 @@ import "./DepartmentCards.css";
 import vector from "../../images/vector.svg";
 import {BigBlueButton, StarRating} from "../Utils";
 
-export class DepartmentCards extends Component<{ models: DepartmentObject[] }, {}> 
+export class DepartmentCards extends Component<{ models: DepartmentObject[] }, Record<string, unknown>>
 {
     render() 
     {
@@ -16,7 +16,7 @@ export class DepartmentCards extends Component<{ models: DepartmentObject[] }, {
                     <Container fluid={true} className='m-0 p-0'>
                         <div className="dpts">
                             {this.props.models.map((model, i) => (
-                                <div id={String(i)}>
+                                <div key={i} id={String(i)}>
                                     <div className="dpts-pic d-flex justify-content-between p-2">
                                         <div className="d-flex justify-content-between p-2">
                                             <img className="pic m-2" src={model.name.icon || "fallback_image.png"}

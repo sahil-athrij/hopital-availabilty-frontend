@@ -1,10 +1,10 @@
-import {ResponsiveComponent, ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
+import {ResponsiveComponent, ResponsiveState} from "../ResponsiveComponent";
 import {TextField} from "@mui/material";
 import React from "react";
 
 import "./yesnoinput.css";
 
-interface YesNoProps extends ResponsiveProps {
+interface YesNoProps {
     name: string,
     label: string,
     value: number | null,
@@ -57,7 +57,7 @@ export class YesNoInput extends ResponsiveComponent<YesNoProps, YesNoState>
                 inputProps={{"aria-label": this.props.name}}
             >
                 <option aria-label="None" value="" hidden/>
-                <option value={0}>Didn't Avail</option>
+                <option value={0}>Didn&apost Avail</option>
                 <option value={2}>Available</option>
                 <option value={1}>Not Available</option>
             </TextField>

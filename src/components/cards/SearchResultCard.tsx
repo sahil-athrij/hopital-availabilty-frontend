@@ -41,7 +41,7 @@ class SearchCardsLoc extends Component<SearchCardsProps>
                             // Get hospital details and split it at first comma to get hospital name
                             className="mt-3  justify-content-between hospital-title">
                             <div className="w-75">
-                                {this.props.model.name != null ? this.props.model.name.split(",")[0] : ""}
+                                {this.props.model.name !== null ? this.props.model.name?.split(",")[0] : ""}
                             </div>
                             <div className="ratingvalue d-flex  align-items-center justify-content-center">
                                 <div>
@@ -66,31 +66,31 @@ class SearchCardsLoc extends Component<SearchCardsProps>
 
 
                             <div className="container d-flex justify-content-between">
-                                <div className="pvrtab"  onClick={(event) => 
+                                <button className="pvrtab"  onClick={(event) =>
                                 {
                                     event.preventDefault();
                                     event.stopPropagation();
                                     alert("Will be available on next update");
                                 }}>
                                     <img src={Videocall}  alt=""/>
-                                </div>
+                                </button>
                                 {this.props.model.Phone !== "0000000000" ?
-                                    (<div className="pvrtab"  onClick={(event) => 
+                                    (<button className="pvrtab"  onClick={(event) =>
                                     {
                                         event.preventDefault();
                                         event.stopPropagation();
                                         document.location.href = "tel:" + this.props.model.Phone;
 
                                     }}><img src={Phonecall}  alt=""/>
-                                    </div>):(<div className="pvrtab"  onClick={(event) => 
+                                    </button>):(<button className="pvrtab"  onClick={(event) =>
                                     {
                                         event.preventDefault();
                                         event.stopPropagation();
                                         alert("Mobile no is not available for selected hospital");
                                     }}>
                                         <img src={Phonecall}  alt=""/>
-                                    </div>)}
-                                <div className="pvrtab"  onClick={(event) => 
+                                    </button>)}
+                                <button className="pvrtab"  onClick={(event) =>
                                 {
                                     event.preventDefault();
                                     event.stopPropagation();
@@ -101,7 +101,7 @@ class SearchCardsLoc extends Component<SearchCardsProps>
                                     
                                 }}>
                                     <img src={Routemap}  alt=""/>
-                                </div>
+                                </button>
 
                             </div>
                         </div>
@@ -157,7 +157,7 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
         this.setState({reset: false});
     }
 
-    componentDidUpdate(prevProps: SearchResultsProp, prevState: SearchResultsState, snapshot: any) 
+    componentDidUpdate()
     {
         const loc = getParam("loc", "Search Location",);
         const lat = getParam("lat",);
