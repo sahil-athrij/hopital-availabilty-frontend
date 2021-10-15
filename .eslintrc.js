@@ -31,7 +31,7 @@ module.exports = {
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "linebreak-style": [
             "error",
-            "unix"
+            "windows"
         ],
         "quotes": [
             "error",
