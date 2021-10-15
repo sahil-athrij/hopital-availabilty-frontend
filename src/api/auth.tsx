@@ -105,7 +105,7 @@ function makeid(length: number)
 }
 
 
-export type AuthPropsLoc = RouteComponentProps<Record<string, never>>
+export type AuthPropsLoc = RouteComponentProps<Record<string, string|undefined>>
 
 type token = {
     private_token: string,

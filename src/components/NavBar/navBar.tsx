@@ -6,7 +6,7 @@ import {FullScreenUser} from "../FullScreen/FullSreenUser";
 import {getParam} from "../../api/QueryCreator";
 import {CSSTransition} from "react-transition-group";
 import {Container, Navbar} from "react-bootstrap";
-import { ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
+import {ResponsiveState} from "../ResponsiveComponent";
 import {ReactComponent as Burger} from "../../images/burger.svg";
 
 
@@ -14,7 +14,7 @@ import "./nabar.css";
 
 import {Avatar} from "antd";
 
-type NavBarProp = RouteComponentProps<ResponsiveProps>
+type NavBarProp = RouteComponentProps<Record<string, string|undefined>>
 /** 
  * properties of ResponsiveState is called in to NavBarState
  * Assigning type of variables

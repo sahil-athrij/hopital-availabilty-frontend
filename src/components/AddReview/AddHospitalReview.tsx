@@ -108,7 +108,7 @@ class AddHospitalReviewLoc extends AuthComponent<AuthPropsLoc, AddHospitalReview
     {
         this.setState({ready: false});
         console.log(this.props.match.params);
-        const {hspId} = this.props.match.params as {hspId:number} ;
+        const {hspId} = this.props.match.params as unknown as {hspId:number} ;
         const marker = await Marker.get(hspId) as MarkerObject;
 
         this.setState({ready: true, marker: hspId, model:marker});

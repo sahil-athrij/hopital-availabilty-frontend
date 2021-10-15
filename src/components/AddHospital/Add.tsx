@@ -1,11 +1,11 @@
-import {AuthComponent, AuthProps, AuthState} from "../../api/auth";
+import {AuthComponent, AuthState} from "../../api/auth";
 import React from "react";
 import {Route} from "react-router";
 
 import {AddHospital} from "./AddHospital";
 import {AddHospitalPhoto} from "./AddHospitalPhoto";
 
-export class Add extends AuthComponent<AuthProps, AuthState> 
+export class Add extends AuthComponent<Record<string, unknown>, AuthState>
 {
     render() 
     {

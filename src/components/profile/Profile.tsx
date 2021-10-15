@@ -1,4 +1,4 @@
-import {AuthComponent, AuthProps, AuthState} from "../../api/auth";
+import {AuthComponent, AuthState} from "../../api/auth";
 import React from "react";
 import {Route} from "react-router";
 import {ProfileDetails} from "./ProfileDetails";
@@ -6,7 +6,7 @@ import "./profile.css";
 import {RequestDetails} from "./RequestDisplay";
 
 
-export class Profile extends AuthComponent<AuthProps, AuthState> 
+export class Profile extends AuthComponent<Record<string, string|undefined>, AuthState>
 {
     render() 
     {

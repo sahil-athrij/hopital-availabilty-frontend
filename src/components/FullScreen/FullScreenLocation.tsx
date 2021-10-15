@@ -1,4 +1,4 @@
-import {ResponsiveComponent, ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
+import {ResponsiveComponent, ResponsiveState} from "../ResponsiveComponent";
 import {Container} from "react-bootstrap";
 import {ReactComponent as Back} from "../../images/back.svg";
 import {ReactComponent as MarkerSvg} from "../../images/markersvg.svg";
@@ -12,7 +12,7 @@ import React from "react";
 import "./location.css";
 
 
-export interface LocationSearchProps extends RouteComponentProps<ResponsiveProps> {
+export interface LocationSearchProps extends RouteComponentProps<Record<string, string|undefined>> {
     close: () => void,
     closeWindow?: () => void
 }
@@ -281,7 +281,7 @@ export class LocationSearchBoxLoc<P extends LocationSearchProps, S extends Locat
 export const LocationSearchBox = withRouter(LocationSearchBoxLoc);
 
 
-export interface FullScreenLocationProps extends ResponsiveProps {
+export interface FullScreenLocationProps {
     close: () => void,
     closeWindow?: () => void
 }

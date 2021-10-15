@@ -101,7 +101,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState>
         this.setState({ready: false}); //TODO
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const {hspId} = this.props.match.params;
+        const hspId = Number(this.props.match.params.hspId);
         const marker = await Marker.get(hspId) as MarkerObject;
 
         this.setState({model: marker, ready: true, id: hspId});

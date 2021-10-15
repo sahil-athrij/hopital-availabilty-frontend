@@ -1,4 +1,4 @@
-import {AuthComponent, AuthProps, AuthState} from "../../api/auth";
+import {AuthComponent, AuthState} from "../../api/auth";
 import {Container} from "react-bootstrap";
 import React from "react";
 import {
@@ -47,10 +47,10 @@ interface ProfileRequestState extends AuthState {
     bunum: string,
 }
 
-export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState> 
+export class ProfileRequest extends AuthComponent<Record<string, string|undefined>, ProfileRequestState>
 {
 
-    constructor(props: AuthProps) 
+    constructor(props: Record<string, string|undefined>)
     {
         super(props);
         this.state = {
@@ -134,13 +134,11 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
 
     };
 
-    setValue = (name: string, event: string | boolean | React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => 
+    setValue = (name: string, event: string | boolean | number | React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
     {
         let value;
         if (typeof event !== "boolean" && typeof event !== "string" && typeof event !== "number")
-
             value = event.target.value;
-
         else
             value = event;
 

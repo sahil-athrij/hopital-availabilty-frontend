@@ -63,11 +63,11 @@ class RequestDetailsLoc extends AuthComponent<AuthPropsLoc, RequestDetailsState>
 
     async componentDidMount() 
     {
-        super.componentDidMount(); //TODO
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const {requestId} = this.props.match.params;
+        super.componentDidMount();
+
+        const requestId = Number(this.props.match.params.requestId);
         const data = await Patient.get(requestId, {}, true);
+
         this.setState({request: data as PatientObject});
     }
 

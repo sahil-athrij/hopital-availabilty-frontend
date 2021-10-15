@@ -1,9 +1,9 @@
-import {ResponsiveComponent, ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
+import {ResponsiveComponent, ResponsiveState} from "../ResponsiveComponent";
 import {FaStar, FaStarHalf} from "react-icons/all";
 import React from "react";
 import "../inputs/stars.css";
 
-interface StarRatingProp extends ResponsiveProps {
+interface StarRatingProp {
     rating: number
 }
 

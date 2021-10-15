@@ -2,9 +2,9 @@ import React from "react";
 import {Col, Container, Row} from "react-bootstrap";
 import {SearchResults} from "../components/cards/SearchResultCard";
 import {getParam} from "../api/QueryCreator";
-import {ResponsiveComponent, ResponsiveProps, ResponsiveState} from "../components/ResponsiveComponent";
+import {ResponsiveComponent, ResponsiveState} from "../components/ResponsiveComponent";
 
-type SearchProps = ResponsiveProps
+type SearchProps = Record<string, string>
 
 interface SearchState extends ResponsiveState {
     loc: string

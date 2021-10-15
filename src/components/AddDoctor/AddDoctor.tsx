@@ -8,7 +8,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import {Skeleton} from "antd";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TableContainer from "@mui/material/TableContainer";
-import {Table, TableHead, TableRow, TableCell, TableBody, Button} from "@mui/material";
+import {Button, Table, TableBody, TableCell, TableHead, TableRow} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import MobileTimePicker from "@mui/lab/MobileTimePicker";
 import TextField from "@mui/material/TextField";
@@ -125,7 +125,7 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState>
         super.componentDidMount(); //TODO
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const {hospital} = this.props.match.params;
+        const {hospital} = this.props.match.params as {hospital: number};
         const departments = await Department.filter({hospital});
 
         this.setState({

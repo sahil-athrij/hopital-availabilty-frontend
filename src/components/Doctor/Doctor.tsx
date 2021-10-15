@@ -118,7 +118,7 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
     {
         this.setState({ready: false});
 
-        const {docId} = this.props.match.params as {docId:number};
+        const docId = Number(this.props.match.params.docId);
         const doctor = await Doctor.get(docId) as DoctorObject;
 
         this.setState({model: doctor, ready: true, id: docId});

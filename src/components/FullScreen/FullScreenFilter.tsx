@@ -1,4 +1,4 @@
-import {ResponsiveComponent, ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
+import {ResponsiveComponent, ResponsiveState} from "../ResponsiveComponent";
 import {Container} from "react-bootstrap";
 import {StarRatingInput} from "../inputs/StarRatingInput";
 import {DoubleSliderRatingInput, SliderRatingInput} from "../inputs/SliderRatingInput";
@@ -9,7 +9,7 @@ import "./location.css";
 import "./filters.css";
 
 
-interface FilterProps extends ResponsiveProps {
+interface FilterProps {
     close: () => void
 }
 

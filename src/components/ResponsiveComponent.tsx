@@ -9,8 +9,8 @@ export class ResponsiveComponent<P, S extends ResponsiveState >
     extends React.Component <P, S>
 {
     state: S;
-    hashChange=()=>undefined;
-    hashPush=()=>undefined;
+    hashChange:()=>void=()=>undefined;
+    hashPush:()=>void=()=>undefined;
 
     constructor(props: P) 
     {

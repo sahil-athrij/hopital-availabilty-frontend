@@ -1,10 +1,10 @@
-import {ResponsiveComponent, ResponsiveProps, ResponsiveState} from "../ResponsiveComponent";
+import {ResponsiveComponent, ResponsiveState} from "../ResponsiveComponent";
 import {TextField} from "@mui/material";
 import React from "react";
 
 import "./yesnoinput.css";
 
-interface YesNoProps extends ResponsiveProps {
+interface YesNoProps {
     name: string,
     label: string,
     value: number | null,

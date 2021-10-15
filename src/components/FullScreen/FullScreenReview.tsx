@@ -6,13 +6,13 @@ import {StarRatingReview} from "../inputs/StarRatingReview";
 import {YesNoInput} from "../inputs/YesNoInput";
 import {InputAdornment, TextField} from "@mui/material";
 import {Review} from "../../api/model";
-import {AuthComponent, AuthProps, AuthState} from "../../api/auth";
+import {AuthComponent, AuthState} from "../../api/auth";
 import {toast} from "react-toastify";
 
 import "./location.css";
 
 
-interface ReviewBoxProps extends AuthProps {
+interface ReviewBoxProps {
     marker: number,
     close: () => void,
     refresh_parent?: () => void

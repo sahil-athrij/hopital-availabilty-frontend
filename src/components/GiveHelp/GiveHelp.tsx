@@ -1,7 +1,6 @@
 import {Patient, PatientObject} from "../../api/model";
 import {AuthComponent, AuthState} from "../../api/auth";
 import {RouteComponentProps, withRouter} from "react-router";
-import {ResponsiveProps} from "../ResponsiveComponent";
 import * as React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import Button from "@mui/material/Button";
@@ -23,7 +22,7 @@ interface PatientState extends AuthState {
 }
 
 
-export type AuthPropsLoc = RouteComponentProps<ResponsiveProps>
+export type AuthPropsLoc = RouteComponentProps<Record<string, string|undefined>>
 
 export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState> 
 {

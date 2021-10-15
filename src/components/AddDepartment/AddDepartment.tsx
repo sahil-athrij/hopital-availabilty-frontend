@@ -23,7 +23,7 @@ class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AddDepartmentState>
         super.componentDidMount();
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const {hospital} = this.props.match.params;
+        const {hospital} = this.props.match.params as { hospital: number };
         const departments = await DepartmentName.filter();
 
         this.setState({
