@@ -10,10 +10,9 @@ import Hospital from "../../images/hospital.jpg";
 import Help from "../../images/help.jpg";
 import AddHospital from "../../images/addHospital.jpg";
 import GiveHelp from "../../images/giveHelp.jpg";
-import { withRouter} from "react-router";
-import {withStyles, createStyles, WithStyles} from "@mui/styles";
+import {withRouter} from "react-router";
+import {createStyles, withStyles, WithStyles} from "@mui/styles";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
-
 
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
@@ -92,9 +91,6 @@ const styles = () => createStyles({
         borderRadius: "0px 30px 30px 0px"
     },
 });
-/**
- * @extends Authstate
- */
 
 interface SwipeableTextMobileState extends AuthState {
     activeStep: number
