@@ -5,25 +5,18 @@ export interface ResponsiveState {
     width: number
 }
 
-export class ResponsiveComponent<P, S extends ResponsiveState, SS >
-    extends React.Component <P, S, SS> 
+export class ResponsiveComponent<P, S extends ResponsiveState >
+    extends React.Component <P, S>
 {
     state: S;
+    hashChange=()=>undefined;
+    hashPush=()=>undefined;
 
     constructor(props: P) 
     {
         super(props);
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        this.state = {width: window.innerWidth};
+        this.state = {width: window.innerWidth} as S;
     }
-
-    // hashChange = () =>
-    // {
-    // };
-    // hashPush = () =>
-    // {
-    // };
 
     componentDidMount() 
     {
