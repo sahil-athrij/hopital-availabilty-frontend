@@ -117,24 +117,16 @@ export class ModelObject
 
     getData() 
     {
-        const self = this;
-        this.fields.forEach(item => 
-        {
-            //TODO: Fix TS ignore
-            // @ts-ignore
-            self[item] = self.data[item];
-        });
+        for(const item of this.fields)
+            (this as  Record<string, unknown>)[item]= this.data[item];
+
     }
 
     setData() 
     {
-        const self = this;
-        this.fields.forEach(item => 
-        {
-            //TODO: Fix TS ignore
-            // @ts-ignore
-            self.data[item] = self[item];
-        });
+        for(const item of this.fields)
+            this.data[item] = (this as unknown as Record<string, string | number>)[item];
+
     }
 
     save = async () => 
@@ -159,7 +151,7 @@ export default class Model
     }
 
 
-    get = async (id: number | string, kwargs: {} = {}, auth=false) => 
+    get = async (id: number | string, kwargs:Record<string, unknown> = {}, auth=false) =>
     {
         let headers = {};
 
@@ -183,23 +175,12 @@ export default class Model
                 headers = {"Authorization": `Bearer ${getAuth()}`};
             
             const data = await get(`${this.baseurl}`, kwargs, headers);
-            //TODO: add return type
-            let lst: any[];
-            lst = [];
-            data.results.forEach((item: ModelData) => 
-            {
-                const obj = new this.modelClass(item, this.baseurl);
-                lst.push(obj);
-            });
+            const lst=data.results.map((item: ModelData) => new this.modelClass(item, this.baseurl));
             return {results: lst, next: data.next};
         }
         catch (e) 
         {
-            let errors;
-            errors = e;
-            console.log(errors);
-            throw errors;
-
+            throw e;
         }
     };
     /*path doesn't need /
@@ -214,22 +195,13 @@ export default class Model
                 headers = {"Authorization": `Bearer ${getAuth()}`};
             
             const data = await get(`${this.baseurl}${path}`, kwargs, headers);
-            //TODO: add return type
-            let lst: any[];
-            lst = [];
-            data.results.forEach((item: ModelData) => 
-            {
-                const obj = new this.modelClass(item, this.baseurl);
-                lst.push(obj);
-            });
+            const lst=data.results.map((item: ModelData) =>new this.modelClass(item, this.baseurl));
+
             return {results: lst, next: data.next};
         }
         catch (e) 
         {
-            let errors;
-            errors = e;
-            console.log(errors);
-            throw errors;
+            throw e;
         }
     };
 
@@ -246,10 +218,7 @@ export default class Model
         }
         catch (e) 
         {
-            let errors;
-            errors = await (e as {json: () => Promise<any>}).json();
-            console.log(errors);
-            throw errors;
+            throw await (e as {json: () => Promise<unknown>}).json();
         }
     }
 

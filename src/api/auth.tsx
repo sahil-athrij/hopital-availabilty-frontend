@@ -77,7 +77,7 @@ export function refresh_user(tries = 0)
 
 }
 
-export function setObj(str: string, data: object | null) 
+export function setObj(str: string, data: Record<string, unknown> | null)
 {
     localStorage.setItem(str, JSON.stringify(data));
 

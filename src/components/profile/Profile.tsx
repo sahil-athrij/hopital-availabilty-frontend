@@ -4,7 +4,7 @@ import {Route} from "react-router";
 import {ProfileDetails} from "./ProfileDetails";
 import "./profile.css";
 import {RequestDetails} from "./RequestDisplay";
-import {Addpatient} from "../AddPatient/AddPatient";
+
 
 export class Profile extends AuthComponent<AuthProps, AuthState> 
 {

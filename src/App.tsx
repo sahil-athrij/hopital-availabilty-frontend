@@ -47,18 +47,16 @@ interface AppRouterProps {
 
 type AppProps = RouteComponentProps<AppRouterProps>
 
-interface AppDispatchProps {
-    // Add your dispatcher properties here
-}
 
-class AppLoc extends React.Component<AppProps & AppDispatchProps> 
+
+class AppLoc extends React.Component<AppProps>
 {
     /**
      * Initialize props
      * Set the location into history stack
      */
 
-    constructor(props: AppProps & AppDispatchProps) 
+    constructor(props: AppProps)
     {
         super(props);
         const location = this.props.location.pathname + this.props.location.search;
@@ -80,7 +78,7 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps>
     /**
      * componentDidUpdate() method use to execute the code when the state of component changes
      */
-    componentDidUpdate(prevProps: any, prevState: any, snapshot: any) 
+    componentDidUpdate()
     {
         getParam("lat", "", true);
         getParam("lng", "", true);
@@ -112,13 +110,13 @@ class AppLoc extends React.Component<AppProps & AppDispatchProps>
                     <BottomNav/>
 
                     <Switch>
-                        <Route path="/doctor/add/:hospital" children={AddDoctorComponent} />
-                        <Route path="/department/add/:hospital" children={AddDepartmentComponent} />
-                        <Route path="/doctor/:docId" children={DoctorComponent} /> {/* Show details about a doctor */} 
+                        <Route path="/doctor/add/:hospital" ><AddDoctorComponent/></Route>
+                        <Route path="/department/add/:hospital" ><AddDepartmentComponent/></Route>
+                        <Route path="/doctor/:docId" ><DoctorComponent/></Route> {/* Show details about a doctor */}
                         <Route path="/details/reviews/:hspId">
                             <AddHospitalReview/>
                         </Route>  
-                        <Route path="/details/:hspId" children={Details} /> {/* Show details about a hospital */}
+                        <Route path="/details/:hspId"> <Details/></Route>{/* Show details about a hospital */}
                         <Route path="/search">
                             <NavBar/>
                             <Search/>

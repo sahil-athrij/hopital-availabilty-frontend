@@ -8,6 +8,7 @@ import "./AddHospital.css";
 
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
+import CloseIcon from "@mui/icons-material/Close";
 import L from "leaflet";
 import {BiCurrentLocation, GrLocation} from "react-icons/all";
 import {get} from "../../api/api";
@@ -15,7 +16,6 @@ import {Suggestion} from "../FullScreen/FullScreenLocation";
 import {TextField} from "@mui/material";
 import {Marker} from "../../api/model";
 import {withRouter} from "react-router";
-import close from "../../images/close.svg";
 import Button from "@mui/material/Button";
 
 const DefaultIcon = L.icon({
@@ -117,6 +117,7 @@ function LocationMarker(props: LocationMarkerProps)
             const {target} = e.originalEvent;
             if (target) 
             {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 const className = target.getAttribute("class");
                 console.log(className);
@@ -134,7 +135,7 @@ function LocationMarker(props: LocationMarkerProps)
             }
 
         },
-        drag(e) 
+        drag()
         {
             const latlng = map.getCenter();
             setPosition(latlng);
@@ -146,7 +147,7 @@ function LocationMarker(props: LocationMarkerProps)
 
 
         },
-        zoomlevelschange(e) 
+        zoomlevelschange()
         {
             const latlng = map.getCenter();
             setPosition(latlng);
@@ -167,7 +168,7 @@ function LocationMarker(props: LocationMarkerProps)
                 updateCenter(e.latlng.lat, e.latlng.lng);
             
         },
-        locationerror(e) 
+        locationerror()    
         {
             toast.error("Location is Disabled, Please enable location from the settings Menu", {
                 position: "bottom-center"
@@ -183,10 +184,10 @@ function LocationMarker(props: LocationMarkerProps)
             navigator.geolocation.getCurrentPosition(() => map.locate);
         
     }, []);
-    useEffect(() => 
-    {
-
-    }, [suggestions]);
+    // useEffect(() =>    //TODO
+    // {
+    //
+    // }, [suggestions]);
     return position === null ? null : (
         <>
             <div className={"overlay w-100"}>
@@ -307,6 +308,7 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
             value = event;
         
 
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         this.setState({[name]: value});
 
@@ -331,10 +333,6 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                 position: "bottom-center",
             });
         
-    };
-    eventHandlers = (event: any) => 
-    {
-        console.log(event);
     };
 
     postData = () => 
@@ -379,7 +377,7 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                 <div >
                     <Container className=" px-0 pb-3 h-100 pt-0 bg-white neumorphic-input">
                         <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
-                            <img src={close} onClick={() => this.props.history.goBack()} alt={"close"}/>
+                            <CloseIcon onClick={() => this.props.history.goBack()}/>
                             <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Medical Details</b>
                             </p>
                             {this.state.position === 1 ? (
@@ -413,7 +411,6 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
 
                             <h6 className="text-left"><b>Hospital Information</b></h6>
                             <TextField label="Hospital Name" required={true} variant="outlined"
-                                autoFocus
                                 fullWidth
                                 className="my-2"
                                 size="small"

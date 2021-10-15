@@ -239,7 +239,7 @@ export class LocationSearchBoxLoc<P extends LocationSearchProps, S extends Locat
         return <React.Fragment>
             <Container className="w-100 input-holder">
                 <MarkerSvg className=" input-marker"/>
-                <input autoFocus={true} placeholder="Select Location" className="main-input"
+                <input  placeholder="Select Location" className="main-input"
                     value={this.state.value}
                     type="search"
                     onKeyDown={(event) => 

@@ -111,9 +111,7 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
                             <p className=" mr-1">See All</p>
                         </div>
                         <Col xs={12} id="searchresults">
-                            <SearchResults updateParent={() => 
-                            {
-                            }}/>
+                            <SearchResults updateParent={() =>null                  }/>
                         </Col>
                     </> : <></>
                     }

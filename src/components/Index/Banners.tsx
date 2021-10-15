@@ -1,5 +1,4 @@
 import React from "react";
-import {makeStyles, Theme, useTheme} from "@mui/material/styles";
 import MobileStepper from "@mui/material/MobileStepper";
 
 import Button from "@mui/material/Button";
@@ -11,7 +10,7 @@ import Hospital from "../../images/hospital.jpg";
 import Help from "../../images/help.jpg";
 import AddHospital from "../../images/addHospital.jpg";
 import GiveHelp from "../../images/giveHelp.jpg";
-import {useHistory, useLocation, withRouter} from "react-router";
+import { withRouter} from "react-router";
 import {withStyles, createStyles, WithStyles} from "@mui/styles";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 
@@ -55,7 +54,7 @@ const SliderSteps = [
 /**
  * Styling of Swipable-Sliders
  */
-const styles = (theme: Theme) => createStyles({
+const styles = () => createStyles({
     root: {
         background: "transparent"
     },
@@ -221,7 +220,6 @@ class SwipeableTextMobileStepperLoc extends AuthComponent<SwipeableTextMobilePro
                     // axis={'x'}
                     index={this.state.activeStep}
                     onChangeIndex={this.handleStepChange}
-                    // @ts-ignore
                     slideRenderer={this.Carousel}
                     enableMouseEvents/>
     

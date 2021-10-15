@@ -2,7 +2,7 @@ import {Doctor, DoctorObject} from "../../api/model";
 
 import "./doctor.css";
 
-import icon1 from "./icons/icon-1@2x.svg";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import image from "./icons/image@2x.svg";
 import icon from "./icons/icon@2x.svg";
 import icon2 from "./icons/icon-2@2x.svg";
@@ -48,7 +48,7 @@ interface CommunicationProps {
 
 const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-class DoctorStats extends React.Component<StatsProps, {}> 
+class DoctorStats extends React.Component<StatsProps, Record<string, unknown>>
 {
     render() 
     {
@@ -72,7 +72,7 @@ class DoctorStats extends React.Component<StatsProps, {}>
     }
 }
 
-class Communication extends React.Component<CommunicationProps, {}> 
+class Communication extends React.Component<CommunicationProps, Record<string, unknown> >
 {
     render() 
     {
@@ -117,9 +117,8 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
     async refreshData() 
     {
         this.setState({ready: false});
-        //TODO: fix later
-        // @ts-ignore
-        const {docId} = this.props.match.params;
+
+        const {docId} = this.props.match.params as {docId:number};
         const doctor = await Doctor.get(docId) as DoctorObject;
 
         this.setState({model: doctor, ready: true, id: docId});
@@ -132,26 +131,17 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
         await this.refreshData();
     }
 
-    showDoctor({model, history}: { model: DoctorObject, history: { goBack: Function } }) 
+    showDoctor({model, history}: { model: DoctorObject, history: { goBack: ()=> void } })
     {
         return (
             <>
                 <div className="overlap-group4">
                     <div className="d-flex justify-content-between w-100 px-3 align-items-centre">
-                        {/*<div className="left-align">*/}
-                        <img alt={""}
-                            onClick={() => history.goBack()}
-                            className="icon-1 mx-3"
-                            src={icon1}/>
-
-
-
-
+                        <ArrowBackIcon className="left-align" onClick={() => history.goBack()} />
                         <img alt={""}
                             className="icon-2 mx-3"
                             src={icon}
                         />
-
 
                     </div>
 

@@ -22,7 +22,7 @@ interface LocationQuerySearchProps extends LocationSearchProps {
 }
 
 type SuggestionSearch = {
-    name: any;
+    name: string;
     lat: number;
     lon: number;
     address: {
@@ -91,8 +91,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
     handleEnterSearch() 
     {
         const newSelected = this.state.suggestionsSearch[this.state.selectedSearch];
-        let newValue;
-        newValue = newSelected ? newSelected.name : this.state.query;
+        const newValue = newSelected ? newSelected.name : this.state.query;
         this.setState({
             query: newValue,
             display: 0
@@ -171,7 +170,6 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                     <input placeholder="Search Hospital" className={"main-input w-75 "}
                         value={this.state.query}
                         type="search"
-                        autoFocus
 
                         onKeyDown={(event) => 
                         {
@@ -273,9 +271,7 @@ export class FullScreenSearch extends ResponsiveComponent<FullScreenLocationProp
 
             </Container>
             <Container fluid={true} className="mt-3">
-                <LocationQuerySearchBox close={() => 
-                {
-                }} closeWindow={this.props.close}/>
+                <LocationQuerySearchBox close={() => null} closeWindow={this.props.close}/>
             </Container>
         </div>);
     }

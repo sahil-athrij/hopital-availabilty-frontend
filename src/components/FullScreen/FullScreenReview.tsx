@@ -33,7 +33,7 @@ interface ReviewBoxState extends AuthState {
     allow_post: boolean
 }
 
-export class ReviewBox extends AuthComponent<ReviewBoxProps, ReviewBoxState> 
+export class ReviewBox extends AuthComponent<ReviewBoxProps, ReviewBoxState>
 {
 
     constructor(props: ReviewBoxProps) 
@@ -58,8 +58,8 @@ export class ReviewBox extends AuthComponent<ReviewBoxProps, ReviewBoxState>
 
     setValue = (param: string, value: number | string | boolean) => 
     {
-        // @ts-ignore
-        this.setState({[param]: value},
+
+        this.setState(({[param]: value} as unknown as ReviewBoxState ),
             () => 
             {
                 const allow_post = this.state.care_rating !== 0 && this.state.covid_rating !== 0 && this.state.oxygen_rating !== 0

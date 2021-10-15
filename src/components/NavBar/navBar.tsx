@@ -90,14 +90,14 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
                             }}>
                             <Burger/>
                         </Navbar.Toggle>
-                        <div className="srchtxt flex-grow-1" onClick={() => 
+                        <button className="srchtxt flex-grow-1" onClick={() =>
                         {
                             this.props.history.push(currentLocation + "#search");
 
                             this.setState({show_search: !this.state.show_search});
                         }} >
                                 Search hospitals
-                        </div>
+                        </button>
                         <Avatar  className="mr-2">{this.state.user? this.state.user.username?this.state.user.username[0]:"?":"?"}</Avatar>
 
 

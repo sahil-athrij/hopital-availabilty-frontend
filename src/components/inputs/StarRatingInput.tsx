@@ -13,10 +13,8 @@ interface StarRatingInputProps {
 }
 
 
-interface StarRatingInputState {
-}
 
-export class StarRatingInput extends Component<StarRatingInputProps, StarRatingInputState> 
+export class StarRatingInput extends Component<StarRatingInputProps>
 {
     state = {
         value: getParam(this.props.name),

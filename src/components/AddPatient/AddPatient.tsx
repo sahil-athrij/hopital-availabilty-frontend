@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import {Chip,  ListItem, TextField, Container} from "@mui/material";
 import "./AddPatient.css";
-import close from "../../images/close.svg";
+import CloseIcon from "@mui/icons-material/Close";
 import MenuItem from "@mui/material/MenuItem";
 import Checkbox from "@mui/material/Checkbox";
 import lineicon from "../../images/LineCenter.svg";
@@ -207,9 +207,9 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState>
                             this.setValue("blood", event)}
                     >
 
-                        {this.bloodgroups.map((value => (
-                            <MenuItem value={value}>{value}</MenuItem>
-                        )))
+                        {this.bloodgroups.map((value, key) => (
+                            <MenuItem key={key} value={value}>{value}</MenuItem>
+                        ))
 
                         }
                     </TextField>
@@ -328,6 +328,7 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState>
             value = event;
         
         //TODO: fix ts ignore
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         this.setState({[name]: value});
 
@@ -396,7 +397,7 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState>
                     <Box className='px-2' sx={{width: "100%"}}>
 
                         <Container className="head-sec d-flex justify-content-between p-3 shadow-none ">
-                            <img src={close} onClick={() => this.props.history.goBack()} alt={"close"}/>
+                            <CloseIcon onClick={() => this.props.history.goBack()}/>
                             <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Medical Details</b>
                             </p>
                             {this.state.activeStep === 4 ? (

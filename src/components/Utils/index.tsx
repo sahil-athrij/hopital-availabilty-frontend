@@ -5,12 +5,7 @@ import "./index.css";
 
 import star from "../../images/star.svg";
 import fadestar from "../../images/fadestar.svg";
-import LinearProgress from "@mui/material/LinearProgress";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import Rating from "@mui/material/Rating";
-import Tooltip from "@mui/material/Tooltip";
-import stars from "../../images/5stars.svg";
-import info from "../../images/info.svg";
+
 
 const BigBlueButtonStyle = {
     letterSpacing: "0.49px",

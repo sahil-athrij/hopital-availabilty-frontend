@@ -15,7 +15,7 @@ import starsvg from "../../images/borderstar.svg";
 
 import image from "./icons/image@2x.png";
 import icon from "./icons/icon-1@2x.png";
-import icon2 from "./icons/icon@2x.png";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import share_icon from "./icons/shareicon.svg";
 import phone_icon from "./icons/vector-26@2x.png";
 import map_pin from "./icons/map-pin.svg";
@@ -38,8 +38,8 @@ interface DetailsState extends AuthState {
 
 interface TabPanelProps {
     children?: React.ReactNode;
-    index: any;
-    value: any;
+    index: number;
+    value: number;
 }
 
 
@@ -98,8 +98,8 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState>
 
     async refreshReviews() 
     {
-        this.setState({ready: false});
-        //TODO: fix later
+        this.setState({ready: false}); //TODO
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const {hspId} = this.props.match.params;
         const marker = await Marker.get(hspId) as MarkerObject;
@@ -140,8 +140,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                         <div className="w-100 flex-row container px-0 mx-0 pt-4">
                             <div className="w-100 d-flex flex-row justify-content-between p-0">
                                 <div className="bck-btn m-0">
-                                    <img alt={""} width={"15px"} height={"15px"} src={icon2}
-                                        onClick={() => this.props.history.goBack()}/>
+                                    <ArrowBackIcon onClick={() => this.props.history.goBack()}/>
                                 </div>
                                 <div className="hbg-mnu m-0">
                                     <img alt={""} width={"5px"} height={"15px"} src={icon}/>
@@ -157,7 +156,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                             <div className="w-100 d-flex flex-row justify-content-center">
                                 <img alt={""} src={map_pin} width={"12px"} height={"12px"}/>
                                 <div className="details-place">
-                                    {[model.address.village, model.address.suburb, model.address.county, model.address.state].filter(Boolean).join(", ")}
+                                    {[model.address?.village, model.address?.suburb, model.address?.county, model.address?.state].filter(Boolean).join(", ")}
                                 </div>
                             </div>
                             <div className="w-100 d-flex justify-content-around">
@@ -187,19 +186,22 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                         </div>
                         <div className="container d-flex justify-content-between">
 
-                            <div className={`card-about card-1 ${this.state.tab === 0 && "active"}`}
+                            <div role="button" tabIndex={0} className={`card-about card-1 ${this.state.tab === 0 && "active"}`}
+                                onKeyPress={()=>null}
                                 onClick={() => this.setState({tab: 0})}>
                                 <img src={doctorsvg} alt={"doctor svg"}/>
                                 <p className="m-0"><b>{model.doctors.length}</b><br/>Doctors</p>
                             </div>
 
-                            <div className={`card-about card-1 ${this.state.tab === 1 && "active"}`}
+                            <div role="button" tabIndex={0} className={`card-about card-1 ${this.state.tab === 1 && "active"}`}
+                                onKeyPress={()=>null}
                                 onClick={() => this.setState({tab: 1})}>
                                 <img src={layoutsvg} alt={"layout svg"}/>
                                 <p className="m-0"><b>good</b><br/>Layout</p>
                             </div>
 
-                            <div className={`card-about card-1 ${this.state.tab === 2 && "active"}`}
+                            <div role="button" tabIndex={0} className={`card-about card-1 ${this.state.tab === 2 && "active"}`}
+                                onKeyPress={()=>null}
                                 onClick={() => this.setState({tab: 2})}>
                                 <img src={reviewsvg} alt={"review svg"}/>
                                 <p className="m-0"><b>{model.comment.length}<br/></b>Ratings<br/>&amp; Reviews</p>
@@ -240,7 +242,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState>
 
 }
 
-class ActionButton extends React.Component<{ src: string, caption: string, action?: string, share?: ShareData }, {}> 
+class ActionButton extends React.Component<{ src: string, caption: string, action?: string, share?: ShareData }, Record<string, unknown>>
 {
     render() 
     {

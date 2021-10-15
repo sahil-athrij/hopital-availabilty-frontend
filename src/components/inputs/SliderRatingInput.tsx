@@ -44,16 +44,6 @@ const AirbnbSlider = withStyles({
     },
 })(Slider);
 
-function AirbnbThumbComponent(props: JSX.IntrinsicAttributes & React.ClassAttributes<HTMLSpanElement> & React.HTMLAttributes<HTMLSpanElement>) 
-{
-    return (
-        <span {...props}>
-            <span className="bar"/>
-            <span className="bar"/>
-            <span className="bar"/>
-        </span>
-    );
-}
 
 interface SliderRatingInputProps {
     name: string,

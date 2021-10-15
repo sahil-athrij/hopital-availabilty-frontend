@@ -17,8 +17,7 @@ import {toast} from "react-toastify";
 import {Patient} from "../../api/model";
 
 
-interface ProfileRequestState extends AuthState
-{
+interface ProfileRequestState extends AuthState {
     position: number,
     Name: string,
     age: string,
@@ -48,10 +47,10 @@ interface ProfileRequestState extends AuthState
     bunum: string,
 }
 
-export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState>
+export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState> 
 {
 
-    constructor(props: AuthProps)
+    constructor(props: AuthProps) 
     {
         super(props);
         this.state = {
@@ -89,105 +88,100 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
         };
     }
 
-    testPos = (num: number) =>
+    testPos = (num: number) => 
     {
         console.log(this.state);
         let filled = Boolean(this.state.Name && this.state.age && this.state.gender);
         console.log(filled);
         if (num > 1)
-        
+
             filled = Boolean(filled && this.state.symptoms && this.state.symdays && this.state.oxy_bed);
-        
+
 
         if (num > 2)
-        
+
             filled = Boolean(filled && this.state.ct && this.state.covidresult);
-        
+
 
         if (num > 3)
-        
+
             filled = Boolean(filled && (!this.state.attender || (this.state.attendername && this.state.attenderphone && this.state.relation)));
-        
+
 
         if (num > 4)
-        
+
             filled = Boolean(filled && (!this.state.previoushospital || (this.state.hospitalpref && this.state.srfid && this.state.bunum)));
-        
+
 
         return filled;
     };
 
 
-    setPosition = (position: number) =>
+    setPosition = (position: number) => 
     {
         const filled = this.testPos(position);
         console.log(filled);
         if (filled)
-        
+
             this.setState({position});
-        
+
         else
-        
+
             toast.error("Please fill all the required details before proceeding", {
                 position: "bottom-center",
             });
-        
+
 
     };
 
-    setValue = (name: string, event: string | boolean | React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) =>
+    setValue = (name: string, event: string | boolean | React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => 
     {
         let value;
         if (typeof event !== "boolean" && typeof event !== "string" && typeof event !== "number")
-        
+
             value = event.target.value;
-        
+
         else
-        
             value = event;
-        
 
-        //TODO: fix ts ignore
-        // @ts-ignore
-        this.setState({[name]: value});
-
+        this.setState(({[name]: value} as unknown as ProfileRequestState ));
     };
 
-    postData = () =>
+    postData = () => 
     {
-        Patient.create(this.state).then(() =>
+        Patient.create(this.state).then(() => 
         {
             toast.success("Successfully Submitted Review", {
                 position: "bottom-center",
             });
-        }).catch((error) =>
+        }).catch((error) => 
         {
             const {detail} = error;
             console.log(detail);
-            if (detail === "Invalid token header. No credentials provided.")
+            if (detail === "Invalid token header. No credentials provided.") 
             {
                 this.refreshAuth();
                 this.postData();
             }
             else
-            
+
                 toast.error(detail, {
                     position: "bottom-center",
                 });
-            
+
 
         });
     };
 
-    render()
+    render() 
     {
-        if (!this.state.auth)
+        if (!this.state.auth) 
         {
             this.performAuth();
             return (<></>);
         }
         else
-        
+
             return (
                 <div className="bg-grey d-flex flex-column justify-content-between min-vh-100">
                     <Container className="mt-5 pt-5 ">
@@ -200,7 +194,6 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
                         <div className="d-flex flex-column">
                             <h6 className="text-left"><b>personal Information</b></h6>
                             <TextField label="Patient Name" required={true} variant="outlined"
-                                autoFocus
                                 className="my-1" type="text"
                                 value={this.state.Name}
                                 onChange={(event) =>
@@ -247,7 +240,6 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
                         <div className="d-flex flex-column">
                             <h6 className="text-left"><b>Medical Information</b></h6>
                             <TextField label="Symptoms" required={true} variant="outlined"
-                                autoFocus
                                 value={this.state.symptoms}
                                 onChange={(event) =>
                                     this.setValue("symptoms", event)}
@@ -297,7 +289,7 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
                         <div className="d-flex flex-column">
                             <h6 className="text-left"><b>Tests Information</b></h6>
                             <TextField label="Blood Group" required={true} variant="outlined"
-                                select autoFocus
+                                select
                                 className="my-1" type="select"
                                 helperText="Please enter Patient Blood Group"
                                 SelectProps={{
@@ -359,17 +351,18 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
                             <div className="d-flex flex-row justify-content-between">
 
                                 <h6 className="text-left"><b>Attender Information</b></h6>
-                                <div className="d-flex flex-row align-items-center" onClick={() =>
-                                {
-                                    this.setValue("attender", !this.state.attender);
-                                }}>
+                                <div role="button" tabIndex={0} className="d-flex flex-row align-items-center"
+                                    onKeyPress={()=>null}
+                                    onClick={() => 
+                                    {
+                                        this.setValue("attender", !this.state.attender);
+                                    }}>
 
                                     <small className="mr-3">Attender </small>
                                     <Switch color="default"
                                         defaultChecked={true}
                                         checked={this.state.attender}
-                                        autoFocus={true}
-                                        onChange={() =>
+                                        onChange={() => 
                                         {
                                             this.setValue("attender", !this.state.attender);
                                         }}
@@ -409,8 +402,9 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
                             <div className="d-flex flex-row justify-content-between">
 
                                 <h6 className="text-left"><b>Previous Hospital Information</b></h6>
-                                <div className="d-flex flex-row align-items-center"
-                                    onClick={() =>
+                                <div role="button" tabIndex={0} className="d-flex flex-row align-items-center"
+                                    onKeyPress={() => null}
+                                    onClick={() => 
                                     {
                                         this.setValue("previoushospital", !this.state.previoushospital);
                                     }}>
@@ -418,11 +412,10 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
                                     <small className="mr-3">Hospital </small>
                                     <Switch color="default"
                                         checked={this.state.previoushospital}
-                                        onChange={() =>
+                                        onChange={() => 
                                         {
                                             this.setValue("previoushospital", !this.state.previoushospital);
                                         }}
-                                        autoFocus={true}
 
                                     />
                                 </div>
@@ -432,7 +425,7 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
                                     <TextField label="Previous Hospital Name" required={true} variant="outlined"
                                         className="my-1" type="text"
                                         value={this.state.hospitalpref}
-                                        onChange={(event) =>
+                                        onChange={(event) => 
                                         {
                                             this.setValue("hospitalpref", event);
                                         }}
@@ -441,7 +434,7 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
                                         className="my-1" type="text"
                                         helperText="Please enter SRF ID"
                                         value={this.state.srfid}
-                                        onChange={(event) =>
+                                        onChange={(event) => 
                                         {
                                             this.setValue("srfid", event);
                                         }}
@@ -449,7 +442,7 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
                                     <TextField label="BU Number " required={true} variant="outlined"
                                         className="my-1" type="text"
                                         value={this.state.bunum}
-                                        onChange={(event) =>
+                                        onChange={(event) => 
                                         {
                                             this.setValue("bunum", event);
                                         }}
@@ -464,37 +457,37 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
                     <Container className=" py-2 bg-white neumorphic-input p-0 ">
                         <div className="d-flex flex-row px-3 w-100 justify-content-center">
                             {this.state.position !== 0 &&
-                            <button className="btn w-50 btn-light" onClick={() =>
+                            <button className="btn w-50 btn-light" onClick={() => 
                             {
                                 this.setPosition(this.state.position - 1);
                             }}>Previous</button>
                             }
                             {this.state.position !== 4 ?
                                 <button className="btn w-50 btn-primary blue-gradient"
-                                    onClick={() =>
+                                    onClick={() => 
                                     {
                                         this.setPosition(this.state.position + 1);
                                     }}> Next</button> :
                                 <button className="btn w-50 btn-success" onClick={this.postData}> Submit</button>}
                         </div>
                         <Stepper activeStep={this.state.position} alternativeLabel>
-                            <Step onClick={() =>
+                            <Step onClick={() => 
                             {
                                 this.setPosition(0);
                             }}><StepLabel/></Step>
-                            <Step onClick={() =>
+                            <Step onClick={() => 
                             {
                                 this.setPosition(1);
                             }}><StepLabel/></Step>
-                            <Step onClick={() =>
+                            <Step onClick={() => 
                             {
                                 this.setPosition(2);
                             }}><StepLabel/></Step>
-                            <Step onClick={() =>
+                            <Step onClick={() => 
                             {
                                 this.setPosition(3);
                             }}><StepLabel/></Step>
-                            <Step onClick={() =>
+                            <Step onClick={() => 
                             {
                                 this.setPosition(4);
                             }}><StepLabel/></Step>
@@ -503,7 +496,7 @@ export class ProfileRequest extends AuthComponent<AuthProps, ProfileRequestState
                     </Container>
                 </div>
             );
-        
+
 
     }
 

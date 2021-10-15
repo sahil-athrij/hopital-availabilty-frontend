@@ -59,7 +59,7 @@ class Card extends React.Component<CardProps, { open: boolean }>
 }
 
 
-export class DoctorCards extends Component<{ models: DoctorObject[], hospital: number }, {}> 
+export class DoctorCards extends Component<{ models: DoctorObject[], hospital: number }, Record<string, unknown>>
 {
 
     render() 
