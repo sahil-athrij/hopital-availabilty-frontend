@@ -13,7 +13,7 @@ import Righticon from "../../images/righticon.svg";
 import Addhosp from "../../images/addhospcard.svg";
 import Givehelp from "../../images/givehelpcard.svg";
 import Searchhosp from "../../images/searchhospcard.svg";
-import Ambulance from "../../images/ambulance.svg";
+import Ambulanceindex from "../../images/ambulanceindex.svg";
 import Medicine from "../../images/Medicine.svg";
 import Doc from "../../images/Doc.svg";
 
@@ -89,7 +89,7 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
                     <div className="container d-flex justify-content-between my-2 p-0 align-self-center">
 
                         <div className="homecard d-flex flex-column ">
-                            <img src={Ambulance}  alt=""/>
+                            <img src={Ambulanceindex}  alt=""/>
                             <div className="cardtxt ">Ambulance</div>
                         </div>
                         <div className="homecard">
