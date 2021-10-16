@@ -13,9 +13,9 @@ import Righticon from "../../images/righticon.svg";
 import Addhosp from "../../images/addhospcard.svg";
 import Givehelp from "../../images/givehelpcard.svg";
 import Searchhosp from "../../images/searchhospcard.svg";
-import Ambulanceindex from "../../images/ambulanceindex.svg";
 import Medicine from "../../images/Medicine.svg";
 import Doc from "../../images/Doc.svg";
+import Ambulanceimg from "../../images/ambulanceimg.svg";
 
 interface IndexState extends AuthState {
     display: boolean
@@ -57,7 +57,7 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
                 <div className="usertext text-left mb-2">
                     {this.state.user?.firstname ? `Welcome, ${this.state.user.firstname}` : "Welcome"}
                 </div>
-                <Container className="text-left">
+                <Container className="">
                     <img className="needmedi" src={Homecover} alt=""/>
                     <Link to="/addRequest">
                         <div className="helpbar">
@@ -89,7 +89,7 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
                     <div className="container d-flex justify-content-between my-2 p-0 align-self-center">
 
                         <div className="homecard d-flex flex-column ">
-                            <img src={Ambulanceindex}  alt=""/>
+                            <img src={Ambulanceimg} alt=""/>
                             <div className="cardtxt ">Ambulance</div>
                         </div>
                         <div className="homecard">
@@ -98,7 +98,7 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
                         </div>
                         <div className="homecard">
                             <img src={Doc}  alt=""/>
-                            <div className="cardtxt">Doctor</div>
+                            <div className="cardtxt m-0">Doctor</div>
                         </div>
                     </div>
                 </Container>

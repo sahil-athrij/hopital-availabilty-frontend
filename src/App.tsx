@@ -120,6 +120,7 @@ class AppLoc extends React.Component<AppProps>
                         <Route path="/search">
                             <NavBar/>
                             <Search/>
+                            <BottomNav/>
                         </Route>
                         {/* If the current URL is /profile, this route is rendered
             while the rest are ignored */}
