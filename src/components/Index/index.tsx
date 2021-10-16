@@ -7,7 +7,7 @@ import "./index.css";
 import {getParam} from "../../api/QueryCreator";
 
 import {SearchResults} from "../cards/SearchResultCard";
-import Homecover from "../../images/Needmedihome.svg";
+import Homecover from "../../images/illustration.svg";
 import {Link} from "react-router-dom";
 import Righticon from "../../images/righticon.svg";
 import Addhosp from "../../images/addhospcard.svg";
@@ -58,7 +58,15 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
                     {this.state.user?.firstname ? `Welcome, ${this.state.user.firstname}` : "Welcome"}
                 </div>
                 <Container className="text-left">
-                    <img className="needmedi" src={Homecover} alt=""/>
+                    <div style={{backgroundColor: "#3E64FF", borderRadius: "1.25rem", boxShadow: "0px 25px 58px rgba(62, 100, 255, 0.3)"}} className="card text-white">
+                        <div className="d-flex align-items-start flex-column mb-5 pb-2">
+                            <h1 className="text-white mx-4 mt-4 mb-2"><b>NeedMedi</b></h1>
+                            <h1 className="text-white mx-4 mb-2"><b>is for all</b></h1>
+                            <h6 className="text-white mx-4 my-0"><b>Your complete partner in</b></h6>
+                            <h6 className="text-white mx-4 my-0"><b>terms of medical help</b></h6>
+                        </div>
+                        <img style={{borderRadius: "1.25rem"}} className="mx-4 mb-0" src={Homecover} alt="home"/>
+                    </div>
                     <Link to="/addRequest">
                         <div className="helpbar">
                             <div className="rigtharrow"><img className="iconimg" src={Righticon} alt=""/></div>
