@@ -83,24 +83,6 @@
     "webpack-cli": "^4.9.0",
     "yarn": "^1.22.15"
   },
-  "jest": {
-    "testMatch": [
-      "<rootDir>/__tests__/**/*.[jt]s?(x)"
-    ],
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "identity-obj-proxy",
-      "\\.(css|less)$": "identity-obj-proxy"
-    },
-    "extensionsToTreatAsEsm": [
-      ".ts"
-    ],
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ],
-    "setupFiles": [
-      "<rootDir>/setupTests.js"
-    ]
-  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
