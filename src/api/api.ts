@@ -1,9 +1,7 @@
 import {getAuth} from "./auth";
 import {ModelRegistry} from "./model";
 
-export const baseUrl = "https://needmedi.com";
-// export const baseUrl = "http://127.0.0.1:8000" 
-// export const baseUrl = "http://10.147.19.91:8080"
+export const baseUrl = process.env.BASE_URL;
 
 
 export async function get(url: string, kwargs = {}, headers = {}) 
