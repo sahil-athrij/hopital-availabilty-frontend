@@ -3,7 +3,7 @@ import {AuthComponent, AuthState} from "../../api/auth";
 import {Marker, MarkerObject} from "../../api/model";
 import {RouteComponentProps, withRouter} from "react-router";
 import {Container} from "react-bootstrap";
-import {FcAddImage} from "react-icons/all";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import {toast} from "react-toastify";
 import Loader from "react-loader-spinner";
 
@@ -131,12 +131,12 @@ export class AddHospitalPhotoLoc extends AuthComponent<AddHospitalPhotoPropsLoc,
                                 : <>
 
                                     <div>Choose File</div>
-                                    <FcAddImage className={"text-primary "} size={60}/>
+                                    <AddPhotoAlternateIcon className={"text-primary "} sx={{width: "60px"}}/>
                                 </>
 
                             }
                             <input type="file" hidden onChange={this.handleFile} accept="image/*" ref={this.fileInput}/>
-                        </button>
+                        </button>s
                         {this.state.file &&
                         (this.state.done ?
                             <button className="btn-success btn blue-gradient rounder ml-auto mr-auto w-50"

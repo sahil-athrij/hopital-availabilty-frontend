@@ -1,6 +1,7 @@
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {withRouter} from "react-router";
-import {IoCheckmarkCircleSharp, IoCloseCircleSharp} from "react-icons/all";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import React from "react";
 import {Patient, PatientObject} from "../../api/model";
 import {Container} from "react-bootstrap";
@@ -39,8 +40,8 @@ class RequestDisplayLoc extends AuthComponent<RequestDisplayProps, AuthState>
 
                             <div><b>Conditions:</b></div>
                             <div>
-                                Covid Negative : {request.covidresult ? <IoCloseCircleSharp className="text-danger"/> :
-                                    <IoCheckmarkCircleSharp className="text-primary"/>}
+                                Covid Negative : {request.covidresult ? <HighlightOffIcon className="text-danger"/> :
+                                    <CheckCircleOutlineIcon className="text-primary"/>}
                             </div>
                         </div>
                     </div>
@@ -99,8 +100,8 @@ class RequestDetailsLoc extends AuthComponent<AuthPropsLoc, RequestDetailsState>
                             </div>
                             <div className="w-50 align-items-start d-flex">
                                 <div className="align-items-center d-flex">Covid Negative :
-                                    {request.covidresult ? <IoCloseCircleSharp className="text-danger"/> :
-                                        <IoCheckmarkCircleSharp className="text-primary"/>}
+                                    {request.covidresult ? <HighlightOffIcon className="text-danger"/> :
+                                        <CheckCircleOutlineIcon className="text-primary"/>}
                                 </div>
                             </div>
                         </div>
@@ -110,8 +111,8 @@ class RequestDetailsLoc extends AuthComponent<AuthPropsLoc, RequestDetailsState>
                                 <b>{request.spo2}</b>
                             </div>
                             <div className="w-50"> Patient is On Oxygen : {request.spo2 === 0 ?
-                                <IoCloseCircleSharp className="text-danger"/> :
-                                <IoCheckmarkCircleSharp className="text-primary"/>}</div>
+                                <HighlightOffIcon className="text-danger"/> :
+                                <CheckCircleOutlineIcon className="text-primary"/>}</div>
                         </div>
                         <div className="d-flex flex-row py-1">
                             <div className="w-50">
