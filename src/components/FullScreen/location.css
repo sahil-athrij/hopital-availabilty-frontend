@@ -3,16 +3,10 @@
 }
 
 .input-holder {
-
-    border: 2px solid #282c34;
-    border-radius: 50px;
-    transition: border 200ms;
-}
-
-.input-holder:focus,
-.input-holder:active {
-    border: 2px solid #000000;
-
+    background: #FFFFFF;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    max-width: 96%;
 }
 
 .main-input {
@@ -20,7 +14,7 @@
     border: none;
     height: 40px;
     line-height: 40px;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .main-input:focus,
