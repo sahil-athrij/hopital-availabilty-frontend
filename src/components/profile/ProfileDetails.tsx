@@ -1,9 +1,8 @@
-import {AuthComponent, AuthPropsLoc, AuthState, reactUrl} from "../../api/auth";
+import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {Container} from "react-bootstrap";
 import {withRouter} from "react-router";
 import React from "react";
 import {CSSTransition} from "react-transition-group";
-import {FullScreenShare} from "../FullScreen/FullScreenShare";
 import {Patient, PatientObject} from "../../api/model";
 import {Link} from "react-router-dom";
 import icon1 from "../../images/backicon.svg";
@@ -46,17 +45,18 @@ const AirbnbSlider = withStyles({
 })(Slider);
 
 
-interface ProfileDetailsState extends AuthState {
+interface ProfileDetailsState extends AuthState
+{
     show_share: boolean;
     tab: number;
-    requests: PatientObject[]
-    friend_request: PatientObject[]
+    requests: PatientObject[];
+    friend_request: PatientObject[];
 }
 
 
-export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetailsState> 
+export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetailsState>
 {
-    constructor(props: AuthPropsLoc) 
+    constructor(props: AuthPropsLoc)
     {
         super(props);
         this.state = {
@@ -68,19 +68,20 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
         };
     }
 
-    hashChange = () => 
+    hashChange = () =>
     {
-        if (!this.props.location.hash.includes("share")) 
+        if (!this.props.location.hash.includes("share"))
         
             this.setState({show_share: false});
         
-        else 
+        else
         
             this.setState({show_share: true});
         
+
     };
 
-    async componentDidMount() 
+    async componentDidMount()
     {
         super.componentDidMount();
         const data = await Patient.filter({}, true);
@@ -88,39 +89,40 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
         this.setState({requests: data.results, friend_request: data1.results});
     }
 
-    getgender = (gender: string) => 
+    getgender = (gender: string) =>
     {
-        if (gender === "M") 
+        if (gender === "M")
         
             return (
                 <img src={Maleicon} alt=""/>);
-            // eslint-disable-next-line eqeqeq
-        
-        else if (gender === "F") 
+        // eslint-disable-next-line eqeqeq
+
+        else if (gender === "F")
         
             return (
                 <img src={Femaleicon} alt=""/>
             );
         
-        else if (gender === "NB") 
+        else if (gender === "NB")
         
             return (
                 <img src={TransGen} alt=""/>
             );
         
-        else if (gender === "NP") 
+        else if (gender === "NP")
         
             return (
                 <img src={PrefNSay} alt=""/>
             );
         
 
+
     };
 
 
-    getTab = () => 
+    getTab = () =>
     {
-        if (this.state.tab === 0) 
+        if (this.state.tab === 0)
         
             return (
                 <div className="">
@@ -173,7 +175,7 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                 </div>
             );
         
-        else if (this.state.tab === 1) 
+        else if (this.state.tab === 1)
         
             return (
                 <div className="">
@@ -204,7 +206,7 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
 
             );
         
-        else if (this.state.tab === 2) 
+        else if (this.state.tab === 2)
         
             return (
                 <div className="m-4">
@@ -212,15 +214,13 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                 </div>
 
             );
-
         
+
 
     };
 
-    render() 
+    render()
     {
-        const {user} = this.state;
-
         return (
             <div>
 
@@ -305,13 +305,6 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
 
                     <CSSTransition classNames="filter-screen" in={this.state.show_share} timeout={300}
                         unmountOnExit>
-                        <FullScreenShare
-                            url={`${reactUrl}/invite?invite=${user ? user.tokens.private_token : ""}`}
-                            close={() => 
-                            {
-                                this.props.history.goBack();
-                                this.setState({show_share: false});
-                            }}/>
                     </CSSTransition>
                 </React.Fragment>
             </div>

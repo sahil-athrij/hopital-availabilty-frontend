@@ -2,7 +2,7 @@ import {ResponsiveComponent, ResponsiveState} from "../ResponsiveComponent";
 import {Container} from "react-bootstrap";
 import {FullScreenLocationProps, LocationSearchBoxLoc, LocationSearchProps, LocationSearchState} from "./FullScreenLocation";
 import {Marker} from "../../api/model";
-import {AiOutlineClose,  FaHospital} from "react-icons/all";
+import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import {ReactComponent as Threeline} from "../../images/threeline.svg";
 import {ReactComponent as Downvector} from "../../images/downvector.svg";
 import CloseIcon from "@mui/icons-material/Close";
@@ -202,7 +202,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                         });
                     }}>
 
-                    <FaHospital scale={4} size={30} className="input-marker mr-3"/>
+                    <LocalHospitalIcon sx={{width:"30px"}} className="input-marker mr-3"/>
                     <div className="fill-rest">{item.name}
                     </div>
                 </Container>
@@ -242,7 +242,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                     </div>
                  
                     {this.state.query &&
-                    <AiOutlineClose scale={4} size={30} className="input-marker mr-2" onClick={() =>
+                    <CloseIcon sx={{width:30}} className="input-marker mr-2" onClick={() =>
                     {
                         this.setState({query: ""},
                             () =>

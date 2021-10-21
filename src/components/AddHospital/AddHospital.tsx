@@ -10,9 +10,10 @@ import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import CloseIcon from "@mui/icons-material/Close";
 import L from "leaflet";
-import {BiCurrentLocation, GrLocation} from "react-icons/all";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import MyLocationIcon from "@mui/icons-material/MyLocation";
 import {get} from "../../api/api";
-import {Suggestion} from "../FullScreen/FullScreenLocation";
+import {Suggestion} from "../FullScreen/FullScreenLocation"; 
 import {TextField} from "@mui/material";
 import {Marker} from "../../api/model";
 import {withRouter} from "react-router";
@@ -215,7 +216,7 @@ function LocationMarker(props: LocationMarkerProps)
                         }}
 
                     >
-                        <BiCurrentLocation size={25}/>
+                        <MyLocationIcon sx={{width:"25px"}}/>
                     </button>
 
                 </div>
@@ -237,7 +238,7 @@ function LocationMarker(props: LocationMarkerProps)
                                     setDisplay(0);
                                 }}
                                 className={"d-flex w-100  flex-row align-items-center ignore-close py-2 border-bottom " + ((i === selected) ? "active" : "")}>
-                                    <GrLocation scale={4} size={25}
+                                    <LocationOnIcon sx={{width: "25px"}}
                                         className="ignore-close input-marker text-primary mr-3"/>
                                     <div className="ignore-close fill-rest"><b
                                         className={"ignore-close"}>{item.address.name}</b>

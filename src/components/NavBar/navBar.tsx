@@ -2,7 +2,6 @@ import React from "react";
 import {RouteComponentProps, withRouter} from "react-router";
 import {FullScreenSearch} from "../FullScreen/fullScreenSearch";
 import {AuthComponent, AuthState} from "../../api/auth";
-import {FullScreenUser} from "../FullScreen/FullSreenUser";
 import {getParam} from "../../api/QueryCreator";
 import {CSSTransition} from "react-transition-group";
 import {Container, Navbar} from "react-bootstrap";
@@ -107,66 +106,13 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
 
                     <CSSTransition classNames="user-screen" in={this.state.show_user} timeout={300}
                         unmountOnExit>
-                        <FullScreenUser close={() => 
-                        {
-                            this.props.history.goBack();
-                            this.setState({show_user: false});
-                        }}/>
                     </CSSTransition>
-
-
-
-                    {this.props.location.pathname === "/search" &&
-                    <>
-                        {/*<button className="pointers" onClick={() => {*/}
-                        {/*    this.props.history.push(currentLocation + '#filter')*/}
-                        {/*    this.setState({show_filter: !this.state.show_filter})*/}
-                        {/*}}><BiSlider scale={4} size={30}/>*/}
-                        {/*</button>*/}
-                        {/*<CSSTransition classNames="filter-screen" in={this.state.show_filter} timeout={300}*/}
-                        {/*               unmountOnExit>*/}
-                        {/*    <FullScreenFilter close={() => {*/}
-                        {/*        this.props.history.goBack()*/}
-                        {/*        this.setState({show_filter: false})*/}
-                        {/*    }}/>*/}
-                        {/*</CSSTransition>*/}
-                    </>
-                    }
-                    {(this.props.location.pathname !== "/search" && showSearchBar) &&
-                    <>
-                        {/*<button className="pointers" onClick={() => {*/}
-                        {/*    this.props.history.push(currentLocation + '#location')*/}
-                        {/*    this.setState({show_location: !this.state.show_location})*/}
-                        {/*}}>{this.state.loc}*/}
-                        {/*    <MarkerSvg/>*/}
-                        {/*</button>*/}
-                        {/*<CSSTransition classNames="location-screen" in={this.state.show_location} timeout={300}*/}
-                        {/*               unmountOnExit>*/}
-                        {/*    <FullScreenLocation close={() => {*/}
-
-                        {/*        let loc = getParam('loc', 'Search Location')*/}
-                        {/*        this.props.history.goBack()*/}
-                        {/*        this.setState({show_location: false, loc: loc})*/}
-                        {/*    }}/>*/}
-                        {/*</CSSTransition>*/}
-                    </>
-                    }
-
 
                 </Container>
 
                 {showSearchBar &&
-                <>
-                    {/*<button className="w-100 container input-holder pointers m-2" onClick={() => {*/}
-                    {/*    this.props.history.push(currentLocation + '#search')*/}
-
-                    {/*    this.setState({show_search: !this.state.show_search})*/}
-                    {/*}}>*/}
-                    {/*   */}
-                    {/*</button>*/}
                     <CSSTransition classNames="location-screen" in={this.state.show_search} timeout={300}
-                        unmountOnExit
-                    >
+                        unmountOnExit>
                         <FullScreenSearch close={() => 
                         {
 
@@ -177,7 +123,6 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
                             this.setState({show_search: false});
                         }}/>
                     </CSSTransition>
-                </>
                 }
 
             </Navbar>

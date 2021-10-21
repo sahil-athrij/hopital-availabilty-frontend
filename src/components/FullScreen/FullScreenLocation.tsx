@@ -1,11 +1,11 @@
 import {ResponsiveComponent, ResponsiveState} from "../ResponsiveComponent";
 import {Container} from "react-bootstrap";
-import {ReactComponent as Back} from "../../images/back.svg";
 import {ReactComponent as MarkerSvg} from "../../images/markersvg.svg";
 import {get} from "../../api/api";
-import {AiOutlineClose, BiCurrentLocation, ImLocation2} from "react-icons/all";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import CloseIcon from "@mui/icons-material/Close";
 import {getParam, setParam} from "../../api/QueryCreator";
-import {RouteComponentProps, withRouter} from "react-router";
+import {RouteComponentProps} from "react-router";
 import React from "react";
 
 
@@ -186,7 +186,7 @@ export class LocationSearchBoxLoc<P extends LocationSearchProps, S extends Locat
                         });
                     }}>
 
-                    <ImLocation2 scale={4} size={30} className="input-marker mr-3"/>
+                    <LocationOnIcon sx={{width: "30px"}} className="input-marker mr-3"/>
                     <div className="fill-rest"><b>{item.address.name}</b>
                         <div>{[item.address.city, item.address.state, item.address.country].filter(Boolean).join(", ")}</div>
                     </div>
@@ -252,7 +252,7 @@ export class LocationSearchBoxLoc<P extends LocationSearchProps, S extends Locat
                     }}
                 />
                 {this.state.value &&
-                <AiOutlineClose scale={4} size={30} className="input-marker" onClick={() => 
+                <CloseIcon sx={{width: 30}} className="input-marker" onClick={() =>
                 {
                     this.setState({value: ""},
                         () => 
@@ -269,7 +269,7 @@ export class LocationSearchBoxLoc<P extends LocationSearchProps, S extends Locat
                 {
                     this.getLocation().then();
                 }}>
-                <BiCurrentLocation scale={4} size={30} className="input-marker mr-3"/>
+                <LocationOnIcon sx={{width:30}} className="input-marker mr-3"/>
                 <div className="fill-rest">Use Current Location / Please enable Location services</div>
             </Container>
 
@@ -278,40 +278,9 @@ export class LocationSearchBoxLoc<P extends LocationSearchProps, S extends Locat
     }
 }
 
-export const LocationSearchBox = withRouter(LocationSearchBoxLoc);
-
-
 export interface FullScreenLocationProps {
     close: () => void,
     closeWindow?: () => void
-}
-
-export class FullScreenLocation extends ResponsiveComponent<FullScreenLocationProps, ResponsiveState> 
-{
-    render() 
-    {
-        return (<div className="fixed-top w-100 h-100 bg-white header">
-
-            <Container fluid={true} className="py-3 bg-grey justify-content-start">
-                <button className="BlueBackground p-2" onClick={() => 
-                {
-                    this.props.close();
-                }}>
-                    <Back/>
-                </button>
-                <div className="h3 m-0 mx-2">
-                    Select Location
-                </div>
-            </Container>
-            <Container fluid={true} className="mt-3">
-                <LocationSearchBox close={() => 
-                {
-                    this.props.close();
-                }}/>
-            </Container>
-        </div>);
-
-    }
 }
 
 
