@@ -202,12 +202,21 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState>
                     </div>
 
                     <div className="d-flex justify-content-center align-items-center">
-                        <Avatar src="/broken-image.jpg"/>
+                        <Avatar sx={{width:"107px", height:"107px"}} src="../../images/cam-pic.svg"/>
                     </div>
 
-                    <div className="m-4">
+                    <div className="m-4"> 
 
-                        <TextField id="outlined-basic" className="mt-2" fullWidth label="Name"
+                        <TextField
+                            id="outlined-number"
+                            label="Number"
+                            type="text"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        />                      
+
+                        <TextField className="mt-2" fullWidth label="Name"
                             InputLabelProps={{shrink: true, }} size="small" error={this.state.error.name}
                             helperText={this.state.error.name && "This field is required"}
                             onChange={({target}) => this.setState({name: target.value, error: {...this.state.error, name: (!target.value)} })}/>
