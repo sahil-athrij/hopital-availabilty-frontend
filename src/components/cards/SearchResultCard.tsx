@@ -30,24 +30,24 @@ class SearchCardsLoc extends Component<SearchCardsProps>
         return (
             <Link style={{textDecoration: "none"}} className='text-dark' to={"/details/" + this.props.model.id}>
                 {/* Show hospital image */}
-                <div className="cardstyle  flex-row mb-3 justify-content-between d-flex">
+                <div className="cardstyle   mb-3 justify-content-between d-flex">
                     <div className="align-self-center">
                         <Avatar className="align-self-center" sx={{width:"37px", height:"37px", marginLeft:"10px"}} src={this.props.model.images[0]?.image?this.props.model.images[0]?.image:Ekmmed}/>
                     </div>
 
 
-                    <div className="flex-grow-1 ml-3 flex-1 bg-white text-left align-self-center ">
+                    <div className="box2 flex-grow-1 ml-3 flex-1 bg-white text-left align-self-center  ">
                         <div
                             // Get hospital details and split it at first comma to get hospital name
-                            className="mt-3  justify-content-between hospital-title">
-                            <div className="w-75">
+                            className="mt-3  justify-content-between hospital-title ">
+                            <div className="w-60 text-left ">
                                 {this.props.model.name !== null ? this.props.model.name?.split(",")[0] : ""}
                             </div>
                             <div className="ratingvalue d-flex  align-items-center justify-content-center">
                                 <div>
                                     {this.props.model.care_rating}
                                 </div>
-                                <img alt={""} className="staricon" src={SmallStar}/>
+                                <img alt={""} className="staricon " src={SmallStar}/>
                             </div>
                         </div>
 
