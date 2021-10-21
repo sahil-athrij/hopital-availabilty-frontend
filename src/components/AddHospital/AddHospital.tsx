@@ -270,7 +270,8 @@ interface AddHospitalState extends AuthState {
     Phone: string,
     ownership: string,
     type: string,
-    category: string
+    category: string,
+    error: { hospitalName: boolean, phone_number: boolean, about: boolean, department: boolean}
 
 }
 
