@@ -50,7 +50,7 @@ module.exports = (env) => ({
                 type: "asset/resource",
             },
             {
-                test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
+                test: /\.(woff(2)?|eot|ttf|otf|svg)$/,
                 type: "asset/inline",
             },
         ],
@@ -61,12 +61,12 @@ module.exports = (env) => ({
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, "..", "./public/index.html"),
+            template: path.resolve(__dirname, "..", "public/index.html"),
             title: "Need Medi",
-            favicon: path.resolve(__dirname, "..", "./public/favicon.ico"),
+            favicon: path.resolve(__dirname, "..", "public/favicon.ico"),
         }),
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, "..", "web/assets/fallbacks/offline.html"),
+            template: path.resolve(__dirname, "..", "public/fallbacks/offline.html"),
             filename: "offline.html",
             title: "Offline",
             inject: false

@@ -1,5 +1,4 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import "antd/dist/antd.css";
 
 // import {NavBar} from "./components/NavBar/navBar";
 import {Index} from "./components/Index";

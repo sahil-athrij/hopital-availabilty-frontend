@@ -4,7 +4,6 @@ import {MenuItem, TextField, Button} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import "./AddDepartment.css";
 import {Department, DepartmentName, DepartmentNameObject} from "../../api/model";
-import {Skeleton} from "antd";
 import {toast} from "react-toastify";
 
 interface AddDepartmentState extends AuthState {
@@ -21,8 +20,7 @@ class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AddDepartmentState>
     async componentDidMount() 
     {
         super.componentDidMount();
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+        
         const {hospital} = this.props.match.params as { hospital: number };
         const departments = await DepartmentName.filter();
 
@@ -75,14 +73,6 @@ class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AddDepartmentState>
                                 <MenuItem value={id} key={i}>{name}</MenuItem>
                             )}
                         </TextField>
-
-                        {/*<p className="text-left mt-3 p-0"><small><b>Facilities available</b></small></p>    */}
-                        {/*<TextField fullWidth variant="outlined" select label="Is there a lab" InputLabelProps={{shrink: true,}} size="small" />*/}
-                        {/*<TextField className="mt-4" fullWidth variant="outlined" select label="Pharmacy" InputLabelProps={{shrink: true,}} size="small" />*/}
-                        {/*<TextField className="mt-4" fullWidth variant="outlined" select label="Facility number 1" InputLabelProps={{shrink: true,}} size="small" />*/}
-                        {/*<TextField className="mt-4" fullWidth variant="outlined"  label="Facility number 2" InputLabelProps={{shrink: true,}} size="small"/>*/}
-                        {/*<TextField className="mt-4" fullWidth variant="outlined"  label="Number of Doctors" InputLabelProps={{shrink: true,}} size="small"/>*/}
-                        {/*<p className="text-left mt-3"><small><b>Doctor Details</b></small></p>  */}
 
                     </div>
 

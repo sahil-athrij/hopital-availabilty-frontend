@@ -5,7 +5,6 @@ import {withRouter} from "react-router";
 import React, {Component} from "react";
 import CloseIcon from "@mui/icons-material/Close";
 
-import {Skeleton} from "antd";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TableContainer from "@mui/material/TableContainer";
 import {Button, Table, TableBody, TableCell, TableHead, TableRow} from "@mui/material";
@@ -54,9 +53,6 @@ export class TimePickers extends Component<{ hospital: number, onChange: (times:
     {
         const {times} = this.state;
 
-        // TODO: fix if ts is still broken
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         times[key].working_time[type] = value;
         const {starting_time, ending_time, day} = times[key].working_time;
 
@@ -133,9 +129,8 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState>
 
     async componentDidMount() 
     {
-        super.componentDidMount(); //TODO
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+        super.componentDidMount(); 
+        
         const {hospital} = this.props.match.params as {hospital: number};
         const departments = await Department.filter({hospital});
 
