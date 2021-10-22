@@ -5,6 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import "./AddDepartment.css";
 import {Department, DepartmentName, DepartmentNameObject} from "../../api/model";
 import {toast} from "react-toastify";
+import Skeleton from "@mui/material/Skeleton";
 
 interface AddDepartmentState extends AuthState {
     departments: Array<DepartmentNameObject>,
@@ -21,7 +22,7 @@ class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AddDepartmentState>
     {
         super.componentDidMount();
         
-        const {hospital} = this.props.match.params as { hospital: number };
+        const {hospital} = this.props.match.params as unknown as { hospital: number };
         const departments = await DepartmentName.filter();
 
         this.setState({
@@ -86,7 +87,7 @@ class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AddDepartmentState>
                     </div>
 
                     <div className="m-4">
-                        <Skeleton.Input className="mt-2 w-100" active={true} size={"large"}/>
+                        <Skeleton variant="rectangular" className="mt-2 w-100"  height={118} />
                     </div>
                 </div>
 

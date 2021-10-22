@@ -10,8 +10,8 @@ import {ReactComponent as Burger} from "../../images/burger.svg";
 
 
 import "./nabar.css";
+import Avatar from "@mui/material/Avatar";
 
-import {Avatar} from "antd";
 
 type NavBarProp = RouteComponentProps<Record<string, string|undefined>>
 /** 
@@ -80,15 +80,15 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
 
                     <div className="searchmain d-flex flex-row align-items-center">
 
-                        <Navbar.Toggle  aria-controls="navbarSupportedContent" className="BlueBackground p-2"
-                            onClick={() => 
+                        <button  aria-controls="navbarSupportedContent" className="BlueBackground p-2"
+                            onClick={() =>
                             {
 
                                 this.props.history.push(currentLocation + "#user");
                                 this.setState({show_user: !this.state.show_user});
                             }}>
                             <Burger/>
-                        </Navbar.Toggle>
+                        </button>
                         <button className="srchtxt flex-grow-1" onClick={() =>
                         {
                             this.props.history.push(currentLocation + "#search");
