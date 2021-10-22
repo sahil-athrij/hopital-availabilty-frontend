@@ -93,13 +93,18 @@ module.exports = (env) => ({
         }),
         new CopyPlugin({
             patterns: [
-                path.resolve(__dirname, "..", "public/robots.txt"),
-            ],
+                {from: path.resolve(__dirname, "..", "public/robots.txt")},
+                {
+                    from: path.resolve(__dirname, "..", "public/.well-known/"),
+                    to: path.resolve(buildFolder, ".well-known")
+                }
+            ]
         }),
         new InjectManifest({
             swSrc: path.resolve(__dirname, "..", "src/sw.ts"),
-            exclude: [ /\.map$/, /^manifest.*\.js(?:on)?$/, /\.(jpe?g|png|webp)$/i ]
+            exclude: [/\.map$/, /^manifest.*\.js(?:on)?$/, /\.(jpe?g|png|webp)$/i]
         })
     ],
     stats: "errors-warnings"
-});
+})
+;
