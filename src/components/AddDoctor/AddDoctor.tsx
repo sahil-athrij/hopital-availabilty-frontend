@@ -5,7 +5,6 @@ import {withRouter} from "react-router";
 import React, {Component} from "react";
 import CloseIcon from "@mui/icons-material/Close";
 
-import {Skeleton} from "antd";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TableContainer from "@mui/material/TableContainer";
 import {Button, Table, TableBody, TableCell, TableHead, TableRow} from "@mui/material";
@@ -15,6 +14,7 @@ import TextField from "@mui/material/TextField";
 import Avatar from "@mui/material/Avatar";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import {toast} from "react-toastify";
+import Skeleton from "@mui/material/Skeleton";
 
 
 interface AddDoctorState extends AuthState {
@@ -50,14 +50,11 @@ export class TimePickers extends Component<{ hospital: number, onChange: (times:
         this.state = {times: [JSON.parse(JSON.stringify(this.time_template))]};
     }
 
-    handleChange(value: string | number, type: "starting_time" | "ending_time" | "day", key: number) 
+    handleChange(value: string | number , type: "starting_time" | "ending_time" | "day", key: number)
     {
         const {times} = this.state;
 
-        // TODO: fix if ts is still broken
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        times[key].working_time[type] = value;
+        times[key].working_time[type] = value as unknown as null;
         const {starting_time, ending_time, day} = times[key].working_time;
 
         if (times.length === key + 1 && starting_time && ending_time && day !== null)
@@ -133,10 +130,9 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState>
 
     async componentDidMount() 
     {
-        super.componentDidMount(); //TODO
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const {hospital} = this.props.match.params as {hospital: number};
+        super.componentDidMount(); 
+        
+        const {hospital} = this.props.match.params as unknown as {hospital: number};
         const departments = await Department.filter({hospital});
 
         this.setState({
@@ -263,12 +259,12 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState>
                     </div>
 
                     <div className="m-4">
-                        <Skeleton.Input className="mt-2 w-100" active={true} size={"large"}/>
-                        <Skeleton.Input className="mt-2 w-100" active={true} size={"large"}/>
-                        <Skeleton.Input className="mt-2 w-100" active={true} size={"large"}/>
-                        <Skeleton.Input className="mt-2 w-100" active={true} size={"large"}/>
-                        <Skeleton.Input className="mt-2 w-100" active={true} size={"large"}/>
-                        <Skeleton.Input className="mt-2 w-100" active={true} size={"large"}/>
+                        <Skeleton variant="rectangular" className="mt-2 w-100"  height={118} />
+                        <Skeleton variant="rectangular" className="mt-2 w-100"  height={118} />
+                        <Skeleton variant="rectangular" className="mt-2 w-100"  height={118} />
+                        <Skeleton variant="rectangular" className="mt-2 w-100"  height={118} />
+                        <Skeleton variant="rectangular" className="mt-2 w-100"  height={118} />
+                        <Skeleton variant="rectangular" className="mt-2 w-100"  height={118} />
                     </div>
                 </div>
         );

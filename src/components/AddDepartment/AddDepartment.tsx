@@ -4,8 +4,8 @@ import {MenuItem, TextField, Button} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import "./AddDepartment.css";
 import {Department, DepartmentName, DepartmentNameObject} from "../../api/model";
-import {Skeleton} from "antd";
 import {toast} from "react-toastify";
+import Skeleton from "@mui/material/Skeleton";
 
 interface AddDepartmentState extends AuthState {
     departments: Array<DepartmentNameObject>,
@@ -21,9 +21,8 @@ class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AddDepartmentState>
     async componentDidMount() 
     {
         super.componentDidMount();
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const {hospital} = this.props.match.params as { hospital: number };
+        
+        const {hospital} = this.props.match.params as unknown as { hospital: number };
         const departments = await DepartmentName.filter();
 
         this.setState({
@@ -76,14 +75,6 @@ class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AddDepartmentState>
                             )}
                         </TextField>
 
-                        {/*<p className="text-left mt-3 p-0"><small><b>Facilities available</b></small></p>    */}
-                        {/*<TextField fullWidth variant="outlined" select label="Is there a lab" InputLabelProps={{shrink: true,}} size="small" />*/}
-                        {/*<TextField className="mt-4" fullWidth variant="outlined" select label="Pharmacy" InputLabelProps={{shrink: true,}} size="small" />*/}
-                        {/*<TextField className="mt-4" fullWidth variant="outlined" select label="Facility number 1" InputLabelProps={{shrink: true,}} size="small" />*/}
-                        {/*<TextField className="mt-4" fullWidth variant="outlined"  label="Facility number 2" InputLabelProps={{shrink: true,}} size="small"/>*/}
-                        {/*<TextField className="mt-4" fullWidth variant="outlined"  label="Number of Doctors" InputLabelProps={{shrink: true,}} size="small"/>*/}
-                        {/*<p className="text-left mt-3"><small><b>Doctor Details</b></small></p>  */}
-
                     </div>
 
                 </div> :
@@ -96,7 +87,7 @@ class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AddDepartmentState>
                     </div>
 
                     <div className="m-4">
-                        <Skeleton.Input className="mt-2 w-100" active={true} size={"large"}/>
+                        <Skeleton variant="rectangular" className="mt-2 w-100"  height={118} />
                     </div>
                 </div>
 

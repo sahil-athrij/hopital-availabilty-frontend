@@ -38,6 +38,12 @@ module.exports = {
             "error",
             "always"
         ],
+        "no-restricted-imports": [
+            "error",
+            {
+              "patterns": ["@mui/*/*/*", "!@mui/material/test-utils/*"]
+            }
+        ],
         "curly": ["warn", "multi"],
         "comma-spacing": "warn",
         "eol-last": "warn",

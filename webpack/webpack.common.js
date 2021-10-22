@@ -1,9 +1,9 @@
 const path = require("path");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-// const WebpackPwaManifest = require("webpack-pwa-manifest");
-// const CopyPlugin = require("copy-webpack-plugin");
-// const {InjectManifest} = require("workbox-webpack-plugin");
+const WebpackPwaManifest = require("webpack-pwa-manifest");
+const CopyPlugin = require("copy-webpack-plugin");
+const {InjectManifest} = require("workbox-webpack-plugin");
 
 const buildFolder = path.resolve(__dirname, "..", "./build");
 
@@ -50,7 +50,7 @@ module.exports = (env) => ({
                 type: "asset/resource",
             },
             {
-                test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
+                test: /\.(woff(2)?|eot|ttf|otf|svg)$/,
                 type: "asset/inline",
             },
         ],
@@ -61,45 +61,45 @@ module.exports = (env) => ({
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, "..", "./public/index.html"),
+            template: path.resolve(__dirname, "..", "public/index.html"),
             title: "Need Medi",
-            favicon: path.resolve(__dirname, "..", "./public/favicon.ico"),
+            favicon: path.resolve(__dirname, "..", "public/favicon.ico"),
         }),
-        // new HtmlWebpackPlugin({ TODO Uncomment
-        //     template: path.resolve(__dirname, "..", "web/assets/fallbacks/offline.html"),
-        //     filename: "offline.html",
-        //     title: "Offline",
-        //     inject: false
-        // }),
-        // new WebpackPwaManifest({
-        //     name: package.name,
-        //     short_name: package.name,
-        //     description: package.description,
-        //     background_color: package["background-color"],
-        //     orientation: "any",
-        //     theme_color: package["theme-color"],
-        //     publicPath: "/",
-        //     icons: [
-        //         {
-        //             src: path.resolve(__dirname, "..", "web/assets/icons/logo512.png"),
-        //             sizes: [96, 128, 192, 256, 384, 512]
-        //         },
-        //         {
-        //             src: path.resolve(__dirname, "..", "web/assets/icons/maskable512.png"),
-        //             sizes: [96, 128, 192, 256, 384, 512],
-        //             purpose: "maskable"
-        //         }
-        //     ]
-        // }),
-        // new CopyPlugin({
-        //     patterns: [
-        //         path.resolve(__dirname, "..", "web/robots.txt"),
-        //     ],
-        // }),
-        // new InjectManifest({
-        //     swSrc: path.resolve(__dirname, "..", "web/sw.ts"),
-        //     exclude: [ /\.map$/, /^manifest.*\.js(?:on)?$/, /\.(jpe?g|png|webp)$/i ]
-        // })
+        new HtmlWebpackPlugin({
+            template: path.resolve(__dirname, "..", "public/fallbacks/offline.html"),
+            filename: "offline.html",
+            title: "Offline",
+            inject: false
+        }),
+        new WebpackPwaManifest({
+            name: "Need Medi",
+            short_name: "Need Medi",
+            description: "Facebook for doctors.",
+            background_color: "#FFFFFF",
+            orientation: "any",
+            theme_color: "#3E64FF",
+            publicPath: "/",
+            icons: [
+                {
+                    src: path.resolve(__dirname, "..", "public/android-chrome-512x512.png"),
+                    sizes: [96, 128, 192, 256, 384, 512]
+                },
+                {
+                    src: path.resolve(__dirname, "..", "public/apple-touch-icon.png"),
+                    sizes: [96, 128, 192, 256, 384, 512],
+                    purpose: "maskable"
+                }
+            ]
+        }),
+        new CopyPlugin({
+            patterns: [
+                path.resolve(__dirname, "..", "public/robots.txt"),
+            ],
+        }),
+        new InjectManifest({
+            swSrc: path.resolve(__dirname, "..", "src/sw.ts"),
+            exclude: [ /\.map$/, /^manifest.*\.js(?:on)?$/, /\.(jpe?g|png|webp)$/i ]
+        })
     ],
-    stats: "errors-only"
+    stats: "errors-warnings"
 });
