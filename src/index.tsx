@@ -3,6 +3,16 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import {BrowserRouter} from "react-router-dom";
+import { Workbox } from "workbox-window";
+
+const wb = new Workbox("sw.js");
+
+if ("serviceWorker" in navigator)
+    if(location.hostname !== "localhost")
+        wb.register();
+    else
+        navigator.serviceWorker.getRegistrations()
+            .then(registrations => registrations.forEach(registration => registration.unregister()));
 
 ReactDOM.render(
     <BrowserRouter>
