@@ -76,8 +76,8 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
         console.log(this.state.user?.username);
         return (
             <Navbar collapseOnSelect expand="xl" variant="dark"
-                    className={"navbar  fixed-top " + (showSearchBar ? "bg-white" : "bg-grey")}
-                    id="navbar">
+                className={"navbar  fixed-top " + (showSearchBar ? "bg-white" : "bg-grey")}
+                id="navbar">
 
                 <Container className="">
 
@@ -100,22 +100,22 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
                         }}>
                             Search hospitals
                         </button>
-                        <Avatar className="mr-2" sx={{width:"28px", height : "28px",marginRight: ".5rem"}}
-                                src={this.state.user?.image}>{this.state.user ? this.state.user.username ? this.state.user.username[0] : "?" : "?"}</Avatar>
+                        <Avatar className="mr-2" sx={{width:"28px", height : "28px", marginRight: ".5rem"}}
+                            src={this.state.user?.image}>{this.state.user ? this.state.user.username ? this.state.user.username[0] : "?" : "?"}</Avatar>
 
 
                     </div>
 
 
                     <CSSTransition classNames="user-screen" in={this.state.show_user} timeout={300}
-                                   unmountOnExit>
+                        unmountOnExit>
                     </CSSTransition>
 
                 </Container>
 
                 {showSearchBar &&
                 <CSSTransition classNames="location-screen" in={this.state.show_search} timeout={300}
-                               unmountOnExit>
+                    unmountOnExit>
                     <FullScreenSearch close={() =>
                     {
 

@@ -1,18 +1,23 @@
 import {ResponsiveComponent, ResponsiveState} from "../ResponsiveComponent";
 import {Container} from "react-bootstrap";
-import {FullScreenLocationProps, LocationSearchBoxLoc, LocationSearchProps, LocationSearchState} from "./FullScreenLocation";
+import {
+    FullScreenLocationProps,
+    LocationSearchBoxLoc,
+    LocationSearchProps,
+    LocationSearchState
+} from "./FullScreenLocation";
 import {Marker} from "../../api/model";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
-import {ReactComponent as Threeline} from "../../images/threeline.svg";
-import {ReactComponent as Downvector} from "../../images/downvector.svg";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CloseIcon from "@mui/icons-material/Close";
 import {getParam, setParam} from "../../api/QueryCreator";
 import {withRouter} from "react-router";
 import React from "react";
 import "./fullScreenSearch.css";
 import {toast} from "react-toastify";
-import {Avatar, Chip} from "@mui/material";
+import {Avatar, Button, Chip, IconButton} from "@mui/material";
 import {withStyles} from "@mui/styles";
+import MenuIcon from "@mui/icons-material/Menu";
 // import {Link} from "react-router-dom";
 // import Ekmmed from "../../images/ekmmed.svg";
 // import SmallStar from "../../images/smallstar.svg";
@@ -21,7 +26,8 @@ import {withStyles} from "@mui/styles";
 // import Routemap from "../../images/routemap.svg";
 // import {AuthPropsLoc} from "../../api/auth";
 
-interface LocationQuerySearchProps extends LocationSearchProps {
+interface LocationQuerySearchProps extends LocationSearchProps
+{
     close: () => void,
     closeWindow?: () => void
 }
@@ -38,7 +44,8 @@ type SuggestionSearch = {
     }
 }
 
-interface LocationQuerySearchState extends LocationSearchState {
+interface LocationQuerySearchState extends LocationSearchState
+{
     suggestionsSearch: SuggestionSearch[],
     selectedSearch: number,
     value: string,
@@ -46,14 +53,13 @@ interface LocationQuerySearchState extends LocationSearchState {
     lng: string,
     query: string,
     display: number | boolean,
-    filters:string[],
+    filters: string[],
+    filter_active: boolean,
 
 }
 
 const StyledChip = withStyles({
-    root : {
-        
-    },
+    root: {},
 
     label: {
         padding: "0",
@@ -61,22 +67,31 @@ const StyledChip = withStyles({
 
 })(Chip);
 
-const bluechip={background:"#3E64FF", "&:hover": {
-    background:"#3E64FF",
-    color:"white",
-}, borderRadius:"5px", color:"white", fontSize:"8px", width:"76px", height:"21px"};
+const bluechip = {
+    background: "#3E64FF", "&:hover": {
+        background: "#3E64FF",
+        color: "white",
+    }, borderRadius: "5px", color: "white", fontSize: "8px", width: "76px", height: "21px"
+};
 
-const greychip={background:"#F0F0F0", borderRadius:"5px", color:"#696969", fontSize:"8px", width:"76px", height:"21px"};
+const greychip = {
+    background: "#F0F0F0",
+    borderRadius: "5px",
+    color: "#696969",
+    fontSize: "8px",
+    width: "76px",
+    height: "21px"
+};
 
-const departments=["Homeopathy", "Cardiology", "Anaesthesiology", "Dermatology", "Endocrinology", "Gastroenterology", "Oncology",
+const departments = ["Homeopathy", "Cardiology", "Anaesthesiology", "Dermatology", "Endocrinology", "Gastroenterology", "Oncology",
     "Nephrology", "Neurology", "Paediatrics", "Psychiatry", "Pulmonology", "Radiology", "Rheumatology", "Geriatrics", "Gynaecology", "Community Health", "ENT",
     "Dental", "Venerology", "Ayurveda", "Dietician", "Pathology", "General Physician", "Orthopaedics"];
 
-const types=["Economy", "Speciality", "Super speciality", "Normal"];
+const types = ["Economy", "Speciality", "Super speciality", "Normal"];
 
-const ownership=["Private", "Public", "Co-operative"];
+const ownership = ["Private", "Public", "Co-operative"];
 
-const medicine=["Ayurveda", "Allopathy", "Homeopathy"];
+const medicine = ["Ayurveda", "Allopathy", "Homeopathy"];
 
 
 export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuerySearchProps, LocationQuerySearchState>
@@ -91,7 +106,8 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
             suggestionsSearch: [],
             selectedSearch: -1,
             query: getParam("query", "Search Hospital"),
-            filters:[],
+            filters: [],
+            filter_active: false,
         };
 
     }
@@ -123,20 +139,20 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
 
     }
 
-    handleChipChange(value:string)
+    handleChipChange(value: string)
     {
         console.log(value);
-        const index=this.state.filters.indexOf(value);
-        const {filters}=this.state;
-        if(index>-1)
+        const index = this.state.filters.indexOf(value);
+        const {filters} = this.state;
+        if (index > -1)
         
             filters.splice(index, 1);
-
         
         else
         
             filters.push(value);
         
+
         this.setState({filters});
     }
 
@@ -202,7 +218,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                         });
                     }}>
 
-                    <LocalHospitalIcon sx={{width:"30px"}} className="input-marker mr-3"/>
+                    <LocalHospitalIcon sx={{width: "30px"}} className="input-marker mr-3"/>
                     <div className="fill-rest">{item.name}
                     </div>
                 </Container>
@@ -217,10 +233,12 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
         return (
             <div>
                 <Container
-                    className={"input-holder overflow-x-hidden mb-3 mx-2 " }>
+                    className={"input-holder overflow-x-hidden mb-3 mx-2 "}>
                     <div className=" w-100 d-flex justify-content-between align-self-center">
-                        <Threeline className="mr-5 align-self-center"/>
-                    
+                        <IconButton>
+                            <MenuIcon/>
+                        </IconButton>
+
                         <input placeholder="Search Hospital" className="main-input w-75 mx-2 align-content-start pt-1"
                             value={this.state.query}
                             type="search"
@@ -238,11 +256,11 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                                 this.setState({display: 1});
                             }}
                         />
-                        <Avatar className="align-self-center" sx={{width:"28px", height:"28px"}}/>
+                        <Avatar className="align-self-center" sx={{width: "28px", height: "28px"}}/>
                     </div>
-                 
+
                     {this.state.query &&
-                    <CloseIcon sx={{width:30}} className="input-marker mr-2" onClick={() =>
+                    <CloseIcon sx={{width: 30}} className="input-marker mr-2" onClick={() =>
                     {
                         this.setState({query: ""},
                             () =>
@@ -251,9 +269,10 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                             });
                     }}/>}
                 </Container>
-                <div className="filterdiv d-flex justify-content-end " >
-                    Filter
-                    <Downvector className="align-self-center"/>
+                <div className="d-flex justify-content-end">
+                    <Button sx={{textTransform: "none"}} endIcon={<KeyboardArrowDownIcon />}>
+                        Filter
+                    </Button>
                 </div>
                 <div className="bottombox w-100 d-flex justify-content-around p-2 flex-wrap">
 
@@ -263,49 +282,58 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
 
                 </div>
                 <div>
-                      Hospcard
+                        Hospcard
                 </div>
-                <Container>
-                    <div className="filtertop d-flex justify-content-between pt-3 pb-2 px-3 align-self-center">
+                {this.state.filter_active &&
+                        (<Container>
+                            <div className="filtertop d-flex justify-content-between pt-3 pb-2 px-3 align-self-center">
                         Select all that apply
-                        <CloseIcon sx={{color:"#0338B9"}}/>
-                    </div>
-                    <div className="filterbottom d-flex flex-column ">
-                        <div className="filterhead w-100 mb-2 mt-4 ">Types</div>
-                        <div className="d-flex flex-wrap ">
-                            {types.map((value, key)=>(
-                                <div key={key} className="col-3 mb-2" >
-                                    <StyledChip onClick={()=>this.handleChipChange(value)} sx={this.state.filters.includes(value)?bluechip:greychip}  label={value}/>
+                                <CloseIcon sx={{color: "#0338B9"}}/>
+                            </div>
+                            <div className="filterbottom d-flex flex-column ">
+                                <div className="filterhead w-100 mb-2 mt-4 ">Types</div>
+                                <div className="d-flex flex-wrap ">
+                                    {types.map((value, key) => (
+                                        <div key={key} className="col-3 mb-2">
+                                            <StyledChip onClick={() => this.handleChipChange(value)}
+                                                sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                                label={value}/>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                        <div className="filterhead w-100 mb-2 mt-2 ">Departments</div>
-                        <div className="d-flex flex-wrap ">
-                            {departments.map((value, key)=>(
-                                <div key={key} className="col-3 mb-2">
-                                    <StyledChip onClick={()=>this.handleChipChange(value)} sx={this.state.filters.includes(value)?bluechip:greychip}  label={value}/>
+                                <div className="filterhead w-100 mb-2 mt-2 ">Departments</div>
+                                <div className="d-flex flex-wrap ">
+                                    {departments.map((value, key) => (
+                                        <div key={key} className="col-3 mb-2">
+                                            <StyledChip onClick={() => this.handleChipChange(value)}
+                                                sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                                label={value}/>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                        <div className="filterhead w-100 mb-2 mt-2 ">Ownership</div>
-                        <div className="d-flex flex-wrap ">
-                            {ownership.map((value, key)=>(
-                                <div key={key} className="col-3 mb-2">
-                                    <StyledChip onClick={()=>this.handleChipChange(value)} sx={this.state.filters.includes(value)?bluechip:greychip}  label={value}/>
+                                <div className="filterhead w-100 mb-2 mt-2 ">Ownership</div>
+                                <div className="d-flex flex-wrap ">
+                                    {ownership.map((value, key) => (
+                                        <div key={key} className="col-3 mb-2">
+                                            <StyledChip onClick={() => this.handleChipChange(value)}
+                                                sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                                label={value}/>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                        <div className="filterhead w-100 mb-2 mt-2 ">Medicine</div>
-                        <div className="d-flex flex-wrap ">
-                            {medicine.map((value, key)=>(
-                                <div key={key} className="col-3 mb-2">
-                                    <StyledChip onClick={()=>this.handleChipChange(value)} sx={this.state.filters.includes(value)?bluechip:greychip}  label={value}/>
+                                <div className="filterhead w-100 mb-2 mt-2 ">Medicine</div>
+                                <div className="d-flex flex-wrap ">
+                                    {medicine.map((value, key) => (
+                                        <div key={key} className="col-3 mb-2">
+                                            <StyledChip onClick={() => this.handleChipChange(value)}
+                                                sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                                label={value}/>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                    </div>
+                            </div>
 
-                </Container>
+                        </Container>)}
 
 
                 {/*<Container className={"w-100 input-holder " + ((2 === this.state.display) ? "active-blue" : "")}>*/}
