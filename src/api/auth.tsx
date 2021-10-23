@@ -8,7 +8,7 @@ import React from "react";
 
 
 const client_id = "6tWdAZrlxUA26FJSMjE7oKBpTNGaqJRl2bsmNMRb";
-export const reactUrl = process.env.BASE_URL;
+export const reactUrl = process.env.REACT_URL;
 
 const redirect_uri = reactUrl + "/set_token/";
 
