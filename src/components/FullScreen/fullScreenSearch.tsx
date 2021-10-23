@@ -270,7 +270,8 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                     }}/>}
                 </Container>
                 <div className="d-flex justify-content-end">
-                    <Button sx={{textTransform: "none"}} endIcon={<KeyboardArrowDownIcon />}>
+                    <Button sx={{textTransform: "none"}} endIcon={<KeyboardArrowDownIcon />} onClick={()=>(this.setState({filter_active:!this.state.filter_active})
+                    )}>
                         Filter
                     </Button>
                 </div>
@@ -285,10 +286,16 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                         Hospcard
                 </div>
                 {this.state.filter_active &&
-                        (<Container>
+                        (<Container className="fixed-bottom pb-3">
                             <div className="filtertop d-flex justify-content-between pt-3 pb-2 px-3 align-self-center">
                         Select all that apply
-                                <CloseIcon sx={{color: "#0338B9"}}/>
+                                <IconButton onClick={()=>
+                                {
+                                    this.setState({filters:[]}
+                                    );
+                                }}>
+                                    <CloseIcon sx={{color: "#0338B9"}} />
+                                </IconButton>
                             </div>
                             <div className="filterbottom d-flex flex-column ">
                                 <div className="filterhead w-100 mb-2 mt-4 ">Types</div>

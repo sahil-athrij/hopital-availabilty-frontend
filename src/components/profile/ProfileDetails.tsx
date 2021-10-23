@@ -5,8 +5,8 @@ import React from "react";
 import {CSSTransition} from "react-transition-group";
 import {Patient, PatientObject} from "../../api/model";
 import {Link} from "react-router-dom";
-import icon1 from "../../images/backicon.svg";
-import icon from "../Doctor/icons/icon@2x.svg";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Editbutn from "../../images/editButton.svg";
 import {Avatar, Slider} from "@mui/material";
 import "./ProfileDetails.css";
@@ -228,17 +228,10 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                     <div className="">
                         <Container className="w-100">
                             <div className="d-flex justify-content-between w-100 px-0  mt-4  ">
-                                {/*<div className="left-align">*/}
-                                <img alt={""}
-                                    // onClick={() => this.props.history.goBack()}  //TODO
-                                    className=" mb-4  "
-                                    src={icon1}/>
-                                <p className="Yourprof w-100 text-left align-self-center ">Your Profile</p>
 
-                                <img alt={""}
-                                    className="threedot  pt-1"
-                                    src={icon}
-                                />
+                                <ArrowBackIcon  onClick={() => this.props.history.goBack()}  />
+                                <p className="Yourprof w-100 text-left align-self-center ">Your Profile</p>
+                                <MoreVertIcon/>
 
                             </div>
                             <div className="userbox d-flex flex-row align-content-around">
@@ -247,7 +240,7 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                                     width: "75px",
                                     height: "75px"
                                 }}>{this.state.user?.username ? this.state.user.username[0] : "?"}</Avatar>
-                                <div className="d-flex flex-grow-1 flex-column text-left">
+                                <div className="profile d-flex flex-grow-1 flex-column ">
                                     <p className="profname">{this.state.user?.username}</p>
                                     <p className="email">{this.state.user?.email}</p>
                                     <p className="invitecode">Invite code: 8038RRR</p>
