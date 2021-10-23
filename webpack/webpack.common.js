@@ -57,6 +57,7 @@ module.exports = (env) => ({
     },
     output: {
         path: buildFolder,
+        publicPath: "/",
         filename: "bundle.js",
     },
     plugins: [
