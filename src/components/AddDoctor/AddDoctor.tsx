@@ -119,10 +119,14 @@ export class TimePickers extends Component<{ hospital: number, onChange: (times:
     }
 }
 
-class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState> 
+interface AddDoctorProps extends AuthPropsLoc {
+    withoutHospital?: boolean,
+}
+
+class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState> 
 {
    
-    constructor(props: AuthPropsLoc) 
+    constructor(props: AddDoctorProps) 
     {
         super(props);
 
@@ -135,15 +139,22 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState>
     async componentDidMount() 
     {
         super.componentDidMount(); 
-        
-        const {hospital} = this.props.match.params as unknown as {hospital: number};
-        const departments = await Department.filter({hospital});
+        if(!this.props.withoutHospital)
+        {
+            const {hospital} = this.props.match.params as unknown as {hospital: number};
+            const departments = await Department.filter({hospital});
 
-        this.setState({
-            allDepartments: departments.results as Array<DepartmentObject>,
-            hospital: [hospital],
-            ready: true,
-        });
+            this.setState({
+                allDepartments: departments.results as Array<DepartmentObject>,
+                hospital: [hospital],
+                ready: true,
+            });
+        }
+
+        else  this.setState({ready:true});
+
+ 
+        
     }
 
     saveDoctor = async () => 
@@ -153,22 +164,26 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState>
 
         toSend.user = null;
 
-        toSend.working_time = toSend.working_time
-            .filter(({working_time}) => working_time.day !== null)
-            .map(({
-                working_time,
-                hospital
-            }) => 
-            {
-                return {
-                    hospital,
-                    working_time: {
-                        starting_time: new Date(working_time.starting_time as string).toTimeString().split(" ")[0],
-                        ending_time: new Date(working_time.ending_time as string).toTimeString().split(" ")[0],
-                        day: working_time.day
-                    }
-                };
-            });
+        if(!this.props.withoutHospital)
+        
+
+            toSend.working_time = toSend.working_time
+                .filter(({working_time}) => working_time.day !== null)
+                .map(({
+                    working_time,
+                    hospital
+                }) => 
+                {
+                    return {
+                        hospital,
+                        working_time: {
+                            starting_time: new Date(working_time.starting_time as string).toTimeString().split(" ")[0],
+                            ending_time: new Date(working_time.ending_time as string).toTimeString().split(" ")[0],
+                            day: working_time.day
+                        }
+                    };
+                });
+        
 
         if (this.state.name && this.state.phone_number)
             Doctor.create({...toSend, department: [toSend.department]})
@@ -211,7 +226,7 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState>
                             helperText={this.state.error.name && "This field is required"}
                             onChange={({target}) => this.setState({name: target.value, error: {...this.state.error, name: (!target.value)} })}/>
 
-                        <TextField className="mt-4" fullWidth variant="outlined" select label="Department"
+                        {!this.props.withoutHospital && <TextField className="mt-4" fullWidth variant="outlined" select label="Department"
                             error={this.state.error.department} required
                             helperText={this.state.error.department && "This field is required"}
                             InputLabelProps={{shrink: true, }} size="small"
@@ -223,7 +238,7 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState>
                                 onClick={() => this.props.history.push(`/department/add/${this.state.hospital}`)}>
                                 Add New Department
                             </MenuItem>
-                        </TextField>
+                        </TextField>}
 
                         <TextField className="mt-4" fullWidth variant="outlined" label="Years Of Experience"
                             InputLabelProps={{shrink: true, }} size="small" type="number"
@@ -251,8 +266,8 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState>
                             InputLabelProps={{shrink: true, }} size="small" error={this.state.error.language}
                             helperText={this.state.error.language && "This field is required"}
                             onChange={({target}) => this.setState({language: target.value, error: {...this.state.error, language: (!target.value)} })}/>    
-                        <TimePickers hospital={this.state.hospital[0]}
-                            onChange={(times) => this.setState({working_time: times})}/>
+                        {!this.props.withoutHospital && <TimePickers hospital={this.state.hospital[0]}
+                            onChange={(times) => this.setState({working_time: times})}/>}
                         <TextField className="mt-4 mb-5" fullWidth variant="outlined" label="Tell us more"
                             InputLabelProps={{shrink: true, }} size="small"
                             onChange={({target}) => this.setState({about: target.value})}/>

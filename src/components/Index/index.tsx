@@ -104,11 +104,9 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
                             <img src={Medicine}  alt=""/>
                             <div className="cardtxt ">Medicine</div>
                         </div>
-                        <Link to="">
-                            <div className="homecard">
-                                <img src={Doc}  alt=""/>
-                                <div className="cardtxt m-0">Doctor</div>
-                            </div>
+                        <Link style={{textDecoration:"none"}} className="homecard" to="/searchdoctor">
+                            <img src={Doc}  alt=""/>
+                            <div className="cardtxt m-0">Doctor</div>
                         </Link>
                     </div>
                 </Container>

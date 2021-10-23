@@ -1,9 +1,13 @@
-import React, { Component } from "react";
+import React from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import filter from "../../images/filter.svg";
 import { styled} from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
+import { AuthComponent, AuthPropsLoc, AuthState } from "../../api/auth";
+import { withRouter } from "react-router";
 
 
 const Search = styled("div")(({ theme }) => ({
@@ -16,7 +20,8 @@ const Search = styled("div")(({ theme }) => ({
 }));
   
 const SearchIconWrapper = styled("div")(({ theme }) => ({
-    padding: theme.spacing(0, 2),
+    margin: "0",
+    padding: theme.spacing(0, 0, 0, 2),
     height: "100%",
     position: "absolute",
     pointerEvents: "none",
@@ -30,25 +35,36 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     "& .MuiInputBase-input": {
         padding: theme.spacing(1, 1, 1, 0),
         // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         transition: theme.transitions.create("width"),
         width: "100%",
         [theme.breakpoints.up("md")]: {
-            width: "20ch",
+            width: "100%",
         },
     },
 }));
 
+interface SearchDoctorState extends AuthState {
+    addDoctor: boolean  //Useless use later if needed
+}
 
-export default class Searchdoctor extends Component 
+class SearchdoctorLoc extends AuthComponent <AuthPropsLoc, SearchDoctorState> 
 {
+    constructor(props: AuthPropsLoc) 
+    {
+        super(props);
+        this.state = {
+            ...this.state,
+            addDoctor: false,            
+        };
+    }
+
     render() 
     {
         return (
             <div className="mx-4 pt-4">
                 <div className="d-flex justify-content-between align-items-center">
-                    <ArrowBackIcon/>
-                    <p className="m-0">Doctors</p>
+                    <ArrowBackIcon onClick={() => this.props.history.goBack()}/>
+                    <p className="m-0"><b>Doctors</b></p>
                     <img src={filter} alt="filter"/>
                 </div>
                 <div className="mt-2">
@@ -62,7 +78,14 @@ export default class Searchdoctor extends Component
                         />
                     </Search>
                 </div>
+                <Fab onClick={()=>this.props.history.push("/adddoctor")} sx={{ position:"absolute", bottom:80, right: 16, }} color="primary" aria-label="add">
+                    <AddIcon />
+                </Fab>
             </div>
+        
         );
     }
 }
+
+const SearchDoctor = withRouter(SearchdoctorLoc);
+export default SearchDoctor;
