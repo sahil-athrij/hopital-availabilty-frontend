@@ -6,19 +6,23 @@ import {getParam} from "../../api/QueryCreator";
 import {CSSTransition} from "react-transition-group";
 import {Container, Navbar} from "react-bootstrap";
 import {ResponsiveState} from "../ResponsiveComponent";
-import {ReactComponent as Burger} from "../../images/burger.svg";
+import MenuIcon from "@mui/icons-material/Menu";
 
 
 import "./nabar.css";
 import Avatar from "@mui/material/Avatar";
+import {IconButton} from "@mui/material";
 
 
-type NavBarProp = RouteComponentProps<Record<string, string|undefined>>
-/** 
+
+type NavBarProp = RouteComponentProps<Record<string, string | undefined>>
+
+/**
  * properties of ResponsiveState is called in to NavBarState
  * Assigning type of variables
  */
-interface NavBarState extends ResponsiveState, AuthState{
+interface NavBarState extends ResponsiveState, AuthState
+{
 
     loc: string,
     show_location: boolean,
@@ -28,14 +32,14 @@ interface NavBarState extends ResponsiveState, AuthState{
     show_user: boolean,
 }
 
-export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState> 
+export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
 {
-/**
- * Constructor description.
- * initialize loc, query
- * @returns { JSX.Element } navBar Component
- */
-    constructor(props: NavBarProp) 
+    /**
+     * Constructor description.
+     * initialize loc, query
+     * @returns { JSX.Element } navBar Component
+     */
+    constructor(props: NavBarProp)
     {
         super(props);
         this.state = {
@@ -52,7 +56,7 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
     /**
      * The function runs on hash change and sets the states appropriately.
      */
-    hashChange = () => 
+    hashChange = () =>
     {
 
         this.setState({
@@ -63,66 +67,65 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
         });
     };
 
-    render() 
+    render()
     {
-        const currentLocation = this.props.location.search + this.props.location.hash; 
+        const currentLocation = this.props.location.search + this.props.location.hash;
         const showSearchBar = !this.props.location.pathname.includes("/details") &&       //to hide search bar in details, profiles, addhospital
             !this.props.location.pathname.includes("/profile") &&
             !this.props.location.pathname.includes("/addHospital");
         console.log(this.state.user?.username);
         return (
             <Navbar collapseOnSelect expand="xl" variant="dark"
-                className={"navbar  fixed-top " + (showSearchBar ? "bg-white" : "bg-grey")}
-                id="navbar">
+                    className={"navbar  fixed-top " + (showSearchBar ? "bg-white" : "bg-grey")}
+                    id="navbar">
 
-                <Container className="" >
+                <Container className="">
 
 
                     <div className="searchmain d-flex flex-row align-items-center">
 
-                        <button  aria-controls="navbarSupportedContent" className="BlueBackground p-2"
+                        <IconButton
                             onClick={() =>
                             {
-
                                 this.props.history.push(currentLocation + "#user");
                                 this.setState({show_user: !this.state.show_user});
                             }}>
-                            <Burger/>
-                        </button>
+                            <MenuIcon/>
+                        </IconButton>
                         <button className="srchtxt flex-grow-1" onClick={() =>
                         {
                             this.props.history.push(currentLocation + "#search");
 
                             this.setState({show_search: !this.state.show_search});
-                        }} >
-                                Search hospitals
+                        }}>
+                            Search hospitals
                         </button>
-                        <Avatar  className="mr-2">{this.state.user? this.state.user.username?this.state.user.username[0]:"?":"?"}</Avatar>
-
+                        <Avatar className="mr-2" sx={{width:"28px", height : "28px",marginRight: ".5rem"}}
+                                src={this.state.user?.image}>{this.state.user ? this.state.user.username ? this.state.user.username[0] : "?" : "?"}</Avatar>
 
 
                     </div>
 
 
                     <CSSTransition classNames="user-screen" in={this.state.show_user} timeout={300}
-                        unmountOnExit>
+                                   unmountOnExit>
                     </CSSTransition>
 
                 </Container>
 
                 {showSearchBar &&
-                    <CSSTransition classNames="location-screen" in={this.state.show_search} timeout={300}
-                        unmountOnExit>
-                        <FullScreenSearch close={() => 
-                        {
+                <CSSTransition classNames="location-screen" in={this.state.show_search} timeout={300}
+                               unmountOnExit>
+                    <FullScreenSearch close={() =>
+                    {
 
-                            const loc = getParam("loc", "Select Location");
-                            const query = getParam("query", "Search Hospital");
-                            this.props.history.goBack();
-                            this.setState({loc: loc, query: query});
-                            this.setState({show_search: false});
-                        }}/>
-                    </CSSTransition>
+                        const loc = getParam("loc", "Select Location");
+                        const query = getParam("query", "Search Hospital");
+                        this.props.history.goBack();
+                        this.setState({loc: loc, query: query});
+                        this.setState({show_search: false});
+                    }}/>
+                </CSSTransition>
                 }
 
             </Navbar>
