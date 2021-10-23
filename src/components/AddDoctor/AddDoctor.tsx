@@ -24,11 +24,15 @@ interface AddDoctorState extends AuthState {
     experience: number,
     specialization: string,
     phone_number: number,
+    whatsapp_number: number,
+    email: string,
+    address: string,
+    language: string,
     about: string,
     allDepartments: Array<DepartmentObject>,
     hospital: Array<number>,
     ready?: boolean,
-    error: { name: boolean, phone_number: boolean, about: boolean, department: boolean}
+    error: { name: boolean, phone_number: boolean, whatsapp_number: boolean, email: boolean, address: boolean, language:boolean, about: boolean, department: boolean}
 }
 
 export class TimePickers extends Component<{ hospital: number, onChange: (times: Array<WorkingTime>) => void }, { times: Array<WorkingTime> }> 
@@ -50,7 +54,7 @@ export class TimePickers extends Component<{ hospital: number, onChange: (times:
         this.state = {times: [JSON.parse(JSON.stringify(this.time_template))]};
     }
 
-    handleChange(value: string | number , type: "starting_time" | "ending_time" | "day", key: number)
+    handleChange(value: string | number, type: "starting_time" | "ending_time" | "day", key: number)
     {
         const {times} = this.state;
 
@@ -124,7 +128,7 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState>
 
         this.state = {
             ...this.state,
-            error: { name: false, phone_number: false, about: false, department: false}
+            error: { name: false, phone_number: false, whatsapp_number:false, email: false, address: false, language: false, about: false, department: false}
         };
     }
 
@@ -201,24 +205,14 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState>
                         <Avatar sx={{width:"107px", height:"107px"}} src="../../images/cam-pic.svg"/>
                     </div>
 
-                    <div className="m-4"> 
-
-                        <TextField
-                            id="outlined-number"
-                            label="Number"
-                            type="text"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />                      
-
-                        <TextField className="mt-2" fullWidth label="Name"
+                    <div className="m-4 pb-5">               
+                        <TextField className="mt-2" fullWidth label="Name" required
                             InputLabelProps={{shrink: true, }} size="small" error={this.state.error.name}
                             helperText={this.state.error.name && "This field is required"}
                             onChange={({target}) => this.setState({name: target.value, error: {...this.state.error, name: (!target.value)} })}/>
 
                         <TextField className="mt-4" fullWidth variant="outlined" select label="Department"
-                            error={this.state.error.department}
+                            error={this.state.error.department} required
                             helperText={this.state.error.department && "This field is required"}
                             InputLabelProps={{shrink: true, }} size="small"
                             onChange={({target}) => this.setState({department: Number(target.value)})}>
@@ -235,13 +229,31 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState>
                             InputLabelProps={{shrink: true, }} size="small" type="number"
                             onChange={({target}) => this.setState({experience: Number(target.value)})}/>
                         <TextField className="mt-4" fullWidth variant="outlined" label="Contact Number"
-                            error={this.state.error.phone_number}
+                            error={this.state.error.phone_number} required
                             helperText={this.state.error.phone_number && "Incorrect format"}
                             InputLabelProps={{shrink: true, }} size="small" type="tel"
                             onChange={({target}) => this.setState({phone_number: Number(target.value),  error: {...this.state.error, phone_number: (!target.value.match(/^(\+\d{1,3})?\s*\d{10}$/g))}})}/>
+                        <TextField className="mt-4" fullWidth variant="outlined" label="Whatsapp Number"
+                            error={this.state.error.whatsapp_number}
+                            helperText={this.state.error.whatsapp_number && "Incorrect format"}
+                            InputLabelProps={{shrink: true, }} size="small" type="tel"
+                            onChange={({target}) => this.setState({whatsapp_number: Number(target.value),  error: {...this.state.error, whatsapp_number: (!target.value.match(/^(\+\d{1,3})?\s*\d{10}$/g))}})}/>
+                        <TextField className="mt-4" fullWidth variant="outlined" label="Email"
+                            error={this.state.error.email}
+                            helperText={this.state.error.email && "Incorrect format"}
+                            InputLabelProps={{shrink: true, }} size="small" type="email"
+                            onChange={({target}) => this.setState({email: target.value,  error: {...this.state.error, email: (!target.value.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))}})}/>
+                        <TextField className="mt-4" fullWidth label="Address or Location"
+                            InputLabelProps={{shrink: true, }} size="small" error={this.state.error.address}
+                            helperText={this.state.error.address && "This field is required"}
+                            onChange={({target}) => this.setState({address: target.value, error: {...this.state.error, address: (!target.value)} })}/>
+                        <TextField className="mt-4" fullWidth label="Language"
+                            InputLabelProps={{shrink: true, }} size="small" error={this.state.error.language}
+                            helperText={this.state.error.language && "This field is required"}
+                            onChange={({target}) => this.setState({language: target.value, error: {...this.state.error, language: (!target.value)} })}/>    
                         <TimePickers hospital={this.state.hospital[0]}
                             onChange={(times) => this.setState({working_time: times})}/>
-                        <TextField className="mt-4" fullWidth variant="outlined" label="Tell us more"
+                        <TextField className="mt-4 mb-5" fullWidth variant="outlined" label="Tell us more"
                             InputLabelProps={{shrink: true, }} size="small"
                             onChange={({target}) => this.setState({about: target.value})}/>
                     </div>

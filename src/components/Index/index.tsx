@@ -104,10 +104,12 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
                             <img src={Medicine}  alt=""/>
                             <div className="cardtxt ">Medicine</div>
                         </div>
-                        <div className="homecard">
-                            <img src={Doc}  alt=""/>
-                            <div className="cardtxt m-0">Doctor</div>
-                        </div>
+                        <Link to="">
+                            <div className="homecard">
+                                <img src={Doc}  alt=""/>
+                                <div className="cardtxt m-0">Doctor</div>
+                            </div>
+                        </Link>
                     </div>
                 </Container>
 

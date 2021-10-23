@@ -27,6 +27,7 @@ import {Addpatient} from "./components/AddPatient/AddPatient";
 import {Givehelp} from "./components/GiveHelp/GiveHelp";
 import {AddHospitalReview} from "./components/AddReview/AddHospitalReview";
 import { createTheme } from "@mui/material/styles";
+import Searchdoctor from "./components/Doctor/Searchdoctor";
 
 
 const theme = createTheme({
@@ -155,6 +156,10 @@ class AppLoc extends React.Component<AppProps>
                         <Route path={"/help"}>
                             <BottomNav/>
                             <Givehelp/>
+                        </Route>
+
+                        <Route path={"/searchdoctor"}>
+                            <Searchdoctor/>
                         </Route>
 
                         {/* If the current URL is /, this route is rendered

@@ -123,8 +123,7 @@ export interface AuthState extends ResponsiveState {
     user: {
         tokens: token,
         email:string,
-        uploaded_images:Array<{image:string}>,
-
+        image:string,
         username: string,
         firstname: string,
         lastname: string,

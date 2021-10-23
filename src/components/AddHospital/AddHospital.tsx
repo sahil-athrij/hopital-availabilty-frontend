@@ -294,7 +294,8 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
             Phone: "",
             ownership: "U",
             type: "U",
-            category: "U"
+            category: "U",
+            error: { hospitalName: false, phone_number: false, about: false, department: false}
         };
     }
 
@@ -417,10 +418,10 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                                 className="my-2"
                                 size="small"
                                 InputLabelProps={{shrink: true, }}
-                                value={this.state.name}
-                                onChange={(event) =>
-                                    this.setValue("name", event)}
-
+                                error={this.state.error.hospitalName}
+                                helperText={this.state.error.hospitalName && "This field is required"}
+                                onChange={({target}) => this.setState({name: target.value, error: {...this.state.error, hospitalName: (!target.value)} })}
+                                value={this.state.name}                                
                             />
                             <TextField value={this.state.Phone} className="my-2" fullWidth variant="outlined"
                                 required={true} label="Phone Number *"

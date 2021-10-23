@@ -242,7 +242,7 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
 
                             </div>
                             <div className="userbox d-flex flex-row align-content-around">
-                                <Avatar src={this.state.user?.uploaded_images[0]?.image} sx={{
+                                <Avatar src={this.state.user?.image} sx={{
                                     marginRight: "10px",
                                     width: "75px",
                                     height: "75px"
