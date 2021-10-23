@@ -8,7 +8,8 @@ module.exports = {
     devServer: {
         hot: true,
         open: false,
-        port: 3000
+        port: 3000,
+        historyApiFallback: true
     },
     plugins: [
         new Dotenv({path:  path.resolve(__dirname, "..", "./.env.dev")}),
