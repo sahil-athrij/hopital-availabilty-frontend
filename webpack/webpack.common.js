@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WebpackPwaManifest = require("webpack-pwa-manifest");
 const CopyPlugin = require("copy-webpack-plugin");
 const {InjectManifest} = require("workbox-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
 
 const buildFolder = path.resolve(__dirname, "..", "./build");
 
@@ -104,7 +105,8 @@ module.exports = (env) => ({
         new InjectManifest({
             swSrc: path.resolve(__dirname, "..", "src/sw.ts"),
             exclude: [/\.map$/, /^manifest.*\.js(?:on)?$/, /\.(jpe?g|png|webp)$/i]
-        })
+        }),
+        new Dotenv({path:  path.resolve(__dirname, "..", `./.${env}.env`)})
     ],
     stats: "errors-warnings"
 })

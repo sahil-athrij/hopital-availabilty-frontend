@@ -5,6 +5,7 @@
   "scripts": {
     "start": "webpack serve --config webpack/webpack.config.js --env env=dev",
     "build": "webpack build --config webpack/webpack.config.js --env env=prod",
+    "stage": "webpack build --config webpack/webpack.config.js --env env=stg",
     "lint": "eslint --fix \"src/**/*.{js,jsx,ts,tsx,json}\"",
     "test": "jest",
     "sync:to": "rsync -aPzs --delete --exclude-from='.gitignore' ./ react:hopital-availabilty-frontend",
