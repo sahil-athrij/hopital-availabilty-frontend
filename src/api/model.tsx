@@ -160,7 +160,7 @@ export class DepartmentObject extends ModelObject
 
 }
 
-export class DoctorObject extends ModelObject 
+export class  DoctorObject extends ModelObject 
 {
     id = -1;
     name: string | undefined;
