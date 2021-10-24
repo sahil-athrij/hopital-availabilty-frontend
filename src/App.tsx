@@ -163,6 +163,10 @@ class AppLoc extends React.Component<AppProps>
                             <Searchdoctor/>
                         </Route>
 
+                        <Route path={"/adddoctor"}>
+                            <AddDoctorComponent withoutHospital={true}/>
+                        </Route>
+
                         {/* If the current URL is /, this route is rendered
             while the rest are ignored */}
                         <Route path="/">
