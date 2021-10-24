@@ -226,6 +226,7 @@ export class ReviewObject extends ModelObject
     day = 0;
     written_by_name = "";
     written_by = "";
+    written_by_image="";
     size = 0;
 
     constructor(data: ModelData, baseUrl: string) 

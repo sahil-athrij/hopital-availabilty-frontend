@@ -28,6 +28,7 @@ import {Givehelp} from "./components/GiveHelp/GiveHelp";
 import {AddHospitalReview} from "./components/AddReview/AddHospitalReview";
 import { createTheme } from "@mui/material/styles";
 import Searchdoctor from "./components/Doctor/Searchdoctor";
+import {NavBar} from "./components/NavBar/navBar";
 
 
 const theme = createTheme({
@@ -118,7 +119,7 @@ class AppLoc extends React.Component<AppProps>
                         </Route>  
                         <Route path="/details/:hspId"> <Details/></Route>{/* Show details about a hospital */}
                         <Route path="/search">
-                            {/*<NavBar/>*/}
+                            <NavBar/>
                             <Search/>
                             <BottomNav/>
                         </Route>
@@ -169,7 +170,7 @@ class AppLoc extends React.Component<AppProps>
                         {/* If the current URL is /, this route is rendered
             while the rest are ignored */}
                         <Route path="/">
-                            {/*<NavBar/>*/}
+                            <NavBar/>
                             <Index/>
                         </Route>
 

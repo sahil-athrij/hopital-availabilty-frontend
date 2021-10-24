@@ -9,7 +9,6 @@ import icu from "../../images/icu.svg";
 import starsvg from "../../images/borderstar.svg";
 import ventilator from "../../images/ventilator.svg";
 import care from "../../images/care.svg";
-import profile from "../../images/profile-image.svg";
 import Avatar from "@mui/material/Avatar";
 import tick from "../../images/Tick icon.svg";
 import cross from "../../images/Cross icon.svg";
@@ -23,6 +22,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { withStyles } from "@mui/styles";
+import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 
 const RatingStyler = withStyles({
     icon: {
@@ -30,12 +30,17 @@ const RatingStyler = withStyles({
     },
 })(Rating);
 
-interface ReviewState {
-  model: MarkerObject;
+interface ReviewProps extends  AuthPropsLoc{
+    model:MarkerObject;
 }
 
-export default class ReviewCards extends Component<ReviewState> 
+export default class ReviewCards extends AuthComponent<ReviewProps, AuthState>
 {
+    constructor(props: ReviewProps)
+    {
+        super(props);
+    }
+
     render() 
     {
         return (
@@ -161,12 +166,13 @@ export default class ReviewCards extends Component<ReviewState>
                         </p>
                     </div>
 
-                    <div className="d-flex mx-4 pr-4 mt-2">
-                        <img src={profile} alt="img" />
-                        <Link to={`/details/reviews/${this.props.model.id}`}>
-                            <RatingStyler name="size-large" defaultValue={0} size="large" />
-                        </Link>
-                    </div>
+                    {this.state.user &&
+                        (<div className="d-flex mx-4 pr-4 mt-2">
+                            <Avatar src={this.state.user?.image}/>
+                            <Link to={`/details/reviews/${this.props.model.id}`}>
+                                <RatingStyler name="size-large" defaultValue={0} size="large"/>
+                            </Link>
+                        </div>)}
 
                     <div>
                         {this.props.model.comment.map(
@@ -181,7 +187,7 @@ export default class ReviewCards extends Component<ReviewState>
                                         <Typography>
                                             <div className="d-flex justify-content-between mx-2 w-100 p-1">
                                                 <div className="mr-2 ">
-                                                    <Avatar src={profile} alt="img">
+                                                    <Avatar src={comment.written_by_image} alt="img">
                                                         {comment.written_by_name}
                                                     </Avatar>
                                                 </div>
@@ -407,11 +413,12 @@ export default class ReviewCards extends Component<ReviewState>
                     </div>
                 </div>
 
-                <Container className="p-4">
-                    <Link to={`/details/reviews/${this.props.model.id}`}>
-                        <BigBlueButton text="Write a Review" />
-                    </Link>
-                </Container>
+                {this.state.user &&
+                    (<Container className="p-4">
+                        <Link to={`/details/reviews/${this.props.model.id}`}>
+                            <BigBlueButton text="Write a Review"/>
+                        </Link>
+                    </Container>)}
             </div>
         );
     }
