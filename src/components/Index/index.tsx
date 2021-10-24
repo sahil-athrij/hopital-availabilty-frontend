@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Container} from "react-bootstrap";
+import {Col, Container} from "react-bootstrap";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {withRouter} from "react-router";
 
@@ -12,25 +12,39 @@ import {Link} from "react-router-dom";
 import Righticon from "../../images/righticon.svg";
 import Addhosp from "../../images/addhospcard.svg";
 import Givehelp from "../../images/givehelpcard.svg";
-import Searchhosp from "../../images/searchhospcard.svg";
+import Nurse from "../../images/nurse 1.png";
 import Medicine from "../../images/Medicine.svg";
 import Doc from "../../images/Doc.svg";
-import Ambulanceimg from "../../images/ambulanceimg.svg";
+import Ambulanceimg from "../../images/ambulance 1.png";
+import Laboratory from "../../images/laboratory 1.png";
+import BloodBank from "../../images/blood-bank 1.png";
+import request from "../../images/helphand.svg";
+import {Box} from "@mui/material";
+import { MobileStepper } from "@material-ui/core";
+import SwipeableViews from "react-swipeable-views";
+import { autoPlay } from "react-swipeable-views-utils";
 
-interface IndexState extends AuthState {
+
+
+const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+
+
+interface IndexState extends AuthState
+{
     display: boolean
     lat?: string,
     lng?: string,
+    activestep:number,
 }
 
 /**
  * @extends  AuthComponent<AuthPropsLoc, IndexState>
  */
 
-class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState> 
+class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
 {
 
-    constructor(props: AuthPropsLoc) 
+    constructor(props: AuthPropsLoc)
     {
         super(props);
         const lat = getParam("lat",); // Obtain value Of lat stored in local storage during previous query
@@ -38,16 +52,22 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
         this.state = {
             ...this.state,
             display: true,
-            lat, lng
+            lat, lng,
+            activestep:0,
         };
     }
+    
+    handleStepChange = (step: number) =>
+    {
+        this.setState({activestep:step});
+    };
 
     /**
      * Descibes the Index page including swipable carousels
      * @returns { JSX.Element } index Component
      */
 
-    render() 
+    render()
     {
 
         return (
@@ -58,7 +78,11 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
                     {this.state.user?.firstname ? `Welcome, ${this.state.user.firstname}` : "Welcome"}
                 </div>
                 <Container className="text-left">
-                    <div style={{backgroundColor: "#3E64FF", borderRadius: "1.25rem", boxShadow: "0px 25px 58px rgba(62, 100, 255, 0.3)"}} className="card text-white">
+                    <div style={{
+                        backgroundColor: "#3E64FF",
+                        borderRadius: "1.25rem",
+                        boxShadow: "0px 25px 58px rgba(62, 100, 255, 0.3)"
+                    }} className="card text-white">
                         <div className="d-flex align-items-start flex-column mb-5 pb-2">
                             <h1 className="text-white mx-4 mt-4 mb-2"><b>NeedMedi</b></h1>
                             <h1 className="text-white mx-4 mb-2"><b>is for all</b></h1>
@@ -67,7 +91,7 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
                         </div>
                         <img style={{borderRadius: "1.25rem"}} className="mx-4 mb-0" src={Homecover} alt="home"/>
                     </div>
-                    <Link to="/addRequest">
+                    <Link style={{textDecoration: "none"}} to="/addRequest">
                         <div className="helpbar">
                             <div className="rigtharrow"><img className="iconimg" src={Righticon} alt=""/></div>
                             <h5 className="problem">Any problems?</h5>
@@ -76,40 +100,91 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
                         </div>
                     </Link>
                 </Container>
-                <Container className="w-100">
+
+                <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
                     <div className="servicehead text-left d-flex justify-content-between mb-3">
                         Services
                     </div>
-                    <div className="container d-flex justify-content-between  p-0 align-self-center">
-                        <div className="homecard">
-                            <img src={Addhosp}  alt=""/>
-                            <div className="cardtxt ">Add Hospital</div>
+                    <AutoPlaySwipeableViews
+                        index={this.state.activestep}
+                        onChangeIndex={this.handleStepChange}
+                        enableMouseEvents
+                        interval={10000}
+                    >
+                        <div>
+                            {Math.abs(this.state.activestep) <= 2 ? (
+                                <div className="container d-flex justify-content-between  p-0 align-self-center px-2">
+                                    <div className="homecard">
+                                        <img src={Addhosp} alt=""/>
+                                        <div className="cardtxt ">Add Hospital</div>
+                                    </div>
+                                    <div className="homecard">
+                                        <img src={Givehelp} alt=""/>
+                                        <div className="cardtxt ">Give help</div>
+                                    </div>
+                                    <div className="homecard">
+                                        <img className="mb-2" src={Nurse} alt=""/>
+                                        <div className="cardtxt m-0">Nurse</div>
+                                    </div>
+                                </div>
+                            ) : null}
                         </div>
-                        <div className="homecard">
-                            <img src={Givehelp}  alt=""/>
-                            <div className="cardtxt ">Give help</div>
-                        </div>
-                        <div className="homecard">
-                            <img src={Searchhosp}  alt=""/>
-                            <div className="cardtxt m-0">Search Hospitals</div>
-                        </div>
-                    </div>
-                    <div className="container d-flex justify-content-between my-2 p-0 align-self-center">
+                        <div>
+                            {Math.abs(this.state.activestep - 1) <= 2 ? (
+                                <div className="container d-flex justify-content-between my-2 p-0 align-self-center px-2">
 
-                        <div className="homecard d-flex flex-column ">
-                            <img src={Ambulanceimg} alt=""/>
-                            <div className="cardtxt ">Ambulance</div>
+                                    <div className="homecard d-flex flex-column ">
+                                        <img src={Ambulanceimg} alt=""/>
+                                        <div className="cardtxt ">Ambulance</div>
+                                    </div>
+                                    <div className="homecard">
+                                        <img src={Medicine} alt=""/>
+                                        <div className="cardtxt ">Medicine</div>
+                                    </div>
+                                    <Link style={{textDecoration:"none"}} className="homecard" to="/searchdoctor/">
+                                        <div >
+                                            <img src={Doc} alt=""/>
+                                            <div className="cardtxt m-0">Doctor</div>
+                                        </div>
+                                    </Link>
+                                </div>
+                            ) : null}
                         </div>
-                        <div className="homecard">
-                            <img src={Medicine}  alt=""/>
-                            <div className="cardtxt ">Medicine</div>
+                        <div>
+                            {Math.abs(this.state.activestep - 2) <= 2 ? (
+                                <div className="container d-flex justify-content-between  p-0 align-self-center px-2">
+                                    <div className="homecard">
+                                        <img src={Laboratory} alt=""/>
+                                        <div className="cardtxt ">Laboratory</div>
+                                    </div>
+                                    <div className="homecard">
+                                        <img src={BloodBank} alt=""/>
+                                        <div className="cardtxt ">Blood Bank</div>
+                                    </div>
+                                    <div className="homecard">
+                                        <img className="mb-2" src={request} alt=""/>
+                                        <div className="cardtxt m-0">Request</div>
+                                    </div>
+                                </div>
+                            ) : null}
                         </div>
-                        <Link style={{textDecoration:"none"}} className="homecard" to="/searchdoctor">
-                            <img src={Doc}  alt=""/>
-                            <div className="cardtxt m-0">Doctor</div>
-                        </Link>
+                    </AutoPlaySwipeableViews>
+                    <div className="d-flex justify-content-center">
+                        <MobileStepper
+                            style={{background:"none"}}
+                            steps={3}
+                            position="static"
+                            activeStep={this.state.activestep}
+                            nextButton={
+                                null
+                            }
+                            backButton={
+                                null
+                            }
+                        />
+
                     </div>
-                </Container>
+                </Box>
 
                 <Container className="mb-5 pb-3 pt-3 text-left">
                     {/* Displays the component when lat and lng are non-null */}
@@ -119,7 +194,7 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
                             <p className=" mr-1">See All</p>
                         </div>
                         <Col xs={12} id="searchresults">
-                            <SearchResults updateParent={() =>null                  }/>
+                            <SearchResults updateParent={() => null}/>
                         </Col>
                     </> : <></>
                     }
