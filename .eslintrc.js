@@ -41,7 +41,7 @@ module.exports = {
         "no-restricted-imports": [
             "error",
             {
-              "patterns": ["@mui/*/*/*", "!@mui/material/test-utils/*"]
+                "patterns": ["@mui/*/*/*", "!@mui/material/test-utils/*"]
             }
         ],
         "curly": ["warn", "multi"],
