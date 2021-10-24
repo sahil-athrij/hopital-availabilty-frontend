@@ -8,6 +8,8 @@ import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import { AuthComponent, AuthPropsLoc, AuthState } from "../../api/auth";
 import { withRouter } from "react-router";
+import { Doctor, DoctorObject } from "../../api/model";
+import DoctorProfile from "../Details/DoctorCards";
 
 
 const Search = styled("div")(({ theme }) => ({
@@ -44,7 +46,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 interface SearchDoctorState extends AuthState {
-    addDoctor: boolean  //Useless use later if needed
+    addDoctor: boolean,  //Useless use later if needed
+    doctors: DoctorObject[],
+    next: string,
+    searchTerm: string
 }
 
 class SearchdoctorLoc extends AuthComponent <AuthPropsLoc, SearchDoctorState> 
@@ -54,14 +59,37 @@ class SearchdoctorLoc extends AuthComponent <AuthPropsLoc, SearchDoctorState>
         super(props);
         this.state = {
             ...this.state,
-            addDoctor: false,            
+            addDoctor: false,
+            searchTerm:""            
         };
+        this.getDoctors();
     }
+
+    async getDoctors () 
+    {
+        Doctor.filter({search: this.state.searchTerm}).then((doctors) => 
+        {
+            const next = doctors.next;
+            const results = doctors.results;
+            this.setState({doctors: results, next: next});
+            console.log(doctors.results);
+        });
+
+    } 
+
+    editSearchTerm = (e: string) => 
+    {
+        this.setState({searchTerm: e}, ()=> 
+        {
+            this.getDoctors();
+        });
+    };
+
 
     render() 
     {
         return (
-            <div className="mx-4 pt-4">
+            <div className="mx-4 pt-4 mb-5 pb-4">
                 <div className="d-flex justify-content-between align-items-center">
                     <ArrowBackIcon onClick={() => this.props.history.goBack()}/>
                     <p className="m-0"><b>Doctors</b></p>
@@ -75,10 +103,18 @@ class SearchdoctorLoc extends AuthComponent <AuthPropsLoc, SearchDoctorState>
                         <StyledInputBase
                             placeholder="Search for doctors"
                             inputProps={{ "aria-label": "search" }}
+                            type="text"
+                            value={this.state.searchTerm}
+                            onChange = {(event) => this.editSearchTerm(event.target.value)}
                         />
                     </Search>
                 </div>
-                <Fab onClick={()=>this.props.history.push("/adddoctor")} sx={{ position:"absolute", bottom:80, right: 16, }} color="primary" aria-label="add">
+                <div className="d-flex justify-content-around flex-wrap mt-2 px-0 p-0">
+
+                    {this.state.doctors && this.state.doctors.map((model, i) => <DoctorProfile model={model} key={i}/>)}
+
+                </div>
+                <Fab onClick={()=>this.props.history.push("/adddoctor")} sx={{ position:"fixed", bottom:80, right: 16, }} color="primary" aria-label="add">
                     <AddIcon />
                 </Fab>
             </div>

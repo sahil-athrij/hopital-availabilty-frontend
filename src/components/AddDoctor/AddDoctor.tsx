@@ -186,19 +186,35 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
         
 
         if (this.state.name && this.state.phone_number)
-            Doctor.create({...toSend, department: [toSend.department]})
-                .then(() => 
-                {
-                    this.props.history.push(`/details/${this.state.hospital}`);
-                    toast.success("thank you for the contribution", {
-                        position: "bottom-center"
+        
+            !this.props.withoutHospital?
+                Doctor.create({...toSend, department: [toSend.department]})
+                    .then(() => 
+                    {
+                        this.props.history.push(`/details/${this.state.hospital}`);
+                        toast.success("thank you for the contribution", {
+                            position: "bottom-center"
+                        });
+                    }).catch((error) => 
+                    {
+                        toast.error(error.details, {
+                            position: "bottom-center"
+                        });
+                    })
+                :Doctor.create({...toSend})
+                    .then(() => 
+                    {
+                        this.props.history.push("/searchdoctor/");
+                        toast.success("thank you for the contribution", {
+                            position: "bottom-center"
+                        });
+                    }).catch((error) => 
+                    {
+                        toast.error(error.details, {
+                            position: "bottom-center"
+                        });
                     });
-                }).catch((error) => 
-                {
-                    toast.error(error.details, {
-                        position: "bottom-center"
-                    });
-                });
+            
         else
             toast.error("please enter the required details", {
                 position: "bottom-center"

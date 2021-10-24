@@ -16,7 +16,7 @@ interface CardProps {
 }
 
 
-class Card extends React.Component<CardProps, { open: boolean }> 
+export default class DoctorProfile extends React.Component<CardProps, { open: boolean }> 
 {
     constructor(props: CardProps) 
     {
@@ -28,7 +28,7 @@ class Card extends React.Component<CardProps, { open: boolean }>
     {
         return (
             <div className="m-2 doctor-card ">
-                <Link to={`/doctor/${this.props.model.id}`}>
+                <Link style={{textDecoration:"none"}} to={`/doctor/${this.props.model.id}`}>
                     <div>
                         <div>
                             <div>
@@ -80,7 +80,7 @@ export class DoctorCards extends Component<{ models: DoctorObject[], hospital: n
 
                 <div className="doc-subc">
 
-                    {this.props.models.map((model, i) => <Card model={model} key={i}/>)}
+                    {this.props.models.map((model, i) => <DoctorProfile model={model} key={i}/>)}
 
                 </div>
                 <Link to={`/doctor/add/${this.props.hospital}`}>
