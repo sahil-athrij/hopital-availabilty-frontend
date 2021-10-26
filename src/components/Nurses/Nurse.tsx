@@ -1,16 +1,15 @@
-import {Doctor, DoctorObject} from "../../api/model";
+import {Nurse, NurseObject} from "../../api/model";
 
-import "./doctor.css";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import image from "./icons/image@2x.svg";
-import icon from "./icons/icon@2x.svg";
-import icon2 from "./icons/icon-2@2x.svg";
-import icon3 from "./icons/icon-3@2x.svg";
-import icon4 from "./icons/icon-4@2x.svg";
-import icon5 from "./icons/icon-5@2x.svg";
-import icon6 from "./icons/icon-6@2x.svg";
-import icon7 from "./icons/icon-7@2x.svg";
+import image from "../Doctor/icons/image@2x.svg";
+import icon from "../Doctor/icons/icon@2x.svg";
+import icon2 from "../Doctor/icons/icon-2@2x.svg";
+import icon3 from "../Doctor/icons/icon-3@2x.svg";
+import icon4 from "../Doctor/icons/icon-4@2x.svg";
+import icon5 from "../Doctor/icons/icon-5@2x.svg";
+import icon6 from "../Doctor/icons/icon-6@2x.svg";
+import icon7 from "../Doctor/icons/icon-7@2x.svg";
 
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 
@@ -22,7 +21,7 @@ import {BigBlueButton} from "../Utils";
 
 interface DetailsState extends AuthState {
     id: number,
-    model: DoctorObject,
+    model: NurseObject,
     ready: boolean,
     open_availability: HTMLElement | null,
     popovertext: string,
@@ -46,9 +45,9 @@ interface CommunicationProps {
     class: string
 }
 
-const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+// const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-class DoctorStats extends React.Component<StatsProps, Record<string, unknown>>
+class NurseStats extends React.Component<StatsProps, Record<string, unknown>>
 {
     render() 
     {
@@ -97,7 +96,7 @@ class Communication extends React.Component<CommunicationProps, Record<string, u
     }
 }
 
-class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState> 
+class NurseLoc extends AuthComponent<AuthPropsLoc, DetailsState> 
 {
 
 
@@ -118,10 +117,10 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
     {
         this.setState({ready: false});
 
-        const docId = Number(this.props.match.params.docId);
-        const doctor = await Doctor.get(docId) as DoctorObject;
+        const nurseId = Number(this.props.match.params.nurseId);
+        const nurse = await Nurse.get(nurseId) as NurseObject;
 
-        this.setState({model: doctor, ready: true, id: docId});
+        this.setState({model: nurse, ready: true, id: nurseId});
 
     }
 
@@ -131,7 +130,7 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
         await this.refreshData();
     }
 
-    showDoctor({model, history}: { model: DoctorObject, history: { goBack: ()=> void } })
+    showNurse({model, history}: { model: NurseObject, history: { goBack: ()=> void } })
     {
         return (
             <>
@@ -154,12 +153,12 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                         {model.name}
                     </div>
                     <div className="viralogist nunito-semi-bold-lynch-14px">
-                        {model.specialization}
+                        {model.availability?"Available":"Unavailable"}
                     </div>
                     <div className="flex-row-1">
-                        <DoctorStats value={model.patients >= 1000? "1000+": model.patients} title={"Patients"} icon={icon2} class={"blue"}/>
-                        <DoctorStats value={model.experience} title={"Experience"} icon={icon3} class={"red"}/>
-                        <DoctorStats value={model.rating} title={"Rating"} icon={icon4} class={"yellow"}/>
+                        <NurseStats value={model.services >= 1000? "1000+": model.services} title={"Services"} icon={icon2} class={"blue"}/>
+                        <NurseStats value={model.experience} title={"Experience"} icon={icon3} class={"red"}/>
+                        <NurseStats value={model.rating} title={"Rating"} icon={icon4} class={"yellow"}/>
                     </div>
                 </div>
                 <div className={"about"}>
@@ -170,7 +169,7 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                         {model.name}
                     </p>
                 </div>
-                <div className={"about "}>
+                {/* <div className={"about "}>
                     <div className="about-doctor nunito-semi-bold-ebony-clay-18px">Working Time</div>
                     <p className="dr-bellamy-nicholas nunito-bold-lynch-14px">
                         {model.working_time.map(({working_time, hospital}, i) => (
@@ -182,7 +181,7 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                         )
                         )}
                     </p>
-                </div>
+                </div> */}
                 <div className="communication">
                     <div className="communication-1 nunito-semi-bold-ebony-clay-18px">Communication</div>
                     <Communication
@@ -215,7 +214,7 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
     {
         return (
             this.state.ready ?
-                <this.showDoctor model={this.state.model} history={this.props.history}/> :
+                <this.showNurse model={this.state.model} history={this.props.history}/> :
                 <Container fluid={true} className="my-5 py-5 ">
                     <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
                 </Container>
@@ -227,4 +226,4 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
 }
 
 
-export const DoctorComponent = withRouter(DoctorLoc);
+export const NurseComponent = withRouter(NurseLoc);

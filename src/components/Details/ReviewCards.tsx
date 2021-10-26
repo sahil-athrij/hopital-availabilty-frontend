@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Container } from "react-bootstrap";
 import { MarkerObject, ReviewObject } from "../../api/model";
 import { BigBlueButton, StarRating } from "../Utils";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import oxygen from "../../images/oxygen.svg";
 import affordability from "../../images/affordability.svg";
 import icu from "../../images/icu.svg";
@@ -34,7 +34,7 @@ interface ReviewProps extends  AuthPropsLoc{
     model:MarkerObject;
 }
 
-export default class ReviewCards extends AuthComponent<ReviewProps, AuthState>
+class ReviewCardLoc extends AuthComponent<ReviewProps, AuthState>
 {
     constructor(props: ReviewProps)
     {
@@ -423,6 +423,8 @@ export default class ReviewCards extends AuthComponent<ReviewProps, AuthState>
         );
     }
 }
+
+export const ReviewCards = withRouter(ReviewCardLoc);
 
 interface RatingState {
   reviews: ReviewObject[];
