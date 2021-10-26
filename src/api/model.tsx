@@ -176,12 +176,15 @@ export class  DoctorObject extends ModelObject
     specialization: string | undefined;
     about: string | undefined;
     image: string | undefined;
+    whatsapp_number = "";
+    email = "";
+    address = "";
 
     constructor(data: ModelData, baseUrl: string) 
     {
         super(data, baseUrl);
         this.fields = ["id", "name", "phone_number", "hospital", "department", "user", "working_time",
-            "rating", "reviews", "patients", "experience", "specialization", "about", "image"];
+            "rating", "reviews", "patients", "experience", "specialization", "about", "image", "whatsapp_number", "email", "address"];
         this.getData();
     }
 
@@ -195,15 +198,46 @@ export class  DoctorObject extends ModelObject
     //         file.name
     //     );
     //     formData.append(
-    //         'hospital',
+    //         "hospital",
     //         this.id.toString()
     //     )
-    //     let headers = {'Authorization': `Bearer ${getAuth()}`}
+    //     let headers = {"Authorization": `Bearer ${getAuth()}`}
     //
-    //     return await filePost(baseUrl + '/api/image/', formData, headers)
+    //     return await filePost(baseUrl + "/api/image/", formData, headers)
     // }
 
 
+}
+
+export class  NurseObject extends ModelObject 
+{
+    id = -1;
+    name: string | undefined;
+    gender: string | undefined; 
+    phone_number = -1;
+    hospital: Array<number> = [];
+    user = -1;
+    rating = -1;
+    reviews: [] = [];
+    patients = -1;
+    experience = -1;
+    specialization: string | undefined;
+    about: string | undefined;
+    image: string | undefined;
+    home_care = false;
+    availability = false;
+    services = 0;
+    whatsapp_number = "";
+    email = "";
+    address = "";
+
+    constructor(data: ModelData, baseUrl: string) 
+    {
+        super(data, baseUrl);
+        this.fields = ["id", "name", "gender", "hospital", "experience", "patients", "image", "user", 
+            "rating", "home_care", "about", "phone_number", "review", "availability", "services", "whatsapp_number", "email", "address"];
+        this.getData();
+    }
 }
 
 export class ReviewObject extends ModelObject 
@@ -290,6 +324,7 @@ export const Marker = new Model(baseUrl + "/api/marker/", MarkerObject);
 export const Doctor = new Model(baseUrl + "/internals/doctors/", DoctorObject);
 export const Patient = new Model(baseUrl + "/api/patient/", PatientObject);
 export const DepartmentName = new Model(baseUrl + "/internals/department_names/", DepartmentNameObject);
+export const Nurse = new Model(baseUrl + "/internals/nurses/", NurseObject);
 
 export type ModelRegistry =
     typeof MarkerObject
@@ -297,4 +332,5 @@ export type ModelRegistry =
     | typeof susObject
     | typeof PatientObject
     | typeof ModelObject
-
+    | typeof NurseObject
+    | typeof DoctorObject

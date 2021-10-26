@@ -23,7 +23,7 @@ import direction_icon from "./icons/primary@2x.png";
 
 import {DepartmentCards} from "./DepatrmentCards";
 import {DoctorCards} from "./DoctorCards";
-import ReviewCards from "./ReviewCards"; 
+import {ReviewCards} from "./ReviewCards"; 
 
 
 interface DetailsState extends AuthState {
