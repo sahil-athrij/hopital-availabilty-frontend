@@ -86,6 +86,10 @@
     --font-family-source_sans_pro: "Source Sans Pro";
 }
 
+legend {
+    float: unset;
+}
+
 .nunito-bold-lynch-12px {
     color: var(--lynch);
     font-family: var(--font-family-nunito);

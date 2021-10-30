@@ -86,7 +86,7 @@ class AddNurse extends AuthComponent<AuthPropsLoc, AddNurseState>
             <div>
                 <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
                     <CloseIcon onClick={() => this.props.history.goBack()}/>
-                    <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Doctor</b></p>
+                    <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Nurse</b></p>
                     <Button className="sub" variant="contained" onClick={this.saveNurse}>Submit</Button>
                 </div>
 

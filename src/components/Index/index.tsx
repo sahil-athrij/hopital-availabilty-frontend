@@ -74,36 +74,38 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
             <React.Fragment>
                 <Container fluid={true} className="mt-2 p-5 ">
                 </Container>
-                <div className="usertext text-left mb-2">
-                    {this.state.user?.firstname ? `Welcome, ${this.state.user.firstname}` : "Welcome"}
-                </div>
-                <Container className="text-left">
+                {/*<div className="usertext text-left mb-2">*/}
+                {/*    {this.state.user?.firstname ? `Welcome, ${this.state.user.firstname}` : "Welcome"}*/}
+                {/*</div>*/}
+                {/*<Container className="text-left">*/}
                     <div style={{
                         backgroundColor: "#3E64FF",
                         borderRadius: "1.25rem",
-                        boxShadow: "0px 25px 58px rgba(62, 100, 255, 0.3)"
-                    }} className="card text-white">
+                        boxShadow: "0px 25px 58px rgba(62, 100, 255, 0.3)",
+                        minHeight: "150px",
+                        overflow: "hidden"
+                    }} className="card text-white mx-2">
                         <div style={{zIndex: 2, position: "absolute"}} className="d-flex align-items-start flex-column">
                             <h1 className="text-white mx-4 mt-4"><b>NeedMedi</b></h1>
                             <h1 className="text-white mx-4"><b>is for all</b></h1>
                             <h6 className="text-white mx-4 my-0"><b>Your complete partner in</b></h6>
                             <h6 className="text-white mx-4 my-0"><b>terms of medical help</b></h6>
                         </div>
-                        <img style={{borderRadius: "1.25rem", marginLeft: "10rem"}} className="pt-4 mb-0" src={Homecover} alt="home"/>
+                        <img style={{borderRadius: "1.25rem", marginLeft: "auto", width: "50%", minHeight: "150px"}} className="pt-4 mb-0" src={Homecover} alt="home"/>
                     </div>
-                    <Link style={{textDecoration: "none"}} to="/addRequest">
-                        <div className="helpbar">
-                            <div className="rigtharrow"><img className="iconimg" src={Righticon} alt=""/></div>
-                            <h5 className="problem">Any problems?</h5>
+                    {/*<Link style={{textDecoration: "none"}} to="/addRequest">*/}
+                    {/*    <div className="helpbar">*/}
+                    {/*        <div className="rigtharrow"><img className="iconimg" src={Righticon} alt=""/></div>*/}
+                    {/*        <h5 className="problem">Any problems?</h5>*/}
 
-                            <h6 className="probsec">Request Medical help here</h6>
-                        </div>
-                    </Link>
-                </Container>
+                    {/*        <h6 className="probsec">Request Medical help here</h6>*/}
+                    {/*    </div>*/}
+                    {/*</Link>*/}
+                {/*</Container>*/}
 
                 <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
                     <div className="servicehead text-left d-flex justify-content-between mb-3">
-                        Services
+                        Healthcare Services
                     </div>
                     <AutoPlaySwipeableViews
                         index={this.state.activestep}
