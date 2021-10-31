@@ -29,6 +29,7 @@ import {AddHospitalReview} from "./components/AddReview/AddHospitalReview";
 import { createTheme } from "@mui/material/styles";
 import Searchdoctor from "./components/Doctor/Searchdoctor";
 import {NavBar} from "./components/NavBar/navBar";
+import {UserPage} from "./components/User/User";
 
 
 const theme = createTheme({
@@ -161,6 +162,10 @@ class AppLoc extends React.Component<AppProps>
 
                         <Route path={"/searchdoctor"}>
                             <Searchdoctor/>
+                        </Route>
+
+                        <Route path={"/user"}>
+                            <UserPage/>
                         </Route>
 
                         {/* If the current URL is /, this route is rendered
