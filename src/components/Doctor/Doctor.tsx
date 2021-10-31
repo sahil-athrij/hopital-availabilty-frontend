@@ -2,7 +2,7 @@ import {Doctor, DoctorObject} from "../../api/model";
 
 import "./doctor.css";
 
-import icon1 from "./icons/icon-1@2x.svg";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import image from "./icons/image@2x.svg";
 import icon from "./icons/icon@2x.svg";
 import icon2 from "./icons/icon-2@2x.svg";
@@ -32,7 +32,7 @@ interface DetailsState extends AuthState {
 }
 
 interface StatsProps {
-    value: number,
+    value: number | string,
     title: string,
     icon: string,
     class: string
@@ -48,8 +48,10 @@ interface CommunicationProps {
 
 const DAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-class DoctorStats extends React.Component<StatsProps, {}> {
-    render() {
+class DoctorStats extends React.Component<StatsProps, Record<string, unknown>>
+{
+    render() 
+    {
         return (
             <div className="overlap-group mx-2">
                 <div className={`group ${this.props.class}`}>
@@ -70,15 +72,17 @@ class DoctorStats extends React.Component<StatsProps, {}> {
     }
 }
 
-class Communication extends React.Component<CommunicationProps, {}> {
-    render() {
+class Communication extends React.Component<CommunicationProps, Record<string, unknown> >
+{
+    render() 
+    {
         return (
-            <a href={`tel:${this.props.phone_number}`}>
+            <a style={{textDecoration: "none"}} href={`tel:${this.props.phone_number}`}>
                 <div className="message">
                     <div className={`overlap-group-1 ${this.props.class}`}>
                         <img alt={""}
-                             className="icon"
-                             src={this.props.icon}
+                            className="icon"
+                            src={this.props.icon}
                         />
                     </div>
                     <div className="flex-col">
@@ -93,62 +97,57 @@ class Communication extends React.Component<CommunicationProps, {}> {
     }
 }
 
-class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
+class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState> 
+{
 
 
-    constructor(props: AuthPropsLoc) {
+    constructor(props: AuthPropsLoc) 
+    {
         super(props);
         this.state = {
             ...this.state,
             id: 0,
             ready: false,
             open_availability: null,
-            popovertext: 'Percentage Probability of Availing the services',
+            popovertext: "Percentage Probability of Availing the services",
             show_review: false
-        }
+        };
     }
 
-    async refreshData() {
-        this.setState({ready: false})
-        //TODO: fix later
-        // @ts-ignore
-        let {docId} = this.props.match.params
-        let doctor = await Doctor.get(docId) as DoctorObject
+    async refreshData() 
+    {
+        this.setState({ready: false});
 
-        this.setState({model: doctor, ready: true, id: docId})
+        const docId = Number(this.props.match.params.docId);
+        const doctor = await Doctor.get(docId) as DoctorObject;
+
+        this.setState({model: doctor, ready: true, id: docId});
 
     }
 
-    async componentDidMount() {
-        super.componentDidMount()
-        await this.refreshData()
+    async componentDidMount() 
+    {
+        super.componentDidMount();
+        await this.refreshData();
     }
 
-    showDoctor({model, history}: { model: DoctorObject, history: { goBack: Function } }) {
+    showDoctor({model, history}: { model: DoctorObject, history: { goBack: ()=> void } })
+    {
         return (
             <>
                 <div className="overlap-group4">
                     <div className="d-flex justify-content-between w-100 px-3 align-items-centre">
-                        {/*<div className="left-align">*/}
+                        <ArrowBackIcon className="left-align" onClick={() => history.goBack()} />
                         <img alt={""}
-                             onClick={() => history.goBack()}
-                             className="icon-1 mx-3"
-                             src={icon1}/>
-
-
-
-
-                        <img alt={""}
-                             className="icon-2 mx-3"
-                             src={icon}
+                            className="icon-2 mx-3"
+                            src={icon}
                         />
-
 
                     </div>
 
                     <img alt={""}
-                         className="image"
-                         src={model.image ? model.image : image}
+                        className="image"
+                        src={model.image ? model.image : image}
                     />
 
                     <div className="text-1 nunito-semi-bold-ebony-clay-20px">
@@ -158,7 +157,7 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                         {model.specialization}
                     </div>
                     <div className="flex-row-1">
-                        <DoctorStats value={model.patients} title={"Patients"} icon={icon2} class={"blue"}/>
+                        <DoctorStats value={model.patients >= 1000? "1000+": model.patients} title={"Patients"} icon={icon2} class={"blue"}/>
                         <DoctorStats value={model.experience} title={"Experience"} icon={icon3} class={"red"}/>
                         <DoctorStats value={model.rating} title={"Rating"} icon={icon4} class={"yellow"}/>
                     </div>
@@ -175,12 +174,12 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                     <div className="about-doctor nunito-semi-bold-ebony-clay-18px">Working Time</div>
                     <p className="dr-bellamy-nicholas nunito-bold-lynch-14px">
                         {model.working_time.map(({working_time, hospital}, i) => (
-                                <p key={i}>
-                                    {DAYS[working_time.day as number]} -
-                                    {working_time.starting_time} to {working_time.ending_time} at
-                                    {hospital}
-                                </p>
-                            )
+                            <p key={i}>
+                                {DAYS[working_time.day as number]} -
+                                {working_time.starting_time} to {working_time.ending_time} at
+                                {hospital}
+                            </p>
+                        )
                         )}
                     </p>
                 </div>
@@ -206,13 +205,14 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                         text={"See your doctor live."}/>
                 </div>
                 <Container className="pb-5">
-                   <BigBlueButton text="Book Appointment" />
+                    <BigBlueButton text="Book Appointment" />
                 </Container>
             </>
-        )
+        );
     }
 
-    render() {
+    render() 
+    {
         return (
             this.state.ready ?
                 <this.showDoctor model={this.state.model} history={this.props.history}/> :
@@ -227,4 +227,4 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
 }
 
 
-export const DoctorComponent = withRouter(DoctorLoc)
+export const DoctorComponent = withRouter(DoctorLoc);

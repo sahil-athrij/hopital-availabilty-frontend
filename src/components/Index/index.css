@@ -45,6 +45,7 @@
     margin-left: 1.5rem;
     color: #222B45;
     margin-bottom: .5rem;
+    text-align: left;
 }
 .problem {
     font-weight: 600;
@@ -54,6 +55,7 @@
     margin-left: 2rem;
     padding-top: 18px;
     color: #23374D;
+    text-align: left;
 }
 .probsec {
     font-weight: bold;
@@ -62,6 +64,7 @@
     margin-left: 2rem;
     letter-spacing: 0.233605px;
     color: #6B779A;
+    text-align: left;
 }
 .helpbar {
     width: 100%;
@@ -69,6 +72,7 @@
     margin-top: 1rem;
     background: rgba(107, 119, 154, 0.05);
     border-radius: 20px;
+
 }
 .needmedi {
     box-shadow: 0 25px 58px rgba(62, 100, 255, 0.3);
@@ -86,7 +90,6 @@
 }
 .iconimg {
     margin-top: 13px;
-    margin-left: 13px;
 }
 .servicehead {
     font-weight: 600;
@@ -95,9 +98,10 @@
     letter-spacing: 0.300349px;
     color: #222B45;
     margin-top: 1.25rem;
+    margin-left: 1rem;
 }
 .homecard {
-    width: 32%;
+    width: 31.5%;
     height: 145px;
     align-items: center;
     display: flex;
@@ -116,4 +120,11 @@
 #searchresults {
     padding-left: 0;
     padding-right: 0;
+}
+.cardtxt {
+    color: #222B45;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 1rem;
+    line-height: .8rem;
 }

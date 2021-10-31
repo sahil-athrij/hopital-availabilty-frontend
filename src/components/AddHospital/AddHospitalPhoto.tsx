@@ -3,7 +3,7 @@ import {AuthComponent, AuthState} from "../../api/auth";
 import {Marker, MarkerObject} from "../../api/model";
 import {RouteComponentProps, withRouter} from "react-router";
 import {Container} from "react-bootstrap";
-import {FcAddImage} from "react-icons/all";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import {toast} from "react-toastify";
 import Loader from "react-loader-spinner";
 
@@ -11,9 +11,7 @@ interface AddHospitalPhotoProps {
     hspId: string
 }
 
-interface AddHospitalPhotoPropsLoc extends RouteComponentProps<AddHospitalPhotoProps> {
-
-}
+type AddHospitalPhotoPropsLoc = RouteComponentProps<AddHospitalPhotoProps>
 
 interface AddHospitalPhotoState extends AuthState {
     id: number,
@@ -25,78 +23,90 @@ interface AddHospitalPhotoState extends AuthState {
     done: boolean
 }
 
-export class AddHospitalPhotoLoc extends AuthComponent<AddHospitalPhotoPropsLoc, AddHospitalPhotoState> {
+export class AddHospitalPhotoLoc extends AuthComponent<AddHospitalPhotoPropsLoc, AddHospitalPhotoState> 
+{
     fileInput: React.RefObject<HTMLInputElement>;
 
 
-    constructor(props: AddHospitalPhotoPropsLoc) {
+    constructor(props: AddHospitalPhotoPropsLoc) 
+    {
         super(props);
         this.state = {
             ...this.state,
             id: 0,
             ready: false,
             done: false
-        }
+        };
         this.fileInput = React.createRef();
     }
 
-    async refreshReviews() {
-        this.setState({ready: false})
+    async refreshReviews() 
+    {
+        this.setState({ready: false});
 
-        let {hspId} = this.props.match.params
-        let marker = await Marker.get(hspId) as MarkerObject
+        const {hspId} = this.props.match.params;
+        const marker = await Marker.get(hspId) as MarkerObject;
 
-        this.setState({model: marker, ready: true})
+        this.setState({model: marker, ready: true});
 
     }
 
-    async componentDidMount() {
-        super.componentDidMount()
-        await this.refreshReviews()
+    async componentDidMount() 
+    {
+        super.componentDidMount();
+        await this.refreshReviews();
     }
 
-    handleFile = (event: ChangeEvent<HTMLInputElement>) => {
+    handleFile = (event: ChangeEvent<HTMLInputElement>) => 
+    {
         event.preventDefault();
-        console.log(event.target.value)
+        console.log(event.target.value);
 
-        let reader = new FileReader();
-        let file = event.target.files?.[0];
-        if (file) {
+        const reader = new FileReader();
+        const file = event.target.files?.[0];
+        if (file) 
+        {
 
-            reader.onloadend = () => {
+            reader.onloadend = () => 
+            {
                 this.setState({
                     file: file,
                     imagePreviewUrl: reader.result,
                     done: false
                 });
 
-            }
-            reader.readAsDataURL(file)
+            };
+            reader.readAsDataURL(file);
 
 
         }
-    }
-    handleClick = () => {
-        console.log(this.fileInput.current?.click())
-    }
-    handleSubmit = () => {
-        this.state.model.addPhoto(this.state.file as File).then((r) => {
-            console.log(r)
-            toast.success('Thank you For Uploading Image', {
-                position: 'bottom-center'
-            })
-            this.setState({done:true})
+    };
+    handleClick = () => 
+    {
+        console.log(this.fileInput.current?.click());
+    };
+    handleSubmit = () => 
+    {
+        this.state.model.addPhoto(this.state.file as File).then((r) => 
+        {
+            console.log(r);
+            toast.success("Thank you For Uploading Image", {
+                position: "bottom-center"
+            });
+            this.setState({done:true});
 
-        }).catch(async (e) => {
-            let message = await e.json()
-            console.log(message)
+        }).catch(async (e) => 
+        {
+            const message = await e.json();
+            console.log(message);
             toast.error(message.detail, {
-                position: 'bottom-center'
-            })
-        })
-    }
+                position: "bottom-center"
+            });
+        });
+    };
 
-    render() {
+    render() 
+    {
         return this.state.ready ?
             <div className="bg-grey d-flex flex-column   min-vh-100">
 
@@ -108,32 +118,35 @@ export class AddHospitalPhotoLoc extends AuthComponent<AddHospitalPhotoPropsLoc,
                         <h4 className="text-center">Upload Image File</h4>
                         <h6 className="text-center">for <b>{this.state.model.name}</b></h6>
 
-                        <div
+                        <button //TODO div was used replaced by button
                             className={"bg-white mx-5 my-4 mt-3 p-3 border-primary neumorphic_file file-container round-15"}
                             onClick={this.handleClick}>
                             {this.state.file ?
 
                                 <>
                                     <img src={this.state.imagePreviewUrl as string} alt="upload"
-                                         className={"w-100 rounded"}/>
+                                        className={"w-100 rounded"}/>
                                     <div>{this.state.file.name}</div>
                                 </>
                                 : <>
 
                                     <div>Choose File</div>
-                                    <FcAddImage className={"text-primary "} size={60}/>
+                                    <AddPhotoAlternateIcon className={"text-primary "} sx={{width: "60px"}}/>
                                 </>
 
                             }
                             <input type="file" hidden onChange={this.handleFile} accept="image/*" ref={this.fileInput}/>
-                        </div>
+                        </button>s
                         {this.state.file &&
                         (this.state.done ?
-                                <button className="btn-success btn blue-gradient rounder ml-auto mr-auto w-50"
-                                onClick={()=>{this.props.history.goBack()}}
-                                >Go Back</button> :
-                                <button className="btn-success btn green-gradient rounder ml-auto mr-auto w-50"
-                                        onClick={this.handleSubmit}>Submit</button>
+                            <button className="btn-success btn blue-gradient rounder ml-auto mr-auto w-50"
+                                onClick={()=>
+                                {
+                                    this.props.history.goBack();
+                                }}
+                            >Go Back</button> :
+                            <button className="btn-success btn green-gradient rounder ml-auto mr-auto w-50"
+                                onClick={this.handleSubmit}>Submit</button>
                         )}
                     </div>
                 </Container>
@@ -143,8 +156,8 @@ export class AddHospitalPhotoLoc extends AuthComponent<AddHospitalPhotoPropsLoc,
             <Container fluid={true} className="my-5 py-5 ">
                 <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
             </Container>
-            ;
+        ;
     }
 }
 
-export const AddHospitalPhoto = withRouter(AddHospitalPhotoLoc)
+export const AddHospitalPhoto = withRouter(AddHospitalPhotoLoc);

@@ -1,6 +1,5 @@
 import {ResponsiveComponent, ResponsiveState} from "../ResponsiveComponent";
 import {Container} from "react-bootstrap";
-import {ReactComponent as Back} from "../../images/back.svg";
 import {
     FullScreenLocationProps,
     LocationSearchBoxLoc,
@@ -8,21 +7,34 @@ import {
     LocationSearchState
 } from "./FullScreenLocation";
 import {Marker} from "../../api/model";
-import {AiOutlineClose, BiCurrentLocation, FaHospital} from "react-icons/all";
-import {ReactComponent as Search} from "../../images/search.svg";
-import {ReactComponent as MarkerSvg} from "../../images/markersvg.svg";
+import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import CloseIcon from "@mui/icons-material/Close";
 import {getParam, setParam} from "../../api/QueryCreator";
 import {withRouter} from "react-router";
 import React from "react";
+import "./fullScreenSearch.css";
 import {toast} from "react-toastify";
+import {Avatar, Button, Chip, IconButton} from "@mui/material";
+import {withStyles} from "@mui/styles";
+import MenuIcon from "@mui/icons-material/Menu";
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+// import {Link} from "react-router-dom";
+// import Ekmmed from "../../images/ekmmed.svg";
+// import SmallStar from "../../images/smallstar.svg";
+// import Videocall from "../../images/videocall.svg";
+// import Phonecall from "../../images/phonecall.svg";
+// import Routemap from "../../images/routemap.svg";
+// import {AuthPropsLoc} from "../../api/auth";
 
-interface LocationQuerySearchProps extends LocationSearchProps {
+interface LocationQuerySearchProps extends LocationSearchProps
+{
     close: () => void,
     closeWindow?: () => void
 }
 
 type SuggestionSearch = {
-    name: any;
+    name: string;
     lat: number;
     lon: number;
     address: {
@@ -33,7 +45,8 @@ type SuggestionSearch = {
     }
 }
 
-interface LocationQuerySearchState extends LocationSearchState {
+interface LocationQuerySearchState extends LocationSearchState
+{
     suggestionsSearch: SuggestionSearch[],
     selectedSearch: number,
     value: string,
@@ -41,206 +54,359 @@ interface LocationQuerySearchState extends LocationSearchState {
     lng: string,
     query: string,
     display: number | boolean,
+    filters: string[],
+    filter_active: boolean,
 
 }
 
+const StyledChip = withStyles({
+    root: {},
 
-export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuerySearchProps, LocationQuerySearchState> {
+    label: {
+        padding: "0",
+    },
+
+})(Chip);
+
+const bluechip = {
+    background: "#3E64FF", "&:hover": {
+        background: "#3E64FF",
+        color: "white",
+    }, borderRadius: "5px", color: "white", fontSize: "8px", width: "76px", height: "21px"
+};
+
+const greychip = {
+    background: "#F0F0F0",
+    borderRadius: "5px",
+    color: "#696969",
+    fontSize: "8px",
+    width: "76px",
+    height: "21px"
+};
+
+const departments = ["Homeopathy", "Cardiology", "Anaesthesiology", "Dermatology", "Endocrinology", "Gastroenterology", "Oncology",
+    "Nephrology", "Neurology", "Paediatrics", "Psychiatry", "Pulmonology", "Radiology", "Rheumatology", "Geriatrics", "Gynaecology", "Community Health", "ENT",
+    "Dental", "Venerology", "Ayurveda", "Dietician", "Pathology", "General Physician", "Orthopaedics"];
+
+const types = ["Economy", "Speciality", "Super speciality", "Normal"];
+
+const ownership = ["Private", "Public", "Co-operative"];
+
+const medicine = ["Ayurveda", "Allopathy", "Homeopathy"];
 
 
-    constructor(props: LocationQuerySearchProps) {
+export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuerySearchProps, LocationQuerySearchState>
+{
+
+
+    constructor(props: LocationQuerySearchProps)
+    {
         super(props);
         this.state = {
             ...this.state,
             suggestionsSearch: [],
             selectedSearch: -1,
-            query: getParam('query', 'Search Hospital'),
+            query: getParam("query", "Search Hospital"),
+            filters: [],
+            filter_active: false,
+        };
+
+    }
+
+    setPersistence()
+    {
+        setParam("loc", this.state.value, "Select Location");
+        setParam("query", this.state.query, "Search Hospital");
+        setParam("lat", this.state.lat);
+        setParam("lng", this.state.lng);
+        console.log(localStorage.getItem("lat"));
+    }
+
+
+    async SuggestLocationsSearch(event: React.ChangeEvent<HTMLInputElement>)
+    {
+        this.setState({query: event.target.value}, this.setPersistence);
+        try
+        {
+            const values = await Marker.filter({search: this.state.query, limit: 5});
+            this.setState({suggestionsSearch: values.results});
         }
-
-    }
-
-    setPersistence() {
-        setParam("loc", this.state.value, 'Select Location')
-        setParam('query', this.state.query, 'Search Hospital')
-        setParam('lat', this.state.lat)
-        setParam('lng', this.state.lng)
-        console.log(localStorage.getItem('lat'))
-    }
-
-
-    async SuggestLocationsSearch(event: React.ChangeEvent<HTMLInputElement>) {
-        this.setState({query: event.target.value}, this.setPersistence)
-        try {
-            const values = await Marker.filter({search: this.state.query, limit: 5})
-            this.setState({suggestionsSearch: values.results})
-        } catch (e) {
-            toast.error('Internet Not Available', {
+        catch (e)
+        {
+            toast.error("Internet Not Available", {
                 position: "bottom-center",
             });
         }
 
     }
 
-    handleEnterSearch() {
-        let newSelected = this.state.suggestionsSearch[this.state.selectedSearch]
-        let newValue;
-        newValue = newSelected ? newSelected.name : this.state.query;
+    handleChipChange(value: string)
+    {
+        console.log(value);
+        const index = this.state.filters.indexOf(value);
+        const {filters} = this.state;
+        if (index > -1)
+        
+            filters.splice(index, 1);
+        
+        else
+        
+            filters.push(value);
+        
+
+        this.setState({filters});
+    }
+
+
+    handleEnterSearch()
+    {
+        const newSelected = this.state.suggestionsSearch[this.state.selectedSearch];
+        const newValue = newSelected ? newSelected.name : this.state.query;
         this.setState({
             query: newValue,
             display: 0
-        }, () => {
-            this.searchCallBack()
-        })
+        }, () =>
+        {
+            this.searchCallBack();
+        });
 
     }
 
 
-    handleKeyDownSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    handleKeyDownSearch = (e: React.KeyboardEvent<HTMLInputElement>) =>
+    {
 
-        const {selectedSearch, suggestionsSearch} = this.state
-        console.log(e.key)
-        if (e.key === 'ArrowUp' && suggestionsSearch.length > 0) {
-            e.preventDefault()
+        const {selectedSearch, suggestionsSearch} = this.state;
+        console.log(e.key);
+        if (e.key === "ArrowUp" && suggestionsSearch.length > 0)
+        {
+            e.preventDefault();
             this.setState(prevState => ({
                 selectedSearch: prevState.selectedSearch === -1 ? -1 : prevState.selectedSearch - 1
-            }))
-        } else if (e.key === "ArrowDown" && selectedSearch < suggestionsSearch.length - 1) {
-            e.preventDefault()
+            }));
+        }
+        else if (e.key === "ArrowDown" && selectedSearch < suggestionsSearch.length - 1)
+        {
+            e.preventDefault();
             this.setState(prevState => ({
                 selectedSearch: prevState.selectedSearch + 1
-            }))
-        } else if (e.key === "Enter") {
-            e.preventDefault()
-            this.handleEnterSearch()
+            }));
+        }
+        else if (e.key === "Enter")
+        {
+            e.preventDefault();
+            this.handleEnterSearch();
         }
     };
 
-    displaySuggestionsSearch(list: SuggestionSearch[]) {
-        return list.map((item: SuggestionSearch, i: number) => {
-                return (
-                    <Container
-                        className={'w-100  py-3  select-locations ' + ((i === this.state.selectedSearch) ? "active" : '')}
-                        key={i}
-                        onClick={() => {
-                            let newValue = item.name
-                            this.setState({
-                                query: newValue,
-                                display: 0
-                            }, () => {
-                                this.searchCallBack()
-                            })
-                        }}>
+    displaySuggestionsSearch(list: SuggestionSearch[])
+    {
+        return list.map((item: SuggestionSearch, i: number) =>
+        {
+            return (
+                <Container
+                    className={"w-100  py-3  select-locations " + ((i === this.state.selectedSearch) ? "active" : "")}
+                    key={i}
+                    onClick={() =>
+                    {
+                        const newValue = item.name;
+                        this.setState({
+                            query: newValue,
+                            display: 0
+                        }, () =>
+                        {
+                            this.searchCallBack();
+                        });
+                    }}>
 
-                        <FaHospital scale={4} size={30} className="input-marker mr-3"/>
-                        <div className="fill-rest">{item.name}
-                        </div>
-                    </Container>
-                )
-            }
-        )
+                    <LocalHospitalIcon sx={{width: "30px"}} className="input-marker mr-3"/>
+                    <div className="fill-rest">{item.name}
+                    </div>
+                </Container>
+            );
+        }
+        );
     }
 
 
-    render() {
+    render()
+    {
         return (
-            <React.Fragment>
+            <div>
                 <Container
-                    className={"w-100 input-holder mb-3 pr-1 justify-content-begin position-relative overflow-x-hidden  " + ((1 === this.state.display) ? "active-blue" : '')}>
-                    <Search className=" input-marker "/>
+                    className={"input-holder overflow-x-hidden mb-3 mx-2 "}>
+                    <div className=" w-100 d-flex justify-content-between align-self-center">
+                        <IconButton>
+                            <MenuIcon/>
+                        </IconButton>
 
-                    <input placeholder="Search Hospital" className={"main-input w-75 "}
-                           value={this.state.query}
-                           type="search"
-                           autoFocus
+                        <input placeholder="Search Hospital" className="main-input w-75 mx-2 align-content-start pt-1"
+                            value={this.state.query}
+                            type="search"
 
-                           onKeyDown={(event) => {
-                               this.handleKeyDownSearch(event)
-                           }}
-                           onChange={(event) => {
-                               this.SuggestLocationsSearch(event,).then()
-                           }}
-                           onFocusCapture={() => {
-                               this.setState({display: 1})
-                           }}
-                    />
+                            onKeyDown={(event) =>
+                            {
+                                this.handleKeyDownSearch(event);
+                            }}
+                            onChange={(event) =>
+                            {
+                                this.SuggestLocationsSearch(event,).then();
+                            }}
+                            onFocusCapture={() =>
+                            {
+                                this.setState({display: 1});
+                            }}
+                        />
+                        <Avatar className="align-self-center" sx={{width: "28px", height: "28px"}}/>
+                    </div>
+
                     {this.state.query &&
-                    <AiOutlineClose scale={4} size={30} className="input-marker mr-2" onClick={() => {
-                        this.setState({query: ''},
-                            () => {
-                                this.setPersistence()
-                            })
-                    }}/>}
-                    <button
-                        className="h5  u-link  m-0 p-1 px-2"
-                        onClick={() => {
-                            this.searchCallBack()
-                        }}>
-                        Go
-
-                    </button>
-                </Container>
-
-                <Container className={"w-100 input-holder " + ((2 === this.state.display) ? "active-blue" : '')}>
-                    <MarkerSvg className=" input-marker"/>
-
-                    <input placeholder="Select Location"
-                           className={"main-input "}
-                           type="search"
-                           value={this.state.value}
-                           onKeyDown={(event) => {
-                               this.handleKeyDown(event)
-                           }}
-                           onFocusCapture={() => {
-                               this.setState({display: 2})
-                           }}
-                           onChange={(event) => {
-                               this.SuggestLocations(event).then()
-                           }}/>
-                    {this.state.value &&
-                    <AiOutlineClose scale={4} size={30} className="input-marker" onClick={() => {
-                        this.setState({value: ''},
-                            () => {
-                                this.setPersistence()
-                            }
-                        )
+                    <CloseIcon sx={{width: 30}} className="input-marker mr-2" onClick={() =>
+                    {
+                        this.setState({query: ""},
+                            () =>
+                            {
+                                this.setPersistence();
+                            });
                     }}/>}
                 </Container>
-                {(this.state.display === 2 || this.state.display === 0) &&
-                <Container className="w-100 text-primary mt-1 select-locations py-3 pointers"
-                           onClick={() => {
-                               this.getLocation().then()
-                           }}>
-                    <BiCurrentLocation scale={4} size={30} className="input-marker mr-3"/>
-                    <div className="fill-rest">Use Current Location / Please enable Location services</div>
-                </Container>}
-                {this.state.display === 1 ? this.displaySuggestionsSearch(this.state.suggestionsSearch)
-                    : this.state.display === 2 ? this.displaySuggestions(this.state.suggestions) : ''}
+                <div className="d-flex px-4">
+                    <LocationOnIcon/>
+                </div>
+                <div className="d-flex justify-content-end">
+                    <Button sx={{textTransform: "none"}} endIcon={<KeyboardArrowDownIcon />} onClick={()=>(this.setState({filter_active:!this.state.filter_active})
+                    )}>
+                        Filter
+                    </Button>
+                </div>
+                <div className="bottombox w-100 d-flex justify-content-around p-2 flex-wrap">
 
-            </React.Fragment>
+                    {this.state.filters.map((value, index)=>(
+                        <StyledChip className="col-2 mb-2" key={index} sx={{background:" #3E64FF", borderRadius:"5px", color:"white", fontSize:"8px", width:"76px", height:"21px"}}  label={value}/>
+                    ))}
 
-        )
+                </div>
+                <div>
+                        Hospcard
+                </div>
+                {this.state.filter_active &&
+                        (<Container className="fixed-bottom pb-3">
+                            <div className="filtertop d-flex justify-content-between pt-3 pb-2 px-3 align-self-center">
+                        Select all that apply
+                                <IconButton onClick={()=>
+                                {
+                                    this.setState({filters:[]}
+                                    );
+                                }}>
+                                    <CloseIcon sx={{color: "#0338B9"}} />
+                                </IconButton>
+                            </div>
+                            <div className="filterbottom d-flex flex-column ">
+                                <div className="filterhead w-100 mb-2 mt-4 ">Types</div>
+                                <div className="d-flex flex-wrap ">
+                                    {types.map((value, key) => (
+                                        <div key={key} className="col-3 mb-2">
+                                            <StyledChip onClick={() => this.handleChipChange(value)}
+                                                sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                                label={value}/>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="filterhead w-100 mb-2 mt-2 ">Departments</div>
+                                <div className="d-flex flex-wrap ">
+                                    {departments.map((value, key) => (
+                                        <div key={key} className="col-3 mb-2">
+                                            <StyledChip onClick={() => this.handleChipChange(value)}
+                                                sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                                label={value}/>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="filterhead w-100 mb-2 mt-2 ">Ownership</div>
+                                <div className="d-flex flex-wrap ">
+                                    {ownership.map((value, key) => (
+                                        <div key={key} className="col-3 mb-2">
+                                            <StyledChip onClick={() => this.handleChipChange(value)}
+                                                sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                                label={value}/>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="filterhead w-100 mb-2 mt-2 ">Medicine</div>
+                                <div className="d-flex flex-wrap ">
+                                    {medicine.map((value, key) => (
+                                        <div key={key} className="col-3 mb-2">
+                                            <StyledChip onClick={() => this.handleChipChange(value)}
+                                                sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                                label={value}/>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                        </Container>)}
+
+
+                {/*<Container className={"w-100 input-holder " + ((2 === this.state.display) ? "active-blue" : "")}>*/}
+                {/*    /!*<MarkerSvg className=" input-marker"/>*!/*/}
+
+                {/*    <input placeholder="Select Location"*/}
+                {/*        className={"main-input "}*/}
+                {/*        type="search"*/}
+                {/*        value={this.state.value}*/}
+                {/*        onKeyDown={(event) => */}
+                {/*        {*/}
+                {/*            this.handleKeyDown(event);*/}
+                {/*        }}*/}
+                {/*        onFocusCapture={() => */}
+                {/*        {*/}
+                {/*            this.setState({display: 2});*/}
+                {/*        }}*/}
+                {/*        onChange={(event) => */}
+                {/*        {*/}
+                {/*            this.SuggestLocations(event).then();*/}
+                {/*        }}/>*/}
+                {/*    {this.state.value &&*/}
+                {/*    <AiOutlineClose scale={4} size={30} className="input-marker" onClick={() => */}
+                {/*    {*/}
+                {/*        this.setState({value: ""},*/}
+                {/*            () => */}
+                {/*            {*/}
+                {/*                this.setPersistence();*/}
+                {/*            }*/}
+                {/*        );*/}
+                {/*    }}/>}*/}
+                {/*</Container>*/}
+                {/*{(this.state.display === 2 || this.state.display === 0) &&*/}
+                {/*<Container className="w-100 text-primary mt-1 select-locations py-3 pointers"*/}
+                {/*    onClick={() =>*/}
+                {/*    {*/}
+                {/*        this.getLocation().then();*/}
+                {/*    }}>*/}
+                {/*    <BiCurrentLocation scale={4} size={30} className="input-marker mr-3"/>*/}
+                {/*    <div className="fill-rest">Use Current Location / Please enable Location services</div>*/}
+                {/*</Container>}*/}
+                {/*{this.state.display === 1 ? this.displaySuggestionsSearch(this.state.suggestionsSearch)*/}
+                {/*    : this.state.display === 2 ? this.displaySuggestions(this.state.suggestions) : ""}*/}
+
+            </div>
+
+        );
     }
 
 }
 
-export const LocationQuerySearchBox = withRouter(LocationQuerySearchBoxLoc)
+export const LocationQuerySearchBox = withRouter(LocationQuerySearchBoxLoc);
 
-export class FullScreenSearch extends ResponsiveComponent<FullScreenLocationProps, ResponsiveState> {
-    render() {
+export class FullScreenSearch extends ResponsiveComponent<FullScreenLocationProps, ResponsiveState>
+{
+    render()
+    {
         return (<div className="fixed-top w-100 h-100 bg-white header">
-            <Container fluid={true} className="py-3">
-                <button className="BlueBackground p-2" onClick={() => {
-                    this.props.close()
-                }}>
-                    <Back/>
-                </button>
 
-
+            <Container fluid={true} className="mt-3 p-0">
+                <LocationQuerySearchBox close={() => null} closeWindow={this.props.close}/>
             </Container>
-            <Container fluid={true} className="mt-3">
-                <LocationQuerySearchBox close={() => {
-                }} closeWindow={this.props.close}/>
-            </Container>
-        </div>)
+        </div>);
     }
 }

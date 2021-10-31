@@ -2,28 +2,28 @@ import {Marker, MarkerObject} from "../../api/model";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import React from "react";
 
-import './details.css'
+import "./details.css";
 import {Container} from "react-bootstrap";
-import SwipeableViews from 'react-swipeable-views';
+import SwipeableViews from "react-swipeable-views";
 import Loader from "react-loader-spinner";
 import {withRouter} from "react-router";
 
-import doctorsvg from '../../images/doctor.svg';
-import layoutsvg from '../../images/layout.svg';
-import reviewsvg from '../../images/review.svg';
-import starsvg from '../../images/borderstar.svg';
+import doctorsvg from "../../images/doctor.svg";
+import layoutsvg from "../../images/layout.svg";
+import reviewsvg from "../../images/review.svg";
+import starsvg from "../../images/borderstar.svg";
 
-import image from "./icons/image@2x.png"
-import icon from "./icons/icon-1@2x.png"
-import icon2 from "./icons/icon@2x.png"
-import share_icon from "./icons/shareicon.svg"
-import phone_icon from "./icons/vector-26@2x.png"
-import map_pin from "./icons/map-pin.svg"
-import direction_icon from "./icons/primary@2x.png"
+import image from "./icons/image@2x.png";
+import icon from "./icons/icon-1@2x.png";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import share_icon from "./icons/shareicon.svg";
+import phone_icon from "./icons/vector-26@2x.png";
+import map_pin from "./icons/map-pin.svg";
+import direction_icon from "./icons/primary@2x.png";
 
-import {DepartmentCards} from "./DepatrmentCards"
+import {DepartmentCards} from "./DepatrmentCards";
 import {DoctorCards} from "./DoctorCards";
-import ReviewCards from "./ReviewCards"; 
+import {ReviewCards} from "./ReviewCards"; 
 
 
 interface DetailsState extends AuthState {
@@ -38,12 +38,13 @@ interface DetailsState extends AuthState {
 
 interface TabPanelProps {
     children?: React.ReactNode;
-    index: any;
-    value: any;
+    index: number;
+    value: number;
 }
 
 
-function TabPanel(props: TabPanelProps) {
+function TabPanel(props: TabPanelProps) 
+{
     const {children, value, index, ...other} = props;
 
     return (
@@ -64,61 +65,73 @@ function TabPanel(props: TabPanelProps) {
 }
 
 
-class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
+class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> 
+{
 
 
-    constructor(props: AuthPropsLoc) {
+    constructor(props: AuthPropsLoc) 
+    {
         super(props);
         this.state = {
             ...this.state,
             id: 0,
             ready: false,
             open_availability: null,
-            popovertext: 'Percentage Probability of Availing the services',
+            popovertext: "Percentage Probability of Availing the services",
             show_review: false,
             tab: 0
-        }
+        };
     }
 
 
-    hashChange = () => {
-        if (!this.props.location.hash.includes('review')) {
-            this.setState({show_review: false})
-        } else {
-            this.setState({show_review: true})
-        }
-    }
+    hashChange = () => 
+    {
+        if (!this.props.location.hash.includes("review")) 
+        
+            this.setState({show_review: false});
+        
+        else 
+        
+            this.setState({show_review: true});
+        
+    };
 
-    async refreshReviews() {
-        this.setState({ready: false})
-        //TODO: fix later
+    async refreshReviews() 
+    {
+        this.setState({ready: false}); //TODO
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        let {hspId} = this.props.match.params
-        let marker = await Marker.get(hspId) as MarkerObject
+        const hspId = Number(this.props.match.params.hspId);
+        const marker = await Marker.get(hspId) as MarkerObject;
 
-        this.setState({model: marker, ready: true, id: hspId})
+        this.setState({model: marker, ready: true, id: hspId});
 
     }
 
-    async componentDidMount() {
-        super.componentDidMount()
-        await this.refreshReviews()
+    async componentDidMount() 
+    {
+        super.componentDidMount();
+        await this.refreshReviews();
     }
 
-    handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => 
+    {
         this.setState({open_availability: event.currentTarget});
     };
-    handleClose = () => {
+    handleClose = () => 
+    {
         this.setState({open_availability: null});
     };
 
-    handlePhotoUpload = () => {
-        this.props.history.push(`/addHospital/photo/${this.state.id}`)
+    handlePhotoUpload = () => 
+    {
+        this.props.history.push(`/addHospital/photo/${this.state.id}`);
 
-    }
+    };
 
-    render() {
-        let {model} = this.state
+    render() 
+    {
+        const {model} = this.state;
 
         return (
             this.state.ready ?
@@ -126,13 +139,12 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                     <div className="d-flex flex-column w-100 container pb-4 mb-3">
                         <div className="w-100 flex-row container px-0 mx-0 pt-4">
                             <div className="w-100 d-flex flex-row justify-content-between p-0">
-                                    <div className="bck-btn m-0">
-                                        <img alt={""} width={"15px"} height={"15px"} src={icon2}
-                                        onClick={() => this.props.history.goBack()}/>
-                                    </div>
-                                    <div className="hbg-mnu m-0">
-                                        <img alt={""} width={"5px"} height={"15px"} src={icon}/>
-                                    </div>
+                                <div className="bck-btn m-0">
+                                    <ArrowBackIcon onClick={() => this.props.history.goBack()}/>
+                                </div>
+                                <div className="hbg-mnu m-0">
+                                    <img alt={""} width={"5px"} height={"15px"} src={icon}/>
+                                </div>
                             </div>
 
                             <img alt={""} className="m-0" height={"178px"} width={"178px"} src={image}/>
@@ -144,15 +156,15 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                             <div className="w-100 d-flex flex-row justify-content-center">
                                 <img alt={""} src={map_pin} width={"12px"} height={"12px"}/>
                                 <div className="details-place">
-                                    {[model.address.village, model.address.suburb, model.address.county, model.address.state].filter(Boolean).join(', ')}
+                                    {[model.address?.village, model.address?.suburb, model.address?.county, model.address?.state].filter(Boolean).join(", ")}
                                 </div>
                             </div>
                             <div className="w-100 d-flex justify-content-around">
                                 <ActionButton src={direction_icon} caption={"Route"}
-                                              action={`https://www.google.com/maps/search/${model.name}/@${model.lat},${model.lng},19.88z`}/>
+                                    action={`https://www.google.com/maps/search/${model.name}/@${model.lat},${model.lng},19.88z`}/>
                                 <ActionButton src={phone_icon} caption={"Phone"} action={`tel:${model.Phone}`}/>
                                 <ActionButton src={share_icon} caption={"Share"}
-                                              share={{title: model.name, url: this.props.location.pathname}}/>
+                                    share={{title: model.name, url: this.props.location.pathname}}/>
                             </div>
 
                         </div>
@@ -174,20 +186,23 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                         </div>
                         <div className="container d-flex justify-content-between">
 
-                            <div className={`card-about card-1 ${this.state.tab === 0 && "active"}`}
-                                 onClick={() => this.setState({tab: 0})}>
+                            <div role="button" tabIndex={0} className={`card-about card-1 ${this.state.tab === 0 && "active"}`}
+                                onKeyPress={()=>null}
+                                onClick={() => this.setState({tab: 0})}>
                                 <img src={doctorsvg} alt={"doctor svg"}/>
                                 <p className="m-0"><b>{model.doctors.length}</b><br/>Doctors</p>
                             </div>
 
-                            <div className={`card-about card-1 ${this.state.tab === 1 && "active"}`}
-                                 onClick={() => this.setState({tab: 1})}>
+                            <div role="button" tabIndex={0} className={`card-about card-1 ${this.state.tab === 1 && "active"}`}
+                                onKeyPress={()=>null}
+                                onClick={() => this.setState({tab: 1})}>
                                 <img src={layoutsvg} alt={"layout svg"}/>
                                 <p className="m-0"><b>good</b><br/>Layout</p>
                             </div>
 
-                            <div className={`card-about card-1 ${this.state.tab === 2 && "active"}`}
-                                 onClick={() => this.setState({tab: 2})}>
+                            <div role="button" tabIndex={0} className={`card-about card-1 ${this.state.tab === 2 && "active"}`}
+                                onKeyPress={()=>null}
+                                onClick={() => this.setState({tab: 2})}>
                                 <img src={reviewsvg} alt={"review svg"}/>
                                 <p className="m-0"><b>{model.comment.length}<br/></b>Ratings<br/>&amp; Reviews</p>
                             </div>
@@ -197,9 +212,10 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
                     <SwipeableViews
                         className="pb-5 mb-5"
                         style={{background: "linear-gradient(0deg, white, #fafafa)"}}
-                        axis={'x'}
+                        axis={"x"}
                         index={this.state.tab}
-                        onChangeIndex={(v) => {
+                        onChangeIndex={(v) => 
+                        {
                             this.setState({tab: v});
                         }}
                     >
@@ -226,8 +242,10 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState> {
 
 }
 
-class ActionButton extends React.Component<{ src: string, caption: string, action?: string, share?: ShareData }, {}> {
-    render() {
+class ActionButton extends React.Component<{ src: string, caption: string, action?: string, share?: ShareData }, Record<string, unknown>>
+{
+    render() 
+    {
         return (
             <div className="d-flex flex-column align-items-center">
                 <a
@@ -239,9 +257,9 @@ class ActionButton extends React.Component<{ src: string, caption: string, actio
                     <div className="group-6839">
                         <div className="overlap-group-7">
                             <img alt={"Action Icons"}
-                                 height={"30px"}
-                                 width={"30px"}
-                                 src={this.props.src}
+                                height={"30px"}
+                                width={"30px"}
+                                src={this.props.src}
                             />
                         </div>
                     </div>

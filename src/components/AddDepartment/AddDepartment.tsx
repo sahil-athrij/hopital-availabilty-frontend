@@ -1,12 +1,11 @@
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {withRouter} from "react-router";
-import {MenuItem, TextField} from "@mui/material";
-import {Button} from "@mui/material";
-import close from "../../images/close.svg";
+import {MenuItem, TextField, Button} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import "./AddDepartment.css";
-import {Department, DepartmentName, DepartmentObject, DepartmentNameObject} from "../../api/model";
-import {Skeleton} from "antd";
+import {Department, DepartmentName, DepartmentNameObject} from "../../api/model";
 import {toast} from "react-toastify";
+import Skeleton from "@mui/material/Skeleton";
 
 interface AddDepartmentState extends AuthState {
     departments: Array<DepartmentNameObject>,
@@ -16,12 +15,14 @@ interface AddDepartmentState extends AuthState {
 }
 
 
-class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AddDepartmentState> {
+class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AddDepartmentState> 
+{
 
-    async componentDidMount() {
+    async componentDidMount() 
+    {
         super.componentDidMount();
-        // @ts-ignore
-        const {hospital} = this.props.match.params;
+        
+        const {hospital} = this.props.match.params as unknown as { hospital: number };
         const departments = await DepartmentName.filter();
 
         this.setState({
@@ -31,29 +32,34 @@ class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AddDepartmentState> {
         });
     }
 
-    saveDepartment = () => {
+    saveDepartment = () => 
+    {
         Department.create({name_id: this.state.id, hospital: this.state.hospital})
-            .then(() => {
-                this.props.history.push(`/details/${this.state.hospital}`)
-                toast.success('thank you for the contribution', {
-                    position: 'bottom-center'
-                })
-            }).catch((error) => {
-            toast.error(error.details, {
-                position: 'bottom-center'
-            })
-        })
-    }
+            .then(() => 
+            {
+                this.props.history.push(`/details/${this.state.hospital}`);
+                toast.success("thank you for the contribution", {
+                    position: "bottom-center"
+                });
+            }).catch((error) => 
+            {
+                toast.error(error.details, {
+                    position: "bottom-center"
+                });
+            });
+    };
 
-    render(): JSX.Element {
-        // @ts-ignore
-        const {hspId} = this.props.match.params;
+    render(): JSX.Element 
+    {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore                                                                //TODO
+        // const {hspId} = this.props.match.params;
 
         return (
             this.state.ready ?
                 <div className="main h-100">
                     <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
-                        <img src={close} onClick={() => this.props.history.goBack()}/>
+                        <CloseIcon onClick={() => this.props.history.goBack()} />
                         <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Department details</b>
                         </p>
                         <Button className="sub" variant="contained" onClick={this.saveDepartment}>Submit</Button>
@@ -62,34 +68,26 @@ class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AddDepartmentState> {
                     <div className="m-4">
 
                         <TextField className="mt-4" fullWidth variant="outlined" select label="Name"
-                                   InputLabelProps={{shrink: true,}} size="small"
-                                   onChange={({target}) => this.setState({id: Number(target.value)})}>
+                            InputLabelProps={{shrink: true, }} size="small"
+                            onChange={({target}) => this.setState({id: Number(target.value)})}>
                             {this.state.departments.map(({name, id}, i) =>
                                 <MenuItem value={id} key={i}>{name}</MenuItem>
                             )}
                         </TextField>
-
-                        {/*<p className="text-left mt-3 p-0"><small><b>Facilities available</b></small></p>    */}
-                        {/*<TextField fullWidth variant="outlined" select label="Is there a lab" InputLabelProps={{shrink: true,}} size="small" />*/}
-                        {/*<TextField className="mt-4" fullWidth variant="outlined" select label="Pharmacy" InputLabelProps={{shrink: true,}} size="small" />*/}
-                        {/*<TextField className="mt-4" fullWidth variant="outlined" select label="Facility number 1" InputLabelProps={{shrink: true,}} size="small" />*/}
-                        {/*<TextField className="mt-4" fullWidth variant="outlined"  label="Facility number 2" InputLabelProps={{shrink: true,}} size="small"/>*/}
-                        {/*<TextField className="mt-4" fullWidth variant="outlined"  label="Number of Doctors" InputLabelProps={{shrink: true,}} size="small"/>*/}
-                        {/*<p className="text-left mt-3"><small><b>Doctor Details</b></small></p>  */}
 
                     </div>
 
                 </div> :
                 <div className="main h-100">
                     <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
-                        <img src={close} onClick={() => this.props.history.goBack()}/>
+                        <CloseIcon onClick={() => this.props.history.goBack()}/>
                         <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Department details</b>
                         </p>
                         <Button className="sub" variant="contained" onClick={this.saveDepartment}>Submit</Button>
                     </div>
 
                     <div className="m-4">
-                        <Skeleton.Input className="mt-2 w-100" active={true} size={"large"}/>
+                        <Skeleton variant="rectangular" className="mt-2 w-100"  height={118} />
                     </div>
                 </div>
 

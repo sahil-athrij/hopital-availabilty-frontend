@@ -3,18 +3,18 @@ import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 
 import {withRouter} from "react-router";
 import React, {Component} from "react";
-import close from "../../images/close.svg";
+import CloseIcon from "@mui/icons-material/Close";
 
-import {Skeleton} from "antd";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TableContainer from "@mui/material/TableContainer";
-import {Table, TableHead, TableRow, TableCell, TableBody, Button} from "@mui/material";
+import {Button, Table, TableBody, TableCell, TableHead, TableRow} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import MobileTimePicker from "@mui/lab/MobileTimePicker";
 import TextField from "@mui/material/TextField";
 import Avatar from "@mui/material/Avatar";
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import {toast} from "react-toastify";
+import Skeleton from "@mui/material/Skeleton";
 
 
 interface AddDoctorState extends AuthState {
@@ -24,18 +24,25 @@ interface AddDoctorState extends AuthState {
     experience: number,
     specialization: string,
     phone_number: number,
+    whatsapp_number: number,
+    email: string,
+    address: string,
+    language: string,
     about: string,
     allDepartments: Array<DepartmentObject>,
     hospital: Array<number>,
-    ready?: boolean
+    ready?: boolean,
+    error: { name: boolean, phone_number: boolean, whatsapp_number: boolean, email: boolean, address: boolean, language:boolean, about: boolean, department: boolean}
 }
 
-export class TimePickers extends Component<{ hospital: number, onChange: (times: Array<WorkingTime>) => void }, { times: Array<WorkingTime> }> {
+export class TimePickers extends Component<{ hospital: number, onChange: (times: Array<WorkingTime>) => void }, { times: Array<WorkingTime> }> 
+{
 
     days: Array<string>;
     time_template: WorkingTime;
 
-    constructor(props: { hospital: number, onChange: (times: Array<WorkingTime>) => void }) {
+    constructor(props: { hospital: number, onChange: (times: Array<WorkingTime>) => void }) 
+    {
         super(props);
 
         this.time_template = {
@@ -44,15 +51,14 @@ export class TimePickers extends Component<{ hospital: number, onChange: (times:
         };
         this.days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-        this.state = {times: [JSON.parse(JSON.stringify(this.time_template))]}
+        this.state = {times: [JSON.parse(JSON.stringify(this.time_template))]};
     }
 
-    handleChange(value: string | number, type: "starting_time" | "ending_time" | "day", key: number) {
+    handleChange(value: string | number, type: "starting_time" | "ending_time" | "day", key: number)
+    {
         const {times} = this.state;
 
-        // TODO: fix if ts is still broken
-        // @ts-ignore
-        times[key].working_time[type] = value;
+        times[key].working_time[type] = value as unknown as null;
         const {starting_time, ending_time, day} = times[key].working_time;
 
         if (times.length === key + 1 && starting_time && ending_time && day !== null)
@@ -62,7 +68,8 @@ export class TimePickers extends Component<{ hospital: number, onChange: (times:
         this.props.onChange(times);
     }
 
-    render() {
+    render() 
+    {
         return (
             <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <TableContainer>
@@ -76,13 +83,13 @@ export class TimePickers extends Component<{ hospital: number, onChange: (times:
                         </TableHead>
                         <TableBody>
                             {this.state.times.map((item, key) => (
-                                <TableRow>
+                                <TableRow key={key}>
                                     <TableCell className="px-0 col-5 pr-1" component="th" scope="row">
                                         <TextField select fullWidth label="-" size="small"
-                                                   value={item.working_time.day}
-                                                   onChange={({target}) => this.handleChange(Number(target.value), "day", key)}>
+                                            value={item.working_time.day}
+                                            onChange={({target}) => this.handleChange(Number(target.value), "day", key)}>
                                             {this.days.map((day, key) => (
-                                                <MenuItem value={key}>{day}</MenuItem>)
+                                                <MenuItem key={key}>{day}</MenuItem>)
                                             )
                                             }
                                         </TextField>
@@ -92,14 +99,14 @@ export class TimePickers extends Component<{ hospital: number, onChange: (times:
                                             value={item.working_time.starting_time}
                                             onChange={(value) => value && this.handleChange(value, "starting_time", key)}
                                             renderInput={(params) => <TextField {...params} label="-"
-                                                                                size="small"/>}
+                                                size="small"/>}
                                         /></TableCell>
                                     <TableCell className="px-0" align="right">
                                         <MobileTimePicker
                                             value={item.working_time.ending_time}
                                             onChange={(value) => value && this.handleChange(value, "ending_time", key)}
                                             renderInput={(params) => <TextField {...params} label="-"
-                                                                                size="small"/>}
+                                                size="small"/>}
                                         /></TableCell>
 
                                 </TableRow>
@@ -112,111 +119,181 @@ export class TimePickers extends Component<{ hospital: number, onChange: (times:
     }
 }
 
-class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState> {
+interface AddDoctorProps extends AuthPropsLoc {
+    withoutHospital?: boolean,
+}
 
-    async componentDidMount() {
-        super.componentDidMount();
-        // @ts-ignore
-        const {hospital} = this.props.match.params;
-        const departments = await Department.filter({hospital});
+class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState> 
+{
+   
+    constructor(props: AddDoctorProps) 
+    {
+        super(props);
 
-        this.setState({
-            allDepartments: departments.results as Array<DepartmentObject>,
-            hospital: [hospital],
-            ready: true,
-        });
+        this.state = {
+            ...this.state,
+            error: { name: false, phone_number: false, whatsapp_number:false, email: false, address: false, language: false, about: false, department: false}
+        };
     }
 
-    saveDoctor = async () => {
-        console.log(this.state)
+    async componentDidMount() 
+    {
+        super.componentDidMount(); 
+        if(!this.props.withoutHospital)
+        {
+            const {hospital} = this.props.match.params as unknown as {hospital: number};
+            const departments = await Department.filter({hospital});
+
+            this.setState({
+                allDepartments: departments.results as Array<DepartmentObject>,
+                hospital: [hospital],
+                ready: true,
+            });
+        }
+
+        else  this.setState({ready:true});
+
+ 
+        
+    }
+
+    saveDoctor = async () => 
+    {
+        console.log(this.state);
         const toSend = this.state;
 
         toSend.user = null;
 
-        toSend.working_time = toSend.working_time
-            .filter(({working_time}) => working_time.day != null)
-            .map(({
-                      working_time,
-                      hospital
-                  }) => {
-                return {
-                    hospital,
-                    working_time: {
-                        starting_time: new Date(working_time.starting_time as string).toTimeString().split(' ')[0],
-                        ending_time: new Date(working_time.ending_time as string).toTimeString().split(' ')[0],
-                        day: working_time.day
-                    }
-                }
-            });
+        if(!this.props.withoutHospital)
+        
+
+            toSend.working_time = toSend.working_time
+                .filter(({working_time}) => working_time.day !== null)
+                .map(({
+                    working_time,
+                    hospital
+                }) => 
+                {
+                    return {
+                        hospital,
+                        working_time: {
+                            starting_time: new Date(working_time.starting_time as string).toTimeString().split(" ")[0],
+                            ending_time: new Date(working_time.ending_time as string).toTimeString().split(" ")[0],
+                            day: working_time.day
+                        }
+                    };
+                });
+        
 
         if (this.state.name && this.state.phone_number)
-            Doctor.create({...toSend, department: [toSend.department]})
-                .then(() => {
-                    this.props.history.push(`/details/${this.state.hospital}`)
-                    toast.success('thank you for the contribution', {
-                        position: 'bottom-center'
+        
+            !this.props.withoutHospital?
+                Doctor.create({...toSend, department: [toSend.department]})
+                    .then(() => 
+                    {
+                        this.props.history.push(`/details/${this.state.hospital}`);
+                        toast.success("thank you for the contribution", {
+                            position: "bottom-center"
+                        });
+                    }).catch((error) => 
+                    {
+                        toast.error(error.details, {
+                            position: "bottom-center"
+                        });
                     })
-                }).catch((error) => {
-                toast.error(error.details, {
-                    position: 'bottom-center'
-                })
-            })
+                :Doctor.create({...toSend})
+                    .then(() => 
+                    {
+                        this.props.history.push("/searchdoctor/");
+                        toast.success("thank you for the contribution", {
+                            position: "bottom-center"
+                        });
+                    }).catch((error) => 
+                    {
+                        toast.error(error.details, {
+                            position: "bottom-center"
+                        });
+                    });
+            
         else
             toast.error("please enter the required details", {
-                position: 'bottom-center'
-            })
-    }
+                position: "bottom-center"
+            });
+    };
 
-    render() {
+    render() 
+    {
         return (
             this.state.ready ?
                 <div>
                     <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
-                        <img src={close} onClick={() => this.props.history.goBack()} alt={"close"}/>
+                        <CloseIcon onClick={() => this.props.history.goBack()}/>
                         <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Doctor</b></p>
                         <Button className="sub" variant="contained" onClick={this.saveDoctor}>Submit</Button>
                     </div>
 
                     <div className="d-flex justify-content-center align-items-center">
-                        <Avatar src="/broken-image.jpg"/>
+                        <Avatar sx={{width:"107px", height:"107px"}} src="../../images/cam-pic.svg"/>
                     </div>
 
-                    <div className="m-4">
+                    <div className="m-4 pb-5">               
+                        <TextField className="mt-2" fullWidth label="Name" required
+                            InputLabelProps={{shrink: true, }} size="small" error={this.state.error.name}
+                            helperText={this.state.error.name && "This field is required"}
+                            onChange={({target}) => this.setState({name: target.value, error: {...this.state.error, name: (!target.value)} })}/>
 
-                        <TextField className="mt-2" fullWidth variant="outlined" label="Name"
-                                   InputLabelProps={{shrink: true,}} size="small"
-                                   onChange={({target}) => this.setState({name: target.value})}/>
-
-                        <TextField className="mt-4" fullWidth variant="outlined" select label="Department"
-                                   InputLabelProps={{shrink: true,}} size="small"
-                                   onChange={({target}) => this.setState({department: Number(target.value)})}>
+                        {!this.props.withoutHospital && <TextField className="mt-4" fullWidth variant="outlined" select label="Department"
+                            error={this.state.error.department} required
+                            helperText={this.state.error.department && "This field is required"}
+                            InputLabelProps={{shrink: true, }} size="small"
+                            onChange={({target}) => this.setState({department: Number(target.value)})}>
                             {this.state.allDepartments.map(({name, id}, i) =>
                                 <MenuItem value={id} key={i}>{name.name}</MenuItem>
                             )}
                             <MenuItem value={"add"} key={"add"}
-                                      onClick={() => this.props.history.push(`/department/add/${this.state.hospital}`)}>
+                                onClick={() => this.props.history.push(`/department/add/${this.state.hospital}`)}>
                                 Add New Department
                             </MenuItem>
-                        </TextField>
+                        </TextField>}
 
                         <TextField className="mt-4" fullWidth variant="outlined" label="Years Of Experience"
-                                   InputLabelProps={{shrink: true,}} size="small"
-                                   onChange={({target}) => this.setState({experience: Number(target.value)})}/>
+                            InputLabelProps={{shrink: true, }} size="small" type="number"
+                            onChange={({target}) => this.setState({experience: Number(target.value)})}/>
                         <TextField className="mt-4" fullWidth variant="outlined" label="Contact Number"
-                                   InputLabelProps={{shrink: true,}} size="small"
-                                   onChange={({target}) => this.setState({phone_number: Number(target.value)})}/>
-                        <TimePickers hospital={this.state.hospital[0]}
-                                     onChange={(times) => this.setState({working_time: times})}/>
-                        <TextField className="mt-4" fullWidth variant="outlined" label="Tell us more"
-                                   InputLabelProps={{shrink: true,}} size="small"
-                                   onChange={({target}) => this.setState({about: target.value})}/>
+                            error={this.state.error.phone_number} required
+                            helperText={this.state.error.phone_number && "Incorrect format"}
+                            InputLabelProps={{shrink: true, }} size="small" type="tel"
+                            onChange={({target}) => this.setState({phone_number: Number(target.value),  error: {...this.state.error, phone_number: (!target.value.match(/^(\+\d{1,3})?\s*\d{10}$/g))}})}/>
+                        <TextField className="mt-4" fullWidth variant="outlined" label="Whatsapp Number"
+                            error={this.state.error.whatsapp_number}
+                            helperText={this.state.error.whatsapp_number && "Incorrect format"}
+                            InputLabelProps={{shrink: true, }} size="small" type="tel"
+                            onChange={({target}) => this.setState({whatsapp_number: Number(target.value),  error: {...this.state.error, whatsapp_number: (!target.value.match(/^(\+\d{1,3})?\s*\d{10}$/g))}})}/>
+                        <TextField className="mt-4" fullWidth variant="outlined" label="Email"
+                            error={this.state.error.email}
+                            helperText={this.state.error.email && "Incorrect format"}
+                            InputLabelProps={{shrink: true, }} size="small" type="email"
+                            onChange={({target}) => this.setState({email: target.value,  error: {...this.state.error, email: (!target.value.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))}})}/>
+                        <TextField className="mt-4" fullWidth label="Address or Location"
+                            InputLabelProps={{shrink: true, }} size="small" error={this.state.error.address}
+                            helperText={this.state.error.address && "This field is required"}
+                            onChange={({target}) => this.setState({address: target.value, error: {...this.state.error, address: (!target.value)} })}/>
+                        <TextField className="mt-4" fullWidth label="Language"
+                            InputLabelProps={{shrink: true, }} size="small" error={this.state.error.language}
+                            helperText={this.state.error.language && "This field is required"}
+                            onChange={({target}) => this.setState({language: target.value, error: {...this.state.error, language: (!target.value)} })}/>    
+                        {!this.props.withoutHospital && <TimePickers hospital={this.state.hospital[0]}
+                            onChange={(times) => this.setState({working_time: times})}/>}
+                        <TextField className="mt-4 mb-5" fullWidth variant="outlined" label="Tell us more"
+                            InputLabelProps={{shrink: true, }} size="small"
+                            onChange={({target}) => this.setState({about: target.value})}/>
                     </div>
 
                 </div>
                 :
                 <div className="main h-100">
                     <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
-                        <img src={close} onClick={() => this.props.history.goBack()} alt={"close"}/>
+                        <CloseIcon onClick={() => this.props.history.goBack()}/>
                         <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Doctor</b></p>
                         <Button className="sub" variant="contained">Submit</Button>
                     </div>
@@ -225,12 +302,12 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState> {
                     </div>
 
                     <div className="m-4">
-                        <Skeleton.Input className="mt-2 w-100" active={true} size={"large"}/>
-                        <Skeleton.Input className="mt-2 w-100" active={true} size={"large"}/>
-                        <Skeleton.Input className="mt-2 w-100" active={true} size={"large"}/>
-                        <Skeleton.Input className="mt-2 w-100" active={true} size={"large"}/>
-                        <Skeleton.Input className="mt-2 w-100" active={true} size={"large"}/>
-                        <Skeleton.Input className="mt-2 w-100" active={true} size={"large"}/>
+                        <Skeleton variant="rectangular" className="mt-2 w-100"  height={118} />
+                        <Skeleton variant="rectangular" className="mt-2 w-100"  height={118} />
+                        <Skeleton variant="rectangular" className="mt-2 w-100"  height={118} />
+                        <Skeleton variant="rectangular" className="mt-2 w-100"  height={118} />
+                        <Skeleton variant="rectangular" className="mt-2 w-100"  height={118} />
+                        <Skeleton variant="rectangular" className="mt-2 w-100"  height={118} />
                     </div>
                 </div>
         );
@@ -239,4 +316,4 @@ class AddDoctor extends AuthComponent<AuthPropsLoc, AddDoctorState> {
 }
 
 
-export const AddDoctorComponent = withRouter(AddDoctor)
+export const AddDoctorComponent = withRouter(AddDoctor);
