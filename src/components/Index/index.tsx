@@ -68,16 +68,13 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
             <React.Fragment>
                 <Container fluid={true} className="mt-2 p-5 ">
                 </Container>
-                <div className="usertext text-left mb-2">
-                    {this.state.user?.firstname ? `Welcome, ${this.state.user.firstname}` : "Welcome"}
-                </div>
                 <Container className="text-left">
                     <div style={{
                         backgroundColor: "#3E64FF",
                         borderRadius: "1.25rem",
                         boxShadow: "0px 25px 58px rgba(62, 100, 255, 0.3)"
                     }} className="card text-white">
-                        <div className="d-flex align-items-start flex-column  pb-2">
+                        <div className="d-flex align-items-start flex-column mb-5 pb-2">
                             <h1 className="text-white mx-4 mt-4 mb-2"><b>NeedMedi</b></h1>
                             <h1 className="text-white mx-4 mb-2"><b>is for all</b></h1>
                             <h6 className="text-white mx-4 my-0"><b>Your complete partner in</b></h6>

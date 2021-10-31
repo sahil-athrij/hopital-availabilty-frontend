@@ -18,6 +18,7 @@ import {toast} from "react-toastify";
 import {Avatar, Button, Chip, IconButton} from "@mui/material";
 import {withStyles} from "@mui/styles";
 import MenuIcon from "@mui/icons-material/Menu";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 // import {Link} from "react-router-dom";
 // import Ekmmed from "../../images/ekmmed.svg";
@@ -84,7 +85,6 @@ const greychip = {
     height: "21px"
 };
 
-
 const departments = ["Homeopathy", "Cardiology", "Anaesthesiology", "Dermatology", "Endocrinology", "Gastroenterology", "Oncology",
     "Nephrology", "Neurology", "Paediatrics", "Psychiatry", "Pulmonology", "Radiology", "Rheumatology", "Geriatrics", "Gynaecology", "Community Health", "ENT",
     "Dental", "Venerology", "Ayurveda", "Dietician", "Pathology", "General Physician", "Orthopaedics"];
@@ -114,7 +114,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
 
     }
 
-    toggleDrawer = (newOpen: boolean) => () => 
+    toggleDrawer = (newOpen: boolean) => () =>
     {
         this.setState({filter_active:newOpen});
     };
@@ -277,8 +277,11 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                             });
                     }}/>}
                 </Container>
-                <div className="d-flex justify-content-end ">
-                    <Button sx={{textTransform: "none", fontSize:"16px", color:"#0338B9"}} endIcon={<KeyboardArrowDownIcon />} onClick={()=>(this.setState({filter_active:!this.state.filter_active})
+                <div className="d-flex px-4">
+                    <LocationOnIcon/>
+                </div>
+                <div className="d-flex justify-content-end">
+                    <Button sx={{textTransform: "none"}} endIcon={<KeyboardArrowDownIcon />} onClick={()=>(this.setState({filter_active:!this.state.filter_active})
                     )}>
                         Filter
                     </Button>

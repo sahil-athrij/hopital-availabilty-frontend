@@ -241,7 +241,7 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                                     height: "75px"
                                 }}>{this.state.user?.username ? this.state.user.username[0] : "?"}</Avatar>
                                 <div className="profile d-flex flex-grow-1 flex-column ">
-                                    <p className="profname">{this.state.user?.username}</p>
+                                    <p className="profname">{this.state.user?.first_name? this.state.user.first_name + " " + this.state.user?.last_name: this.state.user?.username}</p>
                                     <p className="email">{this.state.user?.email}</p>
                                     <p className="invitecode">Invite code: 8038RRR</p>
                                 </div>

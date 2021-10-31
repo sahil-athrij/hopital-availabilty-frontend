@@ -1,4 +1,3 @@
-import React from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import filter from "../../images/filter.svg";
 import { styled} from "@mui/material/styles";
@@ -8,8 +7,8 @@ import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import { AuthComponent, AuthPropsLoc, AuthState } from "../../api/auth";
 import { withRouter } from "react-router";
-import { Doctor, DoctorObject } from "../../api/model";
-import DoctorProfile from "../Details/DoctorCards";
+import { Nurse, NurseObject } from "../../api/model";
+import NurseProfile from "./NurseCards";
 
 
 const Search = styled("div")(({ theme }) => ({
@@ -45,34 +44,32 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-interface SearchDoctorState extends AuthState {
-    addDoctor: boolean,  //Useless use later if needed
-    doctors: DoctorObject[],
+interface SearchNurseState extends AuthState {
+    nurses: NurseObject[],
     next: string,
     searchTerm: string
 }
 
-class SearchdoctorLoc extends AuthComponent <AuthPropsLoc, SearchDoctorState> 
+class SearchNurseLoc extends AuthComponent <AuthPropsLoc, SearchNurseState> 
 {
     constructor(props: AuthPropsLoc) 
     {
         super(props);
         this.state = {
             ...this.state,
-            addDoctor: false,
             searchTerm:""            
         };
-        this.getDoctors();
+        this.getNurses();
     }
 
-    async getDoctors () 
+    async getNurses () 
     {
-        Doctor.filter({search: this.state.searchTerm}).then((doctors) => 
+        Nurse.filter({search: this.state.searchTerm}).then((nurses) => 
         {
-            const next = doctors.next;
-            const results = doctors.results;
-            this.setState({doctors: results, next: next});
-            console.log(doctors.results);
+            const next = nurses.next;
+            const results = nurses.results;
+            this.setState({nurses: results, next: next});
+            console.log(nurses.results);
         });
 
     } 
@@ -81,7 +78,7 @@ class SearchdoctorLoc extends AuthComponent <AuthPropsLoc, SearchDoctorState>
     {
         this.setState({searchTerm: e}, ()=> 
         {
-            this.getDoctors();
+            this.getNurses();
         });
     };
 
@@ -92,7 +89,7 @@ class SearchdoctorLoc extends AuthComponent <AuthPropsLoc, SearchDoctorState>
             <div className="mx-2 pt-4 mb-5 pb-4">
                 <div className="d-flex justify-content-between align-items-center">
                     <ArrowBackIcon onClick={() => this.props.history.goBack()}/>
-                    <p className="m-0"><b>Doctors</b></p>
+                    <p className="m-0"><b>Nurses</b></p>
                     <img src={filter} alt="filter"/>
                 </div>
                 <div className="mt-2">
@@ -101,7 +98,7 @@ class SearchdoctorLoc extends AuthComponent <AuthPropsLoc, SearchDoctorState>
                             <SearchIcon />
                         </SearchIconWrapper>
                         <StyledInputBase
-                            placeholder="Search for doctors"
+                            placeholder="Search for Nurses"
                             inputProps={{ "aria-label": "search" }}
                             type="text"
                             value={this.state.searchTerm}
@@ -111,10 +108,10 @@ class SearchdoctorLoc extends AuthComponent <AuthPropsLoc, SearchDoctorState>
                 </div>
                 <div className="d-flex justify-content-around flex-wrap mt-3 px-0 p-0">
 
-                    {this.state.doctors && this.state.doctors.map((model, i) => <DoctorProfile model={model} key={i}/>)}
+                    {this.state.nurses && this.state.nurses.map((model, i) => <NurseProfile model={model} key={i}/>)}
 
                 </div>
-                <Fab onClick={()=>this.props.history.push("/adddoctor")} sx={{ position:"fixed", bottom:80, right: 16, }} color="primary" aria-label="add">
+                <Fab onClick={()=>this.props.history.push("/addnurse")} sx={{ position:"fixed", bottom:80, right: 16, }} color="primary" aria-label="add">
                     <AddIcon />
                 </Fab>
             </div>
@@ -123,5 +120,5 @@ class SearchdoctorLoc extends AuthComponent <AuthPropsLoc, SearchDoctorState>
     }
 }
 
-const SearchDoctor = withRouter(SearchdoctorLoc);
-export default SearchDoctor;
+const SearchNurse = withRouter(SearchNurseLoc);
+export default SearchNurse;
