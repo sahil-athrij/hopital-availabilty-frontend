@@ -27,7 +27,7 @@ export default class DoctorProfile extends React.Component<CardProps, { open: bo
     render() 
     {
         return (
-            <div className="m-2 doctor-card ">
+            <div className="my-1 doctor-card ">
                 <Link style={{textDecoration:"none"}} to={`/doctor/${this.props.model.id}`}>
                     <div>
                         <div>

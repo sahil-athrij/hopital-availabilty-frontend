@@ -18,6 +18,7 @@ import {toast} from "react-toastify";
 import {Avatar, Button, Chip, IconButton} from "@mui/material";
 import {withStyles} from "@mui/styles";
 import MenuIcon from "@mui/icons-material/Menu";
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 // import {Link} from "react-router-dom";
 // import Ekmmed from "../../images/ekmmed.svg";
 // import SmallStar from "../../images/smallstar.svg";
@@ -269,6 +270,9 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                             });
                     }}/>}
                 </Container>
+                <div className="d-flex px-4">
+                    <LocationOnIcon/>
+                </div>
                 <div className="d-flex justify-content-end">
                     <Button sx={{textTransform: "none"}} endIcon={<KeyboardArrowDownIcon />} onClick={()=>(this.setState({filter_active:!this.state.filter_active})
                     )}>

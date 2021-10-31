@@ -89,7 +89,7 @@ class SearchdoctorLoc extends AuthComponent <AuthPropsLoc, SearchDoctorState>
     render() 
     {
         return (
-            <div className="mx-4 pt-4 mb-5 pb-4">
+            <div className="mx-2 pt-4 mb-5 pb-4">
                 <div className="d-flex justify-content-between align-items-center">
                     <ArrowBackIcon onClick={() => this.props.history.goBack()}/>
                     <p className="m-0"><b>Doctors</b></p>
@@ -109,7 +109,7 @@ class SearchdoctorLoc extends AuthComponent <AuthPropsLoc, SearchDoctorState>
                         />
                     </Search>
                 </div>
-                <div className="d-flex justify-content-around flex-wrap mt-2 px-0 p-0">
+                <div className="d-flex justify-content-around flex-wrap mt-3 px-0 p-0">
 
                     {this.state.doctors && this.state.doctors.map((model, i) => <DoctorProfile model={model} key={i}/>)}
 

@@ -26,7 +26,7 @@ export default class NurseProfile extends React.Component<CardProps, { open: boo
     render() 
     {
         return (
-            <div className="m-2 doctor-card ">
+            <div className="my-1 doctor-card ">
                 <Link style={{textDecoration:"none"}} to={`/nurse/${this.props.model.id}`}>
                     <div>
                         <div>

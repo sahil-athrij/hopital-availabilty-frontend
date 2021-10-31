@@ -125,8 +125,8 @@ export interface AuthState extends ResponsiveState {
         email:string,
         image:string,
         username: string,
-        firstname: string,
-        lastname: string,
+        first_name: string,
+        last_name: string,
     } | null
 }
 
@@ -241,6 +241,7 @@ export class HandleTokenLoc extends AuthComponent<AuthPropsLoc, AuthState>
             response_type: "token"
         };
 
+
         timer = Date.now();
         post(`${baseUrl}/auth/o/token/`, kwargs).then((response) => 
         {
@@ -252,7 +253,7 @@ export class HandleTokenLoc extends AuthComponent<AuthPropsLoc, AuthState>
             {
                 setObj("user", response.results[0]);
                 if (location) 
-                
+
                     this.props.history.push(location);
                 
                 else 
