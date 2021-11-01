@@ -11,7 +11,7 @@ import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CloseIcon from "@mui/icons-material/Close";
 import {getParam, setParam} from "../../api/QueryCreator";
-import {withRouter} from "react-router";
+import {useHistory, useLocation, withRouter} from "react-router";
 import React from "react";
 import "./fullScreenSearch.css";
 import {toast} from "react-toastify";
@@ -19,6 +19,9 @@ import {Avatar, Button, Chip, IconButton} from "@mui/material";
 import {withStyles} from "@mui/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import MyLocationOutlinedIcon from '@mui/icons-material/MyLocationOutlined';
+import {match} from "assert";
 // import {Link} from "react-router-dom";
 // import Ekmmed from "../../images/ekmmed.svg";
 // import SmallStar from "../../images/smallstar.svg";
@@ -56,6 +59,7 @@ interface LocationQuerySearchState extends LocationSearchState
     display: number | boolean,
     filters: string[],
     filter_active: boolean,
+    location_active: boolean,
 
 }
 
@@ -84,7 +88,7 @@ const greychip = {
     height: "21px"
 };
 
-const departments = ["Homeopathy", "Cardiology", "Anaesthesiology", "Dermatology", "Endocrinology", "Gastroenterology", "Oncology",
+const departments = ["Cardiology", "Anaesthesiology", "Dermatology", "Endocrinology", "Gastroenterology", "Oncology",
     "Nephrology", "Neurology", "Paediatrics", "Psychiatry", "Pulmonology", "Radiology", "Rheumatology", "Geriatrics", "Gynaecology", "Community Health", "ENT",
     "Dental", "Venerology", "Ayurveda", "Dietician", "Pathology", "General Physician", "Orthopaedics"];
 
@@ -109,6 +113,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
             query: getParam("query", "Search Hospital"),
             filters: [],
             filter_active: false,
+            location_active: false,
         };
 
     }
@@ -199,7 +204,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
         }
     };
 
-    displaySuggestionsSearch(list: SuggestionSearch[])
+   displaySuggestionsSearch(list: SuggestionSearch[])
     {
         return list.map((item: SuggestionSearch, i: number) =>
         {
@@ -270,25 +275,92 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                             });
                     }}/>}
                 </Container>
-                <div className="d-flex px-4">
-                    <LocationOnIcon/>
-                </div>
-                <div className="d-flex justify-content-end">
-                    <Button sx={{textTransform: "none"}} endIcon={<KeyboardArrowDownIcon />} onClick={()=>(this.setState({filter_active:!this.state.filter_active})
+                <div className="d-flex align-items-center p-2" style={{boxShadow: "0px 6px 6.25px rgba(0, 0, 0, 0.25)"}}>
+                    <LocationOnIcon sx={{marginRight: "auto"}} onClick={()=>(this.setState({location_active:!this.state.location_active})
+                    )}/>
+                    <div className="bottombox w-100 py-1" style={{overflowX: "auto", whiteSpace: "nowrap"}}>
+
+                        {this.state.filters.map((value, index)=>(
+                            <StyledChip className="col-xs-4 mx-1" key={index} sx={{background:" #3E64FF", borderRadius:"5px", color:"white",
+                                fontSize:"8px", width:"76px", height:"21px"}}  label={value}/>
+                        ))}
+
+                    </div>
+                    <Button sx={{textTransform: "none", marginLeft: "auto"}} endIcon={<KeyboardArrowDownIcon />} onClick={()=>(this.setState({filter_active:!this.state.filter_active})
                     )}>
                         Filter
                     </Button>
                 </div>
-                <div className="bottombox w-100 d-flex justify-content-around p-2 flex-wrap">
 
-                    {this.state.filters.map((value, index)=>(
-                        <StyledChip className="col-2 mb-2" key={index} sx={{background:" #3E64FF", borderRadius:"5px", color:"white", fontSize:"8px", width:"76px", height:"21px"}}  label={value}/>
-                    ))}
-
-                </div>
                 <div>
-                        Hospcard
+                    {this.displaySuggestionsSearch}
                 </div>
+
+                {this.state.location_active &&
+                <Container className="fixed-bottom pb-3">
+
+                    <div className="filtertop d-flex justify-content-between pt-3 pb-2 px-3 align-self-center">
+                        Choose Your Location
+                        <IconButton onClick={()=>
+                        {
+                            this.setState({location_active:!this.state.location_active}
+                            );
+                        }}>
+                            <CloseIcon sx={{color: "#0338B9"}} />
+                        </IconButton>
+                    </div>
+                    <div className="filterbottom d-flex flex-column ">
+
+                        <Container className={"w-100 input-holder " + ((2 === this.state.display) ? "active-blue" : "")}>
+                            {/*<MarkerSvg className=" input-marker"/>*/}
+
+                            <input placeholder="Select Location"
+                                   className={"main-input "}
+                                   type="search"
+                                   value={this.state.value}
+                                   onKeyDown={(event) =>
+                                   {
+                                       this.handleKeyDown(event);
+                                   }}
+                                   onFocusCapture={() =>
+                                   {
+                                       this.setState({display: 2});
+                                   }}
+                                   onChange={(event) =>
+                                   {
+                                       this.SuggestLocations(event).then();
+                                   }}/>
+                            {this.state.value &&
+                            <CloseOutlinedIcon onClick={() =>
+                            {
+                                this.setState({value: ""},
+                                    () =>
+                                    {
+                                        this.setPersistence();
+                                    }
+                                );
+                            }}/>}
+                        </Container>
+                        {(this.state.display === 2 || this.state.display === 0) &&
+                        <Container className="w-100 text-primary mt-1 select-locations py-3 pointers"
+                                   onClick={() =>
+                                   {
+                                       this.getLocation().then();
+                                   }}>
+                            <MyLocationOutlinedIcon className="input-marker mr-3"/>
+                            <div className="fill-rest">Use Current Location / Please enable Location services</div>
+                        </Container>}
+                        {this.state.display === 1 ? this.displaySuggestionsSearch(this.state.suggestionsSearch)
+                            : this.state.display === 2 ? this.displaySuggestions(this.state.suggestions) : ""}
+
+                        {/*<LocationSearchBoxLoc close={() => {}} history={useHistory()} location={useLocation()}*/}
+                        {/*                       match={}/>*/}
+                        {/*location box*/}
+
+                    </div>
+
+                </Container>}
+
                 {this.state.filter_active &&
                         (<Container className="fixed-bottom pb-3">
                             <div className="filtertop d-flex justify-content-between pt-3 pb-2 px-3 align-self-center">
