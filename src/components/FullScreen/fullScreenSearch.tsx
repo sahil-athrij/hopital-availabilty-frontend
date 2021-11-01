@@ -11,7 +11,7 @@ import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CloseIcon from "@mui/icons-material/Close";
 import {getParam, setParam} from "../../api/QueryCreator";
-import {useHistory, useLocation, withRouter} from "react-router";
+import {withRouter} from "react-router";
 import React from "react";
 import "./fullScreenSearch.css";
 import {toast} from "react-toastify";
