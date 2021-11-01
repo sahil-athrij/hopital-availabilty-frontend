@@ -21,14 +21,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import MyLocationOutlinedIcon from '@mui/icons-material/MyLocationOutlined';
-import {match} from "assert";
-// import {Link} from "react-router-dom";
-// import Ekmmed from "../../images/ekmmed.svg";
-// import SmallStar from "../../images/smallstar.svg";
-// import Videocall from "../../images/videocall.svg";
-// import Phonecall from "../../images/phonecall.svg";
-// import Routemap from "../../images/routemap.svg";
-// import {AuthPropsLoc} from "../../api/auth";
 
 interface LocationQuerySearchProps extends LocationSearchProps
 {
@@ -117,6 +109,12 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
         };
 
     }
+
+    toggleDrawer = (newOpen: boolean) => () =>
+    {
+        this.setState({filter_active:newOpen});
+    };
+
 
     setPersistence()
     {
@@ -296,7 +294,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                     {this.displaySuggestionsSearch}
                 </div>
 
-                {this.state.location_active &&
+            {this.state.location_active &&
                 <Container className="fixed-bottom pb-3">
 
                     <div className="filtertop d-flex justify-content-between pt-3 pb-2 px-3 align-self-center">
@@ -365,58 +363,58 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                         (<Container className="fixed-bottom pb-3">
                             <div className="filtertop d-flex justify-content-between pt-3 pb-2 px-3 align-self-center">
                         Select all that apply
-                                <IconButton onClick={()=>
-                                {
-                                    this.setState({filters:[]}
-                                    );
-                                }}>
-                                    <CloseIcon sx={{color: "#0338B9"}} />
-                                </IconButton>
+                            <IconButton onClick={()=>
+                            {
+                                this.setState({filter_active:false}
+                                );
+                            }}>
+                                <CloseIcon sx={{color: "#0338B9"}} />
+                            </IconButton>
+                        </div>
+                        <div className="filterbottom d-flex flex-column ">
+                            <div className="filterhead w-100 mb-2 mt-4 ">Types</div>
+                            <div className="chips d-flex flex-wrap ">
+                                {types.map((value, key) => (
+                                    <div key={key} className="col-3 mb-2">
+                                        <StyledChip onClick={() => this.handleChipChange(value)}
+                                            sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                            label={value}/>
+                                    </div>
+                                ))}
                             </div>
-                            <div className="filterbottom d-flex flex-column ">
-                                <div className="filterhead w-100 mb-2 mt-4 ">Types</div>
-                                <div className="d-flex flex-wrap ">
-                                    {types.map((value, key) => (
-                                        <div key={key} className="col-3 mb-2">
-                                            <StyledChip onClick={() => this.handleChipChange(value)}
-                                                sx={this.state.filters.includes(value) ? bluechip : greychip}
-                                                label={value}/>
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className="filterhead w-100 mb-2 mt-2 ">Departments</div>
-                                <div className="d-flex flex-wrap ">
-                                    {departments.map((value, key) => (
-                                        <div key={key} className="col-3 mb-2">
-                                            <StyledChip onClick={() => this.handleChipChange(value)}
-                                                sx={this.state.filters.includes(value) ? bluechip : greychip}
-                                                label={value}/>
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className="filterhead w-100 mb-2 mt-2 ">Ownership</div>
-                                <div className="d-flex flex-wrap ">
-                                    {ownership.map((value, key) => (
-                                        <div key={key} className="col-3 mb-2">
-                                            <StyledChip onClick={() => this.handleChipChange(value)}
-                                                sx={this.state.filters.includes(value) ? bluechip : greychip}
-                                                label={value}/>
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className="filterhead w-100 mb-2 mt-2 ">Medicine</div>
-                                <div className="d-flex flex-wrap ">
-                                    {medicine.map((value, key) => (
-                                        <div key={key} className="col-3 mb-2">
-                                            <StyledChip onClick={() => this.handleChipChange(value)}
-                                                sx={this.state.filters.includes(value) ? bluechip : greychip}
-                                                label={value}/>
-                                        </div>
-                                    ))}
-                                </div>
+                            <div className="filterhead w-100 mb-2 mt-2 ">Departments</div>
+                            <div className="chips d-flex flex-wrap ">
+                                {departments.map((value, key) => (
+                                    <div key={key} className="col-3 mb-2">
+                                        <StyledChip onClick={() => this.handleChipChange(value)}
+                                            sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                            label={value}/>
+                                    </div>
+                                ))}
                             </div>
+                            <div className="filterhead w-100 mb-2 mt-2 ">Ownership</div>
+                            <div className="chips d-flex flex-wrap ">
+                                {ownership.map((value, key) => (
+                                    <div key={key} className="col-3 mb-2">
+                                        <StyledChip onClick={() => this.handleChipChange(value)}
+                                            sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                            label={value}/>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="filterhead w-100 mb-2 mt-2 ">Medicine</div>
+                            <div className="chips d-flex flex-wrap ">
+                                {medicine.map((value, key) => (
+                                    <div key={key} className="col-3 mb-2">
+                                        <StyledChip onClick={() => this.handleChipChange(value)}
+                                            sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                            label={value}/>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
 
-                        </Container>)}
+                    </Container>
 
 
                 {/*<Container className={"w-100 input-holder " + ((2 === this.state.display) ? "active-blue" : "")}>*/}

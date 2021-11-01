@@ -87,7 +87,7 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
                         <IconButton
                             onClick={() =>
                             {
-                                this.props.history.push(currentLocation + "#user");
+                                this.props.history.push(currentLocation + "/user");
                                 this.setState({show_user: !this.state.show_user});
                             }}>
                             <MenuIcon/>
