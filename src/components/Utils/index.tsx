@@ -13,17 +13,20 @@ const BigBlueButtonStyle = {
     background: "linear-gradient(180deg, #0338B9 0%, #3E64FF 100%)",
 };
 
-export const BigBlueButton = ({ text, ...props }: { text: string }) => (
-    <Button
+export const BigBlueButton = ({  ...props } )=>
+{
+    const {text} = props;
+    return (<Button
         {...props}
         className="nunito-bold-white-16px p-3 my-3 "
         fullWidth
         variant="contained"
-        sx={{ ...BigBlueButtonStyle, textTransform: "none", fontWeight: "700px" }}
+        sx={{...BigBlueButtonStyle, textTransform: "none", fontWeight: "700px"}}
     >
-        {text}
+        {text as string}
     </Button>
-);
+    );
+};
 
 export const StarRating = ({ rating }: { rating: number }) => (
     <Container>
