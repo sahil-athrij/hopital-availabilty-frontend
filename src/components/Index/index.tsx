@@ -82,18 +82,18 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
                         </div>
                         <img style={{borderRadius: "1.25rem"}} className="mx-4 mb-0" src={Homecover} alt="home"/>
                     </div>
-                    <Link style={{textDecoration: "none"}} to="/addRequest">
-                        <div className="helpbar">
-                            <div className="rigtharrow"><img className="iconimg" src={Righticon} alt=""/></div>
-                            <h5 className="problem">Any problems?</h5>
+                    {/*<Link style={{textDecoration: "none"}} to="/addRequest">*/}
+                    {/*    <div className="helpbar">*/}
+                    {/*        <div className="rigtharrow"><img className="iconimg" src={Righticon} alt=""/></div>*/}
+                    {/*        <h5 className="problem">Any problems?</h5>*/}
 
-                            <h6 className="probsec">Request Medical help here</h6>
-                        </div>
-                    </Link>
+                    {/*        <h6 className="probsec">Request Medical help here</h6>*/}
+                    {/*    </div>*/}
+                    {/*</Link>*/}
                 </Container>
 
                 <div className="servicehead text-left d-flex justify-content-between mb-3">
-                        Services
+                       Health Care Services
                 </div>
                 <div>
                     <div className="container d-flex justify-content-between  p-0 align-self-center px-2">
