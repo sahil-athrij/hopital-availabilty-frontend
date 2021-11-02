@@ -116,6 +116,12 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
         this.setState({filter_active:newOpen});
     };
 
+    toggleLocation = (open: boolean) => () =>
+    {
+        this.setState({location_active:open});
+    };
+
+
 
     setPersistence()
     {
@@ -310,7 +316,17 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                 {this.state.location_active &&
                 <Container   className="fixed-bottom h-50 p-3" style={{overflow: "auto"}}>
 
-                    <div className="filtertop d-flex justify-content-between pt-3 pb-2 px-3 align-self-center">
+
+                <SwipeableDrawer anchor="bottom"
+                                 open={this.state.location_active}
+                                 onClose={this.toggleLocation(false)}
+                                 onOpen={this.toggleLocation(true)}
+                                 disableSwipeToOpen={false}
+                                 ModalProps={{
+                                     keepMounted: true,
+                                 }} className="fixed-bottom w-100 h-50 p-3" sx={{overflowY: "auto"}}>
+
+                    <div className="filtertop d-flex w-100 justify-content-between pt-3 pb-2 px-3 align-self-center">
                         Search By Location
                         <IconButton onClick={()=>
                         {
@@ -341,6 +357,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                                 {
                                     this.SuggestLocations(event).then();
                                 }}/>
+                          
                             {this.state.value &&
                             <CloseOutlinedIcon onClick={() =>
                             {
@@ -365,19 +382,63 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
 
                     </div>
 
-                </Container>}
+                </SwipeableDrawer>
 
-                {this.state.filter_active &&
-                        (<Container className="fixed-bottom h-50 p-3" style={{overflow: "auto"}}>
-                            <div className="filtertop d-flex justify-content-between pt-3 pb-2 px-3 align-self-center">
+
+                        <SwipeableDrawer anchor="bottom"
+                                          open={this.state.filter_active}
+                                          onClose={this.toggleDrawer(false)}
+                                          onOpen={this.toggleDrawer(true)}
+                                          disableSwipeToOpen={false}
+                                          ModalProps={{
+                                              keepMounted: true,
+                                          }} className="fixed-bottom w-100 h-50 p-3" sx={{overflowY: "auto"}}>
+                            <div className="filtertop w-100 d-flex justify-content-between pt-3 pb-2 px-3 align-self-center">
                         Select all that apply
-                                <IconButton onClick={()=>
-                                {
-                                    this.setState({filter_active:false}
-                                    );
-                                }}>
-                                    <CloseIcon sx={{color: "#0338B9"}} />
-                                </IconButton>
+                            <IconButton onClick={()=>
+                            {
+                                this.setState({filter_active:false}
+                                );
+                            }}>
+                                <CloseIcon sx={{color: "#0338B9"}} />
+                            </IconButton>
+                        </div>
+                            <IconButton onClick={()=>
+                            {
+                                this.setState({filters :[]});
+                            }}>
+                                <CloseIcon sx={{color: "#0338B9"}} />
+                            </IconButton>
+                        <div className="filterbottom d-flex flex-column">
+                            <div className="filterhead w-100 mb-2 mt-4 ">Types</div>
+                            <div className="chips d-flex flex-wrap ">
+                                {types.map((value, key) => (
+                                    <div key={key} className="col-3 mb-2">
+                                        <StyledChip onClick={() => this.handleChipChange(value)}
+                                            sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                            label={value}/>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="filterhead w-100 mb-2 mt-2 ">Departments</div>
+                            <div className="chips d-flex flex-wrap ">
+                                {departments.map((value, key) => (
+                                    <div key={key} className="col-3 mb-2">
+                                        <StyledChip onClick={() => this.handleChipChange(value)}
+                                            sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                            label={value}/>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="filterhead w-100 mb-2 mt-2 ">Ownership</div>
+                            <div className="chips d-flex flex-wrap ">
+                                {ownership.map((value, key) => (
+                                    <div key={key} className="col-3 mb-2">
+                                        <StyledChip onClick={() => this.handleChipChange(value)}
+                                            sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                            label={value}/>
+                                    </div>
+                                ))}
                             </div>
                             <div className="filterbottom d-flex flex-column">
                                 <div className="filterhead w-100 mb-2 mt-4 ">Types</div>
@@ -421,52 +482,8 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                                     ))}
                                 </div>
                             </div>
-
                         </Container>)}
-
-
-                {/*<Container className={"w-100 input-holder " + ((2 === this.state.display) ? "active-blue" : "")}>*/}
-                {/*    /!*<MarkerSvg className=" input-marker"/>*!/*/}
-
-                {/*    <input placeholder="Select Location"*/}
-                {/*        className={"main-input "}*/}
-                {/*        type="search"*/}
-                {/*        value={this.state.value}*/}
-                {/*        onKeyDown={(event) => */}
-                {/*        {*/}
-                {/*            this.handleKeyDown(event);*/}
-                {/*        }}*/}
-                {/*        onFocusCapture={() => */}
-                {/*        {*/}
-                {/*            this.setState({display: 2});*/}
-                {/*        }}*/}
-                {/*        onChange={(event) => */}
-                {/*        {*/}
-                {/*            this.SuggestLocations(event).then();*/}
-                {/*        }}/>*/}
-                {/*    {this.state.value &&*/}
-                {/*    <AiOutlineClose scale={4} size={30} className="input-marker" onClick={() => */}
-                {/*    {*/}
-                {/*        this.setState({value: ""},*/}
-                {/*            () => */}
-                {/*            {*/}
-                {/*                this.setPersistence();*/}
-                {/*            }*/}
-                {/*        );*/}
-                {/*    }}/>}*/}
-                {/*</Container>*/}
-                {/*{(this.state.display === 2 || this.state.display === 0) &&*/}
-                {/*<Container className="w-100 text-primary mt-1 select-locations py-3 pointers"*/}
-                {/*    onClick={() =>*/}
-                {/*    {*/}
-                {/*        this.getLocation().then();*/}
-                {/*    }}>*/}
-                {/*    <BiCurrentLocation scale={4} size={30} className="input-marker mr-3"/>*/}
-                {/*    <div className="fill-rest">Use Current Location / Please enable Location services</div>*/}
-                {/*</Container>}*/}
-                {/*{this.state.display === 1 ? this.displaySuggestionsSearch(this.state.suggestionsSearch)*/}
-                {/*    : this.state.display === 2 ? this.displaySuggestions(this.state.suggestions) : ""}*/}
-
+                    </SwipeableDrawer>
             </div>
 
         );
