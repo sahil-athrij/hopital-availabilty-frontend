@@ -3,7 +3,7 @@ import {Doctor, DoctorObject} from "../../api/model";
 import "./doctor.css";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import image from "./icons/image@2x.svg";
+import image from "../../images/doctorhead.jpg";
 import icon from "./icons/icon@2x.svg";
 import icon2 from "./icons/icon-2@2x.svg";
 import icon3 from "./icons/icon-3@2x.svg";

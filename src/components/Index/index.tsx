@@ -7,9 +7,8 @@ import "./index.css";
 import {getParam} from "../../api/QueryCreator";
 
 import {SearchResults} from "../cards/SearchResultCard";
-import Homecover from "../../images/illustration.svg";
+import Homecover from "../../images/illustration.png";
 import {Link} from "react-router-dom";
-import Righticon from "../../images/righticon.svg";
 import Addhosp from "../../images/addhospcard.svg";
 import Givehelp from "../../images/givehelpcard.svg";
 import Nurse from "../../images/nurse 1.png";

@@ -2,7 +2,7 @@ import {Nurse, NurseObject} from "../../api/model";
 
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import image from "../Doctor/icons/image@2x.svg";
+import image from "../../images/doctorhead.jpg";
 import icon from "../Doctor/icons/icon@2x.svg";
 import icon2 from "../Doctor/icons/icon-2@2x.svg";
 import icon3 from "../Doctor/icons/icon-3@2x.svg";

@@ -13,7 +13,7 @@ import layoutsvg from "../../images/layout.svg";
 import reviewsvg from "../../images/review.svg";
 import starsvg from "../../images/borderstar.svg";
 
-import image from "./icons/image@2x.png";
+import image from "../../images/doctorhead.jpg";
 import icon from "./icons/icon-1@2x.png";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import share_icon from "./icons/shareicon.svg";
