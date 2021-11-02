@@ -116,6 +116,12 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
         this.setState({filter_active:newOpen});
     };
 
+    toggleLocation = (open: boolean) => () =>
+    {
+        this.setState({location_active:open});
+    };
+
+
 
     setPersistence()
     {
@@ -307,10 +313,17 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                     {this.state.display === 1 ? this.displaySuggestionsSearch(this.state.suggestionsSearch): ""}
                 </div>
 
-            {this.state.location_active &&
-                <Container   className="fixed-bottom h-50 p-3" style={{overflow: "auto"}}>
 
-                    <div className="filtertop d-flex justify-content-between pt-3 pb-2 px-3 align-self-center">
+                <SwipeableDrawer anchor="bottom"
+                                 open={this.state.location_active}
+                                 onClose={this.toggleLocation(false)}
+                                 onOpen={this.toggleLocation(true)}
+                                 disableSwipeToOpen={false}
+                                 ModalProps={{
+                                     keepMounted: true,
+                                 }} className="fixed-bottom w-100 h-50 p-3" sx={{overflowY: "auto"}}>
+
+                    <div className="filtertop d-flex w-100 justify-content-between pt-3 pb-2 px-3 align-self-center">
                         Search By Location
                         <IconButton onClick={()=>
                         {
@@ -328,7 +341,6 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                             <input placeholder="Select Location"
                                    className={"main-input "}
                                    type="search"
-                                   autoFocus={true}
                                    value={this.state.value}
                                    onKeyDown={(event) =>
                                    {
@@ -366,11 +378,18 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
 
                     </div>
 
-                </Container>}
+                </SwipeableDrawer>
 
-                {this.state.filter_active &&
-                        (<Container className="fixed-bottom h-50 p-3" style={{overflow: "auto"}}>
-                            <div className="filtertop d-flex justify-content-between pt-3 pb-2 px-3 align-self-center">
+
+                        <SwipeableDrawer anchor="bottom"
+                                          open={this.state.filter_active}
+                                          onClose={this.toggleDrawer(false)}
+                                          onOpen={this.toggleDrawer(true)}
+                                          disableSwipeToOpen={false}
+                                          ModalProps={{
+                                              keepMounted: true,
+                                          }} className="fixed-bottom w-100 h-50 p-3" sx={{overflowY: "auto"}}>
+                            <div className="filtertop w-100 d-flex justify-content-between pt-3 pb-2 px-3 align-self-center">
                         Select all that apply
                             <IconButton onClick={()=>
                             {
@@ -380,6 +399,12 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                                 <CloseIcon sx={{color: "#0338B9"}} />
                             </IconButton>
                         </div>
+                            <IconButton onClick={()=>
+                            {
+                                this.setState({filters :[]});
+                            }}>
+                                <CloseIcon sx={{color: "#0338B9"}} />
+                            </IconButton>
                         <div className="filterbottom d-flex flex-column">
                             <div className="filterhead w-100 mb-2 mt-4 ">Types</div>
                             <div className="chips d-flex flex-wrap ">
@@ -423,7 +448,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                             </div>
                         </div>
 
-                    </Container>)}
+                    </SwipeableDrawer>
 
 
                 {/*<Container className={"w-100 input-holder " + ((2 === this.state.display) ? "active-blue" : "")}>*/}
