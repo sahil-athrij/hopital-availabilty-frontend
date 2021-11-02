@@ -168,7 +168,7 @@ class ReviewCardLoc extends AuthComponent<ReviewProps, AuthState>
 
                     {this.state.user &&
                         (<div className="d-flex mx-4 pr-4 mt-2">
-                            <Avatar src={this.state.user?.image}/>
+                            <Avatar src={this.state.user?.tokens.image || undefined}/>
                             <Link to={`/details/reviews/${this.props.model.id}`}>
                                 <RatingStyler name="size-large" defaultValue={0} size="large"/>
                             </Link>
