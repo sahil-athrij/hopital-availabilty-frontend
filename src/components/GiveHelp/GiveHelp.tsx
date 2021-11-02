@@ -116,9 +116,9 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
         {
             console.log(this.state);
             return (
-                <div className="mb-3">
+                <div className="mb-3 ">
 
-                    <Container className=" tophead d-flex justify-content-between p-3  ">
+                    <Container className=" tophead d-flex justify-content-between p-3 align-self-center ">
                         <CloseIcon onClick={() => this.props.history.goBack()}/>
                         <p className="align-self-center m-0 p-0 text-left flex-grow-1 pl-4"><b>Give Help</b>
                         </p>
