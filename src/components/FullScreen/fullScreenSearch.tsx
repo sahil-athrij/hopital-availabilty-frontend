@@ -18,10 +18,10 @@ import {toast} from "react-toastify";
 import {Avatar, Button, Chip, IconButton} from "@mui/material";
 import {withStyles} from "@mui/styles";
 import MenuIcon from "@mui/icons-material/Menu";
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import MyLocationOutlinedIcon from '@mui/icons-material/MyLocationOutlined';
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import MyLocationOutlinedIcon from "@mui/icons-material/MyLocationOutlined";
+
 
 interface LocationQuerySearchProps extends LocationSearchProps
 {
@@ -203,7 +203,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
         }
     };
 
-   displaySuggestionsSearch(list: SuggestionSearch[])
+    displaySuggestionsSearch(list: SuggestionSearch[])
     {
         return list.map((item: SuggestionSearch, i: number) =>
         {
@@ -307,7 +307,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                     {this.state.display === 1 ? this.displaySuggestionsSearch(this.state.suggestionsSearch): ""}
                 </div>
 
-            {this.state.location_active &&
+                {this.state.location_active &&
                 <Container   className="fixed-bottom h-50 p-3" style={{overflow: "auto"}}>
 
                     <div className="filtertop d-flex justify-content-between pt-3 pb-2 px-3 align-self-center">
@@ -326,22 +326,21 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                             {/*<MarkerSvg className=" input-marker"/>*/}
 
                             <input placeholder="Select Location"
-                                   className={"main-input "}
-                                   type="search"
-                                   autoFocus={true}
-                                   value={this.state.value}
-                                   onKeyDown={(event) =>
-                                   {
-                                       this.handleKeyDown(event);
-                                   }}
-                                   onFocusCapture={() =>
-                                   {
-                                       this.setState({display: 2});
-                                   }}
-                                   onChange={(event) =>
-                                   {
-                                       this.SuggestLocations(event).then();
-                                   }}/>
+                                className={"main-input "}
+                                type="search"
+                                value={this.state.value}
+                                onKeyDown={(event) =>
+                                {
+                                    this.handleKeyDown(event);
+                                }}
+                                onFocusCapture={() =>
+                                {
+                                    this.setState({display: 2});
+                                }}
+                                onChange={(event) =>
+                                {
+                                    this.SuggestLocations(event).then();
+                                }}/>
                             {this.state.value &&
                             <CloseOutlinedIcon onClick={() =>
                             {
@@ -355,10 +354,10 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                         </Container>
                         {(this.state.display === 2 || this.state.display === 0) &&
                         <Container className="w-100 text-primary mt-1 select-locations py-3 pointers"
-                                   onClick={() =>
-                                   {
-                                       this.getLocation().then();
-                                   }}>
+                            onClick={() =>
+                            {
+                                this.getLocation().then();
+                            }}>
                             <MyLocationOutlinedIcon className="input-marker mr-3"/>
                             <div className="fill-rest">Use Current Location / Please enable Location services</div>
                         </Container>}
@@ -372,58 +371,58 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                         (<Container className="fixed-bottom h-50 p-3" style={{overflow: "auto"}}>
                             <div className="filtertop d-flex justify-content-between pt-3 pb-2 px-3 align-self-center">
                         Select all that apply
-                            <IconButton onClick={()=>
-                            {
-                                this.setState({filter_active:false}
-                                );
-                            }}>
-                                <CloseIcon sx={{color: "#0338B9"}} />
-                            </IconButton>
-                        </div>
-                        <div className="filterbottom d-flex flex-column">
-                            <div className="filterhead w-100 mb-2 mt-4 ">Types</div>
-                            <div className="chips d-flex flex-wrap ">
-                                {types.map((value, key) => (
-                                    <div key={key} className="col-3 mb-2">
-                                        <StyledChip onClick={() => this.handleChipChange(value)}
-                                            sx={this.state.filters.includes(value) ? bluechip : greychip}
-                                            label={value}/>
-                                    </div>
-                                ))}
+                                <IconButton onClick={()=>
+                                {
+                                    this.setState({filter_active:false}
+                                    );
+                                }}>
+                                    <CloseIcon sx={{color: "#0338B9"}} />
+                                </IconButton>
                             </div>
-                            <div className="filterhead w-100 mb-2 mt-2 ">Departments</div>
-                            <div className="chips d-flex flex-wrap ">
-                                {departments.map((value, key) => (
-                                    <div key={key} className="col-3 mb-2">
-                                        <StyledChip onClick={() => this.handleChipChange(value)}
-                                            sx={this.state.filters.includes(value) ? bluechip : greychip}
-                                            label={value}/>
-                                    </div>
-                                ))}
+                            <div className="filterbottom d-flex flex-column">
+                                <div className="filterhead w-100 mb-2 mt-4 ">Types</div>
+                                <div className="chips d-flex flex-wrap ">
+                                    {types.map((value, key) => (
+                                        <div key={key} className="col-3 mb-2">
+                                            <StyledChip onClick={() => this.handleChipChange(value)}
+                                                sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                                label={value}/>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="filterhead w-100 mb-2 mt-2 ">Departments</div>
+                                <div className="chips d-flex flex-wrap ">
+                                    {departments.map((value, key) => (
+                                        <div key={key} className="col-3 mb-2">
+                                            <StyledChip onClick={() => this.handleChipChange(value)}
+                                                sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                                label={value}/>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="filterhead w-100 mb-2 mt-2 ">Ownership</div>
+                                <div className="chips d-flex flex-wrap ">
+                                    {ownership.map((value, key) => (
+                                        <div key={key} className="col-3 mb-2">
+                                            <StyledChip onClick={() => this.handleChipChange(value)}
+                                                sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                                label={value}/>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="filterhead w-100 mb-2 mt-2 ">Medicine</div>
+                                <div className="chips d-flex flex-wrap ">
+                                    {medicine.map((value, key) => (
+                                        <div key={key} className="col-3 mb-2">
+                                            <StyledChip onClick={() => this.handleChipChange(value)}
+                                                sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                                label={value}/>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                            <div className="filterhead w-100 mb-2 mt-2 ">Ownership</div>
-                            <div className="chips d-flex flex-wrap ">
-                                {ownership.map((value, key) => (
-                                    <div key={key} className="col-3 mb-2">
-                                        <StyledChip onClick={() => this.handleChipChange(value)}
-                                            sx={this.state.filters.includes(value) ? bluechip : greychip}
-                                            label={value}/>
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="filterhead w-100 mb-2 mt-2 ">Medicine</div>
-                            <div className="chips d-flex flex-wrap ">
-                                {medicine.map((value, key) => (
-                                    <div key={key} className="col-3 mb-2">
-                                        <StyledChip onClick={() => this.handleChipChange(value)}
-                                            sx={this.state.filters.includes(value) ? bluechip : greychip}
-                                            label={value}/>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
 
-                    </Container>)}
+                        </Container>)}
 
 
                 {/*<Container className={"w-100 input-holder " + ((2 === this.state.display) ? "active-blue" : "")}>*/}
