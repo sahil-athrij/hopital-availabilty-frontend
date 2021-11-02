@@ -21,6 +21,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import MyLocationOutlinedIcon from '@mui/icons-material/MyLocationOutlined';
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
 interface LocationQuerySearchProps extends LocationSearchProps
 {
@@ -82,7 +83,7 @@ const greychip = {
 
 const departments = ["Cardiology", "Anaesthesiology", "Dermatology", "Endocrinology", "Gastroenterology", "Oncology",
     "Nephrology", "Neurology", "Paediatrics", "Psychiatry", "Pulmonology", "Radiology", "Rheumatology", "Geriatrics", "Gynaecology", "Community Health", "ENT",
-    "Dental", "Venerology", "Ayurveda", "Dietician", "Pathology", "General Physician", "Orthopaedics"];
+    "Dental", "Venerology", "Dietician", "Pathology", "General Physician", "Orthopaedics"];
 
 const types = ["Economy", "Speciality", "Super speciality", "Normal"];
 
@@ -114,6 +115,12 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
     {
         this.setState({filter_active:newOpen});
     };
+
+    toggleLocation = (open: boolean) => () =>
+    {
+        this.setState({location_active:open});
+    };
+
 
 
     setPersistence()
@@ -232,6 +239,8 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
     }
 
 
+
+
     render()
     {
         return (
@@ -260,18 +269,28 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                                 this.setState({display: 1});
                             }}
                         />
-                        <Avatar className="align-self-center" sx={{width: "28px", height: "28px"}}/>
+                        {this.state.query ==="" ? <Avatar className="align-self-center" sx={{width: "28px", height: "28px"}}/>:
+                            <CloseIcon sx={{width: 30}} className="align-self-center" onClick={() =>
+                            {
+                                this.setState({query: ""},
+                                    () =>
+                                    {
+                                        this.setPersistence();
+                                    });
+                            }}/>
+                        }
+
                     </div>
 
-                    {this.state.query &&
-                    <CloseIcon sx={{width: 30}} className="input-marker mr-2" onClick={() =>
-                    {
-                        this.setState({query: ""},
-                            () =>
-                            {
-                                this.setPersistence();
-                            });
-                    }}/>}
+                    {/*{this.state.query &&*/}
+                    {/*<CloseIcon sx={{width: 30}} className="input-marker mr-2" onClick={() =>*/}
+                    {/*{*/}
+                    {/*    this.setState({query: ""},*/}
+                    {/*        () =>*/}
+                    {/*        {*/}
+                    {/*            this.setPersistence();*/}
+                    {/*        });*/}
+                    {/*}}/>}*/}
                 </Container>
                 <div className="d-flex align-items-center p-2" style={{boxShadow: "0px 6px 6.25px rgba(0, 0, 0, 0.25)"}}>
                     <LocationOnIcon sx={{marginRight: "auto"}} onClick={()=>(this.setState({location_active:!this.state.location_active})
@@ -291,14 +310,21 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                 </div>
 
                 <div>
-                    {this.displaySuggestionsSearch}
+                    {this.state.display === 1 ? this.displaySuggestionsSearch(this.state.suggestionsSearch): ""}
                 </div>
 
-            {this.state.location_active &&
-                <Container className="fixed-bottom pb-3">
 
-                    <div className="filtertop d-flex justify-content-between pt-3 pb-2 px-3 align-self-center">
-                        Choose Your Location
+                <SwipeableDrawer anchor="bottom"
+                                 open={this.state.location_active}
+                                 onClose={this.toggleLocation(false)}
+                                 onOpen={this.toggleLocation(true)}
+                                 disableSwipeToOpen={false}
+                                 ModalProps={{
+                                     keepMounted: true,
+                                 }} className="fixed-bottom w-100 h-50 p-3" sx={{overflowY: "auto"}}>
+
+                    <div className="filtertop d-flex w-100 justify-content-between pt-3 pb-2 px-3 align-self-center">
+                        Search By Location
                         <IconButton onClick={()=>
                         {
                             this.setState({location_active:!this.state.location_active}
@@ -307,7 +333,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                             <CloseIcon sx={{color: "#0338B9"}} />
                         </IconButton>
                     </div>
-                    <div className="filterbottom d-flex flex-column ">
+                    <div className="filterbottom d-flex flex-column pt-4">
 
                         <Container className={"w-100 input-holder " + ((2 === this.state.display) ? "active-blue" : "")}>
                             {/*<MarkerSvg className=" input-marker"/>*/}
@@ -348,20 +374,22 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                             <MyLocationOutlinedIcon className="input-marker mr-3"/>
                             <div className="fill-rest">Use Current Location / Please enable Location services</div>
                         </Container>}
-                        {this.state.display === 1 ? this.displaySuggestionsSearch(this.state.suggestionsSearch)
-                            : this.state.display === 2 ? this.displaySuggestions(this.state.suggestions) : ""}
-
-                        {/*<LocationSearchBoxLoc close={() => {}} history={useHistory()} location={useLocation()}*/}
-                        {/*                       match={}/>*/}
-                        {/*location box*/}
+                        {this.state.display === 2 ? this.displaySuggestions(this.state.suggestions): ""}
 
                     </div>
 
-                </Container>}
+                </SwipeableDrawer>
 
-                {this.state.filter_active &&
-                        (<Container className="fixed-bottom pb-3">
-                            <div className="filtertop d-flex justify-content-between pt-3 pb-2 px-3 align-self-center">
+
+                        <SwipeableDrawer anchor="bottom"
+                                          open={this.state.filter_active}
+                                          onClose={this.toggleDrawer(false)}
+                                          onOpen={this.toggleDrawer(true)}
+                                          disableSwipeToOpen={false}
+                                          ModalProps={{
+                                              keepMounted: true,
+                                          }} className="fixed-bottom w-100 h-50 p-3" sx={{overflowY: "auto"}}>
+                            <div className="filtertop w-100 d-flex justify-content-between pt-3 pb-2 px-3 align-self-center">
                         Select all that apply
                             <IconButton onClick={()=>
                             {
@@ -371,7 +399,13 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                                 <CloseIcon sx={{color: "#0338B9"}} />
                             </IconButton>
                         </div>
-                        <div className="filterbottom d-flex flex-column ">
+                            <IconButton onClick={()=>
+                            {
+                                this.setState({filters :[]});
+                            }}>
+                                <CloseIcon sx={{color: "#0338B9"}} />
+                            </IconButton>
+                        <div className="filterbottom d-flex flex-column">
                             <div className="filterhead w-100 mb-2 mt-4 ">Types</div>
                             <div className="chips d-flex flex-wrap ">
                                 {types.map((value, key) => (
@@ -414,7 +448,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                             </div>
                         </div>
 
-                    </Container>
+                    </SwipeableDrawer>
 
 
                 {/*<Container className={"w-100 input-holder " + ((2 === this.state.display) ? "active-blue" : "")}>*/}
