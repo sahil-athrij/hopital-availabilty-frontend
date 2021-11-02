@@ -13,7 +13,7 @@ import layoutsvg from "../../images/layout.svg";
 import reviewsvg from "../../images/review.svg";
 import starsvg from "../../images/borderstar.svg";
 
-import image from "./icons/image@2x.png";
+import image from "../../images/hsppage.jpg";
 import icon from "./icons/icon-1@2x.png";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import share_icon from "./icons/shareicon.svg";
@@ -23,7 +23,7 @@ import direction_icon from "./icons/primary@2x.png";
 
 import {DepartmentCards} from "./DepatrmentCards";
 import {DoctorCards} from "./DoctorCards";
-import {ReviewCards} from "./ReviewCards"; 
+import {ReviewCards} from "./ReviewCards";
 
 
 interface DetailsState extends AuthState {

@@ -1,5 +1,5 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-
+// import "bootstrap/dist/css/bootstrap.min.css";
+import "./bootstrap.min.css";
 // import {NavBar} from "./components/NavBar/navBar";
 import {Index} from "./components/Index";
 import React from "react";
@@ -32,6 +32,7 @@ import {NavBar} from "./components/NavBar/navBar";
 import SearchNurse from "./components/Nurses/SearchNurse";
 import { AddNurseComponent } from "./components/Nurses/AddNurse";
 import { NurseComponent } from "./components/Nurses/Nurse";
+import {UserPage} from "./components/User/User";
 
 
 const theme = createTheme({
@@ -179,6 +180,10 @@ class AppLoc extends React.Component<AppProps>
                         </Route>
 
                         <Route path="/nurse/:nurseId" ><NurseComponent/></Route>
+
+                        <Route path={"/user"}>
+                            <UserPage/>
+                        </Route>
 
                         {/* If the current URL is /, this route is rendered
             while the rest are ignored */}

@@ -13,7 +13,7 @@ import Phonecall from "../../images/phonecall.svg";
 import Videocall from "../../images/videocall.svg";
 import Routemap from "../../images/routemap.svg";
 import {Avatar} from "@mui/material";
-import Ekmmed from "../../images/ekmmed.svg";
+import Ekmmed from "../../images/ekmmed.png";
 
 
 interface SearchCardsProps extends AuthPropsLoc {

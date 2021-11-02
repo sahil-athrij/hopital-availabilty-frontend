@@ -18,10 +18,10 @@ import {toast} from "react-toastify";
 import {Avatar, Button, Chip, IconButton} from "@mui/material";
 import {withStyles} from "@mui/styles";
 import MenuIcon from "@mui/icons-material/Menu";
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import MyLocationOutlinedIcon from '@mui/icons-material/MyLocationOutlined';
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import MyLocationOutlinedIcon from "@mui/icons-material/MyLocationOutlined";
+
 
 interface LocationQuerySearchProps extends LocationSearchProps
 {
@@ -209,7 +209,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
         }
     };
 
-   displaySuggestionsSearch(list: SuggestionSearch[])
+    displaySuggestionsSearch(list: SuggestionSearch[])
     {
         return list.map((item: SuggestionSearch, i: number) =>
         {
@@ -313,6 +313,9 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                     {this.state.display === 1 ? this.displaySuggestionsSearch(this.state.suggestionsSearch): ""}
                 </div>
 
+                {this.state.location_active &&
+                <Container   className="fixed-bottom h-50 p-3" style={{overflow: "auto"}}>
+
 
                 <SwipeableDrawer anchor="bottom"
                                  open={this.state.location_active}
@@ -339,21 +342,22 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                             {/*<MarkerSvg className=" input-marker"/>*/}
 
                             <input placeholder="Select Location"
-                                   className={"main-input "}
-                                   type="search"
-                                   value={this.state.value}
-                                   onKeyDown={(event) =>
-                                   {
-                                       this.handleKeyDown(event);
-                                   }}
-                                   onFocusCapture={() =>
-                                   {
-                                       this.setState({display: 2});
-                                   }}
-                                   onChange={(event) =>
-                                   {
-                                       this.SuggestLocations(event).then();
-                                   }}/>
+                                className={"main-input "}
+                                type="search"
+                                value={this.state.value}
+                                onKeyDown={(event) =>
+                                {
+                                    this.handleKeyDown(event);
+                                }}
+                                onFocusCapture={() =>
+                                {
+                                    this.setState({display: 2});
+                                }}
+                                onChange={(event) =>
+                                {
+                                    this.SuggestLocations(event).then();
+                                }}/>
+                          
                             {this.state.value &&
                             <CloseOutlinedIcon onClick={() =>
                             {
@@ -367,10 +371,10 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                         </Container>
                         {(this.state.display === 2 || this.state.display === 0) &&
                         <Container className="w-100 text-primary mt-1 select-locations py-3 pointers"
-                                   onClick={() =>
-                                   {
-                                       this.getLocation().then();
-                                   }}>
+                            onClick={() =>
+                            {
+                                this.getLocation().then();
+                            }}>
                             <MyLocationOutlinedIcon className="input-marker mr-3"/>
                             <div className="fill-rest">Use Current Location / Please enable Location services</div>
                         </Container>}
@@ -436,63 +440,50 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                                     </div>
                                 ))}
                             </div>
-                            <div className="filterhead w-100 mb-2 mt-2 ">Medicine</div>
-                            <div className="chips d-flex flex-wrap ">
-                                {medicine.map((value, key) => (
-                                    <div key={key} className="col-3 mb-2">
-                                        <StyledChip onClick={() => this.handleChipChange(value)}
-                                            sx={this.state.filters.includes(value) ? bluechip : greychip}
-                                            label={value}/>
-                                    </div>
-                                ))}
+                            <div className="filterbottom d-flex flex-column">
+                                <div className="filterhead w-100 mb-2 mt-4 ">Types</div>
+                                <div className="chips d-flex flex-wrap ">
+                                    {types.map((value, key) => (
+                                        <div key={key} className="col-3 mb-2">
+                                            <StyledChip onClick={() => this.handleChipChange(value)}
+                                                sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                                label={value}/>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="filterhead w-100 mb-2 mt-2 ">Departments</div>
+                                <div className="chips d-flex flex-wrap ">
+                                    {departments.map((value, key) => (
+                                        <div key={key} className="col-3 mb-2">
+                                            <StyledChip onClick={() => this.handleChipChange(value)}
+                                                sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                                label={value}/>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="filterhead w-100 mb-2 mt-2 ">Ownership</div>
+                                <div className="chips d-flex flex-wrap ">
+                                    {ownership.map((value, key) => (
+                                        <div key={key} className="col-3 mb-2">
+                                            <StyledChip onClick={() => this.handleChipChange(value)}
+                                                sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                                label={value}/>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="filterhead w-100 mb-2 mt-2 ">Medicine</div>
+                                <div className="chips d-flex flex-wrap ">
+                                    {medicine.map((value, key) => (
+                                        <div key={key} className="col-3 mb-2">
+                                            <StyledChip onClick={() => this.handleChipChange(value)}
+                                                sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                                label={value}/>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-
+                        </Container>)}
                     </SwipeableDrawer>
-
-
-                {/*<Container className={"w-100 input-holder " + ((2 === this.state.display) ? "active-blue" : "")}>*/}
-                {/*    /!*<MarkerSvg className=" input-marker"/>*!/*/}
-
-                {/*    <input placeholder="Select Location"*/}
-                {/*        className={"main-input "}*/}
-                {/*        type="search"*/}
-                {/*        value={this.state.value}*/}
-                {/*        onKeyDown={(event) => */}
-                {/*        {*/}
-                {/*            this.handleKeyDown(event);*/}
-                {/*        }}*/}
-                {/*        onFocusCapture={() => */}
-                {/*        {*/}
-                {/*            this.setState({display: 2});*/}
-                {/*        }}*/}
-                {/*        onChange={(event) => */}
-                {/*        {*/}
-                {/*            this.SuggestLocations(event).then();*/}
-                {/*        }}/>*/}
-                {/*    {this.state.value &&*/}
-                {/*    <AiOutlineClose scale={4} size={30} className="input-marker" onClick={() => */}
-                {/*    {*/}
-                {/*        this.setState({value: ""},*/}
-                {/*            () => */}
-                {/*            {*/}
-                {/*                this.setPersistence();*/}
-                {/*            }*/}
-                {/*        );*/}
-                {/*    }}/>}*/}
-                {/*</Container>*/}
-                {/*{(this.state.display === 2 || this.state.display === 0) &&*/}
-                {/*<Container className="w-100 text-primary mt-1 select-locations py-3 pointers"*/}
-                {/*    onClick={() =>*/}
-                {/*    {*/}
-                {/*        this.getLocation().then();*/}
-                {/*    }}>*/}
-                {/*    <BiCurrentLocation scale={4} size={30} className="input-marker mr-3"/>*/}
-                {/*    <div className="fill-rest">Use Current Location / Please enable Location services</div>*/}
-                {/*</Container>}*/}
-                {/*{this.state.display === 1 ? this.displaySuggestionsSearch(this.state.suggestionsSearch)*/}
-                {/*    : this.state.display === 2 ? this.displaySuggestions(this.state.suggestions) : ""}*/}
-
             </div>
 
         );

@@ -2,7 +2,6 @@ import {AuthComponent, AuthState} from "../../api/auth";
 import {AuthPropsLoc} from "../GiveHelp/GiveHelp";
 import {withRouter} from "react-router";
 import * as React from "react";
-import { Container } from "@material-ui/core";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import LoginVector from "../../images/LoginVector.png";
@@ -18,6 +17,7 @@ import Laboratory from "../../images/laboratory 1.png";
 import BloodBank from "../../images/blood-bank 1.png";
 import request from "../../images/helphand.svg";
 import "./User.css";
+import {Container} from "@mui/material";
 
 
 interface Userstate extends AuthState {
