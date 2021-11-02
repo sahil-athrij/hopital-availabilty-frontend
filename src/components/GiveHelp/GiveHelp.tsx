@@ -118,8 +118,8 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
             return (
                 <div className="mb-3 ">
 
-                    <Container className=" tophead d-flex justify-content-between p-3 align-self-center ">
-                        <CloseIcon onClick={() => this.props.history.goBack()}/>
+                    <Container className=" tophead d-flex justify-content-between p-3 ">
+                        <CloseIcon className="d-flex align-self-center" onClick={() => this.props.history.goBack()}/>
                         <p className="align-self-center m-0 p-0 text-left flex-grow-1 pl-4"><b>Give Help</b>
                         </p>
                         <Button className="sub"
@@ -134,15 +134,14 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
                                 <div className="mx-1">
                                     <div className="maincard d-flex flex-row justify-content-between ">
 
-                                        <div className="  text-left pl-4 pt-4">
+                                        <div className="  lefttxt  pt-4">
                                             <h1 className="title m-0">{obj.Name}{this.getgender(obj.gender)}</h1>
                                             <div className="subtitle">
-                                                <div>Age:{obj.age}</div>
                                                 <div>Symptoms:{obj.symptoms}</div>
                                                 <div>Since:{obj.symdays}</div>
                                             </div>
                                         </div>
-                                        <div className=" subtitle pr-4 pt-4 ">
+                                        <div className=" subtitle  pt-4 ">
                                             <div className="mt-1">{obj.blood} <img src={Bloodgrp}  alt=""/></div>
                                             <div className="mt-1">Covid:{obj.covidresult ? (<img src={CovidPos}  alt=""/>) : (
                                                 <img src={CovidNeg}  alt=""/>)}</div>
