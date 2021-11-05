@@ -71,15 +71,17 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
                     <div style={{
                         backgroundColor: "#3E64FF",
                         borderRadius: "1.25rem",
-                        boxShadow: "0px 25px 58px rgba(62, 100, 255, 0.3)"
-                    }} className="card text-white">
-                        <div className="d-flex align-items-start flex-column mb-5 pb-2">
+                        boxShadow: "0px 25px 58px rgba(62, 100, 255, 0.3)",
+                        minHeight: "150px",
+                        overflow: "hidden"
+                    }} className="card text-white mx-2">
+                        <div className="d-flex align-items-start flex-column" style={{zIndex: 2, position: "absolute"}}>
                             <h1 className="text-white mx-4 mt-4 mb-2"><b>NeedMedi</b></h1>
                             <h1 className="text-white mx-4 mb-2"><b>is for all</b></h1>
                             <h6 className="text-white mx-4 my-0"><b>Your complete partner in</b></h6>
                             <h6 className="text-white mx-4 my-0"><b>terms of medical help</b></h6>
                         </div>
-                        <img style={{borderRadius: "1.25rem"}} className="mx-4 mb-0" src={Homecover} alt="home"/>
+                        <img style={{borderRadius: "1.25rem", marginLeft: "auto", width: "50%", minHeight: "150px"}} className="mx-4 mb-0" src={Homecover} alt="home"/>
                     </div>
                     {/*<Link style={{textDecoration: "none"}} to="/addRequest">*/}
                     {/*    <div className="helpbar">*/}
