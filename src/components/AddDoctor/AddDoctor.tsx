@@ -222,20 +222,15 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
             });
     };
 
-    handlePhoneChange =()=>{
-        // if(value)
-        // {
-        //     this.setState({phone_number: Number(value), 
-        //      error: {...this.state.error, phone_number: (!value.match(/^(\+\d{1,3})?\s*\d{10}$/g))}})
-        // }
-    }
+    handlePhoneChange =(value: string)=>{
+            value= value.replaceAll(/[\(\)-]/g,"").replaceAll(" ","");
+            this.setState({phone_number: Number(value)
+             , error: {...this.state.error, phone_number: (!value.match(/^(\+\d{1,3})?\s*\d{9,15}$/g))}
+            });
+    }    
 
-    handleWhatsappChange =()=>{
-        // if(value)
-        // {
-        //     this.setState({phone_number: Number(value), 
-        //      error: {...this.state.error, phone_number: (!value.match(/^(\+\d{1,3})?\s*\d{10}$/g))}})
-        // }
+    handleWhatsappChange =(value: string)=>{
+            this.setState({whatsapp_number: Number(value)});
     }
 
     render() 
@@ -297,16 +292,15 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                             InputLabelProps={{shrink: true, }} type="tel"
                             onChange={({target}) => this.setState({phone_number: Number(target.value),  error: {...this.state.error, phone_number: (!target.value.match(/^(\+\d{1,3})?\s*\d{10}$/g))}})}/> */}
                         
-                        {/* <MuiPhoneNumber 
+                        <MuiPhoneNumber 
                             className="mt-4" 
                             fullWidth variant="outlined" 
                             label="Whatsapp Number"
-                            error={this.state.error.whatsapp_number}
-                            helperText={this.state.error.whatsapp_number && "Incorrect format"}
+                            defaultCountry={"in"}                        
                             InputLabelProps={{shrink: true, }} 
                             type="tel"
                             onChange={this.handleWhatsappChange}
-                            /> */}
+                            />
                         
                         {/* <TextField className="mt-4" fullWidth variant="outlined" label="Whatsapp Number"
                             error={this.state.error.whatsapp_number}
@@ -328,7 +322,10 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                         <TextField className="mt-4" fullWidth label="Language"
                             InputLabelProps={{shrink: true, }} error={this.state.error.language}
                             helperText={this.state.error.language && "This field is required"}
-                            onChange={({target}) => this.setState({language: target.value, error: {...this.state.error, language: (!target.value)} })}/>    
+                            onChange={({target}) => this.setState({language: target.value, error: {...this.state.error, language: (!target.value)} })}>
+                          something goes here
+                          </TextField>          
+                        
                         {!this.props.withoutHospital && <TimePickers hospital={this.state.hospital[0]}
                             onChange={(times) => this.setState({working_time: times})}/>}
                         

@@ -256,7 +256,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                             value={this.state.query}
                             type="search"
 
-                            onKeyDown={(event) => 
+                            onKeyDown={(event) =>
                             {
                                 this.handleKeyDownSearch(event);
                             }}
