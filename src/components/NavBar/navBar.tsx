@@ -103,7 +103,7 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
                         <Avatar className="mr-2" sx={{width:"28px", height : "28px", marginRight: ".5rem"}}
                             src={this.state.user?.tokens?.image || undefined}>{this.state.user ? this.state.user.username ? this.state.user.username[0] : "?" : "?"}</Avatar>
 
-
+                        
                     </div>
 
 

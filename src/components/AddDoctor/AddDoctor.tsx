@@ -222,16 +222,18 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
             });
     };
 
-    handlePhoneChange =(value: string)=>{
-            value= value.replaceAll(/[\(\)-]/g,"").replaceAll(" ","");
-            this.setState({phone_number: Number(value)
-             , error: {...this.state.error, phone_number: (!value.match(/^(\+\d{1,3})?\s*\d{9,15}$/g))}
-            });
-    }    
+    handlePhoneChange =(value: string)=>
+    {
+        value= value.replaceAll(/[\(\)-]/g, "").replaceAll(" ", "");
+        this.setState({phone_number: Number(value)
+            , error: {...this.state.error, phone_number: (!value.match(/^(\+\d{1,3})?\s*\d{9,15}$/g))}
+        });
+    };    
 
-    handleWhatsappChange =(value: string)=>{
-            this.setState({whatsapp_number: Number(value)});
-    }
+    handleWhatsappChange =(value: string)=>
+    {
+        this.setState({whatsapp_number: Number(value)});
+    };
 
     render() 
     {
@@ -254,7 +256,10 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                             helperText={this.state.error.name && "This field is required"}
                             onChange={({target}) => this.setState({name: target.value, error: {...this.state.error, name: (!target.value)} })}/>
 
-                        {!this.props.withoutHospital && <TextField className="mt-4" fullWidth variant="outlined" select label="Department"
+                        {!this.props.withoutHospital && 
+
+                        <TextField 
+                            className="mt-4" fullWidth variant="outlined" select label="Department"
                             error={this.state.error.department} required
                             helperText={this.state.error.department && "This field is required"}
                             InputLabelProps={{shrink: true, }} size="small"
@@ -273,17 +278,17 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                             onChange={({target}) => this.setState({experience: Number(target.value)})}/>
                         
                         <MuiPhoneNumber
-                        className="mt-4"
-                        fullWidth
-                        variant="outlined"
-                        label="Contact Number"
-                        InputLabelProps={{shrink: true, }}
-                        defaultCountry={"in"}
-                        required
-                        onChange={this.handlePhoneChange}
-                        error={this.state.error.phone_number}
-                        helperText={this.state.error.phone_number && "Incorrect format"}
-                        type="tel"
+                            className="mt-4"
+                            fullWidth
+                            variant="outlined"
+                            label="Contact Number"
+                            InputLabelProps={{shrink: true, }}
+                            defaultCountry={"in"}
+                            required
+                            onChange={this.handlePhoneChange}
+                            error={this.state.error.phone_number}
+                            helperText={this.state.error.phone_number && "Incorrect format"}
+                            type="tel"
                         />
 
                         {/* <TextField className="mt-4" fullWidth variant="outlined" label="Contact Number"
@@ -300,7 +305,7 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                             InputLabelProps={{shrink: true, }} 
                             type="tel"
                             onChange={this.handleWhatsappChange}
-                            />
+                        />
                         
                         {/* <TextField className="mt-4" fullWidth variant="outlined" label="Whatsapp Number"
                             error={this.state.error.whatsapp_number}
@@ -324,7 +329,7 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                             helperText={this.state.error.language && "This field is required"}
                             onChange={({target}) => this.setState({language: target.value, error: {...this.state.error, language: (!target.value)} })}>
                           something goes here
-                          </TextField>          
+                        </TextField>          
                         
                         {!this.props.withoutHospital && <TimePickers hospital={this.state.hospital[0]}
                             onChange={(times) => this.setState({working_time: times})}/>}

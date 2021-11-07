@@ -438,6 +438,16 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                                 </div>
                             ))}
                         </div>
+                        <div className="filterhead w-100 mb-2 mt-2 ">Medicine</div>
+                        <div className="chips d-flex flex-wrap ">
+                            {medicine.map((value, key) => (
+                                <div key={key} className="col-3 mb-2">
+                                    <StyledChip onClick={() => this.handleChipChange(value)}
+                                        sx={this.state.filters.includes(value) ? bluechip : greychip}
+                                        label={value} />
+                                </div>
+                            ))}
+                        </div>
                     </div>
 
                 </SwipeableDrawer>
