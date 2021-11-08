@@ -189,7 +189,7 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                                 marginTop:"10px",
                                 marginBottom:"9px",
                                 borderRadius:"15px",
-                            }}>{this.state.user ? this.state.user?.username : "?"}</Avatar>
+                            }}>{this.state.user ? this.state.user?.username[0] : "?"}</Avatar>
                             <div style={{textAlign:"left", marginLeft:"1rem"}} className="d-flex flex-grow-1 flex-column text-left align-self-center ">
                                 <div className="frndname">Your Friend Name</div>
                                 <div className="frndemail">friendemailid@gmail.com</div>
