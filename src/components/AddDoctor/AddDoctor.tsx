@@ -1,4 +1,4 @@
-import {Department, DepartmentObject, Doctor, WorkingTime} from "../../api/model";
+import {Department, DepartmentObject, Doctor, Language, LanguageObject, WorkingTime} from "../../api/model";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 
 import {withRouter} from "react-router";
@@ -7,7 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import TableContainer from "@mui/material/TableContainer";
-import {Button, Table, TableBody, TableCell, TableHead, TableRow} from "@mui/material";
+import {Autocomplete, Button, Table, TableBody, TableCell, TableHead, TableRow} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import MobileTimePicker from "@mui/lab/MobileTimePicker";
 import TextField from "@mui/material/TextField";
@@ -28,11 +28,14 @@ interface AddDoctorState extends AuthState {
     whatsapp_number: number,
     email: string,
     address: string,
-    language: string,
+    language: Array<string>,
+    languages: Array<LanguageObject>,
+    searchTerm: string,
     about: string,
     allDepartments: Array<DepartmentObject>,
     hospital: Array<number>,
     ready?: boolean,
+    ima_number: string,
     error: { name: boolean, phone_number: boolean, whatsapp_number: boolean, email: boolean, address: boolean, language:boolean, about: boolean, department: boolean}
 }
 
@@ -124,7 +127,8 @@ interface AddDoctorProps extends AuthPropsLoc {
     withoutHospital?: boolean,
 }
 
-class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState> 
+
+class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState > 
 {
    
     constructor(props: AddDoctorProps) 
@@ -133,8 +137,11 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
 
         this.state = {
             ...this.state,
+            languages: [],
+            searchTerm:"",
             error: { name: false, phone_number: false, whatsapp_number:false, email: false, address: false, language: false, about: false, department: false}
         };
+        this.getlanguages();
     }
 
     async componentDidMount() 
@@ -158,10 +165,28 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
         
     }
 
+    async getlanguages () 
+    {
+        Language.filter({search: this.state.searchTerm}).then((languages) => 
+        {
+            const results = languages.results;
+            this.setState({languages: results});
+        });
+
+    } 
+
+    editSearchTerm = (e: string) => 
+    {
+        this.setState({searchTerm: e}, ()=> 
+        {
+            this.getlanguages();
+        });
+    };
+
     saveDoctor = async () => 
     {
-        console.log(this.state);
-        const toSend = this.state;
+        const toSend = {...this.state,
+            language: this.state.language.map((name1)=> this.state.languages.find(({name})=> name===name1)?.id)};
 
         toSend.user = null;
 
@@ -237,6 +262,11 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
 
     render() 
     {
+        if (!this.state.auth) 
+        {
+            this.performAuth();
+            return (<></>);
+        }
         return (
             this.state.ready ?
                 <div>
@@ -255,6 +285,11 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                             InputLabelProps={{shrink: true, }} error={this.state.error.name}
                             helperText={this.state.error.name && "This field is required"}
                             onChange={({target}) => this.setState({name: target.value, error: {...this.state.error, name: (!target.value)} })}/>
+
+                        <TextField className="mt-4" fullWidth label="IMA Number"
+                            InputLabelProps={{shrink: true, }}                            
+                            onChange={({target}) => this.setState({ima_number: target.value})}/>
+
 
                         {!this.props.withoutHospital && 
 
@@ -302,7 +337,7 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                             fullWidth variant="outlined" 
                             label="Whatsapp Number"
                             defaultCountry={"in"}                        
-                            InputLabelProps={{shrink: true, }} 
+                            InputLabelProps={{shrink: true, }}
                             type="tel"
                             onChange={this.handleWhatsappChange}
                         />
@@ -324,13 +359,26 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                             helperText={this.state.error.address && "This field is required"}
                             onChange={({target}) => this.setState({address: target.value, error: {...this.state.error, address: (!target.value)} })}/>
                         
-                        <TextField className="mt-4" fullWidth label="Language"
+                        {/* <TextField className="mt-4" fullWidth label="Language"
                             InputLabelProps={{shrink: true, }} error={this.state.error.language}
                             helperText={this.state.error.language && "This field is required"}
                             onChange={({target}) => this.setState({language: target.value, error: {...this.state.error, language: (!target.value)} })}>
-                          something goes here
-                        </TextField>          
+                        </TextField>           */}   
                         
+                         <Autocomplete className="mt-4"
+                            multiple
+                            options={this.state.languages.map(({name})=> name)}
+                            onChange={(_,language)=> this.setState({language})}
+                            renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                variant="outlined"
+                                label="Languages"
+                                InputLabelProps={{shrink: true, }}
+                                onChange = {(event) => this.editSearchTerm(event.target.value)}
+                            />)}
+                            />
+
                         {!this.props.withoutHospital && <TimePickers hospital={this.state.hospital[0]}
                             onChange={(times) => this.setState({working_time: times})}/>}
                         

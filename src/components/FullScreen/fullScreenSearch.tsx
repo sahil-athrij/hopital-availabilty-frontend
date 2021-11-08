@@ -469,7 +469,7 @@ export class FullScreenSearch extends ResponsiveComponent<FullScreenLocationProp
         return (<div className="fixed-top w-100 h-100 bg-white header">
 
             <Container fluid={true} className="mt-3 p-0">
-                <LocationQuerySearchBox close={() => null} closeWindow={this.props.close} />
+                <LocationQuerySearchBox close={() => null} closeWindow={this.props.close}   />
             </Container>
         </div>);
     }
