@@ -89,6 +89,8 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
         this.setState({requests: data.results, friend_request: data1.results});
     }
 
+
+
     getgender = (gender: string) =>
     {
         if (gender === "M")
@@ -137,7 +139,6 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                                         <div className=" lefttxt ">
                                             <h1 className="title m-0">{obj.Name}{this.getgender(obj.gender)}</h1>
                                             <div className="subtitle">
-                                                <div>Age:{obj.age}</div>
                                                 <div>Symptoms:{obj.symptoms}</div>
                                                 <div>Since:{obj.symdays}</div>
                                             </div>
@@ -180,23 +181,25 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
         
             return (
                 <div className="">
-                    <Container>
-                        <div className="frndcard w-100 d-flex justify-content-between mb-2">
-                            <Avatar src={this.state.user?.tokens?.image || undefined} variant="rounded" sx={{
-                                marginLeft: "6px",
-                                width: "47.96px",
-                                height: "50px",
-                                marginTop:"10px",
-                                marginBottom:"9px",
-                                borderRadius:"15px",
-                            }}>{this.state.user ? this.state.user?.username[0] : "?"}</Avatar>
-                            <div style={{textAlign:"left", marginLeft:"1rem"}} className="d-flex flex-grow-1 flex-column text-left align-self-center ">
-                                <div className="frndname">Your Friend Name</div>
-                                <div className="frndemail">friendemailid@gmail.com</div>
-                            </div>
+                    {this.state.user?.friends?.map((friend, key)=>(
+                        <Container key={key}>
+                            <div className="frndcard w-100 d-flex justify-content-between mb-2">
+                                <Avatar src={friend.profile} variant="rounded" sx={{
+                                    marginLeft: "6px",
+                                    width: "47.96px",
+                                    height: "50px",
+                                    marginTop: "10px",
+                                    marginBottom: "9px",
+                                    borderRadius: "15px",
+                                }}>{friend.name[0]}</Avatar>
+                                <div style={{textAlign: "left", marginLeft: "1rem"}}
+                                    className="d-flex flex-grow-1 flex-column text-left align-self-center ">
+                                    <div className="frndname">{friend.name}</div>
+                                    <div className="frndemail">{friend.email}</div>
+                                </div>
 
-                        </div>
-                    </Container>
+                            </div>
+                        </Container>))}
                     <Container>
                         <Link to="/">
                             <BigBlueButton text="Invite  Friend"/>
@@ -221,7 +224,9 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
     };
 
     render()
+
     {
+        console.log(this.state.user?.friends);
         return (
             <div>
 
