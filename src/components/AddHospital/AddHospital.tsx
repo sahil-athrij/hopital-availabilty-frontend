@@ -19,6 +19,7 @@ import {Marker} from "../../api/model";
 import {withRouter} from "react-router";
 import Button from "@mui/material/Button";
 
+
 const DefaultIcon = L.icon({
     iconUrl: icon,
     shadowUrl: iconShadow
@@ -67,6 +68,7 @@ function LocationMarker(props: LocationMarkerProps)
                 setSuggestions(values);
             
 
+
         }
         catch (e)
         {
@@ -88,6 +90,7 @@ function LocationMarker(props: LocationMarkerProps)
             
                 updateCenter(item.lat, item.lon);
             
+
 
             setPosition(itemCent);
             setDisplay(0);
@@ -130,11 +133,13 @@ function LocationMarker(props: LocationMarkerProps)
                         setDisplay(0);
                     
 
+
                 }
                 else
                 
                     setDisplay(0);
                 
+
 
             }
 
@@ -147,6 +152,7 @@ function LocationMarker(props: LocationMarkerProps)
             
                 updateCenter(latlng.lat, latlng.lng);
             
+
 
             setDisplay(0);
 
@@ -161,6 +167,7 @@ function LocationMarker(props: LocationMarkerProps)
                 updateCenter(latlng.lat, latlng.lng);
             
 
+
             setDisplay(0);
 
         },
@@ -173,6 +180,7 @@ function LocationMarker(props: LocationMarkerProps)
             
                 updateCenter(e.latlng.lat, e.latlng.lng);
             
+
 
         },
         locationerror()
@@ -190,6 +198,7 @@ function LocationMarker(props: LocationMarkerProps)
         
             navigator.geolocation.getCurrentPosition(() => map.locate);
         
+
 
     }, []);
     // useEffect(() =>    //TODO
@@ -241,6 +250,7 @@ function LocationMarker(props: LocationMarkerProps)
                                         updateCenter(item.lat, item.lon);
                                     
 
+
                                     setSearchValue(item.address.name);
                                     setPosition(itemCent);
                                     setDisplay(0);
@@ -281,7 +291,7 @@ interface AddHospitalState extends AuthState
     ownership: string,
     type: string,
     category: string,
-    error: { hospitalName: boolean, phone_number: boolean, about: boolean, department: boolean }
+    error: { hospitalName: boolean, phone_number: boolean, about: boolean, department: boolean },
 
 }
 
@@ -304,7 +314,8 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
             ownership: "U",
             type: "U",
             category: "U",
-            error: {hospitalName: false, phone_number: false, about: false, department: false}
+            error: {hospitalName: false, phone_number: false, about: false, department: false},
+
         };
     }
 
@@ -330,18 +341,20 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
             });
         
 
+
     };
 
     postData = () =>
     {
-        if (this.state.name && this.state.Phone)
+
+        if (this.state.name)
         
             Marker.create({
                 ...this.state,
                 ...this.state.center
             }).then((marker) =>
             {
-                this.props.history.push(`/addHospital/addRequest/${marker.id}`);
+                this.props.history.push(`/details/${marker.id}`);
                 toast.success("thank you for the contribution", {
                     position: "bottom-center"
                 });
@@ -352,8 +365,9 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                 });
             });
         
-        else
         
+        else
+
             toast.error("please enter the required details", {
                 position: "bottom-center"
             });
@@ -375,7 +389,7 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                 <div>
                     <Container className=" px-0 pb-3 h-100 pt-0 bg-white neumorphic-input">
                         <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
-                            <CloseIcon onClick={() => this.props.history.goBack()}/>
+                            <CloseIcon className="align-self-center" onClick={() => this.props.history.goBack()}/>
                             <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Medical Details</b>
                             </p>
                             {this.state.position === 1 ? (
@@ -407,7 +421,7 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                         {this.state.position === 1 &&
                         <div className="d-flex flex-column px-3">
 
-                            <h6 className="text-left"><b>Hospital Information</b></h6>
+                            <h6 style={{textAlign: "left", paddingLeft: ".3rem"}}><b>Hospital Information</b></h6>
                             <TextField label="Hospital Name" required={true} variant="outlined"
                                 fullWidth
                                 className="my-2"
@@ -484,24 +498,44 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                                 <option value="Pr">Private</option>
                                 <option value="Co">Co-operative</option>
                             </TextField>
-
+                            
                         </div>
                         }
 
 
                         <div className="d-flex flex-row px-3 pt-2 w-100 justify-content-center">
                             {this.state.position !== 0 &&
-                            <button className="btn w-50 btn-light" onClick={() =>
-                            {
-                                this.setPosition(this.state.position - 1);
-                            }}>Previous</button>
-                            }
+                            <Button
+                                color="inherit"
+                                onClick={() =>
+                                {
+                                    this.setPosition(this.state.position - 1);
+                                }}
+                                sx={{
+                                    borderRadius: "10px", background: "#F0F0F0",
+                                    marginLeft: "1.25rem",
+                                    textTransform: "none",
+                                }}
+                            >
+                                Previous
+                            </Button>}
+
                             {this.state.position !== 1 ?
-                                <button className="btn w-50 btn-primary blue-gradient"
+                                (<Button className="nxtbutton"
+                                    sx={{
+                                        color: "white",
+                                        marginRight: "1.25rem",
+                                        textTransform: "none"
+                                    }}
                                     onClick={() =>
                                     {
                                         this.setPosition(this.state.position + 1);
-                                    }}> Next</button> : null}
+                                    }}
+                                >
+                                    Next
+                                </Button>) : null
+                            }
+
                         </div>
                     </Container>
                 </div>

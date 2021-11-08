@@ -417,8 +417,10 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState>
                                             <img src={lineicon} alt=''/> : null
                                     }
 
-                                    <Chip size='small' className='' label={label}
-                                        sx={this.styles[this.state.activeStep === index ? 0 : 1]}/>
+                                    <Chip size='small' className='' label={label} onClick={()=>this.setState({
+                                        activeStep: index
+                                    })}
+                                    sx={this.styles[this.state.activeStep === index ? 0 : 1]}/>
                                     </div>
                                 ))
                             }
