@@ -81,6 +81,12 @@ class AddNurse extends AuthComponent<AuthPropsLoc, AddNurseState>
 
     render() 
     {
+        if (!this.state.auth) 
+        {
+            this.performAuth();
+            return (<></>);
+        }
+        
         return (
            
             <div>
