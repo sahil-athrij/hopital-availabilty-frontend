@@ -32,7 +32,8 @@ import {NavBar} from "./components/NavBar/navBar";
 import SearchNurse from "./components/Nurses/SearchNurse";
 import { AddNurseComponent } from "./components/Nurses/AddNurse";
 import { NurseComponent } from "./components/Nurses/Nurse";
-import {UserPage} from "./components/User/User";
+import {UserPage} from "./components/User/Login";
+import {EditPage} from "./components/profile/edit";
 
 
 const theme = createTheme({
@@ -126,6 +127,11 @@ class AppLoc extends React.Component<AppProps>
                             <NavBar/>
                             <Search/>
                             <BottomNav/>
+
+                        </Route>
+
+                        <Route path={"/profile/edit"}>
+                            <EditPage/>
                         </Route>
                         {/* If the current URL is /profile, this route is rendered
             while the rest are ignored */}
@@ -184,6 +190,8 @@ class AppLoc extends React.Component<AppProps>
                         <Route path={"/user"}>
                             <UserPage/>
                         </Route>
+
+
 
                         {/* If the current URL is /, this route is rendered
             while the rest are ignored */}

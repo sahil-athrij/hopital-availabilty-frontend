@@ -2,7 +2,6 @@ import {Patient, PatientObject} from "../../api/model";
 import {AuthComponent, AuthState} from "../../api/auth";
 import {RouteComponentProps, withRouter} from "react-router";
 import * as React from "react";
-import CloseIcon from "@mui/icons-material/Close";
 import Button from "@mui/material/Button";
 import {Container} from "@mui/material";
 import "./GiveHelp.css";
@@ -13,6 +12,7 @@ import CovidNeg from "../../images/corneg.svg";
 import Bloodgrp from "../../images/bloodgroup.svg";
 import TransGen from "../../images/TransGend.svg";
 import PrefNSay from "../../images/genderless.svg";
+import {StickyHead} from "../Utils";
 
 
 interface PatientState extends AuthState {
@@ -118,14 +118,7 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
             return (
                 <div className="mb-3 ">
 
-                    <Container className=" tophead d-flex justify-content-between p-3 ">
-                        <CloseIcon className="d-flex align-self-center" onClick={() => this.props.history.goBack()}/>
-                        <p className="align-self-center m-0 p-0 text-left flex-grow-1 pl-4"><b>Give Help</b>
-                        </p>
-                        <Button className="sub"
-                            variant="contained">Submit</Button>
-
-                    </Container>
+                    <StickyHead title="Give Help" onClick={()=>undefined} goBack={this.props.history.goBack}/>
 
                     <Container className="maincont">
                         {this.state.models ? (this.state.models.map((obj, key) => (
@@ -134,7 +127,7 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
                                 <div className="mx-1">
                                     <div className="maincard d-flex flex-row justify-content-between ">
 
-                                        <div className="  lefttxt  pt-4">
+                                        <div className="  lefttxt  ">
                                             <h1 className="title m-0">{obj.Name}{this.getgender(obj.gender)}</h1>
                                             <div className="subtitle">
                                                 <div>Symptoms:{obj.symptoms}</div>

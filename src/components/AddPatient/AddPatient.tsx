@@ -357,7 +357,7 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState>
         console.log(this.state);
         const toSend = this.state;
 
-        toSend.user = null;
+        toSend.user = undefined;
 
 
         if (this.state.Name && this.state.gender && this.state.symptoms)
@@ -395,8 +395,8 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState>
                 <div className="d-flex flex-column vh-100">
                     <Box className='px-2' sx={{width: "100%"}}>
 
-                        <Container className="head-sec d-flex justify-content-between p-3 shadow-none ">
-                            <CloseIcon onClick={() => this.props.history.goBack()}/>
+                        <Container className="head-sec d-flex  justify-content-between p-3 shadow-none ">
+                            <CloseIcon className="d-flex align-self-center" onClick={() => this.props.history.goBack()}/>
                             <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Medical Details</b>
                             </p>
                             {this.state.activeStep === 4 ? (
@@ -467,7 +467,7 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState>
 
                     </Box>
 
-                    <Container sx={{marginBottom:"4rem"}} className="mt-auto text-center bg-grey ">
+                    <Container sx={{marginBottom:"4rem"}} className="mt-auto text-center  ">
                         <p className="manmsg">All * are mandatory, we’ll help you connect with a Doctor soon</p>
                     </Container>
 

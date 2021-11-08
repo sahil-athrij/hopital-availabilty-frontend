@@ -13,7 +13,7 @@ import L from "leaflet";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 import {get} from "../../api/api";
-import {Suggestion} from "../FullScreen/FullScreenLocation"; 
+import {Suggestion} from "../FullScreen/FullScreenLocation";
 import {TextField} from "@mui/material";
 import {Marker} from "../../api/model";
 import {withRouter} from "react-router";
@@ -27,16 +27,17 @@ const DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 
-interface LocationMarkerProps {
-    updateCenter?: (lat: number, lng: number) => void
-    setCenter?: (lat: number, lng: number) => void
+interface LocationMarkerProps
+{
+    updateCenter?: (lat: number, lng: number) => void;
+    setCenter?: (lat: number, lng: number) => void;
     center: {
         lat: number,
         lng: number
-    }
+    };
 }
 
-function LocationMarker(props: LocationMarkerProps) 
+function LocationMarker(props: LocationMarkerProps)
 {
     const {updateCenter} = props;
     const {center} = props;
@@ -45,12 +46,12 @@ function LocationMarker(props: LocationMarkerProps)
     const [selected, setSelected] = useState(-1);
     const [display, setDisplay] = useState(0);
     const [searchValue, setSearchValue] = useState("");
-    const SuggestLocations = async (event: React.ChangeEvent<HTMLInputElement>) => 
+    const SuggestLocations = async (event: React.ChangeEvent<HTMLInputElement>) =>
     {
         setSearchValue(event.target.value);
         setDisplay(1);
         let url;
-        try 
+        try
         {
             url = "https://api.locationiq.com/v1/autocomplete.php";
             const values = await get(url, {
@@ -61,49 +62,51 @@ function LocationMarker(props: LocationMarkerProps)
             });
             console.log(values);
             const {error} = values;
-            if (!error) 
+            if (!error)
             
                 setSuggestions(values);
             
+
         }
-        catch (e) 
+        catch (e)
         {
 
         }
     };
 
-    const handleEnter = () => 
+    const handleEnter = () =>
     {
         const item = suggestions[selected];
-        if (item) 
+        if (item)
         {
             const newValue = item.address.name;
             setSearchValue(newValue);
             const itemCent = {lat: item.lat, lng: item.lon};
             console.log(itemCent);
             map.flyTo(itemCent, map.getZoom());
-            if (updateCenter) 
+            if (updateCenter)
             
                 updateCenter(item.lat, item.lon);
             
+
             setPosition(itemCent);
             setDisplay(0);
         }
     };
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) =>
     {
         console.log(e.key);
-        if (e.key === "ArrowUp" && suggestions.length > 0) 
+        if (e.key === "ArrowUp" && suggestions.length > 0)
         {
             e.preventDefault();
             setSelected(selected === -1 ? -1 : selected - 1);
         }
-        else if (e.key === "ArrowDown" && selected < suggestions.length - 1) 
+        else if (e.key === "ArrowDown" && selected < suggestions.length - 1)
         {
             e.preventDefault();
             setSelected(selected + 1);
         }
-        else if (e.key === "Enter") 
+        else if (e.key === "Enter")
         {
             e.preventDefault();
             handleEnter();
@@ -111,28 +114,28 @@ function LocationMarker(props: LocationMarkerProps)
     };
     const map = useMapEvents({
 
-        click(e) 
+        click(e)
         {
             console.log(e);
 
             const {target} = e.originalEvent;
-            if (target) 
+            if (target)
             {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                const className = target.getAttribute("class");
-                console.log(className);
-                if (className) 
+
+                const className = (target as unknown as Record<string, (a: string) => string>).getAttribute("class");
+                if (className)
                 {
-                    if (!className.includes("ignore-close")) 
+                    if (!className.includes("ignore-close"))
                     
                         setDisplay(0);
                     
+
                 }
-                else 
+                else
                 
                     setDisplay(0);
                 
+
             }
 
         },
@@ -140,10 +143,11 @@ function LocationMarker(props: LocationMarkerProps)
         {
             const latlng = map.getCenter();
             setPosition(latlng);
-            if (updateCenter) 
+            if (updateCenter)
             
                 updateCenter(latlng.lat, latlng.lng);
             
+
             setDisplay(0);
 
 
@@ -152,24 +156,26 @@ function LocationMarker(props: LocationMarkerProps)
         {
             const latlng = map.getCenter();
             setPosition(latlng);
-            if (updateCenter) 
+            if (updateCenter)
             
                 updateCenter(latlng.lat, latlng.lng);
             
+
             setDisplay(0);
 
         },
-        locationfound(e) 
+        locationfound(e)
         {
             setPosition(e.latlng);
             map.setView(e.latlng, e.accuracy);
 
-            if (updateCenter) 
+            if (updateCenter)
             
                 updateCenter(e.latlng.lat, e.latlng.lng);
             
+
         },
-        locationerror()    
+        locationerror()
         {
             toast.error("Location is Disabled, Please enable location from the settings Menu", {
                 position: "bottom-center"
@@ -178,12 +184,13 @@ function LocationMarker(props: LocationMarkerProps)
     }
     );
 
-    useEffect(() => 
+    useEffect(() =>
     {
-        if (navigator.geolocation) 
+        if (navigator.geolocation)
         
             navigator.geolocation.getCurrentPosition(() => map.locate);
         
+
     }, []);
     // useEffect(() =>    //TODO
     // {
@@ -207,7 +214,7 @@ function LocationMarker(props: LocationMarkerProps)
                     </input>
                     <button
                         className={"bg-grey d-flex align-items-center px-2  justify-content-center text-primary mx-1 search-map"}
-                        onClick={() => 
+                        onClick={() =>
                         {
                             console.log(map.getCenter());
                             map.locate();
@@ -216,23 +223,24 @@ function LocationMarker(props: LocationMarkerProps)
                         }}
 
                     >
-                        <MyLocationIcon sx={{width:"25px"}}/>
+                        <MyLocationIcon sx={{width: "25px"}}/>
                     </button>
 
                 </div>
-                <div className=' d-flex w-100 row-reverse justify-content-end flex-row px-3 py-3'>
+                <div className=" d-flex w-100 row-reverse justify-content-end flex-row px-3 py-3">
                     {display && suggestions.length !== 0 ?
                         <div className={"bg-white w-75 px-3 px-3 py-2 ignore-close font-weight-regular search-map"}>
                             {suggestions.map((item, i) =>
-                                <button key={i} onClick={() => 
+                                <button key={i} onClick={() =>
                                 {
                                     const itemCent = {lat: item.lat, lng: item.lon};
                                     console.log(itemCent);
                                     map.flyTo(itemCent, map.getZoom());
-                                    if (updateCenter) 
+                                    if (updateCenter)
                                     
                                         updateCenter(item.lat, item.lon);
                                     
+
                                     setSearchValue(item.address.name);
                                     setPosition(itemCent);
                                     setDisplay(0);
@@ -261,7 +269,8 @@ function LocationMarker(props: LocationMarkerProps)
     );
 }
 
-interface AddHospitalState extends AuthState {
+interface AddHospitalState extends AuthState
+{
     position: number
     center: {
         lat: number,
@@ -272,14 +281,14 @@ interface AddHospitalState extends AuthState {
     ownership: string,
     type: string,
     category: string,
-    error: { hospitalName: boolean, phone_number: boolean, about: boolean, department: boolean}
+    error: { hospitalName: boolean, phone_number: boolean, about: boolean, department: boolean }
 
 }
 
-export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState> 
+export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState>
 {
 
-    constructor(props: AuthPropsLoc) 
+    constructor(props: AuthPropsLoc)
     {
         super(props);
 
@@ -295,89 +304,75 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
             ownership: "U",
             type: "U",
             category: "U",
-            error: { hospitalName: false, phone_number: false, about: false, department: false}
+            error: {hospitalName: false, phone_number: false, about: false, department: false}
         };
     }
 
-    setValue = (name: string, event: string | boolean | React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => 
-    {
-        let value;
-        if (typeof event !== "boolean" && typeof event !== "string") 
-        
-            value = event.target.value;
-        
-        else 
-        
-            value = event;
-        
-
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        this.setState({[name]: value});
-
-    };
-
-    setCenter = (lat: number, lng: number) => 
+    setCenter = (lat: number, lng: number) =>
     {
         this.setState({
             center: {lat, lng}
         });
     };
 
-    setPosition = (position: number) => 
+    setPosition = (position: number) =>
     {
         const filled = true;
         console.log(filled);
         if (filled)
+        
             this.setState({position});
-        else 
+        
+        else
         
             toast.error("Please fill all the required details before proceeding", {
                 position: "bottom-center",
             });
         
+
     };
 
-    postData = () => 
+    postData = () =>
     {
-        if (this.state.name && this.state.Phone) 
+        if (this.state.name && this.state.Phone)
         
             Marker.create({
                 ...this.state,
                 ...this.state.center
-            }).then((marker) => 
+            }).then((marker) =>
             {
                 this.props.history.push(`/addHospital/addRequest/${marker.id}`);
                 toast.success("thank you for the contribution", {
                     position: "bottom-center"
                 });
-            }).catch((error) => 
+            }).catch((error) =>
             {
                 toast.error(error.details, {
                     position: "bottom-center"
                 });
             });
         
-        else 
+        else
         
             toast.error("please enter the required details", {
                 position: "bottom-center"
             });
         
+
     };
 
-    render() 
+    render()
     {
-        if (!this.state.auth) 
+        if (!this.state.auth)
         {
             this.performAuth();
             return (<></>);
         }
-        else 
+        else
         {
             console.log(this.state.center);
             return (
-                <div >
+                <div>
                     <Container className=" px-0 pb-3 h-100 pt-0 bg-white neumorphic-input">
                         <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
                             <CloseIcon onClick={() => this.props.history.goBack()}/>
@@ -398,7 +393,7 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                             >
 
                                 <TileLayer
-                                    attribution='Map data &copy;  <a href=&quot;https://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, Imagery &copy; <a href=&quot;https://www.mapbox.com/&quot;>Mapbox</a>'
+                                    attribution="Map data &copy;  <a href=&quot;https://creativecommons.org/licenses/by-sa/2.0/&quot;>CC-BY-SA</a>, Imagery &copy; <a href=&quot;https://www.mapbox.com/&quot;>Mapbox</a>"
                                     url="https://api.mapbox.com/styles/v1/sahilathrij/ckr296izue2ls18pdnk1z2dd6/tiles/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoic2FoaWxhdGhyaWoiLCJhIjoiY2tyMjdtMzhmMjY4djJ1cWhpNms5azc1dCJ9.qfosI4PHQv8XO8bHqd-IQg"
                                     tileSize={512} zoomOffset={-1}
                                 />
@@ -420,14 +415,17 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                                 InputLabelProps={{shrink: true, }}
                                 error={this.state.error.hospitalName}
                                 helperText={this.state.error.hospitalName && "This field is required"}
-                                onChange={({target}) => this.setState({name: target.value, error: {...this.state.error, hospitalName: (!target.value)} })}
-                                value={this.state.name}                                
+                                onChange={({target}) => this.setState({
+                                    name: target.value,
+                                    error: {...this.state.error, hospitalName: (!target.value)}
+                                })}
+                                value={this.state.name}
                             />
                             <TextField value={this.state.Phone} className="my-2" fullWidth variant="outlined"
-                                required={true} label="Phone Number *"
+                                label="Phone Number"
                                 InputLabelProps={{shrink: true, }} size="small"
                                 onChange={(event) =>
-                                    this.setValue("Phone", event)}
+                                    this.setState({"Phone": event.target.value})}
 
                             />
 
@@ -441,10 +439,10 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                                 }}
                                 value={this.state.type}
                                 onChange={(event) =>
-                                    this.setValue("type", event)}
+                                    this.setState({"type": event.target.value})}
                             >
-                                <option value='U'>Uncategorized</option>
-                                <option value='P'>Pharmacy</option>
+                                <option value="U">Uncategorized</option>
+                                <option value="P">Pharmacy</option>
                                 <option value="C">Clinic</option>
                                 <option value="W">Wellness Center</option>
                                 <option value="H">Hospital</option>
@@ -459,10 +457,10 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                                 }}
                                 value={this.state.category}
                                 onChange={(event) =>
-                                    this.setValue("category", event)}
+                                    this.setState({"category": event.target.value})}
                             >
-                                <option value='U'>Uncategorized</option>
-                                <option value='E'>Economy</option>
+                                <option value="U">Uncategorized</option>
+                                <option value="E">Economy</option>
                                 <option value="N">Normal</option>
                                 <option value="S">Specialty</option>
                                 <option value="SS">Super Specialty</option>
@@ -479,10 +477,10 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                                 }}
                                 value={this.state.ownership}
                                 onChange={(event) =>
-                                    this.setValue("ownership", event)}
+                                    this.setState({"ownership": event.target.value})}
                             >
-                                <option value='U'>Uncategorized</option>
-                                <option value='Pu'>Public</option>
+                                <option value="U">Uncategorized</option>
+                                <option value="Pu">Public</option>
                                 <option value="Pr">Private</option>
                                 <option value="Co">Co-operative</option>
                             </TextField>
@@ -493,17 +491,17 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
 
                         <div className="d-flex flex-row px-3 pt-2 w-100 justify-content-center">
                             {this.state.position !== 0 &&
-                            <button className="btn w-50 btn-light" onClick={() => 
+                            <button className="btn w-50 btn-light" onClick={() =>
                             {
                                 this.setPosition(this.state.position - 1);
                             }}>Previous</button>
                             }
                             {this.state.position !== 1 ?
                                 <button className="btn w-50 btn-primary blue-gradient"
-                                    onClick={() => 
+                                    onClick={() =>
                                     {
                                         this.setPosition(this.state.position + 1);
-                                    }}> Next</button> :null}
+                                    }}> Next</button> : null}
                         </div>
                     </Container>
                 </div>

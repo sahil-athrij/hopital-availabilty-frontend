@@ -15,6 +15,7 @@ import Avatar from "@mui/material/Avatar";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import {toast} from "react-toastify";
 import Skeleton from "@mui/material/Skeleton";
+import {StickyHead} from "../Utils";
 
 
 interface AddDoctorState extends AuthState {
@@ -162,7 +163,7 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
         console.log(this.state);
         const toSend = this.state;
 
-        toSend.user = null;
+        toSend.user =undefined;
 
         if(!this.props.withoutHospital)
         
@@ -226,11 +227,9 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
         return (
             this.state.ready ?
                 <div>
-                    <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
-                        <CloseIcon onClick={() => this.props.history.goBack()}/>
-                        <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Doctor</b></p>
-                        <Button className="sub" variant="contained" onClick={this.saveDoctor}>Submit</Button>
-                    </div>
+                    {/*TODO plz dont delete me*/}
+
+                    <StickyHead title="Add Doctor" onClick={this.saveDoctor} goBack={this.props.history.goBack}/>
 
                     <div className="d-flex justify-content-center align-items-center">
                         <Avatar sx={{width:"107px", height:"107px"}} src="../../images/cam-pic.svg"/>
