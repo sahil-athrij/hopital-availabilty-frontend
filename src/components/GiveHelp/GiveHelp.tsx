@@ -2,7 +2,6 @@ import {Patient, PatientObject} from "../../api/model";
 import {AuthComponent, AuthState} from "../../api/auth";
 import {RouteComponentProps, withRouter} from "react-router";
 import * as React from "react";
-import CloseIcon from "@mui/icons-material/Close";
 import Button from "@mui/material/Button";
 import {Container} from "@mui/material";
 import "./GiveHelp.css";
@@ -13,21 +12,25 @@ import CovidNeg from "../../images/corneg.svg";
 import Bloodgrp from "../../images/bloodgroup.svg";
 import TransGen from "../../images/TransGend.svg";
 import PrefNSay from "../../images/genderless.svg";
+import {StickyHead} from "../Utils";
+import {toast} from "react-toastify";
 
 
-interface PatientState extends AuthState {
+
+interface PatientState extends AuthState
+{
     models: PatientObject[];
 
 
 }
 
 
-export type AuthPropsLoc = RouteComponentProps<Record<string, string|undefined>>
+export type AuthPropsLoc = RouteComponentProps<Record<string, string | undefined>>
 
-export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState> 
+export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
 {
 
-    constructor(props: AuthPropsLoc) 
+    constructor(props: AuthPropsLoc)
     {
         super(props);
         this.state = {
@@ -39,10 +42,10 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
 
     }
 
-    componentDidMount() 
+    componentDidMount()
     {
 
-        Patient.action_general("all", {}, true).then((patients) => 
+        Patient.action_general("all", {}, true).then((patients) =>
         {
             const results = patients.results;
             this.setState({models: results});
@@ -50,32 +53,51 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
         console.log(this.state.models);
     }
 
-    getgender = (gender: string) => 
+    getgender = (gender: string) =>
     {
-        if (gender === "M") 
+        if (gender === "M")
         
             return (
-                <img src={Maleicon}  alt=""/>);
+                <img src={Maleicon} alt=""/>);
         
-        else if (gender === "F") 
+        else if (gender === "F")
         
             return (
-                <img src={Femaleicon}  alt=""/>
+                <img src={Femaleicon} alt=""/>
             );
         
-        else if (gender === "NB") 
+        else if (gender === "NB")
         
             return (
-                <img src={TransGen}  alt=""/>
+                <img src={TransGen} alt=""/>
             );
         
-        else if (gender === "NP") 
+        else if (gender === "NP")
         
             return (
-                <img src={PrefNSay}  alt=""/>
+                <img src={PrefNSay} alt=""/>
             );
         
 
+
+    };
+
+    givehelp = async (obj: PatientObject) =>
+    {
+        try
+        {
+            await obj.modify("help/");
+            toast.success("Thank you for helping out", {
+                position: "bottom-center"
+            });
+        }
+        catch (error)
+        {
+            console.error(error);
+            toast.error((error as { details: string }).details, {
+                position: "bottom-center"
+            });
+        }
     };
 
 
@@ -105,27 +127,20 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
     // }
 
 
-    render() 
+    render()
     {
-        if (!this.state.auth) 
+        if (!this.state.auth)
         {
             this.performAuth();
             return (<></>);
         }
-        else 
+        else
         {
             console.log(this.state);
             return (
                 <div className="mb-3 ">
 
-                    <Container className=" tophead d-flex justify-content-between p-3 ">
-                        <CloseIcon className="d-flex align-self-center" onClick={() => this.props.history.goBack()}/>
-                        <p className="align-self-center m-0 p-0 text-left flex-grow-1 pl-4"><b>Give Help</b>
-                        </p>
-                        <Button className="sub"
-                            variant="contained">Submit</Button>
-
-                    </Container>
+                    <StickyHead title="Give Help" onClick={() => undefined} goBack={this.props.history.goBack}/>
 
                     <Container className="maincont">
                         {this.state.models ? (this.state.models.map((obj, key) => (
@@ -134,7 +149,7 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
                                 <div className="mx-1">
                                     <div className="maincard d-flex flex-row justify-content-between ">
 
-                                        <div className="  lefttxt  pt-4">
+                                        <div className="  lefttxt  ">
                                             <h1 className="title m-0">{obj.Name}{this.getgender(obj.gender)}</h1>
                                             <div className="subtitle">
                                                 <div>Symptoms:{obj.symptoms}</div>
@@ -142,18 +157,21 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
                                             </div>
                                         </div>
                                         <div className=" subtitle  pt-4 ">
-                                            <div className="mt-1">{obj.blood} <img src={Bloodgrp}  alt=""/></div>
-                                            <div className="mt-1">Covid:{obj.covidresult ? (<img src={CovidPos}  alt=""/>) : (
-                                                <img src={CovidNeg}  alt=""/>)}</div>
+                                            <div className="mt-1">{obj.blood} <img src={Bloodgrp} alt=""/></div>
+                                            <div className="mt-1">Covid:{obj.covidresult ? (
+                                                <img src={CovidPos} alt=""/>) : (
+                                                <img src={CovidNeg} alt=""/>)}</div>
                                             <div className="mt-1">CT score:{obj.ctscore}</div>
-                                            <Button sx={{
-                                                borderRadius: "10px",
-                                                marginBottom: "1rem",
-                                                textTransform: "none",
-                                                paddingX: "1.25rem",
-                                                paddingY: ".25rem", marginTop:".5rem"
-                                            }} className="helpbutn"
-                                            variant="contained">Help</Button>
+                                            <Button
+                                                onClick={() => this.givehelp(obj)}
+                                                sx={{
+                                                    borderRadius: "10px",
+                                                    marginBottom: "1rem",
+                                                    textTransform: "none",
+                                                    paddingX: "1.25rem",
+                                                    paddingY: ".25rem", marginTop: ".5rem"
+                                                }} className="helpbutn"
+                                                variant="contained">Help</Button>
 
                                         </div>
 
