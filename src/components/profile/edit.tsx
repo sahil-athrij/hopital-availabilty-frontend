@@ -1,4 +1,4 @@
-import {AuthComponent, AuthState} from "../../api/auth";
+import {AuthComponent, AuthState, getAuth} from "../../api/auth";
 import {AuthPropsLoc} from "../GiveHelp/GiveHelp";
 import {withRouter} from "react-router";
 
@@ -12,7 +12,7 @@ import "./edit.css";
 import Campic from "../../images/cam-pic.jpg";
 import {StickyHead} from "../Utils";
 import {toast} from "react-toastify";
-import {UserObject} from "../../api/model";
+import {baseUrl, patch} from "../../api/api";
 
 
 interface Editstate extends AuthState
@@ -21,6 +21,18 @@ interface Editstate extends AuthState
 
 }
 
+type User = {
+    tokens: {
+        private_token: string,
+        invite_token: string,
+        invited: number,
+        points: number,
+        image: string | null,
+        phone_number:string,
+
+
+    }; email: string; username: string; first_name: string; last_name: string; languages: string[];
+};
 
 class Edit extends AuthComponent<AuthPropsLoc, Editstate>
 {
@@ -43,7 +55,9 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
         
             return;
         
-        return this.state.user.save().then(() =>
+        const access_token = getAuth();
+
+        return patch(`${baseUrl}/auth/users/me/`, this.state.user, {"Authorization": `Bearer ${access_token}`}).then(() =>
         {
             this.props.history.push("/profile");
             toast.success("Successfully edited your details", {
@@ -79,7 +93,7 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
                             fullWidth
                             onChange={({target}) => this.setState({
                                 ...this.state,
-                                user: {...this.state.user, first_name: target.value} as UserObject
+                                user: {...this.state.user, first_name: target.value} as User
                             })}
                             variant="standard"
                             InputProps={{
@@ -88,7 +102,7 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
                                     {
                                         this.setState({
                                             ...this.state,
-                                            user: {...this.state.user, first_name: ""} as UserObject
+                                            user: {...this.state.user, first_name: ""} as User
                                         });
                                     }}>
                                         <HighlightOffIcon/>
@@ -105,7 +119,7 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
                             fullWidth
                             onChange={({target}) => this.setState({
                                 ...this.state,
-                                user: {...this.state.user, last_name: target.value} as UserObject
+                                user: {...this.state.user, last_name: target.value} as User
                             })}
                             variant="standard"
                             InputProps={{
@@ -114,7 +128,7 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
                                     {
                                         this.setState({
                                             ...this.state,
-                                            user: {...this.state.user, last_name: ""} as UserObject
+                                            user: {...this.state.user, last_name: ""} as User
                                         });
                                     }}>
                                         <HighlightOffIcon/>
@@ -130,7 +144,7 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
                             fullWidth
                             onChange={({target}) => this.setState({
                                 ...this.state,
-                                user: {...this.state.user, email: target.value} as UserObject
+                                user: {...this.state.user, email: target.value} as User
                             })}
                             variant="standard"
                             InputProps={{
@@ -139,7 +153,7 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
                                     {
                                         this.setState({
                                             ...this.state,
-                                            user: {...this.state.user, email: ""} as UserObject
+                                            user: {...this.state.user, email: ""} as User
                                         });
                                     }}>
                                         <HighlightOffIcon/>
@@ -158,7 +172,7 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
                                 user: {
                                     ...this.state.user,
                                     tokens: {...this.state.user?.tokens, phone_number: target.value}
-                                } as UserObject
+                                } as User
                             })}
                             variant="standard"
                             InputProps={{
@@ -170,7 +184,7 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
                                             user: {
                                                 ...this.state.user,
                                                 tokens: {...this.state.user?.tokens, phone_number: ""}
-                                            } as UserObject
+                                            } as User
                                         });
                                     }}>
                                         <HighlightOffIcon/>

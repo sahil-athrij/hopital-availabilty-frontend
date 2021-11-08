@@ -2,7 +2,7 @@ import {Department, DepartmentObject, Doctor, WorkingTime} from "../../api/model
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 
 import {withRouter} from "react-router";
-import React, {Component} from "react";
+import React, {ChangeEvent, Component} from "react";
 import CloseIcon from "@mui/icons-material/Close";
 
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
@@ -19,7 +19,8 @@ import {StickyHead} from "../Utils";
 import MuiPhoneNumber from "material-ui-phone-number";
 
 
-interface AddDoctorState extends AuthState {
+interface AddDoctorState extends AuthState
+{
     name: string,
     working_time: Array<WorkingTime>,
     department: number,
@@ -34,16 +35,16 @@ interface AddDoctorState extends AuthState {
     allDepartments: Array<DepartmentObject>,
     hospital: Array<number>,
     ready?: boolean,
-    error: { name: boolean, phone_number: boolean, whatsapp_number: boolean, email: boolean, address: boolean, language:boolean, about: boolean, department: boolean}
+    error: { name: boolean, phone_number: boolean, whatsapp_number: boolean, email: boolean, address: boolean, language: boolean, about: boolean, department: boolean }
 }
 
-export class TimePickers extends Component<{ hospital: number, onChange: (times: Array<WorkingTime>) => void }, { times: Array<WorkingTime> }> 
+export class TimePickers extends Component<{ hospital: number, onChange: (times: Array<WorkingTime>) => void }, { times: Array<WorkingTime> }>
 {
 
     days: Array<string>;
     time_template: WorkingTime;
 
-    constructor(props: { hospital: number, onChange: (times: Array<WorkingTime>) => void }) 
+    constructor(props: { hospital: number, onChange: (times: Array<WorkingTime>) => void })
     {
         super(props);
 
@@ -64,13 +65,15 @@ export class TimePickers extends Component<{ hospital: number, onChange: (times:
         const {starting_time, ending_time, day} = times[key].working_time;
 
         if (times.length === key + 1 && starting_time && ending_time && day !== null)
+        
             times.push(JSON.parse(JSON.stringify(this.time_template)));
+        
 
         this.setState({times});
         this.props.onChange(times);
     }
 
-    render() 
+    render()
     {
         return (
             <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -121,29 +124,39 @@ export class TimePickers extends Component<{ hospital: number, onChange: (times:
     }
 }
 
-interface AddDoctorProps extends AuthPropsLoc {
+interface AddDoctorProps extends AuthPropsLoc
+{
     withoutHospital?: boolean,
 }
 
-class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState> 
+class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
 {
-   
-    constructor(props: AddDoctorProps) 
+
+    constructor(props: AddDoctorProps)
     {
         super(props);
 
         this.state = {
             ...this.state,
-            error: { name: false, phone_number: false, whatsapp_number:false, email: false, address: false, language: false, about: false, department: false}
+            error: {
+                name: false,
+                phone_number: false,
+                whatsapp_number: false,
+                email: false,
+                address: false,
+                language: false,
+                about: false,
+                department: false
+            }
         };
     }
 
-    async componentDidMount() 
+    async componentDidMount()
     {
-        super.componentDidMount(); 
-        if(!this.props.withoutHospital)
+        super.componentDidMount();
+        if (!this.props.withoutHospital)
         {
-            const {hospital} = this.props.match.params as unknown as {hospital: number};
+            const {hospital} = this.props.match.params as unknown as { hospital: number };
             const departments = await Department.filter({hospital});
 
             this.setState({
@@ -153,28 +166,29 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
             });
         }
 
-        else  this.setState({ready:true});
-
- 
+        else
         
+            this.setState({ready: true});
+        
+
+
     }
 
-    saveDoctor = async () => 
+    saveDoctor = async () =>
     {
         console.log(this.state);
         const toSend = this.state;
 
-        toSend.user =undefined;
+        toSend.user = undefined;
 
-        if(!this.props.withoutHospital)
+        if (!this.props.withoutHospital)
         
-
             toSend.working_time = toSend.working_time
                 .filter(({working_time}) => working_time.day !== null)
                 .map(({
                     working_time,
                     hospital
-                }) => 
+                }) =>
                 {
                     return {
                         hospital,
@@ -187,51 +201,56 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                 });
         
 
+
         if (this.state.name && this.state.phone_number)
         
-            !this.props.withoutHospital?
+            !this.props.withoutHospital ?
                 Doctor.create({...toSend, department: [toSend.department]})
-                    .then(() => 
+                    .then(() =>
                     {
                         this.props.history.push(`/details/${this.state.hospital}`);
                         toast.success("thank you for the contribution", {
                             position: "bottom-center"
                         });
-                    }).catch((error) => 
+                    }).catch((error) =>
                     {
                         toast.error(error.details, {
                             position: "bottom-center"
                         });
                     })
-                :Doctor.create({...toSend})
-                    .then(() => 
+                : Doctor.create({...toSend})
+                    .then(() =>
                     {
                         this.props.history.push("/searchdoctor/");
                         toast.success("thank you for the contribution", {
                             position: "bottom-center"
                         });
-                    }).catch((error) => 
+                    }).catch((error) =>
                     {
                         toast.error(error.details, {
                             position: "bottom-center"
                         });
                     });
-            
+        
         else
+        
             toast.error("please enter the required details", {
                 position: "bottom-center"
             });
+        
     };
 
-    handlePhoneChange =(value: string)=>
+    handlePhoneChange = (value: string | ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     {
-        value= value.replaceAll(/[\(\)-]/g, "").replaceAll(" ", "");
-        this.setState({phone_number: Number(value)
+        if (typeof value !== "string") return;
+        value = value.replaceAll(/[()-]/g, "").replaceAll(" ", "");
+        this.setState({
+            phone_number: Number(value)
             , error: {...this.state.error, phone_number: (!value.match(/^(\+\d{1,3})?\s*\d{9,15}$/g))}
         });
     };
 
-    handleWhatsappChange =(value: string)=>
+    handleWhatsappChange = (value: string) =>
     {
         this.setState({whatsapp_number: Number(value)});
     };
@@ -246,14 +265,17 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                     <StickyHead title="Add Doctor" onClick={this.saveDoctor} goBack={this.props.history.goBack}/>
 
                     <div className="d-flex justify-content-center align-items-center">
-                        <Avatar sx={{width:"107px", height:"107px"}} src="../../images/cam-pic.svg"/>
+                        <Avatar sx={{width: "107px", height: "107px"}} src="../../images/cam-pic.svg"/>
                     </div>
 
-                    <div className="m-4 pb-5">               
+                    <div className="m-4 pb-5">
                         <TextField className="mt-2" fullWidth label="Name" required
                             InputLabelProps={{shrink: true, }} error={this.state.error.name}
                             helperText={this.state.error.name && "This field is required"}
-                            onChange={({target}) => this.setState({name: target.value, error: {...this.state.error, name: (!target.value)} })}/>
+                            onChange={({target}) => this.setState({
+                                name: target.value,
+                                error: {...this.state.error, name: (!target.value)}
+                            })}/>
 
                         {!this.props.withoutHospital &&
 
@@ -284,7 +306,7 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                             InputLabelProps={{shrink: true, }}
                             defaultCountry={"in"}
                             required
-                            onChange={this.handlePhoneChange}
+                            onChange={(e) => this.handlePhoneChange(e)}
                             error={this.state.error.phone_number}
                             helperText={this.state.error.phone_number && "Incorrect format"}
                             type="tel"
@@ -303,7 +325,7 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                             defaultCountry={"in"}
                             InputLabelProps={{shrink: true, }}
                             type="tel"
-                            onChange={this.handleWhatsappChange}
+                            onChange={(e) => this.handlePhoneChange(e)}
                         />
 
                         {/* <TextField className="mt-4" fullWidth variant="outlined" label="Whatsapp Number"
@@ -316,18 +338,30 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                             error={this.state.error.email}
                             helperText={this.state.error.email && "Incorrect format"}
                             InputLabelProps={{shrink: true, }} type="email"
-                            onChange={({target}) => this.setState({email: target.value,  error: {...this.state.error, email: (!target.value.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))}})}/>
+                            onChange={({target}) => this.setState({
+                                email: target.value,
+                                error: {
+                                    ...this.state.error,
+                                    email: (!target.value.match(/\S+@\S+\.\S+/g))
+                                }
+                            })}/>
 
                         <TextField className="mt-4" fullWidth label="Address or Location"
                             InputLabelProps={{shrink: true, }} error={this.state.error.address}
                             helperText={this.state.error.address && "This field is required"}
-                            onChange={({target}) => this.setState({address: target.value, error: {...this.state.error, address: (!target.value)} })}/>
+                            onChange={({target}) => this.setState({
+                                address: target.value,
+                                error: {...this.state.error, address: (!target.value)}
+                            })}/>
 
                         <TextField className="mt-4" fullWidth label="Language"
                             InputLabelProps={{shrink: true, }} error={this.state.error.language}
                             helperText={this.state.error.language && "This field is required"}
-                            onChange={({target}) => this.setState({language: target.value, error: {...this.state.error, language: (!target.value)} })}>
-                          something goes here
+                            onChange={({target}) => this.setState({
+                                language: target.value,
+                                error: {...this.state.error, language: (!target.value)}
+                            })}>
+                            something goes here
                         </TextField>
 
                         {!this.props.withoutHospital && <TimePickers hospital={this.state.hospital[0]}
@@ -352,12 +386,12 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                     </div>
 
                     <div className="m-4">
-                        <Skeleton variant="rectangular" className="mt-2 w-100"  height={118} />
-                        <Skeleton variant="rectangular" className="mt-2 w-100"  height={118} />
-                        <Skeleton variant="rectangular" className="mt-2 w-100"  height={118} />
-                        <Skeleton variant="rectangular" className="mt-2 w-100"  height={118} />
-                        <Skeleton variant="rectangular" className="mt-2 w-100"  height={118} />
-                        <Skeleton variant="rectangular" className="mt-2 w-100"  height={118} />
+                        <Skeleton variant="rectangular" className="mt-2 w-100" height={118}/>
+                        <Skeleton variant="rectangular" className="mt-2 w-100" height={118}/>
+                        <Skeleton variant="rectangular" className="mt-2 w-100" height={118}/>
+                        <Skeleton variant="rectangular" className="mt-2 w-100" height={118}/>
+                        <Skeleton variant="rectangular" className="mt-2 w-100" height={118}/>
+                        <Skeleton variant="rectangular" className="mt-2 w-100" height={118}/>
                     </div>
                 </div>
         );

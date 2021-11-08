@@ -112,6 +112,7 @@ type token = {
     invited: number,
     points: number,
     image:string | null,
+    phone_number:string,
 
 
 }
@@ -121,12 +122,13 @@ export interface AuthState extends ResponsiveState {
     refresh_view: boolean
     auth: string | null
     refresh: string | null
-    user: {
+    user?: {
         tokens: token,
         email:string,
         username: string,
         first_name: string,
         last_name: string,
+        languages:Array<string>,
     } | null
 }
 
