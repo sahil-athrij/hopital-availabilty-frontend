@@ -98,18 +98,24 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
                 </div>
                 <div>
                     <div className="container d-flex justify-content-between  p-0 align-self-center px-2">
-                        <div className="homecard">
-                            <img src={Addhosp} alt=""/>
-                            <div className="cardtxt ">Hospital</div>
-                        </div>
-                        <div className="homecard">
-                            <img src={Givehelp} alt=""/>
-                            <div className="cardtxt ">Give help</div>
-                        </div>
-                        <div className="homecard">
-                            <img className="mb-2" src={Nurse} alt=""/>
-                            <div className="cardtxt m-0">Nurse</div>
-                        </div>
+                        <Link style={{textDecoration:"none"}} className="homecard" to="/AddHospital/">
+                            <div>
+                                <img src={Addhosp} alt=""/>
+                                <div className="cardtxt ">Hospital</div>
+                            </div>
+                        </Link>
+                        <Link style={{textDecoration:"none"}} className="homecard" to="/help">
+                            <div>
+                                <img src={Givehelp} alt=""/>
+                                <div className="cardtxt ">Give help</div>
+                            </div>
+                        </Link>
+                        <Link style={{textDecoration:"none"}} className="homecard" to="/searchnurse">
+                            <div >
+                                <img src={Nurse} alt=""/>
+                                <div className="cardtxt m-0">Nurse</div>
+                            </div>
+                        </Link>
                     </div>
 
                 </div>
@@ -125,7 +131,7 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
                             <img src={Medicine} alt=""/>
                             <div className="cardtxt ">Medicine</div>
                         </div>
-                        <Link style={{textDecoration:"none"}} className="homecard" to="/adddoctor/">
+                        <Link style={{textDecoration:"none"}} className="homecard" to="/searchdoctor">
                             <div >
                                 <img src={Doc} alt=""/>
                                 <div className="cardtxt m-0">Doctor</div>
@@ -145,10 +151,12 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
                             <img src={BloodBank} alt=""/>
                             <div className="cardtxt ">Blood Bank</div>
                         </div>
-                        <div className="homecard">
-                            <img className="mb-2" src={request} alt=""/>
-                            <div className="cardtxt m-0">Request</div>
-                        </div>
+                        <Link style={{textDecoration:"none"}} className="homecard" to="/addRequest">
+                            <div >
+                                <img src={request} alt=""/>
+                                <div className="cardtxt m-0">Request</div>
+                            </div>
+                        </Link>
                     </div>
 
                 </div>

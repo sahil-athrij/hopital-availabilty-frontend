@@ -1,10 +1,11 @@
-import { Button } from "@mui/material";
+import {Button} from "@mui/material";
 import React from "react";
-import { Container } from "react-bootstrap";
+import {Container} from "react-bootstrap";
 import "./index.css";
 
 import star from "../../images/star.svg";
 import fadestar from "../../images/fadestar.svg";
+import CloseIcon from "@mui/icons-material/Close";
 
 
 const BigBlueButtonStyle = {
@@ -13,7 +14,15 @@ const BigBlueButtonStyle = {
     background: "linear-gradient(180deg, #0338B9 0%, #3E64FF 100%)",
 };
 
-export const BigBlueButton = ({  ...props } )=>
+interface StickyHeadProps
+{
+    title: string,
+    onClick: () => undefined | Promise<void>,
+    goBack: () => void,
+    action?: string,
+}
+
+export const BigBlueButton = ({...props}) =>
 {
     const {text} = props;
     return (<Button
@@ -28,7 +37,7 @@ export const BigBlueButton = ({  ...props } )=>
     );
 };
 
-export const StarRating = ({ rating }: { rating: number }) => (
+export const StarRating = ({rating}: { rating: number }) => (
     <Container>
         {[...Array(Math.round(5 - rating))].map((e, i) => (
             <img
@@ -48,6 +57,22 @@ export const StarRating = ({ rating }: { rating: number }) => (
             />
         ))}
     </Container>
+);
+
+export const StickyHead = ({title, action, onClick, goBack}: StickyHeadProps) => (
+    <>
+        <Container className=" tophead fixed-top d-flex justify-content-between p-3 ">
+            <CloseIcon className="d-flex align-self-center" onClick={() => goBack()}/>
+            <p className="align-self-center m-0 p-0 text-left flex-grow-1 pl-4"><b>{title}</b>
+            </p>
+            <Button className="sub" onClick={onClick}
+                variant="contained">{action || "Submit"}</Button>
+
+        </Container>
+        <div className=" mb-4 mt-4 pt-4 pb-2">
+
+        </div>
+    </>
 );
 
 // export const RatingBar = () => (
