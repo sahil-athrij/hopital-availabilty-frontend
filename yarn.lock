@@ -3820,6 +3820,11 @@ cosmiconfig@^7.0.1:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
+country-flag-icons@^1.4.10:
+  version "1.4.11"
+  resolved "https://registry.yarnpkg.com/country-flag-icons/-/country-flag-icons-1.4.11.tgz#79fc3ab2ef5cd328973152f036ff53e23d5d7026"
+  integrity sha512-OCaZ9gUjY4HvnXit8DPjBEnM2f4rk/eO7gwm6ZVbbxFTO46jnqnFh+2yT1N8juSzriMjdG0OqFFMSsiztkpl+w==
+
 cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "7.0.3"
   resolved "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.3.tgz"
@@ -6696,6 +6701,14 @@ makeerror@1.0.x:
   integrity sha1-4BpckQnyr3lmDk6LlYd5AYT1qWw=
   dependencies:
     tmpl "1.0.x"
+
+material-ui-phone-number@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/material-ui-phone-number/-/material-ui-phone-number-3.0.0.tgz#4ea0d045f50af26db0994816520095be57d20dc1"
+  integrity sha512-wZX1PYv990nJUBko93AQxIfvFARHfMtnV/UT1/hVnbJP5x/K7MDuT5T2/ckIG6xyqTZ/wCcHdEK1P60uTOORwA==
+  dependencies:
+    country-flag-icons "^1.4.10"
+    lodash "^4.17.21"
 
 media-typer@0.3.0:
   version "0.3.0"
