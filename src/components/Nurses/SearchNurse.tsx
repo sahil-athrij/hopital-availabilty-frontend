@@ -69,7 +69,6 @@ class SearchNurseLoc extends AuthComponent <AuthPropsLoc, SearchNurseState>
             const next = nurses.next;
             const results = nurses.results;
             this.setState({nurses: results, next: next});
-            console.log(nurses.results);
         });
 
     } 
