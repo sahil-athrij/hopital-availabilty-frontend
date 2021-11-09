@@ -224,3 +224,6 @@ input[type="search"]::-webkit-search-results-decoration {
 .text-cst-primary {
     color: #6200EE!important;
 }
+a{
+    text-decoration: none;
+}
