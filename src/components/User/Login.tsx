@@ -66,6 +66,7 @@ class Login extends AuthComponent<AuthPropsLoc, Userstate>
                                 <BigBlueButton onClick={()=>
                                 {
                                     this.removeAuth();
+                                    window.location.href="/";
                                 }
                                 } text={"Log Out"}/>
                             </div>
