@@ -1,4 +1,4 @@
-import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
+import {AuthComponent, AuthPropsLoc, AuthState, reactUrl} from "../../api/auth";
 import {Container} from "react-bootstrap";
 import {withRouter} from "react-router";
 import React from "react";
@@ -24,6 +24,7 @@ import Femaleicon from "../../images/female.svg";
 import TransGen from "../../images/TransGend.svg";
 import PrefNSay from "../../images/genderless.svg";
 import {BigBlueButton} from "../Utils";
+import {toast} from "react-toastify";
 
 
 const AirbnbSlider = withStyles({
@@ -122,6 +123,29 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
 
     };
 
+    handleinvite = async () =>
+    {
+        const shareData = {
+            title: "NeedMedi",
+            text: `${this.state.user?.username} Invited you to needmedi.com`,
+            url: `${reactUrl}/invite?invite=${this.state.user?.tokens.private_token}`
+        };
+
+        try
+        {
+            await navigator.share(shareData);
+            toast.success("Invited Successfully", {
+                position: "bottom-center"
+            });
+        }
+        catch (error)
+        {
+            toast.error((error as { details: string }).details, {
+                position: "bottom-center"
+            });
+        }
+    };
+
 
     getTab = () =>
     {
@@ -201,9 +225,7 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                             </div>
                         </Container>))}
                     <Container>
-                        <Link to="/">
-                            <BigBlueButton text="Invite  Friend"/>
-                        </Link>
+                        <BigBlueButton onClick={this.handleinvite} text="Invite  Friend"/>
                     </Container>
 
                 </div>
@@ -249,7 +271,7 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                                 <div className="profile d-flex flex-grow-1 flex-column ">
                                     <p className="profname">{this.state.user?.first_name? this.state.user.first_name + " " + this.state.user?.last_name: this.state.user?.username}</p>
                                     <p className="email">{this.state.user?.email}</p>
-                                    <p className="invitecode">Invite code: 8038RRR</p>
+                                    <p className="invitecode">Invite code: {this.state.user?.tokens.private_token}</p>
                                 </div>
                                 <button onClick={()=>
                                 {
