@@ -1,10 +1,11 @@
 import {AuthComponent, AuthState, getAuth} from "../../api/auth";
+import {Language, LanguageObject} from "../../api/model";
 import {AuthPropsLoc} from "../GiveHelp/GiveHelp";
 import {withRouter} from "react-router";
 
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
-import {Avatar, Container, TextField} from "@mui/material";
+import {Avatar, Container, TextField, Autocomplete} from "@mui/material";
 
 import * as React from "react";
 import "./edit.css";
@@ -18,6 +19,8 @@ import {baseUrl, patch} from "../../api/api";
 interface Editstate extends AuthState
 {
     active: boolean,
+    languages: Array<LanguageObject>,
+    searchTerm: string,
 
 }
 
@@ -29,9 +32,9 @@ type User = {
         points: number,
         image: string | null,
         phone_number:string,
+        languages: string[],
 
-
-    }; email: string; username: string; first_name: string; last_name: string; languages: string[];
+    }; email: string; username: string; first_name: string; last_name: string;
 };
 
 class Edit extends AuthComponent<AuthPropsLoc, Editstate>
@@ -42,9 +45,16 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
         super(props);
         this.state = {
             ...this.state,
-
+            languages: [],
+            searchTerm:"",
+            user: {
+                ...this.state.user,
+                tokens: {...this.state.user?.tokens, languages: this.state.user?.tokens.languages}
+            } as User
+            
 
         };
+        this.getlanguages();
 
     }
 
@@ -73,10 +83,28 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
 
     };
 
+    async getlanguages () 
+    {
+        Language.filter({search: this.state.searchTerm}).then((languages) => 
+        {
+            const results = languages.results;
+            this.setState({languages: results});
+        });
+
+    } 
+
+    editSearchTerm = (e: string) => 
+    {
+        this.setState({searchTerm: e}, ()=> 
+        {
+            this.getlanguages();
+        });
+    };
+
 
     render()
     {
-
+        console.log(this.state.user?.tokens?.languages)
         return (
             <div>
                 <StickyHead title="Edit Your Profile" action={"Save"} onClick={this.save}
@@ -192,6 +220,32 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
                                 ),
                             }}
                         />
+                    </div>
+                    <p className="txthead mt-3">LANGUAGES</p>
+                    <div className="d-flex justify-content-between flex-row align-items-center">
+                        <Autocomplete  /*TODO previous value in text filed*/
+                                multiple
+                                fullWidth
+                                autoSelect
+                                value={this.state.user?.tokens?.languages}
+                                options={this.state.languages.map(({name})=> name)}
+                                onChange={(_,language) => this.setState({
+                                    ...this.state,
+                                    user: {
+                                        ...this.state.user,
+                                        tokens: {...this.state.user?.tokens, languages: language}
+                                    } as User
+                                })}
+                                renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    variant="standard"
+                                    fullWidth
+                                    // defaultValue={this.state.user?.tokens?.languages}
+                                    // value={this.state.user?.tokens?.languages}
+                                    onChange = {(event) => this.editSearchTerm(event.target.value)}
+                                />)}
+                            />
                     </div>
                     <div className="bottom-sec">
                         <hr className="linestyle"/>

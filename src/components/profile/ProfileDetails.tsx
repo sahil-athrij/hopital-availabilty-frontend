@@ -257,7 +257,7 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                         <Container className="w-100">
                             <div className="d-flex justify-content-between w-100 px-0  mt-4  ">
 
-                                <ArrowBackIcon  onClick={() => this.props.history.goBack()}  />
+                                <ArrowBackIcon  onClick={() => this.props.history.push("/")} />
                                 <p className="Yourprof w-100 text-left align-self-center ">Your Profile</p>
                                 <MoreVertIcon/>
 

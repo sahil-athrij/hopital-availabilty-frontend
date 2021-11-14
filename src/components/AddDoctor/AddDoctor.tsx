@@ -348,11 +348,6 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                             type="tel"
                         />
 
-                        {/* <TextField className="mt-4" fullWidth variant="outlined" label="Contact Number"
-                            error={this.state.error.phone_number} required
-                            helperText={this.state.error.phone_number && "Incorrect format"}
-                            InputLabelProps={{shrink: true, }} type="tel"
-                            onChange={({target}) => this.setState({phone_number: Number(target.value),  error: {...this.state.error, phone_number: (!target.value.match(/^(\+\d{1,3})?\s*\d{10}$/g))}})}/> */}
 
                         <MuiPhoneNumber
                             className="mt-4"
@@ -364,11 +359,6 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                             onChange={(e) => this.handlePhoneChange(e)}
                         />
 
-                        {/* <TextField className="mt-4" fullWidth variant="outlined" label="Whatsapp Number"
-                            error={this.state.error.whatsapp_number}
-                            helperText={this.state.error.whatsapp_number && "Incorrect format"}
-                            InputLabelProps={{shrink: true, }} type="tel"
-                            onChange={({target}) => this.setState({whatsapp_number: Number(target.value),  error: {...this.state.error, whatsapp_number: (!target.value.match(/^(\+\d{1,3})?\s*\d{10}$/g))}})}/> */}
 
                         <TextField className="mt-4" fullWidth variant="outlined" label="Email"
                             error={this.state.error.email}
