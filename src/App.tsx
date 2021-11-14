@@ -33,6 +33,7 @@ import SearchNurse from "./components/Nurses/SearchNurse";
 import { AddNurseComponent } from "./components/Nurses/AddNurse";
 import { NurseComponent } from "./components/Nurses/Nurse";
 import {UserPage} from "./components/User/User";
+import {Chat} from "@mui/icons-material";
 
 
 const theme = createTheme({
@@ -115,6 +116,7 @@ class AppLoc extends React.Component<AppProps>
                     <BottomNav/>
 
                     <Switch>
+                        <Route path="/chat/:chatId" ><Chat /></Route>
                         <Route path="/doctor/add/:hospital" ><AddDoctorComponent/></Route>
                         <Route path="/department/add/:hospital" ><AddDepartmentComponent/></Route>
                         <Route path="/doctor/:docId" ><DoctorComponent/></Route> {/* Show details about a doctor */}
