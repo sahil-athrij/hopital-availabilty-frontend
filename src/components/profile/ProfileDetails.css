@@ -14,6 +14,7 @@
 }
 .editbutn {
     margin-bottom: 1rem;
+    margin-right: .625rem;
 }
 .threedot {
     height: 18px;
@@ -75,3 +76,4 @@
 .profile {
     text-align: left;
 }
+

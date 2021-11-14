@@ -24,6 +24,8 @@ import direction_icon from "./icons/primary@2x.png";
 import {DepartmentCards} from "./DepatrmentCards";
 import {DoctorCards} from "./DoctorCards";
 import {ReviewCards} from "./ReviewCards";
+import {Avatar} from "@mui/material";
+
 
 
 interface DetailsState extends AuthState {
@@ -142,12 +144,13 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                                 <div className="bck-btn m-0">
                                     <ArrowBackIcon onClick={() => this.props.history.goBack()}/>
                                 </div>
-                                <div className="hbg-mnu m-0">
+                                <div className="hbg-mnu d-flex m-0 justify-content-center">
                                     <img alt={""} width={"5px"} height={"15px"} src={icon}/>
                                 </div>
                             </div>
-
-                            <img alt={""} className="m-0" height={"178px"} width={"178px"} src={image}/>
+                            <div className="d-flex justify-content-center mb-4">
+                                <Avatar alt={""} className="m-0" sx={{height:"120px", width:"120px"}}  src={image}/>
+                            </div>
                         </div>
                         <div className="font-weight-bold h4">
                             {model.name}
@@ -159,12 +162,19 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                                     {[model.address?.village, model.address?.suburb, model.address?.county, model.address?.state].filter(Boolean).join(", ")}
                                 </div>
                             </div>
-                            <div className="w-100 d-flex justify-content-around">
-                                <ActionButton src={direction_icon} caption={"Route"}
+                            <div  className="w-100 d-flex justify-content-around ">
+                                <ActionButton  src={direction_icon} caption={"Route"}
                                     action={`https://www.google.com/maps/search/${model.name}/@${model.lat},${model.lng},19.88z`}/>
                                 <ActionButton src={phone_icon} caption={"Phone"} action={`tel:${model.Phone}`}/>
                                 <ActionButton src={share_icon} caption={"Share"}
                                     share={{title: model.name, url: this.props.location.pathname}}/>
+                                {/*<Link style={{textDecoration:"none"}} className="homecard" to="/help">*/}
+                                {/*    <div>*/}
+                                {/*        <img src={Givehelp} alt=""/>*/}
+                                {/*        <div className="cardtxt ">Give help</div>*/}
+                                {/*    </div>*/}
+                                {/*</Link>*/}
+
                             </div>
 
                         </div>

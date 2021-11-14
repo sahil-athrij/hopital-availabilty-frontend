@@ -1,4 +1,4 @@
-import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
+import {AuthComponent, AuthPropsLoc, AuthState, reactUrl} from "../../api/auth";
 import {Container} from "react-bootstrap";
 import {withRouter} from "react-router";
 import React from "react";
@@ -24,6 +24,7 @@ import Femaleicon from "../../images/female.svg";
 import TransGen from "../../images/TransGend.svg";
 import PrefNSay from "../../images/genderless.svg";
 import {BigBlueButton} from "../Utils";
+import {toast} from "react-toastify";
 
 
 const AirbnbSlider = withStyles({
@@ -89,13 +90,16 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
         this.setState({requests: data.results, friend_request: data1.results});
     }
 
+
+
     getgender = (gender: string) =>
     {
         if (gender === "M")
         
             return (
-                <img src={Maleicon} alt=""/>);
-        // eslint-disable-next-line eqeqeq
+                <img src={Maleicon} alt=""/>
+            );
+
 
         else if (gender === "F")
         
@@ -119,6 +123,29 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
 
     };
 
+    handleinvite = async () =>
+    {
+        const shareData = {
+            title: "NeedMedi",
+            text: `${this.state.user?.username} Invited you to needmedi.com`,
+            url: `${reactUrl}/invite?invite=${this.state.user?.tokens.private_token}`
+        };
+
+        try
+        {
+            await navigator.share(shareData);
+            toast.success("Invited Successfully", {
+                position: "bottom-center"
+            });
+        }
+        catch (error)
+        {
+            toast.error((error as { details: string }).details, {
+                position: "bottom-center"
+            });
+        }
+    };
+
 
     getTab = () =>
     {
@@ -126,17 +153,16 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
         
             return (
                 <div className="">
-                    <Container className="maincont">
+                    <Container >
                         {this.state.requests ? (this.state.requests.map((obj, key) => (
                             <div key={key}>
 
                                 <div className="mx-1">
                                     <div className="maincard d-flex flex-row justify-content-between ">
 
-                                        <div className="  text-left pl-4 pt-4">
+                                        <div className=" lefttxt ">
                                             <h1 className="title m-0">{obj.Name}{this.getgender(obj.gender)}</h1>
                                             <div className="subtitle">
-                                                <div>Age:{obj.age}</div>
                                                 <div>Symptoms:{obj.symptoms}</div>
                                                 <div>Since:{obj.symdays}</div>
                                             </div>
@@ -179,28 +205,28 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
         
             return (
                 <div className="">
-                    {/*<Container>*/}
-                    {/*    <div className="frndcard w-100 d-flex justify-content-between mb-2">*/}
-                    {/*        <Avatar src={this.state.user?.uploaded_images[0]?.image} variant="rounded" sx={{*/}
-                    {/*            marginLeft: "6px",*/}
-                    {/*            width: "47.96px",*/}
-                    {/*            height: "50px",*/}
-                    {/*            marginTop:"10px",*/}
-                    {/*            marginBottom:"9px",*/}
-                    {/*            borderRadius:"15px",*/}
-                    {/*        }}>{this.state.user ? this.state.user.username[0] : '?'}</Avatar>*/}
-                    {/*        <div className="d-flex flex-grow-1 flex-column text-left align-self-center ml-2">*/}
-                    {/*            <div className="frndname">Your Friend Name</div>*/}
-                    {/*            <div className="frndemail">friendemailid@gmail.com</div>*/}
-                    {/*        </div>*/}
+                    {this.state.user?.friends?.map((friend, key)=>(
+                        <Container key={key}>
+                            <div className="frndcard w-100 d-flex justify-content-between mb-2">
+                                <Avatar src={friend.profile} variant="rounded" sx={{
+                                    marginLeft: "6px",
+                                    width: "47.96px",
+                                    height: "50px",
+                                    marginTop: "10px",
+                                    marginBottom: "9px",
+                                    borderRadius: "15px",
+                                }}>{friend.name[0]}</Avatar>
+                                <div style={{textAlign: "left", marginLeft: "1rem"}}
+                                    className="d-flex flex-grow-1 flex-column text-left align-self-center ">
+                                    <div className="frndname">{friend.name}</div>
+                                    <div className="frndemail">{friend.email}</div>
+                                </div>
 
-                    {/*    </div>*/}
-                    {/*</Container>*/}
-                    {/*<Container>*/}
-                    {/*    <Link to="/">*/}
-                    {/*        <BigBlueButton text="Invite  Friend"/>*/}
-                    {/*    </Link>*/}
-                    {/*</Container>*/}
+                            </div>
+                        </Container>))}
+                    <Container>
+                        <BigBlueButton onClick={this.handleinvite} text="Invite  Friend"/>
+                    </Container>
 
                 </div>
 
@@ -220,7 +246,9 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
     };
 
     render()
+
     {
+        console.log(this.state.user?.friends);
         return (
             <div>
 
@@ -235,7 +263,7 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
 
                             </div>
                             <div className="userbox d-flex flex-row align-content-around">
-                                <Avatar src={this.state.user?.tokens.image || undefined} sx={{
+                                <Avatar src={this.state.user?.tokens?.image || undefined} sx={{
                                     marginRight: "10px",
                                     width: "75px",
                                     height: "75px"
@@ -243,21 +271,24 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                                 <div className="profile d-flex flex-grow-1 flex-column ">
                                     <p className="profname">{this.state.user?.first_name? this.state.user.first_name + " " + this.state.user?.last_name: this.state.user?.username}</p>
                                     <p className="email">{this.state.user?.email}</p>
-                                    <p className="invitecode">Invite code: 8038RRR</p>
+                                    <p className="invitecode">Invite code: {this.state.user?.tokens.private_token}</p>
                                 </div>
-                                <button
-                                    className="editbutn "><b><img src={Editbutn} alt=""/></b>
+                                <button onClick={()=>
+                                {
+                                    this.props.history.push("/profile/edit");
+                                }}
+                                className="editbutn" ><b><img src={Editbutn} alt=""/></b>
                                 </button>
                             </div>
                             <div className="bg-grey px-4  mx-4 mb-4">
                                 <div className="d-flex flex-row align-items-center">
                                     <div className="d-flex flex-column">
-                                        <p className="point1">{this.state.user?.tokens.points}</p>
+                                        <p className="point1">{this.state.user?.tokens?.points}</p>
                                         <p className="point2">Points</p>
                                     </div>
                                     <AirbnbSlider className="slider mx-2"
                                         size="small"
-                                        defaultValue={this.state.user?.tokens.points}
+                                        defaultValue={this.state.user?.tokens?.points}
                                         aria-label="Small"
                                         valueLabelDisplay="auto"
                                         max={500}

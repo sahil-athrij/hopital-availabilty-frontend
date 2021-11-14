@@ -179,12 +179,13 @@ export class  DoctorObject extends ModelObject
     whatsapp_number = "";
     email = "";
     address = "";
+    ima_number = "";
 
     constructor(data: ModelData, baseUrl: string) 
     {
         super(data, baseUrl);
         this.fields = ["id", "name", "phone_number", "hospital", "department", "user", "working_time",
-            "rating", "reviews", "patients", "experience", "specialization", "about", "image", "whatsapp_number", "email", "address"];
+            "rating", "reviews", "patients", "experience", "specialization", "about", "image", "whatsapp_number", "email", "address", "ima_num"];
         this.getData();
     }
 
@@ -317,6 +318,18 @@ export class susObject extends ModelObject
     }
 }
 
+export class LanguageObject extends ModelObject
+{
+    name= "";
+    
+    constructor(data: ModelData, baseUrl: string) 
+    {
+        super(data, baseUrl);
+        this.fields = ["id", "name"];
+        this.getData();
+    }
+}
+
 export const Review = new Model(baseUrl + "/api/review/", ReviewObject);
 export const Sus = new Model(baseUrl + "/api/suspicious/", susObject);
 export const Department = new Model(baseUrl + "/internals/departments/", DepartmentObject);
@@ -325,6 +338,7 @@ export const Doctor = new Model(baseUrl + "/internals/doctors/", DoctorObject);
 export const Patient = new Model(baseUrl + "/api/patient/", PatientObject);
 export const DepartmentName = new Model(baseUrl + "/internals/department_names/", DepartmentNameObject);
 export const Nurse = new Model(baseUrl + "/internals/nurses/", NurseObject);
+export const Language = new Model(baseUrl + "/api/language/", LanguageObject);
 
 export type ModelRegistry =
     typeof MarkerObject
