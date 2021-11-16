@@ -1,4 +1,4 @@
-import {AuthComponent, AuthState} from "../../api/auth";
+import {AuthComponent, AuthState, reactUrl} from "../../api/auth";
 import {AuthPropsLoc} from "../GiveHelp/GiveHelp";
 import {withRouter} from "react-router";
 import * as React from "react";
@@ -8,6 +8,7 @@ import LoginVector from "../../images/LoginVector.png";
 import {BigBlueButton, NineCards} from "../Utils";
 import "./User.css";
 import {Avatar, Container} from "@mui/material";
+import {toast} from "react-toastify";
 
 
 interface Userstate extends AuthState {
@@ -30,6 +31,29 @@ class Login extends AuthComponent<AuthPropsLoc, Userstate>
 
 
     }
+
+    handleinvite = async () =>
+    {
+        const shareData = {
+            title: "NeedMedi",
+            text: `${this.state.user?.username} Invited you to needmedi.com`,
+            url: `${reactUrl}/invite?invite=${this.state.user?.tokens.private_token}`
+        };
+
+        try
+        {
+            await navigator.share(shareData);
+            toast.success("Invited Successfully", {
+                position: "bottom-center"
+            });
+        }
+        catch (error)
+        {
+            toast.error((error as { details: string }).details, {
+                position: "bottom-center"
+            });
+        }
+    };
     render()
     {
 
@@ -77,7 +101,7 @@ class Login extends AuthComponent<AuthPropsLoc, Userstate>
                     {this.state.auth?
                         <div className="d-flex justify-content-center mb-4">
                             <p className="bottomtxt  m-0">Do you want to invite friends?</p>
-                            <button onClick={this.performAuth} className="signuptxt">Invite Now</button>
+                            <button onClick={this.handleinvite} className="signuptxt">Invite Now</button>
                         </div>:
                         <div className="d-flex justify-content-center mb-4">
                             <p className="bottomtxt  m-0">Don’t have an account?</p>

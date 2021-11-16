@@ -89,7 +89,7 @@ export const NineCards =()=>(
     <>
         <div>
             <div className="container d-flex justify-content-between  p-0 align-self-center px-2">
-                <Link style={{textDecoration:"none"}} className="homecard" to="/AddHospital/">
+                <Link style={{textDecoration:"none"}} className="homecard" to="/search">
                     <div>
                         <img src={Addhosp} alt=""/>
                         <div className="cardtxt ">Hospital</div>
