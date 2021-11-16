@@ -2,15 +2,15 @@ import {BottomNavigation, BottomNavigationAction} from "@mui/material";
 import React from "react";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {withRouter} from "react-router";
-// import Addhosp from "../../images/addhosp_bw.svg";
+import Addhosp from "../../images/addhosp_bw.svg";
 import Explore from "../../images/explore_bw.svg";
 import Help from "../../images/help_bw.svg";
-import Chat from "../../images/chat_bw.svg";
+// import Chat from "../../images/chat_bw.svg";
 import Account from "../../images/accn_bw.svg";
-// import Addhospaf from "../../images/addhosp_af.svg";
+import Addhospaf from "../../images/addhosp_af.svg";
 import Exploreaf from "../../images/explore_af.svg";
 import Helpaf from "../../images/help_af.svg";
-import Chataf from "../../images/chat_af.svg";
+// import Chataf from "../../images/chat_af.svg";
 import Accountaf from "../../images/accnt_af.svg";
 
 
@@ -39,7 +39,7 @@ class BottomNavLoc extends AuthComponent<AuthPropsLoc, BottomNavState>
     getActive() 
     {
         return this.props.location.pathname.includes("/addRequest") ? 2 :
-            // this.props.location.pathname.includes("/addHospital") ? 0 :
+            this.props.location.pathname.includes("/addHospital") ? 2 :
                 this.props.location.pathname.includes("/profile/") ? 3 :
                     this.props.location.pathname.includes("/help") ? 1 : 0;
     }
@@ -70,7 +70,7 @@ class BottomNavLoc extends AuthComponent<AuthPropsLoc, BottomNavState>
             // {path: "/addHospital", iconbf: Addhosp, iconaf: Addhospaf},
             {path: "/", iconbf: Explore, iconaf: Exploreaf},
             {path: "/help", iconbf: Help, iconaf: Helpaf},
-            {path: "/addRequest", iconbf: Chat, iconaf: Chataf},
+            {path: "/addHospital", iconbf: Addhosp, iconaf: Addhospaf},
             {path: "/profile/", iconbf: Account, iconaf: Accountaf}
             ];
 
