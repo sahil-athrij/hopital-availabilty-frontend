@@ -389,7 +389,7 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                 <div>
                     <Container className=" px-0 pb-3 h-100 pt-0 bg-white neumorphic-input">
                         <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
-                            <CloseIcon className="align-self-center" onClick={() => this.props.history.goBack()}/>
+                            <CloseIcon className="align-self-center" onClick={() => this.props.history.push("/")}/>
                             <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Medical Details</b>
                             </p>
                             {this.state.position === 1 ? (
