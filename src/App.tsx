@@ -26,14 +26,16 @@ import {AddDepartmentComponent} from "./components/AddDepartment/AddDepartment";
 import {Addpatient} from "./components/AddPatient/AddPatient";
 import {Givehelp} from "./components/GiveHelp/GiveHelp";
 import {AddHospitalReview} from "./components/AddReview/AddHospitalReview";
-import { createTheme } from "@mui/material/styles";
+import {createTheme} from "@mui/material/styles";
 import Searchdoctor from "./components/Doctor/Searchdoctor";
 import {NavBar} from "./components/NavBar/navBar";
 import SearchNurse from "./components/Nurses/SearchNurse";
-import { AddNurseComponent } from "./components/Nurses/AddNurse";
-import { NurseComponent } from "./components/Nurses/Nurse";
+import {AddNurseComponent} from "./components/Nurses/AddNurse";
+import {NurseComponent} from "./components/Nurses/Nurse";
 import {UserPage} from "./components/User/Login";
 import {EditPage} from "./components/profile/edit";
+
+import Chat from "./components/Chat";
 
 
 const theme = createTheme({
@@ -46,13 +48,13 @@ const theme = createTheme({
     }
 });
 
-interface AppRouterProps {
+interface AppRouterProps
+{
     title: string;   // This one is coming from the router
 
 }
 
 type AppProps = RouteComponentProps<AppRouterProps>
-
 
 
 class AppLoc extends React.Component<AppProps>
@@ -73,7 +75,7 @@ class AppLoc extends React.Component<AppProps>
     /**
      * componentDidMount() method allows us to execute the React code even after component is rendered
      */
-    componentDidMount() 
+    componentDidMount()
     {
         getParam("lat", "", true);
         getParam("lng", "", true);
@@ -92,7 +94,7 @@ class AppLoc extends React.Component<AppProps>
         getParam("query", "Search Hospital", true);
     }
 
-    render() 
+    render()
     {
 
 
@@ -116,12 +118,13 @@ class AppLoc extends React.Component<AppProps>
                     <BottomNav/>
 
                     <Switch>
-                        <Route path="/doctor/add/:hospital" ><AddDoctorComponent/></Route>
-                        <Route path="/department/add/:hospital" ><AddDepartmentComponent/></Route>
-                        <Route path="/doctor/:docId" ><DoctorComponent/></Route> {/* Show details about a doctor */}
+                        <Route path="/chat/:chatId"><Chat/></Route>
+                        <Route path="/doctor/add/:hospital"><AddDoctorComponent/></Route>
+                        <Route path="/department/add/:hospital"><AddDepartmentComponent/></Route>
+                        <Route path="/doctor/:docId"><DoctorComponent/></Route> {/* Show details about a doctor */}
                         <Route path="/details/reviews/:hspId">
                             <AddHospitalReview/>
-                        </Route>  
+                        </Route>
                         <Route path="/details/:hspId"> <Details/></Route>{/* Show details about a hospital */}
                         <Route path="/search">
                             <NavBar/>
@@ -185,12 +188,11 @@ class AppLoc extends React.Component<AppProps>
                             <AddDoctorComponent withoutHospital={true}/>
                         </Route>
 
-                        <Route path="/nurse/:nurseId" ><NurseComponent/></Route>
+                        <Route path="/nurse/:nurseId"><NurseComponent/></Route>
 
                         <Route path={"/user"}>
                             <UserPage/>
                         </Route>
-
 
 
                         {/* If the current URL is /, this route is rendered

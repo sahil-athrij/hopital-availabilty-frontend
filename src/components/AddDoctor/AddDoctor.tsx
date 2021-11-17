@@ -393,19 +393,19 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                             onChange={({target}) => this.setState({language: target.value, error: {...this.state.error, language: (!target.value)} })}>
                         </TextField>           */}   
                         
-                         <Autocomplete className="mt-4"
+                        <Autocomplete className="mt-4"
                             multiple
                             options={this.state.languages.map(({name})=> name)}
-                            onChange={(_,language)=> this.setState({language})}
+                            onChange={(_, language)=> this.setState({language})}
                             renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                variant="outlined"
-                                label="Languages"
-                                InputLabelProps={{shrink: true, }}
-                                onChange = {(event) => this.editSearchTerm(event.target.value)}
-                            />)}
-                            />
+                                <TextField
+                                    {...params}
+                                    variant="outlined"
+                                    label="Languages"
+                                    InputLabelProps={{shrink: true, }}
+                                    onChange = {(event) => this.editSearchTerm(event.target.value)}
+                                />)}
+                        />
 
                         {!this.props.withoutHospital && <TimePickers hospital={this.state.hospital[0]}
                             onChange={(times) => this.setState({working_time: times})}/>}
