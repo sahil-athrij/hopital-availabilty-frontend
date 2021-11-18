@@ -48,12 +48,14 @@ class SignalProtocolManager
      */
     async initializeAsync()
     {
-        const db = await openDB("chat");
-        const store = db.createObjectStore(this.sessionId.toString());
+        const storeName = this.sessionId.toString();
+        const db = await openDB("chat", this.sessionId, {
+            upgrade: (database) => database.createObjectStore(storeName)
+        });
 
-        this.store = new SignalProtocolStore(store);
+        this.store = new SignalProtocolStore(db, storeName);
 
-        if(this.store.get("identityKey"))
+        if(await this.store.get("identityKey"))
             return;
 
         await this._generateIdentityAsync();
@@ -69,7 +71,10 @@ class SignalProtocolManager
      */
     async encryptMessageAsync(remoteUserId: string, message: string)
     {
-        let sessionCipher = this.store.loadSessionCipher(remoteUserId);
+        if(!this.store)
+            throw new Error("User not initialised");
+
+        let sessionCipher = await this.store.loadSessionCipher(remoteUserId);
         
         if (sessionCipher === null)
         {
@@ -95,7 +100,10 @@ class SignalProtocolManager
      */
     async decryptMessageAsync(remoteUserId: string, cipherText: { type: number; body: string; })
     {
-        let sessionCipher = this.store.loadSessionCipher(remoteUserId);
+        if(!this.store)
+            throw new Error("User not initialised");
+
+        let sessionCipher = await this.store.loadSessionCipher(remoteUserId);
 
         if (sessionCipher === null)
         {
@@ -117,6 +125,9 @@ class SignalProtocolManager
      */
     async _generateIdentityAsync()
     {
+        if(!this.store)
+            throw new Error("User not initialised");
+
         const results = await Promise.all([
             signal.KeyHelper.generateIdentityKeyPair(),
             signal.KeyHelper.generateRegistrationId(),
@@ -135,6 +146,9 @@ class SignalProtocolManager
      */
     async _generatePreKeyBundleAsync(preKeyId: number, signedPreKeyId: number)
     {
+        if(!this.store)
+            throw new Error("User not initialised");
+
         const result = await Promise.all([
             this.store.getIdentityKeyPair(),
             this.store.getLocalRegistrationId()

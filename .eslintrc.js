@@ -48,7 +48,6 @@ module.exports = {
         "comma-spacing": "warn",
         "eol-last": "warn",
         "eqeqeq": "error",
-        "no-bitwise": "error",
         "prefer-const": "error",
         "brace-style": ["error", "allman"],
         "indent": ["error", 4]

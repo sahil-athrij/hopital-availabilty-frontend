@@ -2977,9 +2977,9 @@
             }
 
             callback(null);
-        }, loadRemoteEntry: async function (store, path, callback)
+        }, loadRemoteEntry: function (store, path, callback)
         {
-            var req = await store.get(path);
+            var req = store.get(path);
             req.onsuccess = function (event)
             {
                 callback(null, event.target.result);

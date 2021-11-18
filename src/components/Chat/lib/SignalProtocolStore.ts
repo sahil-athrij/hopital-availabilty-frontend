@@ -1,5 +1,5 @@
 import * as util from "./util";
-import {IDBPObjectStore} from "idb";
+import {IDBPDatabase} from "idb";
 
 interface SessionCipher {
     encrypt: (message: ArrayBuffer) => Promise<{ type: number; body: string; }>;
@@ -9,21 +9,18 @@ interface SessionCipher {
 
 class SignalProtocolStore
 {
-    Direction = {
-        SENDING: 1,
-        RECEIVING: 2,
-    };
+    db;
+    storeName;
 
-    store;
-
-    constructor(store:  IDBPObjectStore<unknown, ArrayLike<string>, string, "versionchange">)
+    constructor(db: IDBPDatabase, storeName: string)
     {
-        this.store = store;
+        this.db = db;
+        this.storeName = storeName;
     }
 
-    getIdentityKeyPair()
+    async getIdentityKeyPair()
     {
-        return Promise.resolve(this.get("identityKey") as {pubKey: ArrayBuffer});
+        return (await this.get("identityKey")) as {pubKey: ArrayBuffer};
     }
 
     getLocalRegistrationId()
@@ -36,7 +33,8 @@ class SignalProtocolStore
         if (key === undefined || value === undefined || key === null || value === null)
             throw new Error("Tried to store undefined/null");
 
-        this.store.put(value, key);
+        const store = this.db.transaction(this.storeName, "readwrite").objectStore(this.storeName);
+        store.put(value, key);
     }
 
     async get(key: string | null | undefined, defaultValue?: object)
@@ -44,7 +42,8 @@ class SignalProtocolStore
         if (key === null || key === undefined)
             throw new Error("Tried to get value for undefined/null key");
 
-        return await this.store.get(key) || defaultValue;
+        const store = this.db.transaction(this.storeName, "readwrite").objectStore(this.storeName);
+        return await store.get(key) || defaultValue;
     }
 
     remove(key: string | null | undefined)
@@ -52,8 +51,9 @@ class SignalProtocolStore
         if (key === null || key === undefined)
         
             throw new Error("Tried to remove value for undefined/null key");
-        
-        localStorage.removeItem(`${this.sessionId}-${key}`);
+
+        const store = this.db.transaction(this.storeName, "readwrite").objectStore(this.storeName);
+        store.delete(key);
     }
 
     isTrustedIdentity(identifier: string | null | undefined, identityKey?: ArrayBuffer)
@@ -160,13 +160,12 @@ class SignalProtocolStore
         return Promise.resolve();
     }
 
-    removeAllSessions(identifier: string)
+    async removeAllSessions(identifier: string)
     {
-        for(let i=0; i<localStorage.length; i++)
-            if(localStorage.ke(i).startsWith(`${this.sessionId}-session${identifier}`))
-                localStorage.removeItem(localStorage.key(i) || "");
-
-        return Promise.resolve();
+        const store = this.db.transaction(this.storeName, "readwrite").objectStore(this.storeName);
+        for(const key of await store.getAllKeys())
+            if(String(key).startsWith(`session${identifier}`))
+                store.delete(key);
     }
 
     /* Stores and loads a session cipher */
@@ -175,9 +174,9 @@ class SignalProtocolStore
         this.put("cipher" + identifier, cipher as unknown as Record<string, unknown>);
     }
 
-    loadSessionCipher(identifier: string)
+    async loadSessionCipher(identifier: string)
     {
-        return this.get("cipher" + identifier) as SessionCipher || null;
+        return await this.get("cipher" + identifier) as SessionCipher || null;
     }
 }
 
