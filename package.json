@@ -20,7 +20,7 @@
   "dependencies": {
     "@emotion/styled": "^11.3.0",
     "@material-ui/styles": "^4.11.4",
-    "@mui/icons-material": "^5.0.4",
+    "@mui/icons-material": "^5.2.0",
     "@mui/lab": "^5.0.0-alpha.51",
     "@mui/material": "^5.0.4",
     "@mui/styles": "^5.0.1",

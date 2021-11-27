@@ -77,6 +77,7 @@ class BottomNavLoc extends AuthComponent<AuthPropsLoc, BottomNavState>
     render(): JSX.Element 
     {
         return <React.Fragment>
+            <div className="py-4 w-100"></div>
             <BottomNavigation value={this.state.value} className='fixed-bottom'
             >
                 {this.icons.map((icon, key) => (

@@ -113,7 +113,6 @@ class AppLoc extends React.Component<AppProps>
                         draggable
                         pauseOnHover
                     />
-                    <BottomNav/>
 
                     <Switch>
                         <Route path="/doctor/add/:hospital" ><AddDoctorComponent/></Route>
@@ -126,7 +125,6 @@ class AppLoc extends React.Component<AppProps>
                         <Route path="/search">
                             <NavBar/>
                             <Search/>
-                            <BottomNav/>
 
                         </Route>
 
@@ -152,7 +150,6 @@ class AppLoc extends React.Component<AppProps>
                         {/* If the current URL is /AddHospital, this route is rendered
             while the rest are ignored */}
                         <Route path="/AddHospital/">
-                            <BottomNav/>
                             <Add/>
                         </Route>
                         {/* If the current URL is /privacypolicy, this route is rendered
@@ -161,11 +158,9 @@ class AppLoc extends React.Component<AppProps>
                             <Privacy/>
                         </Route>
                         <Route path={"/addRequest"}>
-                            <BottomNav/>
                             <Addpatient/>
                         </Route>
                         <Route path={"/help"}>
-                            <BottomNav/>
                             <Givehelp/>
                         </Route>
 
@@ -202,6 +197,9 @@ class AppLoc extends React.Component<AppProps>
 
 
                     </Switch>
+
+                    <BottomNav/>
+
                 </ThemeProvider>
             </div>
         );
