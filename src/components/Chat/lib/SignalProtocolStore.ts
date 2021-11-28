@@ -1,7 +1,7 @@
 import * as util from "./util";
 import {IDBPDatabase} from "idb";
 
-interface SessionCipher {
+export interface SessionCipher {
     encrypt: (message: ArrayBuffer) => Promise<{ type: number; body: string; }>;
     decryptPreKeyWhisperMessage: (body: string, type: "binary") => Promise<ArrayBuffer>;
     decryptWhisperMessage: (body: string, type: "binary") => Promise<ArrayBuffer>;
@@ -49,30 +49,25 @@ class SignalProtocolStore
     remove(key: string | null | undefined)
     {
         if (key === null || key === undefined)
-        
             throw new Error("Tried to remove value for undefined/null key");
 
         const store = this.db.transaction(this.storeName, "readwrite").objectStore(this.storeName);
         store.delete(key);
     }
 
-    isTrustedIdentity(identifier: string | null | undefined, identityKey?: ArrayBuffer)
+    async isTrustedIdentity(identifier: string | null | undefined, identityKey?: ArrayBuffer)
     {
         if (!identifier)
             throw new Error("tried to check identity key for undefined/null key");
-        
 
         if (!(identityKey instanceof ArrayBuffer))
             throw new Error("Expected identityKey to be an ArrayBuffer, got "+identityKey);
-        
 
-        const trusted = this.get("identityKey" + identifier);
+        const trusted = await this.get("identityKey" + identifier);
         if (trusted === undefined)
-        
-            return Promise.resolve(true);
-        
+            return true;
 
-        return Promise.resolve(util.toString(identityKey) === util.toString(trusted));
+        return util.toString(identityKey) === util.toString(trusted);
     }
 
     loadIdentityKey(identifier: string | null | undefined)
@@ -83,27 +78,19 @@ class SignalProtocolStore
         return Promise.resolve(this.get("identityKey" + identifier));
     }
 
-    saveIdentity(identifier: null | undefined, identityKey: ArrayBuffer)
+    async saveIdentity(identifier: null | undefined, identityKey: ArrayBuffer)
     {
         if (identifier === null || identifier === undefined)
             throw new Error("Tried to put identity key for undefined/null key");
-
 
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const address = new libsignal.SignalProtocolAddress.fromString(identifier);
 
-        const existing = this.get("identityKey" + address.getName());
+        const existing = await this.get("identityKey" + address.getName());
         this.put("identityKey" + address.getName(), identityKey);
 
-        if (existing && util.toString(identityKey) !== util.toString(existing))
-        
-            return Promise.resolve(true);
-        
-        else
-        
-            return Promise.resolve(false);
-        
+        return existing && util.toString(identityKey) !== util.toString(existing);
     }
 
     /* Returns a keypair object or undefined */
@@ -166,17 +153,6 @@ class SignalProtocolStore
         for(const key of await store.getAllKeys())
             if(String(key).startsWith(`session${identifier}`))
                 store.delete(key);
-    }
-
-    /* Stores and loads a session cipher */
-    storeSessionCipher(identifier: string, cipher: SessionCipher)
-    {
-        this.put("cipher" + identifier, cipher as unknown as Record<string, unknown>);
-    }
-
-    async loadSessionCipher(identifier: string)
-    {
-        return await this.get("cipher" + identifier) as SessionCipher || null;
     }
 }
 

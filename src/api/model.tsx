@@ -330,6 +330,21 @@ export class LanguageObject extends ModelObject
     }
 }
 
+export class KeyExchangeObject extends ModelObject
+{
+    sender_token="";
+    receiver_token="";
+    sender_key_bundle: unknown;
+    receiver_key_bundle: unknown;
+
+    constructor(data: ModelData, baseUrl: string)
+    {
+        super(data, baseUrl);
+        this.fields = ["id", "sender", "receiver", "sender_key_bundle", "receiver_key_bundle"];
+        this.getData();
+    }
+}
+
 export const Review = new Model(baseUrl + "/api/review/", ReviewObject);
 export const Sus = new Model(baseUrl + "/api/suspicious/", susObject);
 export const Department = new Model(baseUrl + "/internals/departments/", DepartmentObject);
@@ -339,6 +354,7 @@ export const Patient = new Model(baseUrl + "/api/patient/", PatientObject);
 export const DepartmentName = new Model(baseUrl + "/internals/department_names/", DepartmentNameObject);
 export const Nurse = new Model(baseUrl + "/internals/nurses/", NurseObject);
 export const Language = new Model(baseUrl + "/api/language/", LanguageObject);
+export const KeyExchange = new Model(baseUrl + "/chat/key_exchange/", KeyExchangeObject);
 
 export type ModelRegistry =
     typeof MarkerObject
@@ -348,3 +364,4 @@ export type ModelRegistry =
     | typeof ModelObject
     | typeof NurseObject
     | typeof DoctorObject
+    | typeof KeyExchangeObject

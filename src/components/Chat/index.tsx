@@ -18,14 +18,17 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
 
     async initSession()
     {
-        const user1 = "user1@domain.cc";
-        const signalProtocolManagerUser = new SignalProtocolManager(user1);
+        const user1 = this.state.user?.tokens.private_token;
+        if(!user1)
+            return;
+
+        const signalProtocolManagerUser = new SignalProtocolManager(user1, user1);
         await signalProtocolManagerUser.initializeAsync();
 
         this.setState({signalUser: signalProtocolManagerUser, ready: true});
-        const cipher2 = await this.state.signalUser.encryptMessageAsync(user1, "hello from 2");
+        const cipher2 = await this.state.signalUser.encryptMessageAsync("hello from 2");
 
-        const decrypt2 = await this.state.signalUser.decryptMessageAsync(user1, cipher2);
+        const decrypt2 = await this.state.signalUser.decryptMessageAsync(cipher2);
 
         console.log(cipher2, decrypt2);
     }

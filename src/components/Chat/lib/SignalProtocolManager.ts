@@ -1,19 +1,26 @@
-import {toArrayBuffer, toString} from "./util";
-import SignalProtocolStore from "./SignalProtocolStore";
+import {arrayBufferToBase64, base64ToArrayBuffer, toArrayBuffer, toString} from "./util";
+import SignalProtocolStore, {SessionCipher} from "./SignalProtocolStore";
 import {openDB} from "idb";
+import {KeyExchange, KeyExchangeObject} from "../../../api/model";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const signal = libsignal || window.libsignal;
 
-const server: Record<string, PreBundleKey> = {};
-
 interface PreBundleKey
 {
     identityKey: ArrayBuffer,
-    registrationId: unknown,
-    preKey: { keyId: number, publicKey: unknown },
-    signedPreKey: { keyId: number, publicKey: unknown, signature: unknown }
+    registrationId: number,
+    preKey: { keyId: number, publicKey: ArrayBuffer },
+    signedPreKey: { keyId: number, publicKey: ArrayBuffer, signature: ArrayBuffer }
+}
+
+interface PreBundleKeySerialised
+{
+    identityKey: string,
+    registrationId: number,
+    preKey: { keyId: number, publicKey: string },
+    signedPreKey: { keyId: number, publicKey: string, signature: string }
 }
 
 /**
@@ -24,8 +31,10 @@ class SignalProtocolManager
     userId;
     store?:SignalProtocolStore;
     sessionId;
+    remoteUserId;
+    sessionCiphers: {user?: SessionCipher, remote?: SessionCipher} = {};
 
-    constructor(userId: string)
+    constructor(userId: string, remoteUserId: string)
     {
         const previousSession = localStorage.getItem(`sessionId-${userId}`);
         let sessionId;
@@ -41,6 +50,7 @@ class SignalProtocolManager
 
         this.userId = userId;
         this.sessionId = sessionId;
+        this.remoteUserId = remoteUserId;
     }
 
     /**
@@ -66,58 +76,56 @@ class SignalProtocolManager
     /**
      * Encrypt a message for a given user.
      *
-     * @param remoteUserId The recipient user ID.
      * @param message The message to send.
      */
-    async encryptMessageAsync(remoteUserId: string, message: string)
+    async encryptMessageAsync(message: string)
     {
         if(!this.store)
             throw new Error("User not initialised");
-
-        let sessionCipher = await this.store.loadSessionCipher(remoteUserId);
         
-        if (sessionCipher === null)
+        if (!this.sessionCiphers.user)
         {
-            const address = new signal.SignalProtocolAddress(remoteUserId, 123);
+            const address = new signal.SignalProtocolAddress(this.remoteUserId, 123);
             const sessionBuilder = new signal.SessionBuilder(this.store, address);
 
-            const remoteUserPreKey = await this._getKeyFromServer(remoteUserId);
+            const remoteUserPreKey = await this._getKeyFromServer(this.remoteUserId);
             await sessionBuilder.processPreKey(remoteUserPreKey);
 
-            sessionCipher = new signal.SessionCipher(this.store, address);
-            this.store.storeSessionCipher(remoteUserId, sessionCipher);
+            this.sessionCiphers.user = new signal.SessionCipher(this.store, address);
         }
 
-        return await sessionCipher.encrypt(toArrayBuffer(message));
+        if(!this.sessionCiphers.user)
+            throw new Error("Failed to create session cipher");
+
+        return await this.sessionCiphers.user.encrypt(toArrayBuffer(message));
     }
 
     /**
      * Decrypts a message from a given user.
      *
-     * @param remoteUserId The user ID of the message sender.
      * @param cipherText The encrypted message bundle. (This includes the encrypted message itself and accompanying metadata)
      * @returns The decrypted message string.
      */
-    async decryptMessageAsync(remoteUserId: string, cipherText: { type: number; body: string; })
+    async decryptMessageAsync(cipherText: { type: number; body: string; })
     {
         if(!this.store)
             throw new Error("User not initialised");
 
-        let sessionCipher = await this.store.loadSessionCipher(remoteUserId);
-
-        if (sessionCipher === null)
+        if (!this.sessionCiphers.remote)
         {
-            const address = new signal.SignalProtocolAddress(remoteUserId, 123);
-            sessionCipher = new signal.SessionCipher(this.store, address);
-            this.store.storeSessionCipher(remoteUserId, sessionCipher);
+            const address = new signal.SignalProtocolAddress(this.remoteUserId, 123);
+            this.sessionCiphers.remote = new signal.SessionCipher(this.store, address);
         }
 
         const messageHasEmbeddedPreKeyBundle = cipherText.type === 3;
 
+        if(!this.sessionCiphers.remote)
+            throw new Error("Failed to initialise session cipher");
+
         if (messageHasEmbeddedPreKeyBundle)
-            return toString(await sessionCipher.decryptPreKeyWhisperMessage(cipherText.body, "binary"));
+            return toString(await  this.sessionCiphers.remote.decryptPreKeyWhisperMessage(cipherText.body, "binary"));
         else
-            return toString(await sessionCipher.decryptWhisperMessage(cipherText.body, "binary"));
+            return toString(await  this.sessionCiphers.remote.decryptWhisperMessage(cipherText.body, "binary"));
     }
 
     /**
@@ -185,15 +193,26 @@ class SignalProtocolManager
 
     async _sendKeyToServer(userId: string, key: PreBundleKey)
     {
-        // const dump = dumpBinary(key as unknown as Record<string, unknown>);
-        // console.log(dump);
-        // console.log(loadBinary(dump));
-        server[userId] = key; // TODO Actually implement
+        const toSend: PreBundleKeySerialised = key as unknown as PreBundleKeySerialised;
+        toSend.identityKey = arrayBufferToBase64(key.identityKey);
+        toSend.preKey.publicKey = arrayBufferToBase64(key.preKey.publicKey);
+        toSend.signedPreKey.signature = arrayBufferToBase64(key.signedPreKey.signature);
+        toSend.signedPreKey.publicKey = arrayBufferToBase64(key.signedPreKey.publicKey);
+
+        await KeyExchange.create({sender_key_bundle: toSend, receiver_token:toSend});
     }
 
     async _getKeyFromServer(userId: string)
     {
-        return server[userId]; // TODO Actually implement
+        const key = (await KeyExchange.filter({receiver_token: userId}, true)).results[0].data as KeyExchangeObject;
+        const data = (key.sender_token === userId ? key.sender_key_bundle : key.receiver_key_bundle) as PreBundleKey;
+
+        data.identityKey = base64ToArrayBuffer(data.identityKey);
+        data.preKey.publicKey = base64ToArrayBuffer(data.preKey.publicKey);
+        data.signedPreKey.signature = base64ToArrayBuffer(data.signedPreKey.signature);
+        data.signedPreKey.publicKey = base64ToArrayBuffer(data.signedPreKey.publicKey);
+
+        return data;
     }
 }
 
