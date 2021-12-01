@@ -30,7 +30,7 @@ class SearchCardsLoc extends Component<SearchCardsProps>
         return (
             <Link style={{textDecoration: "none"}} className='text-dark' to={"/details/" + this.props.model.id}>
                 {/* Show hospital image */}
-                <div className="cardstyle   mb-3 justify-content-between d-flex">
+                <div className="cardstyle mb-2 justify-content-between d-flex">
                     <div className="align-self-center">
                         <Avatar className="align-self-center" sx={{width:"37px", height:"37px", marginLeft:"10px"}} src={this.props.model.images[0]?.image?this.props.model.images[0]?.image:Ekmmed}/>
                     </div>
@@ -43,8 +43,8 @@ class SearchCardsLoc extends Component<SearchCardsProps>
                             <div className="w-60 text-left ">
                                 {this.props.model.name !== null ? this.props.model.name?.split(",")[0] : ""}
                             </div>
-                            <div className="ratingvalue d-flex  align-items-center justify-content-center">
-                                <div>
+                            <div className="ratingvalue d-flex justify-content-center" style={{height: "fit-content", width: "fit-content"}}>
+                                <div className="px-1">
                                     {this.props.model.care_rating}
                                 </div>
                                 <img alt={""} className="staricon " src={SmallStar}/>
@@ -57,10 +57,10 @@ class SearchCardsLoc extends Component<SearchCardsProps>
 
                             {/* fetching hospital address */}
                             <div className={"hospital-address"}>
-                                {this.props.model.address.suburb && this.props.model.address.suburb + " ,"}     
-                                {this.props.model.address.village && this.props.model.address.village + " ,"}
-                                {this.props.model.address.state_district && this.props.model.address.state_district + " ,"}
-                                {this.props.model.address.state && this.props.model.address.state}
+                                {this.props.model.address.suburb && this.props.model.address.suburb + ", "}
+                                {this.props.model.address.village && this.props.model.address.village + ", "}
+                                {this.props.model.address.state_district && this.props.model.address.state_district}
+                                {/*{this.props.model.address.state && this.props.model.address.state}*/}
                             </div>
 
 

@@ -22,6 +22,10 @@ interface AddPatientState extends AuthState {
     Name: string;
     age: number;
     gender: string;
+    requirement: string;
+    requirementCheck: boolean;
+    otherRequirement: string;
+    otherLabel: string;
     address: string;
     symptoms: string;
     covidresult?: number;
@@ -61,6 +65,10 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState>
 
             gender: "",
             address: "",
+            requirement: "",
+            requirementCheck: false,
+            otherRequirement: "",
+            otherLabel: "",
 
             symptoms: "",
             symdays: new Date().toISOString().substring(0, 10),
@@ -102,10 +110,40 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState>
     tabs = ["Patient Info", "Symptoms", "Test Info", "Attender", "Hospital"];
     steps = ["Select campaign settings", "Create an ad group", "Create an ad"];
     bloodgroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+    requirements = ["ICU", "Oxygen", "Medicine", "Scan", "General Ward", "Medical Test", "Other"];
 
 
     form = () => 
     {
+        const handleRequirement = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => 
+        {
+
+            this.setValue("requirement", event);
+            if(event.target.value === "Other")
+            {
+                this.setState({otherLabel: "Enter Your Requirement"});
+                this.setState({requirementCheck: true});
+            }
+            else if(event.target.value === "Medicine")
+            {
+                this.setState({otherLabel: "Enter Medicine Name/Type"});
+                this.setState({requirementCheck: true});
+            }
+            else if(event.target.value === "Scan")
+            {
+                this.setState({otherLabel: "Enter Type Of Scan"});
+                this.setState({requirementCheck: true});
+            }
+            else if(event.target.value === "Medical Test")
+            {
+                this.setState({otherLabel: "Enter Type Of Test"});
+                this.setState({requirementCheck: true});
+            }
+            else
+            
+                this.setState({requirementCheck: false});
+            
+        };
         if (this.state.activeStep === 0) 
         
             return (
@@ -140,6 +178,22 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState>
                         InputLabelProps={{shrink: true, }} size="small"
                         onChange={({target}) => this.setState({address: target.value})}
                     />
+                    <TextField value={this.state.requirement} className="mt-4" fullWidth variant="outlined" select label="Requirement *"
+                        InputLabelProps={{shrink: true, }} size="small"
+
+                        onChange={handleRequirement}
+                    >
+                        {this.requirements.map((value, key) => (
+                            <MenuItem key={key} value={value}>{value}</MenuItem>
+                        ))}
+                    </TextField>
+
+                    {this.state.requirementCheck &&
+                        <TextField value={this.state.otherRequirement} className="mt-4" fullWidth variant="outlined" label={this.state.otherLabel}
+                            InputLabelProps={{shrink: true, }} size="small"
+                            onChange={(event) =>
+                                this.setState({otherRequirement: event.target.value})}/>}
+
                 </div>
             );
         
@@ -354,6 +408,12 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState>
 
     savePatient = async () => 
     {
+        if(this.state.requirement === "Other" || "Medicine" || "Scan" || "Medical Test")
+        
+            await this.setState({
+                requirement:this.state.requirement + ":" + this.state.otherRequirement
+            });
+        
         console.log(this.state);
         const toSend = this.state;
 

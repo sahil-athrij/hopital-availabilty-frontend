@@ -280,6 +280,7 @@ export class PatientObject extends ModelObject
     age = 0;
     gender = "M";
     address = "";
+    requirement = "";
     symptoms = "";
     covidresult = false;
     gender_name = "";
@@ -300,7 +301,7 @@ export class PatientObject extends ModelObject
     constructor(data: ModelData, baseUrl: string) 
     {
         super(data, baseUrl);
-        this.fields = ["id", "Name", "age", "gender", "address", "symptoms", "symdays", "spo2", "hospitalday", "oxy_bed", "covidresult",
+        this.fields = ["id", "Name", "age", "gender", "address", "requirement", "symptoms", "symdays", "spo2", "hospitalday", "oxy_bed", "covidresult",
             "hospitalpref", "attendername", "attenderphone", "relation", "srfid", "bunum", "blood", "bedtype", "ct",
             "ctscore", "gender_name", "bedtype_name"];
         this.getData();

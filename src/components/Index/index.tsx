@@ -58,7 +58,7 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
             <React.Fragment>
                 <Container fluid={true} className="mt-2 p-5 ">
                 </Container>
-                <Container className="text-left">
+                <Container className="text-left px-0">
                     <div style={{
                         backgroundColor: "#3E64FF",
                         borderRadius: "1.25rem",

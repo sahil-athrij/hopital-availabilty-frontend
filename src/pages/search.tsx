@@ -46,7 +46,7 @@ export class Search extends ResponsiveComponent<SearchProps, SearchState>
     {
         console.log(this.state.width);
         return (
-            <Container fluid={true} className="my-5 py-5 ">
+            <Container fluid={true} className="my-5">
                 {this.state.query !== "Search Hospital" && this.state.query ?
                     <div className="text-left pt-5 pt-sm-3">Showing Results for <b>&quot;{this.state.query}&quot;</b></div>
                     :

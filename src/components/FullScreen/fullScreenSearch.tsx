@@ -7,7 +7,6 @@ import {
     LocationSearchState
 } from "./FullScreenLocation";
 import {Marker} from "../../api/model";
-import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CloseIcon from "@mui/icons-material/Close";
 import {getParam, setParam} from "../../api/QueryCreator";
@@ -15,13 +14,15 @@ import {withRouter} from "react-router";
 import React from "react";
 import "./fullScreenSearch.css";
 import {toast} from "react-toastify";
-import {Avatar, Button, Chip, IconButton} from "@mui/material";
+import {Button, Chip, IconButton} from "@mui/material";
 import {withStyles} from "@mui/styles";
-import MenuIcon from "@mui/icons-material/Menu";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import MyLocationOutlinedIcon from "@mui/icons-material/MyLocationOutlined";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import NorthWestIcon from "@mui/icons-material/NorthWest";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 
 
 interface LocationQuerySearchProps extends LocationSearchProps
@@ -70,14 +71,14 @@ const bluechip = {
     background: "#3E64FF", "&:hover": {
         background: "#3E64FF",
         color: "white",
-    }, borderRadius: "5px", color: "white", fontSize: "8px", width: "76px", height: "21px"
+    }, borderRadius: "5px", color: "white", fontSize: "10px", width: "76px", height: "21px"
 };
 
 const greychip = {
     background: "#F0F0F0",
     borderRadius: "5px",
-    color: "#696969",
-    fontSize: "8px",
+    color: "black",
+    fontSize: "10px",
     width: "76px",
     height: "21px"
 };
@@ -216,7 +217,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
         {
             return (
                 <Container
-                    className={"w-100  py-3  select-locations " + ((i === this.state.selectedSearch) ? "active" : "")}
+                    className={"w-100 d-flex py-3  select-locations " + ((i === this.state.selectedSearch) ? "active" : "")}
                     key={i}
                     onClick={() =>
                     {
@@ -230,9 +231,10 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                         });
                     }}>
 
-                    <LocalHospitalIcon sx={{width: "30px"}} className="input-marker mr-3"/>
+                    {/*<LocalHospitalIcon sx={{width: "30px"}} className="input-marker mr-3"/>*/}
                     <div className="fill-rest">{item.name}
                     </div>
+                    <NorthWestIcon/>
                 </Container>
             );
         }
@@ -248,7 +250,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                     className={"input-holder overflow-x-hidden mb-3 mx-2 "}>
                     <div className=" w-100 d-flex justify-content-between align-self-center">
                         <IconButton>
-                            <MenuIcon/>
+                            <ArrowBackIcon onClick={() => this.props.history.goBack()} />
                         </IconButton>
 
                         <input placeholder="Search Hospital" className="main-input w-75 mx-2 align-content-start pt-1"
@@ -269,14 +271,10 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                             }}
                         />
                         {this.state.query === "" ?
-                            <Avatar className="align-self-center" sx={{width: "28px", height: "28px"}}/> :
-                            <CloseIcon sx={{width: 30}} className="align-self-center" onClick={() =>
+                            <div></div> :
+                            <ArrowCircleRightIcon color={"primary"} sx={{width: 30}} className="align-self-center" onClick={() =>
                             {
-                                this.setState({query: ""},
-                                    () =>
-                                    {
-                                        this.setPersistence();
-                                    });
+                                this.searchCallBack();
                             }}/>
                         }
 
@@ -292,11 +290,24 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                     {/*        });*/}
                     {/*}}/>}*/}
                 </Container>
-                <div className="d-flex align-items-center p-2"
+                <div className="d-flex align-items-center p-2 flex-column"
                     style={{boxShadow: "0px 6px 6.25px rgba(0, 0, 0, 0.25)"}}>
-                    <LocationOnIcon sx={{marginRight: "auto"}}
-                        onClick={() => (this.setState({location_active: !this.state.location_active})
-                        )}/>
+                    {/*<LocationOnIcon sx={{marginRight: "auto"}}*/}
+                    {/*    onClick={() => (this.setState({location_active: !this.state.location_active})*/}
+                    {/*    )}/>*/}
+                    <div className="d-flex align-items-center w-100">
+                        <Button sx={{textTransform: "none", marginRight: "auto"}} startIcon={<LocationOnIcon/>}
+                            onClick={() => (this.setState({location_active: !this.state.location_active})
+                            )}>
+                            {this.state.value || "Select Location"}
+                        </Button>
+                        <Button sx={{textTransform: "none", marginLeft: "auto"}} endIcon={<KeyboardArrowDownIcon/>}
+                            onClick={() => (this.setState({filter_active: !this.state.filter_active})
+                            )}>
+                            Filter
+                        </Button>
+                    </div>
+
                     <div className="bottombox w-100 py-1" style={{overflowX: "auto", whiteSpace: "nowrap"}}>
 
                         {this.state.filters.map((value, index) => (
@@ -307,11 +318,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                         ))}
 
                     </div>
-                    <Button sx={{textTransform: "none", marginLeft: "auto"}} endIcon={<KeyboardArrowDownIcon/>}
-                        onClick={() => (this.setState({filter_active: !this.state.filter_active})
-                        )}>
-                        Filter
-                    </Button>
+
                 </div>
 
                 <div>
@@ -327,25 +334,26 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                         keepMounted: true,
                     }} className="fixed-bottom w-100 h-50 p-3" sx={{overflowY: "auto"}}>
 
-                    <div className="filtertop d-flex w-100 justify-content-between pt-3 pb-2 px-3 align-self-center">
-                        Search By Location
+                    <div className="filtertop d-flex w-100 justify-content-between p-2 align-self-center">
+                        <h6 className="mb-0 d-flex align-items-center">Search By Location</h6>
                         <IconButton onClick={() =>
                         {
                             this.setState({location_active: !this.state.location_active}
                             );
                         }}>
-                            <CloseIcon sx={{color: "#0338B9"}}/>
+                            <CloseIcon fontSize={"small"} sx={{color: "#0338B9"}}/>
                         </IconButton>
                     </div>
-                    <div className="filterbottom d-flex flex-column pt-4">
+                    <div className="filterbottom d-flex flex-column pt-1">
 
                         <Container
-                            className={"w-100 input-holder " + ((2 === this.state.display) ? "active-blue" : "")}>
+                            className={"w-100 d-flex align-items-center input-holder " + ((2 === this.state.display) ? "active-blue" : "")}>
                             {/* <MarkerSvg className=" input-marker"/> */}
 
                             <input placeholder="Select Location"
-                                className={"main-input "}
+                                className={"main-input"}
                                 type="search"
+                                ref={input => input && input.focus()}
                                 value={this.state.value}
                                 onKeyDown={(event) =>
                                 {
@@ -361,7 +369,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                                 }}/>
 
                             {this.state.value &&
-                            <CloseOutlinedIcon onClick={() =>
+                            <CloseOutlinedIcon fontSize={"small"} onClick={() =>
                             {
                                 this.setState({value: ""},
                                     () =>
@@ -372,13 +380,13 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                             }}/>}
                         </Container>
                         {(this.state.display === 2 || this.state.display === 0) &&
-                        <Container className="w-100 text-primary mt-1 select-locations py-3 pointers"
+                        <Container className="w-100 d-flex align-items-center text-primary mt-2 py-3 select-locations pointers"
                             onClick={() =>
                             {
                                 this.getLocation().then();
                             }}>
-                            <MyLocationOutlinedIcon className="input-marker mr-3"/>
-                            <div className="fill-rest">Use Current Location / Please enable Location services</div>
+                            <MyLocationOutlinedIcon className="input-marker"/>
+                            <div className="w-100"> Use Current Location</div>
                         </Container>}
                         {this.state.display === 2 ? this.displaySuggestions(this.state.suggestions) : ""}
 
