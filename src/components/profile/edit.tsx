@@ -104,7 +104,7 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
 
     render()
     {
-        console.log(this.state.user?.tokens?.languages)
+        console.log(this.state.user?.tokens?.languages);
         return (
             <div>
                 <StickyHead title="Edit Your Profile" action={"Save"} onClick={this.save}
@@ -224,19 +224,19 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
                     <p className="txthead mt-3">LANGUAGES</p>
                     <div className="d-flex justify-content-between flex-row align-items-center">
                         <Autocomplete  /*TODO previous value in text filed*/
-                                multiple
-                                fullWidth
-                                autoSelect
-                                value={this.state.user?.tokens?.languages}
-                                options={this.state.languages.map(({name})=> name)}
-                                onChange={(_,language) => this.setState({
-                                    ...this.state,
-                                    user: {
-                                        ...this.state.user,
-                                        tokens: {...this.state.user?.tokens, languages: language}
-                                    } as User
-                                })}
-                                renderInput={(params) => (
+                            multiple
+                            fullWidth
+                            autoSelect
+                            value={this.state.user?.tokens?.languages}
+                            options={this.state.languages.map(({name})=> name)}
+                            onChange={(_, language) => this.setState({
+                                ...this.state,
+                                user: {
+                                    ...this.state.user,
+                                    tokens: {...this.state.user?.tokens, languages: language}
+                                } as User
+                            })}
+                            renderInput={(params) => (
                                 <TextField
                                     {...params}
                                     variant="standard"
@@ -245,7 +245,7 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
                                     // value={this.state.user?.tokens?.languages}
                                     onChange = {(event) => this.editSearchTerm(event.target.value)}
                                 />)}
-                            />
+                        />
                     </div>
                     <div className="bottom-sec">
                         <hr className="linestyle"/>

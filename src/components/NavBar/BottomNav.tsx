@@ -67,12 +67,12 @@ class BottomNavLoc extends AuthComponent<AuthPropsLoc, BottomNavState>
         this.props.history.goBack();
     };
     icons = [
-            // {path: "/addHospital", iconbf: Addhosp, iconaf: Addhospaf},
-            {path: "/", iconbf: Explore, iconaf: Exploreaf},
-            {path: "/help", iconbf: Help, iconaf: Helpaf},
-            {path: "/addHospital", iconbf: Addhosp, iconaf: Addhospaf},
-            {path: "/profile/", iconbf: Account, iconaf: Accountaf}
-            ];
+        // {path: "/addHospital", iconbf: Addhosp, iconaf: Addhospaf},
+        {path: "/", iconbf: Explore, iconaf: Exploreaf},
+        {path: "/help", iconbf: Help, iconaf: Helpaf},
+        {path: "/addHospital", iconbf: Addhosp, iconaf: Addhospaf},
+        {path: "/profile/", iconbf: Account, iconaf: Accountaf}
+    ];
 
     render(): JSX.Element 
     {
@@ -82,11 +82,11 @@ class BottomNavLoc extends AuthComponent<AuthPropsLoc, BottomNavState>
             >
                 {this.icons.map((icon, key) => (
                     <BottomNavigationAction sx={{minWidth: "auto", padding: "0", maxWidth: "auto", width: "auto"}}
-                                            onClick={(event) =>
-                        (this.handleChange(event, icon.path, key))} key={key}
-                    value={icon.path}     //TODO Onclick correction
-                    icon={<img alt=""
-                        src={this.state.active === key ? icon.iconaf : icon.iconbf}/>}/>))}
+                        onClick={(event) =>
+                            (this.handleChange(event, icon.path, key))} key={key}
+                        value={icon.path}     //TODO Onclick correction
+                        icon={<img alt=""
+                            src={this.state.active === key ? icon.iconaf : icon.iconbf}/>}/>))}
             </BottomNavigation>
         </React.Fragment>;
 

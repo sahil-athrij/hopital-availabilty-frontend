@@ -115,34 +115,35 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState>
 
     form = () => 
     {
-        const handleRequirement = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        const handleRequirement = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => 
+        {
 
             this.setValue("requirement", event);
             if(event.target.value === "Other")
             {
-                this.setState({otherLabel: "Enter Your Requirement"})
-                this.setState({requirementCheck: true})
+                this.setState({otherLabel: "Enter Your Requirement"});
+                this.setState({requirementCheck: true});
             }
             else if(event.target.value === "Medicine")
             {
-                this.setState({otherLabel: "Enter Medicine Name/Type"})
-                this.setState({requirementCheck: true})
+                this.setState({otherLabel: "Enter Medicine Name/Type"});
+                this.setState({requirementCheck: true});
             }
             else if(event.target.value === "Scan")
             {
-                this.setState({otherLabel: "Enter Type Of Scan"})
-                this.setState({requirementCheck: true})
+                this.setState({otherLabel: "Enter Type Of Scan"});
+                this.setState({requirementCheck: true});
             }
             else if(event.target.value === "Medical Test")
             {
-                this.setState({otherLabel: "Enter Type Of Test"})
-                this.setState({requirementCheck: true})
+                this.setState({otherLabel: "Enter Type Of Test"});
+                this.setState({requirementCheck: true});
             }
             else
-            {
+            
                 this.setState({requirementCheck: false});
-            }
-        }
+            
+        };
         if (this.state.activeStep === 0) 
         
             return (
@@ -178,9 +179,9 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState>
                         onChange={({target}) => this.setState({address: target.value})}
                     />
                     <TextField value={this.state.requirement} className="mt-4" fullWidth variant="outlined" select label="Requirement *"
-                               InputLabelProps={{shrink: true, }} size="small"
+                        InputLabelProps={{shrink: true, }} size="small"
 
-                               onChange={handleRequirement}
+                        onChange={handleRequirement}
                     >
                         {this.requirements.map((value, key) => (
                             <MenuItem key={key} value={value}>{value}</MenuItem>
@@ -189,9 +190,9 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState>
 
                     {this.state.requirementCheck &&
                         <TextField value={this.state.otherRequirement} className="mt-4" fullWidth variant="outlined" label={this.state.otherLabel}
-                                   InputLabelProps={{shrink: true, }} size="small"
-                                   onChange={(event) =>
-                                   this.setState({otherRequirement: event.target.value})}/>}
+                            InputLabelProps={{shrink: true, }} size="small"
+                            onChange={(event) =>
+                                this.setState({otherRequirement: event.target.value})}/>}
 
                 </div>
             );
@@ -408,11 +409,11 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState>
     savePatient = async () => 
     {
         if(this.state.requirement === "Other" || "Medicine" || "Scan" || "Medical Test")
-        {
+        
             await this.setState({
                 requirement:this.state.requirement + ":" + this.state.otherRequirement
-            })
-        }
+            });
+        
         console.log(this.state);
         const toSend = this.state;
 

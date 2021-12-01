@@ -14,15 +14,15 @@ import {withRouter} from "react-router";
 import React from "react";
 import "./fullScreenSearch.css";
 import {toast} from "react-toastify";
-import {Avatar, Button, Chip, IconButton} from "@mui/material";
+import {Button, Chip, IconButton} from "@mui/material";
 import {withStyles} from "@mui/styles";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import MyLocationOutlinedIcon from "@mui/icons-material/MyLocationOutlined";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import NorthWestIcon from '@mui/icons-material/NorthWest';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import NorthWestIcon from "@mui/icons-material/NorthWest";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 
 
 interface LocationQuerySearchProps extends LocationSearchProps
@@ -254,7 +254,6 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                         </IconButton>
 
                         <input placeholder="Search Hospital" className="main-input w-75 mx-2 align-content-start pt-1"
-                            autoFocus
                             value={this.state.query}
                             type="search"
 
@@ -275,7 +274,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                             <div></div> :
                             <ArrowCircleRightIcon color={"primary"} sx={{width: 30}} className="align-self-center" onClick={() =>
                             {
-                               this.searchCallBack();
+                                this.searchCallBack();
                             }}/>
                         }
 
@@ -298,13 +297,13 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                     {/*    )}/>*/}
                     <div className="d-flex align-items-center w-100">
                         <Button sx={{textTransform: "none", marginRight: "auto"}} startIcon={<LocationOnIcon/>}
-                                onClick={() => (this.setState({location_active: !this.state.location_active})
-                                )}>
+                            onClick={() => (this.setState({location_active: !this.state.location_active})
+                            )}>
                             {this.state.value || "Select Location"}
                         </Button>
                         <Button sx={{textTransform: "none", marginLeft: "auto"}} endIcon={<KeyboardArrowDownIcon/>}
-                                onClick={() => (this.setState({filter_active: !this.state.filter_active})
-                                )}>
+                            onClick={() => (this.setState({filter_active: !this.state.filter_active})
+                            )}>
                             Filter
                         </Button>
                     </div>
