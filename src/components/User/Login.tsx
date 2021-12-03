@@ -61,7 +61,7 @@ class Login extends AuthComponent<AuthPropsLoc, Userstate>
             <div>
                 <Container className="w-100 pb-5">
                     <div className="d-flex justify-content-between w-100 px-0  mt-4 mb-1 ">
-                        <ArrowBackIcon  onClick={() => this.props.history.goBack()}  />
+                        <ArrowBackIcon  onClick={() => this.props.history.push("/")}/>
                         <p className="Yourprof w-100 text-left align-self-center ">Back</p>
                         <MoreVertIcon/>
                     </div>

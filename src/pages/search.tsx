@@ -46,14 +46,14 @@ export class Search extends ResponsiveComponent<SearchProps, SearchState>
     {
         console.log(this.state.width);
         return (
-            <Container fluid={true} className="my-5">
+            <Container fluid={true} className="my-5 py-4">
                 {this.state.query !== "Search Hospital" && this.state.query ?
-                    <div className="text-left pt-5 pt-sm-3">Showing Results for <b>&quot;{this.state.query}&quot;</b></div>
+                    <div className="text-left pt-sm-3">Showing Results for <b>&quot;{this.state.query}&quot;</b></div>
                     :
-                    <div className="text-left pt-5 pt-sm-3">Showing Results in <b>&quot;{this.state.loc}&quot;</b></div>
+                    this.state.loc !== "Select Location" && <div className="text-left pt-sm-3">Showing Results in <b>&quot;{this.state.loc}&quot;</b></div>
 
                 }
-                <Row className="my-2  align-self-center" id="listview" role="tabpanel"
+                <Row className="my-2 align-self-center" id="listview" role="tabpanel"
                     aria-labelledby="listview-tab">
                     <Col xs={12} id="searchresults">
                         <SearchResults updateParent={() => 
