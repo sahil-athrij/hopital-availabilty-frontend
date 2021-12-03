@@ -128,6 +128,7 @@ export interface AuthState extends ResponsiveState {
     auth: string | null
     refresh: string | null
     user?: {
+        id: number,
         tokens: token,
         email:string,
         username: string,
