@@ -8,7 +8,6 @@ import "./AddHospital.css";
 
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
-import CloseIcon from "@mui/icons-material/Close";
 import L from "leaflet";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
@@ -18,6 +17,7 @@ import {TextField} from "@mui/material";
 import {Marker} from "../../api/model";
 import {withRouter} from "react-router";
 import Button from "@mui/material/Button";
+import {StickyHead} from "../Utils";
 
 
 const DefaultIcon = L.icon({
@@ -358,17 +358,7 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
             return (
                 <div>
                     <Container className=" px-0 pb-3 h-100 pt-0 bg-white neumorphic-input">
-                        <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
-                            <CloseIcon className="align-self-center" onClick={() => this.props.history.push("/")}/>
-                            <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Medical Details</b>
-                            </p>
-                            {this.state.position === 1 ? (
-                                <Button onClick={() => this.postData()} className="sub"
-                                    variant="contained">Submit</Button>) : (
-                                <Button disabled sx={{borderRadius: "10px", background: "#F0F0F0"}}
-                                    variant="contained">Submit</Button>)}
-
-                        </div>
+                        <StickyHead title="Add Medical Details" onClick={() => this.postData()} goBack={this.props.history.goBack} />
                         {this.state.position === 0 &&
                         <div>
                             <MapContainer center={this.state.center} scrollWheelZoom={true} touchZoom={true}
