@@ -156,7 +156,7 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                 department: false
             }
         };
-        this.getlanguages();
+        this.getLanguages();
     }
 
     async componentDidMount()
@@ -182,7 +182,7 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
 
     }
 
-    async getlanguages () 
+    async getLanguages ()
     {
         Language.filter({search: this.state.searchTerm}).then((languages) => 
         {
@@ -192,13 +192,7 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
 
     } 
 
-    editSearchTerm = (e: string) => 
-    {
-        this.setState({searchTerm: e}, ()=> 
-        {
-            this.getlanguages();
-        });
-    };
+    editSearchTerm = (e: string) => this.setState({searchTerm: e}, this.getLanguages);
 
     saveDoctor = async () => 
     {
