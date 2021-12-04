@@ -45,7 +45,13 @@ export class AddHospitalPhotoLoc extends AuthComponent<AddHospitalPhotoPropsLoc,
         this.setState({ready: false});
 
         const {hspId} = this.props.match.params;
-        const marker = await Marker.get(hspId) as MarkerObject;
+        const marker = await Marker.get(hspId).catch(() =>
+        {
+            toast.error("Oops something went wrong", {
+                position: "bottom-center"
+            });
+            setTimeout(this.props.history.push, 1000, "/");
+        }) as MarkerObject;
 
         this.setState({model: marker, ready: true});
 

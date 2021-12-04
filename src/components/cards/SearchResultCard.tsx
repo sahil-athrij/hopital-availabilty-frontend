@@ -14,6 +14,7 @@ import Videocall from "../../images/videocall.svg";
 import Routemap from "../../images/routemap.svg";
 import {Avatar} from "@mui/material";
 import Ekmmed from "../../images/ekmmed.png";
+import {toast} from "react-toastify";
 
 
 interface SearchCardsProps extends AuthPropsLoc {
@@ -152,6 +153,12 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
             const next = markers.next;
             const results = markers.results;
             this.setState({models: results, next: next, reset: true, loc: loc, query: query, offset: 10});
+        }).catch(() =>
+        {
+            toast.error("Oops something went wrong", {
+                position: "bottom-center"
+            });
+            setTimeout(this.props.history.push, 1000, "/");
         });
 
         this.setState({reset: false});
@@ -176,6 +183,12 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
             {
                 const {results, next} = markers;
                 this.setState({models: results, next: next, reset: true, loc: loc, query: query, offset: 10});
+            }).catch(() =>
+            {
+                toast.error("Oops something went wrong", {
+                    position: "bottom-center"
+                });
+                setTimeout(this.props.history.push, 1000, "/");
             });
             // this.setState({reset: false})
         }

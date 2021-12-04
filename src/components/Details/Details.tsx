@@ -25,6 +25,7 @@ import {DepartmentCards} from "./DepatrmentCards";
 import {DoctorCards} from "./DoctorCards";
 import {ReviewCards} from "./ReviewCards";
 import {Avatar} from "@mui/material";
+import {toast} from "react-toastify";
 
 
 
@@ -104,7 +105,13 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState>
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const hspId = Number(this.props.match.params.hspId);
-        const marker = await Marker.get(hspId) as MarkerObject;
+        const marker = await Marker.get(hspId).catch(() =>
+        {
+            toast.error("Oops something went wrong", {
+                position: "bottom-center"
+            });
+            setTimeout(this.props.history.push, 1000, "/");
+        }) as MarkerObject;
 
         this.setState({model: marker, ready: true, id: hspId});
 

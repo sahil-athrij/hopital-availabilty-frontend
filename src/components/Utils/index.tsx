@@ -27,7 +27,7 @@ const BigBlueButtonStyle = {
 interface StickyHeadProps
 {
     title: string,
-    onClick: () => undefined | Promise<void>,
+    onClick: () => undefined | Promise<void> | void,
     goBack: () => void,
     action?: string,
 }

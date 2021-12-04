@@ -10,14 +10,14 @@ import {Avatar, Container, TextField, Autocomplete} from "@mui/material";
 import * as React from "react";
 import "./edit.css";
 
-import Campic from "../../images/cam-pic.jpg";
+import cam from "../../images/cam-pic.jpg";
 import {StickyHead} from "../Utils";
 import {toast} from "react-toastify";
 import {baseUrl, filePatch, patch} from "../../api/api";
 import {ChangeEvent} from "react";
 
 
-interface Editstate extends AuthState
+interface EditState extends AuthState
 {
     active: boolean,
     languages: Array<LanguageObject>,
@@ -32,14 +32,14 @@ type User = {
         invite_token: string,
         invited: number,
         points: number,
-        image: string | null,
+        profile: string | null,
         phone_number:string,
         languages: string[],
 
     }; email: string; username: string; first_name: string; last_name: string;
 };
 
-class Edit extends AuthComponent<AuthPropsLoc, Editstate>
+class Edit extends AuthComponent<AuthPropsLoc, EditState>
 {
     fileInput: React.RefObject<HTMLInputElement>;
 
@@ -57,7 +57,7 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
             
 
         };
-        this.getlanguages();
+        this.getLanguages().then(undefined);
         this.fileInput = React.createRef();
     }
 
@@ -121,7 +121,7 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
         }
     };
 
-    async getlanguages () 
+    async getLanguages ()
     {
         Language.filter({search: this.state.searchTerm}).then((languages) => 
         {
@@ -131,18 +131,10 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
 
     } 
 
-    editSearchTerm = (e: string) => 
-    {
-        this.setState({searchTerm: e}, ()=> 
-        {
-            this.getlanguages();
-        });
-    };
-
+    editSearchTerm = (e: string) => this.setState({searchTerm: e}, this.getLanguages);
 
     render()
     {
-        console.log(this.state.user?.tokens?.languages);
         return (
             <div>
                 <StickyHead title="Edit Your Profile" action={"Save"} onClick={this.save}
@@ -151,7 +143,7 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
                     <input type="file" hidden onChange={this.uploadImage} accept="image/*" ref={this.fileInput}/>
                     <Avatar sx={{width: "107px", height: "107px"}}
                         onClick={() => this.fileInput.current?.click()}
-                        src={this.state.user?.tokens.image ||  Campic}
+                        src={this.state.user?.tokens.profile ||  cam}
                     />
                 </Container>
                 {this.state.user &&
