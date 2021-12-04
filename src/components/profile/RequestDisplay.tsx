@@ -6,6 +6,7 @@ import React from "react";
 import {Patient, PatientObject} from "../../api/model";
 import {Container} from "react-bootstrap";
 import Loader from "react-loader-spinner";
+import {toast} from "react-toastify";
 
 interface RequestDisplayProps extends AuthPropsLoc {
     request: PatientObject
@@ -67,7 +68,13 @@ class RequestDetailsLoc extends AuthComponent<AuthPropsLoc, RequestDetailsState>
         super.componentDidMount();
 
         const requestId = Number(this.props.match.params.requestId);
-        const data = await Patient.get(requestId, {}, true);
+        const data = await Patient.get(requestId, {}, true).catch(() =>
+        {
+            toast.error("Oops something went wrong", {
+                position: "bottom-center"
+            });
+            setTimeout(this.props.history.push, 1000, "/");
+        });
 
         this.setState({request: data as PatientObject});
     }

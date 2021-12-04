@@ -32,7 +32,7 @@ type User = {
         invite_token: string,
         invited: number,
         points: number,
-        image: string | null,
+        profile: string | null,
         phone_number:string,
         languages: string[],
 
@@ -151,7 +151,7 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
                     <input type="file" hidden onChange={this.uploadImage} accept="image/*" ref={this.fileInput}/>
                     <Avatar sx={{width: "107px", height: "107px"}}
                         onClick={() => this.fileInput.current?.click()}
-                        src={this.state.user?.tokens.image ||  Campic}
+                        src={this.state.user?.tokens.profile ||  Campic}
                     />
                 </Container>
                 {this.state.user &&

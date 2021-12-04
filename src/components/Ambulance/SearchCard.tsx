@@ -12,6 +12,7 @@ import {ResponsiveState} from "../ResponsiveComponent";
 import {getParam} from "../../api/QueryCreator";
 import {Container} from "react-bootstrap";
 import Loader from "react-loader-spinner";
+import {toast} from "react-toastify";
 
 
 interface AmbulanceCardsProps extends AuthPropsLoc
@@ -162,6 +163,12 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
             const next = markers.next;
             const results = markers.results;
             this.setState({models: results, next: next, reset: true, loc: loc, query: query, offset: 10});
+        }).catch(() =>
+        {
+            toast.error("Oops something went wrong", {
+                position: "bottom-center"
+            });
+            setTimeout(this.props.history.push, 1000, "/");
         });
 
         this.setState({reset: false});
