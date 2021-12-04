@@ -135,7 +135,8 @@ export interface AuthState extends ResponsiveState {
         username: string,
         first_name: string,
         last_name: string,
-        friends?:Friends[]
+        friends?:Friends[],
+        invited?: Friends[]
     } | null
 }
 
