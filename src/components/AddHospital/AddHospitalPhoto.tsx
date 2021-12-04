@@ -45,7 +45,13 @@ export class AddHospitalPhotoLoc extends AuthComponent<AddHospitalPhotoPropsLoc,
         this.setState({ready: false});
 
         const {hspId} = this.props.match.params;
-        const marker = await Marker.get(hspId) as MarkerObject;
+        const marker = await Marker.get(hspId).catch(() =>
+        {
+            toast.error("Oops something went wrong", {
+                position: "bottom-center"
+            });
+            setTimeout(this.props.history.push, 1000, "/");
+        }) as MarkerObject;
 
         this.setState({model: marker, ready: true});
 
@@ -118,7 +124,7 @@ export class AddHospitalPhotoLoc extends AuthComponent<AddHospitalPhotoPropsLoc,
                         <h4 className="text-center">Upload Image File</h4>
                         <h6 className="text-center">for <b>{this.state.model.name}</b></h6>
 
-                        <button //TODO div was used replaced by button
+                        <button
                             className={"bg-white mx-5 my-4 mt-3 p-3 border-primary neumorphic_file file-container round-15"}
                             onClick={this.handleClick}>
                             {this.state.file ?

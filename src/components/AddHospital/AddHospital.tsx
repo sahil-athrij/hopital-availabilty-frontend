@@ -8,7 +8,6 @@ import "./AddHospital.css";
 
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
-import CloseIcon from "@mui/icons-material/Close";
 import L from "leaflet";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
@@ -18,6 +17,7 @@ import {TextField} from "@mui/material";
 import {Marker} from "../../api/model";
 import {withRouter} from "react-router";
 import Button from "@mui/material/Button";
+import {StickyHead} from "../Utils";
 
 
 const DefaultIcon = L.icon({
@@ -129,18 +129,10 @@ function LocationMarker(props: LocationMarkerProps)
                 if (className)
                 {
                     if (!className.includes("ignore-close"))
-                    
                         setDisplay(0);
-                    
-
-
                 }
                 else
-                
                     setDisplay(0);
-                
-
-
             }
 
         },
@@ -149,27 +141,16 @@ function LocationMarker(props: LocationMarkerProps)
             const latlng = map.getCenter();
             setPosition(latlng);
             if (updateCenter)
-            
                 updateCenter(latlng.lat, latlng.lng);
-            
-
-
             setDisplay(0);
-
-
         },
         zoomlevelschange()
         {
             const latlng = map.getCenter();
             setPosition(latlng);
             if (updateCenter)
-            
                 updateCenter(latlng.lat, latlng.lng);
-            
-
-
             setDisplay(0);
-
         },
         locationfound(e)
         {
@@ -177,11 +158,7 @@ function LocationMarker(props: LocationMarkerProps)
             map.setView(e.latlng, e.accuracy);
 
             if (updateCenter)
-            
                 updateCenter(e.latlng.lat, e.latlng.lng);
-            
-
-
         },
         locationerror()
         {
@@ -331,17 +308,11 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
         const filled = true;
         console.log(filled);
         if (filled)
-        
             this.setState({position});
-        
         else
-        
             toast.error("Please fill all the required details before proceeding", {
                 position: "bottom-center",
             });
-        
-
-
     };
 
     postData = () =>
@@ -354,7 +325,7 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                 ...this.state.center
             }).then((marker) =>
             {
-                this.props.history.push(`/details/${marker.id}`);
+                this.props.history.push(`/addHospital/photo/${marker.id}`);
                 toast.success("thank you for the contribution", {
                     position: "bottom-center"
                 });
@@ -383,22 +354,11 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
             return (<></>);
         }
         else
-        {
-            console.log(this.state.center);
+        
             return (
                 <div>
                     <Container className=" px-0 pb-3 h-100 pt-0 bg-white neumorphic-input">
-                        <div className="head-sec d-flex justify-content-between p-3 shadow-none h-25">
-                            <CloseIcon className="align-self-center" onClick={() => this.props.history.push("/")}/>
-                            <p className="align-self-center m-0 p-0 justify-content-center"><b>Add Medical Details</b>
-                            </p>
-                            {this.state.position === 1 ? (
-                                <Button onClick={() => this.postData()} className="sub"
-                                    variant="contained">Submit</Button>) : (
-                                <Button disabled sx={{borderRadius: "10px", background: "#F0F0F0"}}
-                                    variant="contained">Submit</Button>)}
-
-                        </div>
+                        <StickyHead title="Add Medical Details" onClick={() => this.postData()} goBack={this.props.history.goBack} />
                         {this.state.position === 0 &&
                         <div>
                             <MapContainer center={this.state.center} scrollWheelZoom={true} touchZoom={true}
@@ -416,7 +376,6 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                             </MapContainer>
 
                         </div>
-
                         }
                         {this.state.position === 1 &&
                         <div className="d-flex flex-column px-3">
@@ -479,8 +438,7 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                                 <option value="S">Specialty</option>
                                 <option value="SS">Super Specialty</option>
                             </TextField>
-
-
+                            
                             <TextField label="Type of Ownership" required={true} variant="outlined"
                                 select
                                 size="small"
@@ -541,7 +499,7 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                 </div>
 
             );
-        }
+        
     }
 }
 

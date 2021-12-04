@@ -25,6 +25,7 @@ import {DepartmentCards} from "./DepatrmentCards";
 import {DoctorCards} from "./DoctorCards";
 import {ReviewCards} from "./ReviewCards";
 import {Avatar} from "@mui/material";
+import {toast} from "react-toastify";
 
 
 
@@ -104,7 +105,13 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState>
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const hspId = Number(this.props.match.params.hspId);
-        const marker = await Marker.get(hspId) as MarkerObject;
+        const marker = await Marker.get(hspId).catch(() =>
+        {
+            toast.error("Oops something went wrong", {
+                position: "bottom-center"
+            });
+            setTimeout(this.props.history.push, 1000, "/");
+        }) as MarkerObject;
 
         this.setState({model: marker, ready: true, id: hspId});
 
@@ -149,7 +156,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                                 </div>
                             </div>
                             <div className="d-flex justify-content-center mb-4">
-                                <Avatar alt={""} className="m-0" sx={{height:"120px", width:"120px"}}  src={image}/>
+                                <Avatar alt={""} className="m-0" sx={{height:"120px", width:"120px"}}  src={this.state.model.images[0].image || image}/>
                             </div>
                         </div>
                         <div className="font-weight-bold h4">

@@ -54,7 +54,6 @@ export class MarkerObject extends ModelObject
     {
         const formData = new FormData();
 
-
         formData.append(
             "image",
             file,
@@ -68,8 +67,6 @@ export class MarkerObject extends ModelObject
 
         return await filePost(baseUrl + "/api/image/", formData, headers);
     }
-
-
 }
 
 export class Comment extends ModelObject 
@@ -180,12 +177,15 @@ export class  DoctorObject extends ModelObject
     email = "";
     address = "";
     ima_number = "";
+    slots: Array<{ date: string, start: string, end: string }> = [];
+    ranges: Array<{ start: string, end: string }> = [];
 
     constructor(data: ModelData, baseUrl: string) 
     {
         super(data, baseUrl);
         this.fields = ["id", "name", "phone_number", "hospital", "department", "user", "working_time",
-            "rating", "reviews", "patients", "experience", "specialization", "about", "image", "whatsapp_number", "email", "address", "ima_num"];
+            "rating", "reviews", "patients", "experience", "specialization", "about", "image", "whatsapp_number",
+            "email", "address", "ima_num", "slots", "ranges"];
         this.getData();
     }
 
@@ -297,6 +297,7 @@ export class PatientObject extends ModelObject
     hospitalpref="";
     srfid="";
     bunum="";
+    uid = -1;
 
     constructor(data: ModelData, baseUrl: string) 
     {
@@ -331,6 +332,41 @@ export class LanguageObject extends ModelObject
     }
 }
 
+export class AmbulanceObject extends ModelObject
+{
+    id = -1;
+    name = "";
+    driver_name = "";
+    hospital = "";
+    phone_number = "";
+    image="";
+    rating=0;
+
+    constructor(data: ModelData, baseUrl: string)
+    {
+        super(data, baseUrl);
+        this.fields = ["id", "name", "driver_name", "hospital", "phone_number", "image", "rating"];
+        this.getData();
+    }
+}
+
+class AppointmentObject extends ModelObject
+{
+    doctor = -1;
+    date = -1;
+    start?: string;
+    end?: string;
+    approved = false;
+    patient = -1;
+
+    constructor(data: ModelData, baseUrl: string)
+    {
+        super(data, baseUrl);
+        this.fields = ["id", "doctor", "date", "start", "end", "approved", "patient"];
+        this.getData();
+    }
+}
+
 export const Review = new Model(baseUrl + "/api/review/", ReviewObject);
 export const Sus = new Model(baseUrl + "/api/suspicious/", susObject);
 export const Department = new Model(baseUrl + "/internals/departments/", DepartmentObject);
@@ -340,6 +376,8 @@ export const Patient = new Model(baseUrl + "/api/patient/", PatientObject);
 export const DepartmentName = new Model(baseUrl + "/internals/department_names/", DepartmentNameObject);
 export const Nurse = new Model(baseUrl + "/internals/nurses/", NurseObject);
 export const Language = new Model(baseUrl + "/api/language/", LanguageObject);
+export const Ambulance = new Model(baseUrl + "/internals/ambulance/", AmbulanceObject);
+export const Appointment = new Model(baseUrl + "/internals/appointment/", AppointmentObject);
 
 export type ModelRegistry =
     typeof MarkerObject
@@ -349,3 +387,5 @@ export type ModelRegistry =
     | typeof ModelObject
     | typeof NurseObject
     | typeof DoctorObject
+    | typeof AppointmentObject
+    | typeof AmbulanceObject

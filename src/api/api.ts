@@ -70,6 +70,23 @@ export async function filePost(url: RequestInfo, formData: FormData, headers = {
 }
 
 
+export async function filePatch(url: RequestInfo, formData: FormData, headers = {})
+{
+    const response = await fetch(url, {
+        method: "PATCH", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            ...headers
+        },
+        body: formData
+    });
+
+    if (response.status > 300)
+        throw (response);
+    else
+        return response.json();
+}
+
+
 export async function patch(url: RequestInfo, kwargs = {}, headers = {})
 {
     const response = await fetch(url, {
@@ -117,21 +134,13 @@ export class ModelObject
     getData()
     {
         for (const item of this.fields)
-        
             (this as Record<string, unknown>)[item] = this.data[item];
-        
-
-
     }
 
     setData()
     {
         for (const item of this.fields)
-        
             this.data[item] = (this as unknown as Record<string, string | number>)[item];
-        
-
-
     }
 
     save = async () =>

@@ -1,4 +1,4 @@
-import {Button} from "@mui/material";
+import { Button} from "@mui/material";
 import React from "react";
 import {Container} from "react-bootstrap";
 import "./index.css";
@@ -27,7 +27,7 @@ const BigBlueButtonStyle = {
 interface StickyHeadProps
 {
     title: string,
-    onClick: () => undefined | Promise<void>,
+    onClick: () => undefined | Promise<void> | void,
     goBack: () => void,
     action?: string,
 }
