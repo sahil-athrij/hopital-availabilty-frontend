@@ -118,7 +118,7 @@ export class AddHospitalPhotoLoc extends AuthComponent<AddHospitalPhotoPropsLoc,
                         <h4 className="text-center">Upload Image File</h4>
                         <h6 className="text-center">for <b>{this.state.model.name}</b></h6>
 
-                        <button //TODO div was used replaced by button
+                        <button
                             className={"bg-white mx-5 my-4 mt-3 p-3 border-primary neumorphic_file file-container round-15"}
                             onClick={this.handleClick}>
                             {this.state.file ?

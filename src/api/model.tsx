@@ -54,7 +54,6 @@ export class MarkerObject extends ModelObject
     {
         const formData = new FormData();
 
-
         formData.append(
             "image",
             file,
@@ -68,8 +67,6 @@ export class MarkerObject extends ModelObject
 
         return await filePost(baseUrl + "/api/image/", formData, headers);
     }
-
-
 }
 
 export class Comment extends ModelObject 
@@ -348,7 +345,7 @@ export class AmbulanceObject extends ModelObject
     constructor(data: ModelData, baseUrl: string)
     {
         super(data, baseUrl);
-        this.fields = ["id", "name", "driver_name", "hospital", "phone_number","image","rating"];
+        this.fields = ["id", "name", "driver_name", "hospital", "phone_number", "image", "rating"];
         this.getData();
     }
 }

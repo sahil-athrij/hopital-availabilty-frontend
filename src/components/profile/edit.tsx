@@ -13,7 +13,8 @@ import "./edit.css";
 import Campic from "../../images/cam-pic.jpg";
 import {StickyHead} from "../Utils";
 import {toast} from "react-toastify";
-import {baseUrl, patch} from "../../api/api";
+import {baseUrl, filePatch, patch} from "../../api/api";
+import {ChangeEvent} from "react";
 
 
 interface Editstate extends AuthState
@@ -25,6 +26,7 @@ interface Editstate extends AuthState
 }
 
 type User = {
+    id: number,
     tokens: {
         private_token: string,
         invite_token: string,
@@ -39,6 +41,7 @@ type User = {
 
 class Edit extends AuthComponent<AuthPropsLoc, Editstate>
 {
+    fileInput: React.RefObject<HTMLInputElement>;
 
     constructor(props: AuthPropsLoc)
     {
@@ -55,7 +58,7 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
 
         };
         this.getlanguages();
-
+        this.fileInput = React.createRef();
     }
 
 
@@ -79,8 +82,43 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
                 position: "bottom-center"
             });
         });
+    };
 
+    uploadImage = (event: ChangeEvent<HTMLInputElement>) =>
+    {
+        event.preventDefault();
 
+        const reader = new FileReader();
+        const file = event.target.files?.[0];
+        if (file)
+        {
+
+            reader.onloadend = () =>
+            {
+                const formData = new FormData();
+
+                formData.append(
+                    "image",
+                    file,
+                    file.name
+                );
+
+                const headers = {"Authorization": `Bearer ${getAuth()}`};
+
+                filePatch(baseUrl + "/auth/users/me/", formData, headers).then(() =>
+                {
+                    toast.success("Successfully updated photo", {
+                        position: "bottom-center"
+                    });
+                }).catch((error) =>
+                {
+                    toast.error(error.details, {
+                        position: "bottom-center"
+                    });
+                });
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     async getlanguages () 
@@ -110,7 +148,11 @@ class Edit extends AuthComponent<AuthPropsLoc, Editstate>
                 <StickyHead title="Edit Your Profile" action={"Save"} onClick={this.save}
                     goBack={this.props.history.goBack}/>
                 <Container className="d-flex justify-content-center my-3">
-                    <Avatar sx={{width: "107px", height: "107px"}} src={Campic}/>
+                    <input type="file" hidden onChange={this.uploadImage} accept="image/*" ref={this.fileInput}/>
+                    <Avatar sx={{width: "107px", height: "107px"}}
+                        onClick={() => this.fileInput.current?.click()}
+                        src={this.state.user?.tokens.image ||  Campic}
+                    />
                 </Container>
                 {this.state.user &&
                 <Container className="px-5 ">

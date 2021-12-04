@@ -178,9 +178,9 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
         {
 
             if (this.state.reset)
-            {
+            
                 this.setState({reset: false});
-            }
+            
 
             this.props.updateParent();
             Marker.filter({search: query, lat: lat, lng: lng, limit: 10}).then((markers) =>
@@ -212,7 +212,7 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
     render()
     {
         if (this.state.reset)
-        {
+        
             return <Container fluid={true} className="m-0 p-0">
                 {this.state.models.map((model, i) =>
                 {
@@ -225,13 +225,13 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
 
                 }
             </Container>;
-        }
+        
         else
-        {
+        
             return <Container fluid={true} className='mt-5 pt-5 text-center'>
                 <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
             </Container>;
-        }
+        
 
 
     }

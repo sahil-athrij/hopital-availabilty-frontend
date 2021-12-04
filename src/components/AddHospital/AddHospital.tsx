@@ -129,18 +129,10 @@ function LocationMarker(props: LocationMarkerProps)
                 if (className)
                 {
                     if (!className.includes("ignore-close"))
-                    
                         setDisplay(0);
-                    
-
-
                 }
                 else
-                
                     setDisplay(0);
-                
-
-
             }
 
         },
@@ -149,27 +141,16 @@ function LocationMarker(props: LocationMarkerProps)
             const latlng = map.getCenter();
             setPosition(latlng);
             if (updateCenter)
-            
                 updateCenter(latlng.lat, latlng.lng);
-            
-
-
             setDisplay(0);
-
-
         },
         zoomlevelschange()
         {
             const latlng = map.getCenter();
             setPosition(latlng);
             if (updateCenter)
-            
                 updateCenter(latlng.lat, latlng.lng);
-            
-
-
             setDisplay(0);
-
         },
         locationfound(e)
         {
@@ -177,11 +158,7 @@ function LocationMarker(props: LocationMarkerProps)
             map.setView(e.latlng, e.accuracy);
 
             if (updateCenter)
-            
                 updateCenter(e.latlng.lat, e.latlng.lng);
-            
-
-
         },
         locationerror()
         {
@@ -331,17 +308,11 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
         const filled = true;
         console.log(filled);
         if (filled)
-        
             this.setState({position});
-        
         else
-        
             toast.error("Please fill all the required details before proceeding", {
                 position: "bottom-center",
             });
-        
-
-
     };
 
     postData = () =>
@@ -354,7 +325,7 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                 ...this.state.center
             }).then((marker) =>
             {
-                this.props.history.push(`/details/${marker.id}`);
+                this.props.history.push(`/addHospital/photo/${marker.id}`);
                 toast.success("thank you for the contribution", {
                     position: "bottom-center"
                 });
@@ -383,8 +354,7 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
             return (<></>);
         }
         else
-        {
-            console.log(this.state.center);
+        
             return (
                 <div>
                     <Container className=" px-0 pb-3 h-100 pt-0 bg-white neumorphic-input">
@@ -416,7 +386,6 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                             </MapContainer>
 
                         </div>
-
                         }
                         {this.state.position === 1 &&
                         <div className="d-flex flex-column px-3">
@@ -479,8 +448,7 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                                 <option value="S">Specialty</option>
                                 <option value="SS">Super Specialty</option>
                             </TextField>
-
-
+                            
                             <TextField label="Type of Ownership" required={true} variant="outlined"
                                 select
                                 size="small"
@@ -541,7 +509,7 @@ export class AddHospitalLoc extends AuthComponent<AuthPropsLoc, AddHospitalState
                 </div>
 
             );
-        }
+        
     }
 }
 
