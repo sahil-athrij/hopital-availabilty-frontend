@@ -382,7 +382,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                             {this.state.value &&
                             <ArrowCircleRightIcon color={"primary"} sx={{width: 30}} className="align-self-center" onClick={() =>
                             {
-                                this.searchCallBack();
+                                this.handleEnter();
                             }}/>
                             }
                         </Container>
@@ -393,7 +393,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                                 this.getLocation().then();
                             }}>
                             <MyLocationOutlinedIcon className="input-marker"/>
-                            <div className="w-100"> Use Current Location</div>
+                            <div className="w-100 m-1"> Use Current Location</div>
                         </Container>}
                         {this.state.display === 2 ? this.displaySuggestions(this.state.suggestions) : ""}
 

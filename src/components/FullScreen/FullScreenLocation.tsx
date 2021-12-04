@@ -92,7 +92,6 @@ export class LocationSearchBoxLoc<P extends LocationSearchProps, S extends Locat
 
     searchData = () => 
     {
-        console.log("hello these");
         this.setPersistence();
         let query = "";
         if (this.state.query) 
@@ -129,7 +128,9 @@ export class LocationSearchBoxLoc<P extends LocationSearchProps, S extends Locat
             const newValue = newSelected.address.name;
             this.setState({
                 value: newValue,
-                display: 0
+                display: 0,
+                lat: newSelected.lat.toString(),
+                lng: newSelected.lon.toString(),
             }, () => 
             {
                 this.searchCallBack();
@@ -175,6 +176,7 @@ export class LocationSearchBoxLoc<P extends LocationSearchProps, S extends Locat
                     {
                         const newValue = item.address.name;
                         this.setState({
+                            selected: i,
                             value: newValue,
                             display: 0,
                             lat: item.lat.toString(),
@@ -182,12 +184,15 @@ export class LocationSearchBoxLoc<P extends LocationSearchProps, S extends Locat
                         }, () => 
                         {
                             this.setPersistence();
+                            this.handleEnter();
                             this.props.close();
                         });
                     }}>
 
-                    <LocationOnIcon sx={{width: "30px"}} className="input-marker mr-3"/>
-                    <div className="fill-rest"><b>{item.address.name}</b>
+
+                    <div className="fill-rest">
+                        <LocationOnIcon sx={{width: "30px"}} className="input-marker mr-3"/>
+                        <b>{item.address.name}</b>
                         <div>{[item.address.city, item.address.state, item.address.country].filter(Boolean).join(", ")}</div>
                     </div>
                 </Container>

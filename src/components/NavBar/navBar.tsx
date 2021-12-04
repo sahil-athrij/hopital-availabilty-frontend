@@ -12,6 +12,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import "./nabar.css";
 import Avatar from "@mui/material/Avatar";
 import {IconButton} from "@mui/material";
+import {FullScreenUser} from "../FullScreen/FullScreenUser";
 
 
 
@@ -87,7 +88,7 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
                         <IconButton
                             onClick={() =>
                             {
-                                this.props.history.push(currentLocation + "/user");
+                                this.props.history.push(currentLocation + "#user");
                                 this.setState({show_user: !this.state.show_user});
                             }}>
                             <MenuIcon/>
@@ -101,7 +102,7 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
                             Search hospitals
                         </button>
                         <Avatar className="mr-2" sx={{width:"28px", height : "28px", marginRight: ".5rem"}}
-                            src={this.state.user?.tokens?.image || undefined}>{this.state.user ? this.state.user.username ? this.state.user.username[0] : "?" : "?"}</Avatar>
+                            src={this.state.user?.tokens?.profile || undefined}>{this.state.user ? this.state.user.username ? this.state.user.username[0] : "?" : "?"}</Avatar>
 
                         
                     </div>
@@ -109,6 +110,11 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
 
                     <CSSTransition classNames="user-screen" in={this.state.show_user} timeout={300}
                         unmountOnExit>
+                        <FullScreenUser close={() =>
+                        {
+                            this.props.history.goBack();
+                            this.setState({show_user: false});
+                        }}/>
                     </CSSTransition>
 
                 </Container>
