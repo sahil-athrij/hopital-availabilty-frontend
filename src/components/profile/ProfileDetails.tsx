@@ -152,6 +152,11 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
     getTab = () =>
         (this.state.tab === 0 ?
             <div className="">
+                <Container>
+                    <Link to="/addRequest">
+                        <BigBlueButton text="+ Add New Request"/>
+                    </Link>
+                </Container>
                 <Container >
                     {this.state.requests ? (this.state.requests.map((obj, key) => (
                         <div key={key}>
@@ -188,14 +193,16 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
 
 
                 </Container>
-                <Container>
-                    <Link to="/addRequest">
-                        <BigBlueButton text="+ Add New Request"/>
-                    </Link>
-                </Container>
+
 
             </div> :
             <div>
+                <Container>
+                    <BigBlueButton
+                        onClick={() => this.state.tab === 1 ? this.handleInvite() : this.setState({popUp: true})}
+                        text={this.state.tab === 1 ? "Invite Friend" : "Add Friend"}/>
+                </Container>
+
                 {(this.state.tab === 1 ? this.state.user?.invited : this.state.user?.friends)?.map((friend, key)=>(
                     <Container key={key}>
                         <div className="frndcard w-100 d-flex justify-content-between mb-2">
@@ -215,11 +222,7 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
 
                         </div>
                     </Container>))}
-                <Container>
-                    <BigBlueButton
-                        onClick={() => this.state.tab === 1 ? this.handleInvite() : this.setState({popUp: true})}
-                        text={this.state.tab === 1 ? "Invite Friend" : "Add Friend"}/>
-                </Container>
+
 
             </div>
         );
