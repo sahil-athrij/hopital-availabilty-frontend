@@ -13,7 +13,7 @@ import icon7 from "../Doctor/icons/icon-7@2x.svg";
 
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 
-import {Container} from "react-bootstrap";
+import {Container} from "@mui/material";
 import Loader from "react-loader-spinner";
 import {withRouter} from "react-router";
 import React from "react";
@@ -209,7 +209,7 @@ class NurseLoc extends AuthComponent<AuthPropsLoc, DetailsState>
         return (
             this.state.ready ?
                 <this.showNurse model={this.state.model} history={this.props.history}/> :
-                <Container fluid={true} className="my-5 py-5 ">
+                <Container  className="my-5 py-5 ">
                     <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
                 </Container>
 

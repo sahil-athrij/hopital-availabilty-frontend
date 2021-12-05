@@ -1,5 +1,5 @@
 import {AuthComponent, AuthPropsLoc, AuthState, reactUrl} from "../../api/auth";
-import {Container} from "react-bootstrap";
+import {Container, Avatar, Modal, Slider, TextField} from "@mui/material";
 import {withRouter} from "react-router";
 import React from "react";
 import {CSSTransition} from "react-transition-group";
@@ -8,7 +8,7 @@ import {Link} from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Editbutn from "../../images/editButton.svg";
-import {Avatar, Modal, Slider, TextField} from "@mui/material";
+
 import "./ProfileDetails.css";
 import {withStyles} from "@mui/styles";
 import Givehand from "../../images/Medicaidaccnt.svg";

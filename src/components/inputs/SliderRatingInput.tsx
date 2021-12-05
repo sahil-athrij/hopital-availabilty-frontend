@@ -1,8 +1,8 @@
 import React, {Component} from "react";
-import {Container} from "react-bootstrap";
+import {Container, Input} from "@mui/material";
 import Slider from "@mui/material/Slider";
 import { withStyles} from "@mui/styles";
-import { Input} from "@mui/material";
+
 import {getParam, setParam} from "../../api/QueryCreator";
 
 import "./stars.css";

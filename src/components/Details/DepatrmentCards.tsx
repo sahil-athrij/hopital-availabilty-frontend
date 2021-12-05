@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {DepartmentObject} from "../../api/model";
 
-import {Container} from "react-bootstrap";
+import {Container} from "@mui/material";
 import "./DepartmentCards.css";
 import vector from "../../images/vector.svg";
 import {BigBlueButton, StarRating} from "../Utils";
@@ -13,7 +13,7 @@ export class DepartmentCards extends Component<{ models: DepartmentObject[] }, R
         return (
             <div>{
                 this.props.models.length ?
-                    <Container fluid={true} className='m-0 p-0'>
+                    <Container className='m-0 p-0'>
                         <div className="dpts">
                             {this.props.models.map((model, i) => (
                                 <div key={i} id={String(i)}>

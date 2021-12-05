@@ -4,7 +4,7 @@ import {FullScreenSearch} from "../FullScreen/fullScreenSearch";
 import {AuthComponent, AuthState} from "../../api/auth";
 import {getParam} from "../../api/QueryCreator";
 import {CSSTransition} from "react-transition-group";
-import {Container, Navbar} from "react-bootstrap";
+import {Container, AppBar} from "@mui/material";
 import {ResponsiveState} from "../ResponsiveComponent";
 import MenuIcon from "@mui/icons-material/Menu";
 
@@ -76,8 +76,8 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
             !this.props.location.pathname.includes("/addHospital");
         console.log(this.state.user?.username);
         return (
-            <Navbar collapseOnSelect expand="xl" variant="dark"
-                className={"navbar  fixed-top " + (showSearchBar ? "bg-white" : "bg-grey")}
+            <AppBar
+                className={"navbar text-dark fixed-top " + (showSearchBar ? "bg-white" : "bg-grey")}
                 id="navbar">
 
                 <Container className="">
@@ -134,7 +134,7 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
                 </CSSTransition>
                 }
 
-            </Navbar>
+            </AppBar>
 
         );
     }

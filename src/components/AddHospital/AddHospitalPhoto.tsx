@@ -2,7 +2,7 @@ import React, {ChangeEvent} from "react";
 import {AuthComponent, AuthState} from "../../api/auth";
 import {Marker, MarkerObject} from "../../api/model";
 import {RouteComponentProps, withRouter} from "react-router";
-import {Container} from "react-bootstrap";
+import {Container} from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import {toast} from "react-toastify";
 import Loader from "react-loader-spinner";
@@ -159,7 +159,7 @@ export class AddHospitalPhotoLoc extends AuthComponent<AddHospitalPhotoPropsLoc,
 
             </div>
             :
-            <Container fluid={true} className="my-5 py-5 ">
+            <Container  className="my-5 py-5 ">
                 <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
             </Container>
         ;

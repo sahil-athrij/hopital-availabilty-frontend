@@ -1,13 +1,11 @@
-import {Container} from "react-bootstrap";
-import {ReactComponent as Back} from "../../images/back.svg";
+import {Container, Avatar} from "@mui/material";
 import {AuthComponent, AuthPropsLoc, AuthState, reactUrl} from "../../api/auth";
 import {withRouter} from "react-router";
-import {Avatar, Link} from "@mui/material";
-import {CSSTransition} from "react-transition-group";
+
 import React from "react";
 import {FullScreenLocationProps} from "./FullScreenLocation";
 
-import './location.css'
+import "./location.css";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {BigBlueButton, NineCards} from "../Utils";
@@ -26,45 +24,55 @@ interface UserMenuBoxState extends AuthState {
     show_share: boolean
 }
 
-class UserMenuBoxLoc extends AuthComponent<MenuBoxProps, UserMenuBoxState> {
-    constructor(props: MenuBoxProps) {
+class UserMenuBoxLoc extends AuthComponent<MenuBoxProps, UserMenuBoxState> 
+{
+    constructor(props: MenuBoxProps) 
+    {
         super(props);
         this.state = {
             ...this.state,
             show_share: false
-        }
+        };
     }
 
-    hashChange = () => {
-        if (!this.props.location.hash.includes('share')) {
-            this.setState({show_share: false})
-        } else {
-            this.setState({show_share: true})
-        }
-    }
+    hashChange = () => 
+    {
+        if (!this.props.location.hash.includes("share")) 
+        
+            this.setState({show_share: false});
+        
+        else 
+        
+            this.setState({show_share: true});
+        
+    };
 
-    handleinvite = async () => {
+    handleinvite = async () => 
+    {
         const shareData = {
             title: "NeedMedi",
             text: `${this.state.user?.username} Invited you to needmedi.com`,
             url: `${reactUrl}/invite?invite=${this.state.user?.tokens.private_token}`
         };
 
-        try {
+        try 
+        {
             await navigator.share(shareData);
             toast.success("Invited Successfully", {
                 position: "bottom-center"
             });
-        } catch (error) {
+        }
+        catch (error) 
+        {
             toast.error((error as { details: string }).details, {
                 position: "bottom-center"
             });
         }
-    }
+    };
 
-    render() {
-        let {user} = this.state
-        let currentLocation = this.props.location.search + this.props.location.hash
+    render() 
+    {
+
 
 
         return (
@@ -122,16 +130,18 @@ class UserMenuBoxLoc extends AuthComponent<MenuBoxProps, UserMenuBoxState> {
                     <div className="endtxt pb-4">We appreciate your kindness</div>
                 </Container>
             </div>
-        )
+        );
     }
 }
 
-export const UserMenuBox = withRouter(UserMenuBoxLoc)
+export const UserMenuBox = withRouter(UserMenuBoxLoc);
 
 
-export class FullScreenUser extends AuthComponent<FullScreenLocationProps, AuthState> {
+export class FullScreenUser extends AuthComponent<FullScreenLocationProps, AuthState> 
+{
 
-    render() {
+    render() 
+    {
 
         return (<div className="fixed-top w-100 z-index-1031 h-100 bg-white header">
 
@@ -145,11 +155,11 @@ export class FullScreenUser extends AuthComponent<FullScreenLocationProps, AuthS
             {/*        Need Medi*/}
             {/*    </div>*/}
             {/*</Container>*/}
-            <Container fluid={true} className="mt-2">
+            <Container className="mt-2">
 
                 <UserMenuBox close={this.props.close} refresh_parent={this.refresh}/>
 
             </Container>
-        </div>)
+        </div>);
     }
 }
