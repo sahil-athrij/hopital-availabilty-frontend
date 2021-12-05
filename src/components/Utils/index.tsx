@@ -95,12 +95,13 @@ export const NineCards =()=>(
                         <div className="cardtxt ">Hospital</div>
                     </div>
                 </Link>
-                <Link style={{textDecoration:"none"}} className="homecard" to="/help">
-                    <div>
-                        <img src={Givehelp} alt=""/>
-                        <div className="cardtxt ">Give help</div>
+                <Link style={{textDecoration:"none"}} className="homecard" to="/searchdoctor">
+                    <div >
+                        <img src={Doc} alt=""/>
+                        <div className="cardtxt m-0">Doctor</div>
                     </div>
                 </Link>
+
                 <Link style={{textDecoration:"none"}} className="homecard" to="/searchnurse">
                     <div >
                         <img src={Nurse} alt=""/>
@@ -113,41 +114,45 @@ export const NineCards =()=>(
         <div>
 
             <div className="container d-flex justify-content-between my-2 p-0 align-self-center px-2">
-
-                <div className="homecard d-flex flex-column ">
+                <Link style={{textDecoration:"none"}} className="homecard" to="/searchambulance">
                     <img src={Ambulanceimg} alt=""/>
                     <div className="cardtxt ">Ambulance</div>
-                </div>
+                </Link>
                 <div className="homecard">
                     <img src={Medicine} alt=""/>
                     <div className="cardtxt ">Medicine</div>
                 </div>
-                <Link style={{textDecoration:"none"}} className="homecard" to="/searchdoctor">
-                    <div >
-                        <img src={Doc} alt=""/>
-                        <div className="cardtxt m-0">Doctor</div>
-                    </div>
-                </Link>
+                <div className="homecard">
+                    <img src={BloodBank} alt=""/>
+                    <div className="cardtxt ">Blood Bank</div>
+                </div>
+
             </div>
 
         </div>
         <div>
 
             <div className="container d-flex justify-content-between  p-0 align-self-center px-2">
-                <div className="homecard">
-                    <img src={Laboratory} alt=""/>
-                    <div className="cardtxt ">Laboratory</div>
-                </div>
-                <div className="homecard">
-                    <img src={BloodBank} alt=""/>
-                    <div className="cardtxt ">Blood Bank</div>
-                </div>
+                <Link style={{textDecoration:"none"}} className="homecard" to="/help">
+                    <div>
+                        <img src={Givehelp} alt=""/>
+                        <div className="cardtxt ">Give help</div>
+                    </div>
+                </Link>
+
                 <Link style={{textDecoration:"none"}} className="homecard" to="/addRequest">
                     <div >
                         <img src={request} alt=""/>
                         <div className="cardtxt m-0">Request</div>
                     </div>
                 </Link>
+
+                <div className="homecard">
+                    <img src={Laboratory} alt=""/>
+                    <div className="cardtxt ">Laboratory</div>
+                </div>
+
+
             </div>
 
         </div>

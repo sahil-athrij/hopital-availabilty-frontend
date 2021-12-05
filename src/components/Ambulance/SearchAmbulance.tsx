@@ -111,7 +111,7 @@ class SearchNurseLoc extends AuthComponent <AuthPropsLoc, SearchAmbulanceState>
                     {this.state.ambulances && this.state.ambulances.map((model, i) => <AmbulanceCards model={model} key={i}/>)}
 
                 </div>
-                <Fab onClick={()=>this.props.history.push("/addnurse")} sx={{ position:"fixed", bottom:80, right: 16, }} color="primary" aria-label="add">
+                <Fab onClick={()=>this.props.history.push("/addambulance")} sx={{ position:"fixed", bottom:80, right: 16, }} color="primary" aria-label="add">
                     <AddIcon />
                 </Fab>
             </div>
