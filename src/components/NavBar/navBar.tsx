@@ -4,14 +4,13 @@ import {FullScreenSearch} from "../FullScreen/fullScreenSearch";
 import {AuthComponent, AuthState} from "../../api/auth";
 import {getParam} from "../../api/QueryCreator";
 import {CSSTransition} from "react-transition-group";
-import {Container, AppBar} from "@mui/material";
+import {Container, AppBar, IconButton} from "@mui/material";
 import {ResponsiveState} from "../ResponsiveComponent";
 import MenuIcon from "@mui/icons-material/Menu";
 
 
 import "./nabar.css";
 import Avatar from "@mui/material/Avatar";
-import {IconButton} from "@mui/material";
 import {FullScreenUser} from "../FullScreen/FullScreenUser";
 
 
