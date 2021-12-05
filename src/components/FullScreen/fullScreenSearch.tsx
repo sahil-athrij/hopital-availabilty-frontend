@@ -23,6 +23,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import NorthWestIcon from "@mui/icons-material/NorthWest";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import ClearAllIcon from '@mui/icons-material/ClearAll';
 
 
 interface LocationQuerySearchProps extends LocationSearchProps
@@ -270,8 +271,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                                 this.setState({display: 1});
                             }}
                         />
-                        {this.state.query === "" ?
-                            <div></div> :
+                        {this.state.query &&
                             <ArrowCircleRightIcon color={"primary"} sx={{width: 30}} className="align-self-center" onClick={() =>
                             {
                                 this.searchCallBack();
@@ -350,6 +350,17 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                             className={"w-100 d-flex align-items-center input-holder " + ((2 === this.state.display) ? "active-blue" : "")}>
                             {/* <MarkerSvg className=" input-marker"/> */}
 
+                            {this.state.value &&
+                            <CloseOutlinedIcon fontSize={"small"} onClick={() =>
+                            {
+                                this.setState({value: ""},
+                                    () =>
+                                    {
+                                        this.setPersistence();
+                                    }
+                                );
+                            }}/>}
+
                             <input placeholder="Select Location"
                                 className={"main-input"}
                                 type="search"
@@ -369,15 +380,11 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                                 }}/>
 
                             {this.state.value &&
-                            <CloseOutlinedIcon fontSize={"small"} onClick={() =>
+                            <ArrowCircleRightIcon color={"primary"} sx={{width: 30}} className="align-self-center" onClick={() =>
                             {
-                                this.setState({value: ""},
-                                    () =>
-                                    {
-                                        this.setPersistence();
-                                    }
-                                );
-                            }}/>}
+                                this.searchCallBack();
+                            }}/>
+                            }
                         </Container>
                         {(this.state.display === 2 || this.state.display === 0) &&
                         <Container className="w-100 d-flex align-items-center text-primary mt-2 py-3 select-locations pointers"
@@ -413,14 +420,14 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                             <CloseIcon sx={{color: "#0338B9"}}/>
                         </IconButton>
                     </div>
-                    <Button className="bg-grey d-flex justify-content-end" endIcon={<CloseIcon sx={{color: "#0338B9"}}/>} onClick={() =>
+                    {this.state.filters?.length? <Button sx={{width:"fit-content", marginLeft:"auto"}} className="bg-grey d-flex justify-content-end" endIcon={<ClearAllIcon sx={{color: "#0338B9"}}/>} onClick={() =>
                     {
                         this.setState({filters: []});
                     }}>
                         clear filter
-                    </Button>
+                    </Button>:<></>}
                     <div className="filterbottom d-flex flex-column">
-                        <div className="filterhead w-100 mb-2 mt-4 ">Types</div>
+                        <div className="filterhead text-center w-100 mb-2 mt-4 ">Types</div>
                         <div className="chips d-flex flex-wrap ">
                             {types.map((value, key) => (
                                 <div key={key} className="col-3 mb-2">
@@ -430,7 +437,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                                 </div>
                             ))}
                         </div>
-                        <div className="filterhead w-100 mb-2 mt-2 ">Departments</div>
+                        <div className="filterhead text-center w-100 mb-2 mt-2 ">Departments</div>
                         <div className="chips d-flex flex-wrap ">
                             {departments.map((value, key) => (
                                 <div key={key} className="col-3 mb-2">
@@ -440,7 +447,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                                 </div>
                             ))}
                         </div>
-                        <div className="filterhead w-100 mb-2 mt-2 ">Ownership</div>
+                        <div className="filterhead text-center w-100 mb-2 mt-2 ">Ownership</div>
                         <div className="chips d-flex flex-wrap ">
                             {ownership.map((value, key) => (
                                 <div key={key} className="col-3 mb-2">
@@ -450,7 +457,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                                 </div>
                             ))}
                         </div>
-                        <div className="filterhead w-100 mb-2 mt-2 ">Medicine</div>
+                        <div className="filterhead text-center w-100 mb-2 mt-2 ">Medicine</div>
                         <div className="chips d-flex flex-wrap ">
                             {medicine.map((value, key) => (
                                 <div key={key} className="col-3 mb-2">

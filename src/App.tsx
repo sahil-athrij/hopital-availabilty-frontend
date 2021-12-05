@@ -35,7 +35,7 @@ import { NurseComponent } from "./components/Nurses/Nurse";
 import {UserPage} from "./components/User/Login";
 import {EditPage} from "./components/profile/edit";
 import SearchAmbulance from "./components/Ambulance/SearchAmbulance";
-import {AddAmbulanceComponent} from "./components/Ambulance/AddAmbulance";
+import {AddFriendComponent} from "./components/AddFriend/AddFriend";
 
 
 const theme = createTheme({
@@ -118,6 +118,7 @@ class AppLoc extends React.Component<AppProps>
 
                     <Switch>
                         <Route path="/doctor/add/:hospital" ><AddDoctorComponent/></Route>
+                        <Route path="/addFriend/:token" ><AddFriendComponent/></Route>
                         <Route path="/department/add/:hospital" ><AddDepartmentComponent/></Route>
                         <Route path="/doctor/:docId" ><DoctorComponent/></Route> {/* Show details about a doctor */}
                         <Route path="/details/reviews/:hspId">
@@ -129,6 +130,9 @@ class AppLoc extends React.Component<AppProps>
                             <Search/>
                         </Route>
 
+                        <Route path="/ambulance">
+                            <SearchAmbulance/>
+                        </Route>
 
                         <Route path={"/profile/edit"}>
                             <EditPage/>
@@ -176,14 +180,6 @@ class AppLoc extends React.Component<AppProps>
 
                         <Route path={"/addnurse/"}>
                             <AddNurseComponent/>
-                        </Route>
-
-                        <Route path="/searchambulance">
-                            <SearchAmbulance/>
-                        </Route>
-
-                        <Route path="/addambulance">
-                            <AddAmbulanceComponent/>
                         </Route>
 
                         <Route path={"/adddoctor"}>

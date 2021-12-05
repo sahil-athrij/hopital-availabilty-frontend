@@ -134,21 +134,13 @@ export class ModelObject
     getData()
     {
         for (const item of this.fields)
-        
             (this as Record<string, unknown>)[item] = this.data[item];
-        
-
-
     }
 
     setData()
     {
         for (const item of this.fields)
-        
             this.data[item] = (this as unknown as Record<string, string | number>)[item];
-        
-
-
     }
 
     save = async () =>

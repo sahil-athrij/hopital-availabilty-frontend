@@ -285,8 +285,6 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
         return (
             this.state.ready ?
                 <div>
-                    {/*TODO plz dont delete me*/}
-
                     <StickyHead title="Add Doctor" onClick={this.saveDoctor} goBack={this.props.history.goBack}/>
 
                     <div className="d-flex justify-content-center align-items-center">
@@ -340,6 +338,7 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                             error={this.state.error.phone_number}
                             helperText={this.state.error.phone_number && "Incorrect format"}
                             type="tel"
+                            disableDropdown
                         />
 
 
@@ -350,6 +349,7 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                             defaultCountry={"in"}                        
                             InputLabelProps={{shrink: true, }}
                             type="tel"
+                            disableDropdown
                             onChange={(e) => this.handlePhoneChange(e)}
                         />
 
