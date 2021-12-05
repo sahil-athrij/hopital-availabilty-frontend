@@ -4,7 +4,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import React from "react";
 import {Patient, PatientObject} from "../../api/model";
-import {Container} from "react-bootstrap";
+import {Container} from "@mui/material";
 import Loader from "react-loader-spinner";
 import {toast} from "react-toastify";
 
@@ -137,7 +137,7 @@ class RequestDetailsLoc extends AuthComponent<AuthPropsLoc, RequestDetailsState>
                         </div>
                     </div>
                 </Container> :
-                <Container fluid={true} className="my-5 py-5 ">
+                <Container className="my-5 py-5 ">
                     <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
                 </Container>}
         </>;

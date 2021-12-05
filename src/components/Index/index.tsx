@@ -1,5 +1,5 @@
 import React from "react";
-import {Col, Container} from "react-bootstrap";
+import { Container} from "@mui/material";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {withRouter} from "react-router";
 
@@ -56,7 +56,7 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
 
         return (
             <React.Fragment>
-                <Container fluid={true} className="mt-2 p-5 ">
+                <Container  className="mt-2 p-5 ">
                 </Container>
                 <Container className="text-left px-0">
                     <div style={{
@@ -96,9 +96,9 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
                             <h6 className="hospnear">Hospitals Near You</h6>
                             <p className=" mr-1">See All</p>
                         </div>
-                        <Col xs={12} id="searchresults">
+                        <div className="col col-xs-12" id="searchresults">
                             <SearchResults updateParent={() => null}/>
-                        </Col>
+                        </div>
                     </> : <></>
                     }
                 </Container>

@@ -1,5 +1,5 @@
 import {ResponsiveComponent, ResponsiveState} from "../ResponsiveComponent";
-import {Container} from "react-bootstrap";
+import {Container, Button, Chip, IconButton} from "@mui/material";
 import {
     FullScreenLocationProps,
     LocationSearchBoxLoc,
@@ -14,7 +14,7 @@ import {withRouter} from "react-router";
 import React from "react";
 import "./fullScreenSearch.css";
 import {toast} from "react-toastify";
-import {Button, Chip, IconButton} from "@mui/material";
+
 import {withStyles} from "@mui/styles";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
@@ -23,7 +23,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import NorthWestIcon from "@mui/icons-material/NorthWest";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
-import ClearAllIcon from '@mui/icons-material/ClearAll';
+import ClearAllIcon from "@mui/icons-material/ClearAll";
 
 
 interface LocationQuerySearchProps extends LocationSearchProps
@@ -488,7 +488,7 @@ export class FullScreenSearch extends
     {
         return (<div className="fixed-top w-100 h-100 bg-white header">
 
-            <Container fluid={true} className="mt-3 p-0">
+            <Container  className="mt-3 p-0">
                 <LocationQuerySearchBox close={() => null} closeWindow={this.props.close}   />
             </Container>
         </div>);

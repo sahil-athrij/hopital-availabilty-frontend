@@ -51,7 +51,7 @@ interface SearchAmbulanceState extends AuthState {
     searchTerm: string
 }
 
-class SearchNurseLoc extends AuthComponent <AuthPropsLoc, SearchAmbulanceState>
+class SearchAmbulanceLoc extends AuthComponent <AuthPropsLoc, SearchAmbulanceState>
 {
     constructor(props: AuthPropsLoc)
     {
@@ -120,5 +120,5 @@ class SearchNurseLoc extends AuthComponent <AuthPropsLoc, SearchAmbulanceState>
     }
 }
 
-const SearchAmbulance = withRouter(SearchNurseLoc);
+const SearchAmbulance = withRouter(SearchAmbulanceLoc);
 export default SearchAmbulance;

@@ -3,7 +3,7 @@ import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import React from "react";
 
 import "./details.css";
-import {Container} from "react-bootstrap";
+import {Container, Avatar} from "@mui/material";
 import SwipeableViews from "react-swipeable-views";
 import Loader from "react-loader-spinner";
 import {withRouter} from "react-router";
@@ -24,7 +24,7 @@ import direction_icon from "./icons/primary@2x.png";
 import {DepartmentCards} from "./DepatrmentCards";
 import {DoctorCards} from "./DoctorCards";
 import {ReviewCards} from "./ReviewCards";
-import {Avatar} from "@mui/material";
+
 import {toast} from "react-toastify";
 
 
@@ -249,7 +249,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                         </TabPanel>
                     </SwipeableViews>
                 </> :
-                <Container fluid={true} className="my-5 py-5 ">
+                <Container  className="my-5 py-5 ">
                     <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
                 </Container>
 

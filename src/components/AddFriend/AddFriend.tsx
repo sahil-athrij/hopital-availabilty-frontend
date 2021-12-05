@@ -3,9 +3,9 @@ import {AuthComponent, AuthPropsLoc, AuthState, getAuth} from "../../api/auth";
 import {withRouter} from "react-router";
 import React from "react";
 
-import {Button} from "@mui/material";
+import {Button, Container} from "@mui/material";
 import Loader from "react-loader-spinner";
-import {Container} from "react-bootstrap";
+
 import Typography from "@mui/material/Typography";
 import {baseUrl, post} from "../../api/api";
 
