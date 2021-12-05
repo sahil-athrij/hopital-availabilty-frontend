@@ -27,7 +27,7 @@ class AmbulanceCardsLoc extends Component<AmbulanceCardsProps>
 
 
         return (
-            <Link style={{textDecoration: "none"}} className="text-dark" to={"/details/" + this.props.model.id}>
+            <Link style={{textDecoration: "none"}} className="text-dark w-100" to={"/details/" + this.props.model.id}>
                 {/* Show hospital image */}
                 <div className="cardstyle mb-2 justify-content-between d-flex">
                     <div className="align-self-center">
@@ -64,22 +64,11 @@ class AmbulanceCardsLoc extends Component<AmbulanceCardsProps>
                                 <div>
                                     Driver:{this.props.model.driver_name}
                                 </div>
-                                {/*{this.props.model. && this.props.model.address.suburb + ", "}*/}
-                                {/*{this.props.model.address.village && this.props.model.address.village + ", "}*/}
-                                {/*{this.props.model.address.state_district && this.props.model.address.state_district}*/}
-                                {/*{this.props.model.address.state && this.props.model.address.state}*/}
                             </div>
 
 
-                            <div className="container d-flex justify-content-around">
-                                {/*<button className="pvrtab" onClick={(event) =>*/}
-                                {/*{*/}
-                                {/*    event.preventDefault();*/}
-                                {/*    event.stopPropagation();*/}
-                                {/*    alert("Will be available on next update");*/}
-                                {/*}}>*/}
-                                {/*    <img src={Videocall} alt=""/>*/}
-                                {/*</button>*/}
+                            <div className="container d-flex justify-content-end">
+
                                 {this.props.model.phone_number !== "0000000000" ?
                                     (<button className="pvrtab" onClick={(event) =>
                                     {

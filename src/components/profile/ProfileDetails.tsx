@@ -153,6 +153,11 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
         
             return (
                 <div className="">
+                    <Container>
+                        <Link to="/addRequest">
+                            <BigBlueButton text="+ Add New Request"/>
+                        </Link>
+                    </Container>
                     <Container >
                         {this.state.requests ? (this.state.requests.map((obj, key) => (
                             <div key={key}>
@@ -192,11 +197,6 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
 
 
                     </Container>
-                    <Container>
-                        <Link to="/addRequest">
-                            <BigBlueButton text="+ Add New Request"/>
-                        </Link>
-                    </Container>
 
                 </div>
             );
@@ -205,6 +205,9 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
         
             return (
                 <div className="">
+                    <Container>
+                        <BigBlueButton onClick={this.handleinvite} text="Invite  Friend"/>
+                    </Container>
                     {this.state.user?.friends?.map((friend, key)=>(
                         <Container key={key}>
                             <div className="frndcard w-100 d-flex justify-content-between mb-2">
@@ -224,9 +227,6 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
 
                             </div>
                         </Container>))}
-                    <Container>
-                        <BigBlueButton onClick={this.handleinvite} text="Invite  Friend"/>
-                    </Container>
 
                 </div>
 
