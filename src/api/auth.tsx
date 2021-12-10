@@ -2,7 +2,7 @@ import {ResponsiveComponent, ResponsiveState} from "../components/ResponsiveComp
 import {RouteComponentProps, withRouter} from "react-router";
 import {getParam, getQueryVariable} from "./QueryCreator";
 import {baseUrl, post} from "./api";
-import {Container} from "react-bootstrap";
+import {Container} from "@mui/material";
 import Loader from "react-loader-spinner";
 import React from "react";
 import {toast} from "react-toastify";

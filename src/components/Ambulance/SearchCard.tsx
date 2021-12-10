@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {AuthPropsLoc} from "../../api/auth";
 import {AmbulanceObject, Marker} from "../../api/model";
 import {Link} from "react-router-dom";
-import {Avatar} from "@mui/material";
+import {Avatar, Container} from "@mui/material";
 import Ekmmed from "../../images/ekmmed.png";
 import SmallStar from "../../images/smallstar.svg";
 import Phonecall from "../../images/phonecall.svg";
@@ -10,7 +10,7 @@ import Routemap from "../../images/routemap.svg";
 import {withRouter} from "react-router";
 import {ResponsiveState} from "../ResponsiveComponent";
 import {getParam} from "../../api/QueryCreator";
-import {Container} from "react-bootstrap";
+
 import Loader from "react-loader-spinner";
 import {toast} from "react-toastify";
 
@@ -209,7 +209,7 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
     {
         if (this.state.reset)
         
-            return <Container fluid={true} className="m-0 p-0">
+            return <Container  className="m-0 p-0">
                 {this.state.models.map((model, i) =>
                 {
                     return <AmbulanceSearchCard key={i} model={model}/>;
@@ -224,7 +224,7 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
         
         else
         
-            return <Container fluid={true} className='mt-5 pt-5 text-center'>
+            return <Container  className='mt-5 pt-5 text-center'>
                 <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
             </Container>;
         

@@ -1,5 +1,5 @@
 import {ResponsiveComponent, ResponsiveState} from "../ResponsiveComponent";
-import {Container} from "react-bootstrap";
+import {Container} from "@mui/material";
 import {ReactComponent as MarkerSvg} from "../../images/markersvg.svg";
 import {get} from "../../api/api";
 import LocationOnIcon from "@mui/icons-material/LocationOn";

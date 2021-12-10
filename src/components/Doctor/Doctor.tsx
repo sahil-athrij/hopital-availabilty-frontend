@@ -15,7 +15,7 @@ import hospital from "../../images/hospital-icon.svg";
 
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 
-import {Container} from "react-bootstrap";
+import {Container, MenuItem} from "@mui/material";
 import Loader from "react-loader-spinner";
 import {withRouter} from "react-router";
 import React from "react";
@@ -25,7 +25,7 @@ import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import {toast} from "react-toastify";
 import TextField from "@mui/material/TextField";
-import {MenuItem} from "@mui/material";
+
 
 interface DetailsState extends AuthState
 {
@@ -334,7 +334,7 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                             onClick={() => !this.state.booking ? this.setState({booking: true}) : this.handleBooking()}/>
                     </Container>
                 </>:
-                <Container fluid={true} className="my-5 py-5 ">
+                <Container className="my-5 py-5 ">
                     <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
                 </Container>
 
