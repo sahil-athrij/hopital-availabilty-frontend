@@ -34,7 +34,8 @@ type User = {
         points: number,
         profile: string | null,
         phone_number:string,
-        languages: string[],
+        languages: Array<LanguageObject>,
+        language: Array<LanguageObject>,
 
     }; email: string; username: string; first_name: string; last_name: string;
 };
@@ -200,31 +201,31 @@ class Edit extends AuthComponent<AuthPropsLoc, EditState>
                             }}
                         />
                     </div>
-                    <p className="txthead mt-3">EMAIL</p>
-                    <div className="d-flex justify-content-between flex-row align-items-center">
-                        <TextField
-                            value={this.state.user?.email}
-                            fullWidth
-                            onChange={({target}) => this.setState({
-                                ...this.state,
-                                user: {...this.state.user, email: target.value} as User
-                            })}
-                            variant="standard"
-                            InputProps={{
-                                endAdornment: (
-                                    <button onClick={() =>
-                                    {
-                                        this.setState({
-                                            ...this.state,
-                                            user: {...this.state.user, email: ""} as User
-                                        });
-                                    }}>
-                                        <HighlightOffIcon/>
-                                    </button>
-                                ),
-                            }}
-                        />
-                    </div>
+                    {/*<p className="txthead mt-3">EMAIL</p>*/}
+                    {/*<div className="d-flex justify-content-between flex-row align-items-center">*/}
+                    {/*    <TextField*/}
+                    {/*        value={this.state.user?.email}*/}
+                    {/*        fullWidth*/}
+                    {/*        onChange={({target}) => this.setState({*/}
+                    {/*            ...this.state,*/}
+                    {/*            user: {...this.state.user, email: target.value} as User*/}
+                    {/*        })}*/}
+                    {/*        variant="standard"*/}
+                    {/*        InputProps={{*/}
+                    {/*            endAdornment: (*/}
+                    {/*                <button onClick={() =>*/}
+                    {/*                {*/}
+                    {/*                    this.setState({*/}
+                    {/*                        ...this.state,*/}
+                    {/*                        user: {...this.state.user, email: ""} as User*/}
+                    {/*                    });*/}
+                    {/*                }}>*/}
+                    {/*                    <HighlightOffIcon/>*/}
+                    {/*                </button>*/}
+                    {/*            ),*/}
+                    {/*        }}*/}
+                    {/*    />*/}
+                    {/*</div>*/}
                     <p className="txthead mt-3">PHONE</p>
                     <div className="d-flex justify-content-between flex-row align-items-center">
                         <TextField
@@ -262,8 +263,9 @@ class Edit extends AuthComponent<AuthPropsLoc, EditState>
                             multiple
                             fullWidth
                             autoSelect
-                            value={this.state.user?.tokens?.languages}
-                            options={this.state.languages.map(({name})=> name)}
+                            defaultValue={this.state.user?.tokens?.language}
+                            options={this.state.languages}
+                            getOptionLabel={(language)=>language.name}
                             onChange={(_, language) => this.setState({
                                 ...this.state,
                                 user: {
@@ -276,8 +278,6 @@ class Edit extends AuthComponent<AuthPropsLoc, EditState>
                                     {...params}
                                     variant="standard"
                                     fullWidth
-                                    // defaultValue={this.state.user?.tokens?.languages}
-                                    // value={this.state.user?.tokens?.languages}
                                     onChange = {(event) => this.editSearchTerm(event.target.value)}
                                 />)}
                         />
