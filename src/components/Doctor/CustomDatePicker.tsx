@@ -24,20 +24,26 @@ const CustomPickersDay = styled(PickersDay, {
         prop !== "dayIsBetween" && prop !== "isFirstDay" && prop !== "isLastDay",
 })<CustomPickerDayProps>(({theme, dayIsBetween, isFirstDay, isLastDay}) => ({
     ...(dayIsBetween && {
-        borderRadius: 0,
-        backgroundColor: theme.palette.primary.main,
-        color: theme.palette.common.white,
+        borderRadius: 0 ,
+        backgroundColor: "#D8E3FF",
+        color: "#0047FF",
+        height: "44px",
         "&:hover, &:focus": {
             backgroundColor: theme.palette.primary.dark,
         },
     }),
     ...(isFirstDay && {
-        borderTopLeftRadius: "50%",
-        borderBottomLeftRadius: "50%",
+        backgroundColor: "#D8E3FF",
+        color: "#0047FF",
+        height: "44px",
+        borderRadius: "0",
+        borderTopLeftRadius: "6px",
+        borderBottomLeftRadius: "6px",
     }),
     ...(isLastDay && {
-        borderTopRightRadius: "50%",
-        borderBottomRightRadius: "50%",
+        backgroundColor: "#D8E3FF",
+        borderTopRightRadius: "6px",
+        borderBottomRightRadius: "6px",
     }),
 })) as React.ComponentType<CustomPickerDayProps>;
 
@@ -67,7 +73,9 @@ export default function CustomDatePicker({ranges, onChange}: CustomDatePickerPro
         }
 
         return (
+
             <CustomPickersDay
+                sx={{width: "100%"}}
                 {...pickersDayProps}
                 disableMargin
                 dayIsBetween={middle}
@@ -80,10 +88,11 @@ export default function CustomDatePicker({ranges, onChange}: CustomDatePickerPro
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <StaticDatePicker
+                className="w-100"
                 displayStaticWrapperAs="desktop"
                 label="Week picker"
                 value={value}
-                onChange={(date) => 
+                onChange={(date) =>
                 {
                     setValue(date);
                     onChange(date);

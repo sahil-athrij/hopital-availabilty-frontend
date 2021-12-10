@@ -1,4 +1,4 @@
-import {AuthComponent, AuthState, getAuth} from "../../api/auth";
+import {AuthComponent, AuthState, getAuth, setObj} from "../../api/auth";
 import {Language, LanguageObject} from "../../api/model";
 import {AuthPropsLoc} from "../GiveHelp/GiveHelp";
 import {withRouter} from "react-router";
@@ -70,8 +70,9 @@ class Edit extends AuthComponent<AuthPropsLoc, EditState>
         
         const access_token = getAuth();
 
-        return patch(`${baseUrl}/auth/users/me/`, this.state.user, {"Authorization": `Bearer ${access_token}`}).then(() =>
+        return patch(`${baseUrl}/auth/users/me/`, this.state.user, {"Authorization": `Bearer ${access_token}`}).then(({results}) =>
         {
+            setObj("user", results[0]);
             this.props.history.push("/profile");
             toast.success("Successfully edited your details", {
                 position: "bottom-center"
