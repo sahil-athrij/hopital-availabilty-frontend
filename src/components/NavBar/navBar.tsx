@@ -75,7 +75,7 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
             !this.props.location.pathname.includes("/addHospital");
         console.log(this.state.user?.username);
         return (
-            <AppBar
+            <AppBar style={{boxShadow: "none"}}
                 className={"navbar text-dark fixed-top " + (showSearchBar ? "bg-white" : "bg-grey")}
                 id="navbar">
 
