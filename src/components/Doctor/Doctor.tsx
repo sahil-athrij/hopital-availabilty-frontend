@@ -11,6 +11,7 @@ import icon4 from "./icons/icon-4@2x.svg";
 import icon5 from "./icons/icon-5@2x.svg";
 import icon6 from "./icons/icon-6@2x.svg";
 import icon7 from "./icons/icon-7@2x.svg";
+import hospital from "../../images/hospital-icon.svg";
 
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 
@@ -189,6 +190,7 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
         return (
             this.state.ready ?
                 <>
+                    {!this.state.booking ? <>
                     <div className="overlap-group4">
                         <div className="d-flex justify-content-between w-100 px-3 align-items-centre">
                             <ArrowBackIcon className="left-align" onClick={() => this.props.history.goBack()}/>
@@ -217,7 +219,6 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                             <DoctorStats value={model.rating} title={"Rating"} icon={icon4} class={"yellow"}/>
                         </div>
                     </div>
-                    {!this.state.booking ? <>
                         <div className={"about"}>
                             <div className="about-doctor nunito-semi-bold-ebony-clay-18px">
                                 {model.about}
@@ -263,18 +264,54 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                     </>
                         :
                         <>
+                            <div className="pb-0 overlap-group4">
+                                <div className="d-flex justify-content-between w-100 px-3 align-items-centre">
+                                    <ArrowBackIcon className="left-align" onClick={() => this.props.history.goBack()}/>
+                                    <img alt={""}
+                                         className="icon-2 mx-3"
+                                         src={icon}
+                                    />
+
+                                </div>
+
+                                <img alt={""}
+                                     className="image"
+                                     src={model.image ? model.image : image}
+                                />
+
+                                <div className="nunito-semi-bold-ebony-clay-20px">
+                                    {model.name}
+                                </div>
+                                <div className="w-100 text-center nunito-bold-lynch-14px">
+                                    Specialization: {model.specialization}
+                                </div>
+                                <div className="d-flex w-100 text-center nunito-semi-bold-lynch-14px align-items-center justify-content-center">
+                                    <img className="mx-1" style={{height: ".8rem"}} src={hospital} alt="hospital"/>
+                                    hospital name goes here
+                                </div>
+                                {/*<div className="flex-row-1">*/}
+                                {/*    <DoctorStats value={model.patients >= 1000 ? "1000+" : model.patients} title={"Patients"}*/}
+                                {/*                 icon={icon2} class={"blue"}/>*/}
+                                {/*    <DoctorStats value={model.experience} title={"Experience"} icon={icon3} class={"red"}/>*/}
+                                {/*    <DoctorStats value={model.rating} title={"Rating"} icon={icon4} class={"yellow"}/>*/}
+                                {/*</div>*/}
+                            </div>
                             <CustomDatePicker
                                 ranges={model.ranges && model.ranges.map(({start, end}) => ({start: new Date(start), end: new Date(end)}))}
                                 onChange={(date) => date && this.setState({slot: {date: this.toDjangoDate(date)}})}/>
-                            <Typography variant={"h6"}>Available Slots</Typography>
+                            <Typography variant={"h6"}>Available Time</Typography>
                             <Container>
-                                {model.slots && model.slots.filter(({date}) => this.state.slot.date === date).map((slot, i) =>
-                                    <Chip key={i}
-                                        label={`${slot.start} - ${slot.end}`}
-                                        variant={this.state.slot === slot ? "filled" : "outlined"}
-                                        onClick={() => this.setState({slot: slot})} />
-                                )}
+                                <div className="row d-flex justify-content-center">
+                                    {model.slots && model.slots.filter(({date}) => this.state.slot.date === date).map((slot, i) =>
+                                        <Chip  className="col-4 m-1" key={i}
+                                              label={`${slot.start.slice(0,5)} - ${slot.end.slice(0,5)}`}
+                                              variant="filled"
+                                              color={this.state.slot === slot ? "primary" : "default"}
+                                              onClick={() => this.setState({slot: slot})} />
+                                    )}
+                                </div>
                                 <TextField
+                                    style={{marginTop: "1rem"}}
                                     id="outlined-select-currency"
                                     select
                                     label="Patient"

@@ -246,7 +246,7 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                     p: 4,
                 }}>
                     <Typography variant="h6">
-                        <b>Your ID :</b>&nbsp;{this.state.user?.tokens.private_token}&nbsp;
+                          <b>Your ID :</b>&nbsp;{this.state.user?.tokens.private_token}&nbsp;
                         <Button
                             onClick={() => navigator.share({
                                 title: "NeedMedi",
@@ -337,7 +337,7 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                                 <button className={`card-about card-1 ${this.state.tab === 0 && "active"}`}
                                     onClick={() => this.setState({tab: 0})}>
                                     <img src={Givehand} alt={"doctor svg"}/>
-                                    <p className="m-0"><b>1</b><br/>Requests</p>
+                                    <p className="m-0"><b>{this.state.requests?.length}</b><br/>Requests</p>
                                 </button>
 
                                 <button className={`card-about card-1 ${this.state.tab === 1 && "active"}`}

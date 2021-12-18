@@ -1,4 +1,4 @@
-import {AuthComponent, AuthState, getAuth} from "../../api/auth";
+import {AuthComponent, AuthState, getAuth, setObj} from "../../api/auth";
 import {Language, LanguageObject} from "../../api/model";
 import {AuthPropsLoc} from "../GiveHelp/GiveHelp";
 import {withRouter} from "react-router";
@@ -34,7 +34,8 @@ type User = {
         points: number,
         profile: string | null,
         phone_number:string,
-        languages: string[],
+        languages: Array<LanguageObject>,
+        language: Array<LanguageObject>,
 
     }; email: string; username: string; first_name: string; last_name: string;
 };
@@ -70,8 +71,9 @@ class Edit extends AuthComponent<AuthPropsLoc, EditState>
         
         const access_token = getAuth();
 
-        return patch(`${baseUrl}/auth/users/me/`, this.state.user, {"Authorization": `Bearer ${access_token}`}).then(() =>
+        return patch(`${baseUrl}/auth/users/me/`, this.state.user, {"Authorization": `Bearer ${access_token}`}).then(({results}) =>
         {
+            setObj("user", results[0]);
             this.props.history.push("/profile");
             toast.success("Successfully edited your details", {
                 position: "bottom-center"
@@ -199,31 +201,31 @@ class Edit extends AuthComponent<AuthPropsLoc, EditState>
                             }}
                         />
                     </div>
-                    <p className="txthead mt-3">EMAIL</p>
-                    <div className="d-flex justify-content-between flex-row align-items-center">
-                        <TextField
-                            value={this.state.user?.email}
-                            fullWidth
-                            onChange={({target}) => this.setState({
-                                ...this.state,
-                                user: {...this.state.user, email: target.value} as User
-                            })}
-                            variant="standard"
-                            InputProps={{
-                                endAdornment: (
-                                    <button onClick={() =>
-                                    {
-                                        this.setState({
-                                            ...this.state,
-                                            user: {...this.state.user, email: ""} as User
-                                        });
-                                    }}>
-                                        <HighlightOffIcon/>
-                                    </button>
-                                ),
-                            }}
-                        />
-                    </div>
+                    {/*<p className="txthead mt-3">EMAIL</p>*/}
+                    {/*<div className="d-flex justify-content-between flex-row align-items-center">*/}
+                    {/*    <TextField*/}
+                    {/*        value={this.state.user?.email}*/}
+                    {/*        fullWidth*/}
+                    {/*        onChange={({target}) => this.setState({*/}
+                    {/*            ...this.state,*/}
+                    {/*            user: {...this.state.user, email: target.value} as User*/}
+                    {/*        })}*/}
+                    {/*        variant="standard"*/}
+                    {/*        InputProps={{*/}
+                    {/*            endAdornment: (*/}
+                    {/*                <button onClick={() =>*/}
+                    {/*                {*/}
+                    {/*                    this.setState({*/}
+                    {/*                        ...this.state,*/}
+                    {/*                        user: {...this.state.user, email: ""} as User*/}
+                    {/*                    });*/}
+                    {/*                }}>*/}
+                    {/*                    <HighlightOffIcon/>*/}
+                    {/*                </button>*/}
+                    {/*            ),*/}
+                    {/*        }}*/}
+                    {/*    />*/}
+                    {/*</div>*/}
                     <p className="txthead mt-3">PHONE</p>
                     <div className="d-flex justify-content-between flex-row align-items-center">
                         <TextField
@@ -261,8 +263,9 @@ class Edit extends AuthComponent<AuthPropsLoc, EditState>
                             multiple
                             fullWidth
                             autoSelect
-                            value={this.state.user?.tokens?.languages}
-                            options={this.state.languages.map(({name})=> name)}
+                            defaultValue={this.state.user?.tokens?.language}
+                            options={this.state.languages}
+                            getOptionLabel={(language)=>language.name}
                             onChange={(_, language) => this.setState({
                                 ...this.state,
                                 user: {
@@ -275,8 +278,6 @@ class Edit extends AuthComponent<AuthPropsLoc, EditState>
                                     {...params}
                                     variant="standard"
                                     fullWidth
-                                    // defaultValue={this.state.user?.tokens?.languages}
-                                    // value={this.state.user?.tokens?.languages}
                                     onChange = {(event) => this.editSearchTerm(event.target.value)}
                                 />)}
                         />

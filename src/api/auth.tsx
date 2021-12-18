@@ -6,6 +6,7 @@ import {Container} from "@mui/material";
 import Loader from "react-loader-spinner";
 import React from "react";
 import {toast} from "react-toastify";
+import {LanguageObject} from "./model";
 
 
 const client_id = "6tWdAZrlxUA26FJSMjE7oKBpTNGaqJRl2bsmNMRb";
@@ -119,8 +120,8 @@ type token = {
     points: number,
     profile: string | null,
     phone_number: string,
-    languages: string[],
-
+    languages: Array<LanguageObject>,
+    language: Array<LanguageObject>,
 }
 
 export interface AuthState extends ResponsiveState {
