@@ -158,31 +158,3 @@ export const NineCards =()=>(
         </div>
     </>
 );
-
-// export const RatingBar = () => (
-//     <>
-//         <div className="d-flex justify-content-between align-items-center px-4">
-//             <div className="d-flex flex-column m-0 p-0">
-//                 <h4 className="m-0 p-0">
-//                     <b>21</b>
-//                 </h4>
-//                 <Rating className="w-25" name="disabled" value={3.6} disabled precision={0.1} />
-
-//                 <p className="m-0 p-0">
-//                     <small>(21)</small>
-//                 </p>
-//             </div>
-
-//             <div className="w-100 mx-4">
-//                 <LinearProgress sx={{ width: '100%', color: 'grey.500' }} className="rt-bar mb-1" variant="determinate" value={50} />
-//                 <LinearProgress sx={{ width: '100%', color: 'grey.500' }} className="rt-bar mb-1" variant="determinate" value={50} />
-//                 <LinearProgress sx={{ width: '100%', color: 'grey.500' }} className="rt-bar mb-1" variant="determinate" value={50} />
-//                 <LinearProgress sx={{ width: '100%', color: 'grey.500' }} className="rt-bar mb-1" variant="determinate" value={50} />
-//                 <LinearProgress sx={{ width: '100%', color: 'grey.500' }} className="rt-bar mb-1" variant="determinate" value={50} />
-//             </div>
-
-//                <InfoOutlinedIcon sx={{color:"#6B779A"}}/>
-
-//         </div>
-//     </>
-// );
