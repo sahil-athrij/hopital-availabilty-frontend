@@ -1,10 +1,12 @@
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {withRouter} from "react-router";
-import SignalProtocolManager from "./lib/SignalProtocolManager";
 
-interface ChatState extends AuthState{
-    signalUser: SignalProtocolManager;
-    ready: boolean
+import {register, sendMessage} from "./lib";
+
+interface ChatState extends AuthState
+{
+    ready: boolean;
+    message: string;
 }
 
 class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
@@ -18,32 +20,24 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
 
     async initSession()
     {
-        const user1 = this.state.user?.tokens.private_token;
-        if(!user1)
-            return;
+        if(!this.props.match.params.chatId)
+            throw Error("User not logged in");
 
-        const signalProtocolManagerUser = new SignalProtocolManager(user1, user1);
-        await signalProtocolManagerUser.initializeAsync();
-
-        this.setState({signalUser: signalProtocolManagerUser, ready: true});
-        const cipher2 = await this.state.signalUser.encryptMessageAsync("hello from 2");
-
-        const decrypt2 = await this.state.signalUser.decryptMessageAsync(cipher2);
-
-        console.log(cipher2, decrypt2);
+        await register(this.props.match.params.chatId, (message: string) => this.setState({message}));
     }
 
     componentDidMount()
     {
         super.componentDidMount();
-        this.initSession().then();
+        this.initSession().then(() => this.setState({ready: true}));
     }
 
     render(): JSX.Element
     {
         return (
             <>
-                {}
+                {this.state.ready && <button onClick={() => sendMessage(456, "Hello")}>Send</button>}
+                <h1>{this.state.message}</h1>
             </>
         );
     }
