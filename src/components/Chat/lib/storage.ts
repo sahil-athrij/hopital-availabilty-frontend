@@ -1,31 +1,30 @@
 const PREFIX = "jsxc2";
-
 const SEP = ":";
-
 const IGNORE_KEY = ["rid"];
-
 const BACKEND = localStorage;
 
 export class Storage
 {
-    static clear(name)
+    private readonly hooks?: Record<string, unknown>;
+    private static tested?: boolean;
+    static storageNotConform: boolean;
+    private static toSNC: undefined;
+    private name?: string;
+
+    static clear(name: string)
     {
         let prefix = PREFIX + SEP;
 
         if (prefix)
-
             prefix = prefix + name + SEP;
 
         for (const key in BACKEND)
         {
             if (!BACKEND.hasOwnProperty(key))
-
                 continue;
 
             if (key.startsWith(prefix))
-
                 BACKEND.removeItem(key);
-
         }
     }
 
@@ -56,7 +55,7 @@ export class Storage
         return this.name;
     }
 
-    generateKey(...args)
+    generateKey(...args: [])
     {
         let key = "";
 
@@ -77,7 +76,7 @@ export class Storage
         const randomNumber = Math.round(Math.random() * 1000000000) + "";
         const key = this.getPrefix() + randomNumber;
 
-        const listenerFunction = function (ev)
+        const listenerFunction = function (ev: StorageEvent)
         {
             if (ev.newValue === randomNumber)
             {
@@ -118,19 +117,19 @@ export class Storage
         return BACKEND;
     }
 
-    setItem()
+    setItem(...args: string[])
     {
         let key, value;
 
-        if (arguments.length === 2)
+        if (args.length === 2)
         {
-            key = arguments[0];
-            value = arguments[1];
+            key = args[0];
+            value = args[1];
         }
-        else if (arguments.length === 3)
+        else if (args.length === 3)
         {
-            key = arguments[0] + SEP + arguments[1];
-            value = arguments[2];
+            key = args[0] + SEP + args[1];
+            value = args[2];
         }
 
         //@REVIEW why do we just stringify objects?
@@ -152,112 +151,102 @@ export class Storage
         const pre_key = this.getPrefix() + key;
         const oldValue = BACKEND.getItem(pre_key);
 
-        BACKEND.setItem(pre_key, value);
+        BACKEND.setItem(pre_key, String(value || ""));
 
         if (!Storage.storageNotConform && oldValue !== value)
             this.onStorageEvent({
                 key: pre_key,
                 oldValue: oldValue,
                 newValue: value
-            });
+            } as unknown as StorageEvent);
 
     }
 
-    getItem()
+    getItem(...args: string[])
     {
         let key;
 
-        if (arguments.length === 1)
+        if (args.length === 1)
 
-            key = arguments[0];
+            key = args[0];
 
         else if (arguments.length === 2)
 
-            key = arguments[0] + SEP + arguments[1];
+            key = args[0] + SEP + args[1];
 
         key = this.getPrefix() + key;
 
         return this.parseValue(BACKEND.getItem(key));
     }
 
-    removeItem()
+    removeItem(...args: string[])
     {
         let key;
 
-        if (arguments.length === 1)
+        if (args.length === 1)
 
-            key = arguments[0];
+            key = args[0];
 
-        else if (arguments.length === 2)
+        else if (args.length === 2)
 
-            key = arguments[0] + SEP + arguments[1];
+            key = args[0] + SEP + args[1];
 
         BACKEND.removeItem(this.getPrefix() + key);
     }
 
-    updateItem()
+    updateItem(...args: string[])
     {
-        let key, variable, value;
+        let key, variable, value; // TODO Call me if you get an error, or don't
 
-        if (arguments.length === 4 || (arguments.length === 3 && typeof variable === "object"))
+        if (args.length === 4 || (args.length === 3 && typeof variable === "object"))
         {
-            key = arguments[0] + SEP + arguments[1];
-            variable = arguments[2];
-            value = arguments[3];
+            key = args[0] + SEP + args[1];
+            variable = args[2];
+            value = args[3];
         }
         else
         {
-            key = arguments[0];
-            variable = arguments[1];
-            value = arguments[2];
+            key = args[0];
+            variable = args[1];
+            value = args[2];
         }
 
         const data = this.getItem(key) || {};
 
-        if (typeof (variable) === "object")
+        if (typeof (variable) === "object") // TODO: I don't know what I am doing
             $.each(variable, function (key, val)
             {
-                if (typeof (data[key]) === "undefined")
-                    Log.debug("Variable " + key + " doesn't exist in " + variable + ". It was created.");
-
                 data[key] = val;
             });
-
         else
-        {
-            if (typeof data[variable] === "undefined")
-
-                Log.debug("Variable " + variable + " doesn't exist. It was created.");
-
             data[variable] = value;
-        }
 
         this.setItem(key, data);
     }
 
-    increment(key)
+    increment(key: string)
     {
         const value = Number(this.getItem(key));
 
-        this.setItem(key, value + 1);
+        this.setItem(key, String(value + 1));
     }
 
-    removeElement()
+    removeElement(...args: unknown[])
     {
-        let key, name;
+        let key, name: unknown;
 
-        if (arguments.length === 2)
+        if (args.length === 2)
         {
-            key = arguments[0];
-            name = arguments[1];
+            key = args[0];
+            name = args[1];
         }
-        else if (arguments.length === 3)
+        else if (args.length === 3)
         {
-            key = arguments[0] + SEP + arguments[1];
-            name = arguments[2];
+            key = args[0] + SEP + args[1];
+            name = args[2];
         }
 
-        var item = this.getItem(key);
+        let item = this.getItem(<string>key);
 
         if ($.isArray(item))
 
@@ -267,56 +256,45 @@ export class Storage
             });
 
         else if (typeof (item) === "object" && item !== null)
+            delete item[name as string];
 
-            delete item[name];
-
-        this.setItem(key, item);
+        this.setItem(<string>key, item);
     }
 
-    registerHook(eventName, func)
+    removeHook(eventName: string | number, func: string)
     {
-        if (!this.hooks[eventName])
-
-            this.hooks[eventName] = [];
-
-        this.hooks[eventName].push(func);
-    }
-
-    removeHook(eventName, func)
-    {
-        let eventNameList = this.hooks[eventName] || [];
+        let eventNameList = (this.hooks || {})[eventName] || [];
 
         if (typeof func === "undefined")
-
             eventNameList = [];
 
-        else if (eventNameList.indexOf(func) > -1)
+        else if ((eventNameList as Array<string>).indexOf(func) > -1)
 
-            eventNameList = $.grep(eventNameList, function (i)
+            eventNameList = $.grep(eventNameList, function (i: string)
             {
                 return func !== i;
             });
 
-        this.hooks[eventName] = eventNameList;
+        (this.hooks || {})[eventName] = eventNameList;
     }
 
-    onStorageEvent = (ev) =>
+    onStorageEvent = (ev: StorageEvent) =>
     {
         const hooks = this.hooks;
-        const key = ev.key.replace(new RegExp("^" + this.getPrefix()), "");
+        const key = ev.key?.replace(new RegExp("^" + this.getPrefix()), "");
         const oldValue = this.parseValue(ev.oldValue);
         const newValue = this.parseValue(ev.newValue);
 
-        if (IGNORE_KEY.indexOf(key) > -1)
+        if (IGNORE_KEY.indexOf(<string>key) > -1)
 
             return;
 
-        const eventNames = Object.keys(hooks);
+        const eventNames = Object.keys(hooks || {});
         eventNames.forEach(function (eventName)
         {
-            if (key.match(new RegExp("^" + eventName + "(:.+)?$")))
+            if (key?.match(new RegExp("^" + eventName + "(:.+)?$")) && hooks)
             {
-                const eventNameHooks = hooks[eventName] || [];
+                const eventNameHooks = <Array<(newValue: string, oldValue:string, key:string) => unknown>>hooks[eventName] || [];
                 eventNameHooks.forEach(function (hook)
                 {
                     hook(newValue, oldValue, key);
@@ -325,11 +303,11 @@ export class Storage
         });
     };
 
-    parseValue(value)
+    parseValue(value: string | null)
     {
         try
         {
-            return JSON.parse(value);
+            return JSON.parse(<string>value);
         }
         catch (e)
         {

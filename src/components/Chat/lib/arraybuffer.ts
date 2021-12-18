@@ -61,9 +61,8 @@ class Base64ArrayBuffer
 
     static decode(base64)
     {
-        let bufferLength = base64.length * 0.75,
-            len = base64.length, i, p = 0,
-            encoded1, encoded2, encoded3, encoded4;
+        const len = base64.length;
+        let bufferLength = base64.length * 0.75, i, p = 0, encoded1, encoded2, encoded3, encoded4;
 
         if (base64[base64.length - 1] === "=")
         {

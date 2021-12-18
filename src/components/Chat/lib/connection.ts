@@ -4,8 +4,13 @@ import {Storage} from "./storage";
 export class Connection
 {
     onMessage;
+    private readonly username: string;
+    private readonly resolves: Record<string, Array<(bundle: unknown) => void>>;
+    private websocket: WebSocket;
+    private readonly send: (o: unknown) => void;
+    private omemo?: Omemo;
 
-    constructor(username, onMessage)
+    constructor(username: string, onMessage: (message: string) => void)
     {
         this.username = username;
         this.onMessage = onMessage;
@@ -58,14 +63,16 @@ export class Connection
                 const bundle = msg.bundle;
 
                 for (let i = 0; i < this.resolves[msg.deviceId].length; i++)
-                    this.resolves[msg.deviceId].pop()(bundle);
+                {
+                    const fn = this.resolves[msg.deviceId].pop();
+                    if(fn)
+                        fn(bundle);
+                }
 
                 break;
             case "message":
                 if ("encrypted" in msg)
                     this.onMessage(await this.decrypt(msg));
-                else
-                    this.onMessage(message);
                 break;
             default:
                 console.warn("unknown message type: %s", msg.type);
@@ -84,7 +91,7 @@ export class Connection
         };
     }
 
-    publishDevices(devices)
+    publishDevices(devices: Array<number>)
     {
         console.log("sending devices: \n%s", JSON.stringify(devices, null, 4));
         this.send({
@@ -94,7 +101,7 @@ export class Connection
         });
     }
 
-    publishBundle(deviceId, bundle)
+    publishBundle(deviceId: number, bundle: unknown)
     {
         this.send({
             type: "bundle",
@@ -104,9 +111,9 @@ export class Connection
         });
     }
 
-    async sendMessage(to, message)
+    async sendMessage(to: string, message: string)
     {
-        const encryptedMessage = await this.omemo.encrypt(to, message);
+        const encryptedMessage = await this.omemo?.encrypt(to, message);
         console.log("sending message: %s to %s", message, to);
         this.send({
             type: "message",
@@ -116,28 +123,31 @@ export class Connection
         });
     }
 
-    async decrypt(message)
+    async decrypt(message: string) : Promise<string>
     {
+        if(!this.omemo)
+            throw Error("Not O-memo initialised");
+
         const decrypted = await this.omemo.decrypt(message);
         console.log("decrypted message: %s", decrypted);
 
         return decrypted;
     }
 
-    updateDevices(message)
+    updateDevices(message: { devices: Array<string>, username: string })
     {
         const ownJid = this.username;
         const deviceIds = message.devices;
 
         if (ownJid === message.username)
-            this.omemo.storeOwnDeviceList(deviceIds);
+            this.omemo?.storeOwnDeviceList(deviceIds);
         //@TODO handle own update (check for own device id)
         else
-            this.omemo.storeDeviceList(message.username, deviceIds);
+            this.omemo?.storeDeviceList(message.username, deviceIds);
 
     }
 
-    getBundle(deviceId)
+    getBundle(deviceId: string)
     {
         return new Promise( (resolve) =>
         {

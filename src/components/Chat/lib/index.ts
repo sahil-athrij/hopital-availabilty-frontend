@@ -22,7 +22,7 @@ export const FingerprintGenerator = libSignal.FingerprintGenerator;
 
 let connection: Connection | undefined;
 
-export function sendMessage(to: number, message: string)
+export function sendMessage(to: string, message: string)
 {
     if (connection === undefined)
         throw Error("Call register before sending message");

@@ -1,10 +1,33 @@
 import {ArrayBufferUtils} from "./arraybuffer";
 
+interface Key
+{
+    rid?: string
+    prekey?: boolean
+    value: string
+    deviceId?: string
+    preKey?: string
+    ciphertext?: { body: string }
+}
+
+interface Header
+{
+    sid: number,
+    iv: string,
+    keys: Array<Key>
+}
+
+interface EncryptedElementInterface
+{
+    header: Header
+    payload: string
+}
+
 export class Stanza
 {
-    static buildEncryptedStanza(message, ownDeviceId) 
+    static buildEncryptedStanza(message: { iv: string; payload: string; keys: Array<Key> }, ownDeviceId: number)
     {
-        const encryptedElement = {
+        const encryptedElement: EncryptedElementInterface = {
             header: {
                 sid: ownDeviceId,
                 keys: [],
@@ -18,35 +41,30 @@ export class Stanza
             return {
                 rid: key.deviceId,
                 prekey: key.preKey ? true : undefined,
-                value: btoa(key.ciphertext.body)
+                value: btoa(<string>key.ciphertext?.body)
             };
         });
 
         return encryptedElement;
     }
 
-    static parseEncryptedStanza(encryptedElement) 
+    static parseEncryptedStanza(encryptedElement: { header: Header; payload: string; })
     {
         const headerElement = encryptedElement.header;
         const payloadElement = encryptedElement.payload;
 
-        if (headerElement === undefined) 
-        
+        if (headerElement === undefined)
             return false;
-        
 
         const sourceDeviceId = headerElement.sid;
         const iv = ArrayBufferUtils.fromBase64(headerElement.iv);
         const payload = ArrayBufferUtils.fromBase64(payloadElement);
 
-        const keys = headerElement.keys.map(function (keyElement) 
-        {
-            return {
-                preKey: keyElement.prekey,
-                ciphertext: atob(keyElement.value),
-                deviceId: keyElement.rid
-            };
-        }); //@REVIEW maybe index would be better
+        const keys = headerElement.keys.map((keyElement) => ({
+            preKey: keyElement.prekey,
+            ciphertext: atob(keyElement.value as string),
+            deviceId: keyElement.rid
+        }));
 
         return {
             sourceDeviceId: sourceDeviceId,

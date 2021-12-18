@@ -42,11 +42,6 @@ export class Omemo
 
         return peer.encrypt(message)
             .then((encryptedMessages) => Stanza.buildEncryptedStanza(encryptedMessages, this.store.getDeviceId()));
-        // .catch((msg) => {
-        //    console.warn(msg); //@TODO show warning
-
-    //    return message;
-    // });
     }
 
     async decrypt(stanza) 
