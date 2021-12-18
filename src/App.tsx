@@ -34,6 +34,9 @@ import {AddNurseComponent} from "./components/Nurses/AddNurse";
 import {NurseComponent} from "./components/Nurses/Nurse";
 import {UserPage} from "./components/User/Login";
 import {EditPage} from "./components/profile/edit";
+import SearchAmbulance from "./components/Ambulance/SearchAmbulance";
+import {AddFriendComponent} from "./components/AddFriend/AddFriend";
+import {AddAmbulanceComponent} from "./components/Ambulance/AddAmbulance";
 
 import Chat from "./components/Chat";
 
@@ -115,13 +118,16 @@ class AppLoc extends React.Component<AppProps>
                         draggable
                         pauseOnHover
                     />
-                    <BottomNav/>
 
                     <Switch>
+
                         <Route path="/chat/:chatId"><Chat/></Route>
                         <Route path="/doctor/add/:hospital"><AddDoctorComponent/></Route>
                         <Route path="/department/add/:hospital"><AddDepartmentComponent/></Route>
                         <Route path="/doctor/:docId"><DoctorComponent/></Route> {/* Show details about a doctor */}
+                        <Route path="/doctor/add/:hospital" ><AddDoctorComponent/></Route>
+                        <Route path="/addFriend/:token" ><AddFriendComponent/></Route>
+                      
                         <Route path="/details/reviews/:hspId">
                             <AddHospitalReview/>
                         </Route>
@@ -129,8 +135,10 @@ class AppLoc extends React.Component<AppProps>
                         <Route path="/search">
                             <NavBar/>
                             <Search/>
-                            <BottomNav/>
+                        </Route>
 
+                        <Route path="/ambulance">
+                            <SearchAmbulance/>
                         </Route>
 
                         <Route path={"/profile/edit"}>
@@ -155,7 +163,6 @@ class AppLoc extends React.Component<AppProps>
                         {/* If the current URL is /AddHospital, this route is rendered
             while the rest are ignored */}
                         <Route path="/AddHospital/">
-                            <BottomNav/>
                             <Add/>
                         </Route>
                         {/* If the current URL is /privacypolicy, this route is rendered
@@ -164,11 +171,9 @@ class AppLoc extends React.Component<AppProps>
                             <Privacy/>
                         </Route>
                         <Route path={"/addRequest"}>
-                            <BottomNav/>
                             <Addpatient/>
                         </Route>
                         <Route path={"/help"}>
-                            <BottomNav/>
                             <Givehelp/>
                         </Route>
 
@@ -182,6 +187,14 @@ class AppLoc extends React.Component<AppProps>
 
                         <Route path={"/addnurse/"}>
                             <AddNurseComponent/>
+                        </Route>
+
+                        <Route path="/searchambulance">
+                            <SearchAmbulance/>
+                        </Route>
+
+                        <Route path="/addambulance">
+                            <AddAmbulanceComponent/>
                         </Route>
 
                         <Route path={"/adddoctor"}>
@@ -204,6 +217,9 @@ class AppLoc extends React.Component<AppProps>
 
 
                     </Switch>
+
+                    <BottomNav/>
+
                 </ThemeProvider>
             </div>
         );

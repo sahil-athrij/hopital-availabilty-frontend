@@ -2,7 +2,7 @@ import React, {ChangeEvent} from "react";
 import {AuthComponent, AuthState} from "../../api/auth";
 import {Marker, MarkerObject} from "../../api/model";
 import {RouteComponentProps, withRouter} from "react-router";
-import {Container} from "react-bootstrap";
+import {Container} from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import {toast} from "react-toastify";
 import Loader from "react-loader-spinner";
@@ -45,7 +45,13 @@ export class AddHospitalPhotoLoc extends AuthComponent<AddHospitalPhotoPropsLoc,
         this.setState({ready: false});
 
         const {hspId} = this.props.match.params;
-        const marker = await Marker.get(hspId) as MarkerObject;
+        const marker = await Marker.get(hspId).catch(() =>
+        {
+            toast.error("Oops something went wrong", {
+                position: "bottom-center"
+            });
+            setTimeout(this.props.history.push, 1000, "/");
+        }) as MarkerObject;
 
         this.setState({model: marker, ready: true});
 
@@ -118,7 +124,7 @@ export class AddHospitalPhotoLoc extends AuthComponent<AddHospitalPhotoPropsLoc,
                         <h4 className="text-center">Upload Image File</h4>
                         <h6 className="text-center">for <b>{this.state.model.name}</b></h6>
 
-                        <button //TODO div was used replaced by button
+                        <button
                             className={"bg-white mx-5 my-4 mt-3 p-3 border-primary neumorphic_file file-container round-15"}
                             onClick={this.handleClick}>
                             {this.state.file ?
@@ -153,7 +159,7 @@ export class AddHospitalPhotoLoc extends AuthComponent<AddHospitalPhotoPropsLoc,
 
             </div>
             :
-            <Container fluid={true} className="my-5 py-5 ">
+            <Container  className="my-5 py-5 ">
                 <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
             </Container>
         ;

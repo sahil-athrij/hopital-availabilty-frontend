@@ -13,11 +13,12 @@ import icon7 from "../Doctor/icons/icon-7@2x.svg";
 
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 
-import {Container} from "react-bootstrap";
+import {Container} from "@mui/material";
 import Loader from "react-loader-spinner";
 import {withRouter} from "react-router";
 import React from "react";
 import {BigBlueButton} from "../Utils";
+import {toast} from "react-toastify";
 
 interface DetailsState extends AuthState {
     id: number,
@@ -118,7 +119,13 @@ class NurseLoc extends AuthComponent<AuthPropsLoc, DetailsState>
         this.setState({ready: false});
 
         const nurseId = Number(this.props.match.params.nurseId);
-        const nurse = await Nurse.get(nurseId) as NurseObject;
+        const nurse = await Nurse.get(nurseId).catch(() =>
+        {
+            toast.error("Oops something went wrong", {
+                position: "bottom-center"
+            });
+            setTimeout(this.props.history.push, 1000, "/");
+        }) as NurseObject;
 
         this.setState({model: nurse, ready: true, id: nurseId});
 
@@ -169,19 +176,6 @@ class NurseLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                         {model.name}
                     </p>
                 </div>
-                {/* <div className={"about "}>
-                    <div className="about-doctor nunito-semi-bold-ebony-clay-18px">Working Time</div>
-                    <p className="dr-bellamy-nicholas nunito-bold-lynch-14px">
-                        {model.working_time.map(({working_time, hospital}, i) => (
-                            <p key={i}>
-                                {DAYS[working_time.day as number]} -
-                                {working_time.starting_time} to {working_time.ending_time} at
-                                {hospital}
-                            </p>
-                        )
-                        )}
-                    </p>
-                </div> */}
                 <div className="communication">
                     <div className="communication-1 nunito-semi-bold-ebony-clay-18px">Communication</div>
                     <Communication
@@ -215,7 +209,7 @@ class NurseLoc extends AuthComponent<AuthPropsLoc, DetailsState>
         return (
             this.state.ready ?
                 <this.showNurse model={this.state.model} history={this.props.history}/> :
-                <Container fluid={true} className="my-5 py-5 ">
+                <Container  className="my-5 py-5 ">
                     <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
                 </Container>
 

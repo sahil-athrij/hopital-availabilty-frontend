@@ -1,5 +1,5 @@
 import React from "react";
-import {Col, Container} from "react-bootstrap";
+import { Container} from "@mui/material";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {withRouter} from "react-router";
 
@@ -8,16 +8,7 @@ import {getParam} from "../../api/QueryCreator";
 
 import {SearchResults} from "../cards/SearchResultCard";
 import Homecover from "../../images/illustration.png";
-import {Link} from "react-router-dom";
-import Addhosp from "../../images/addhospcard.svg";
-import Givehelp from "../../images/givehelpcard.svg";
-import Nurse from "../../images/nurse 1.png";
-import Medicine from "../../images/Medicine.svg";
-import Doc from "../../images/Doc.svg";
-import Ambulanceimg from "../../images/ambulance 1.png";
-import Laboratory from "../../images/laboratory 1.png";
-import BloodBank from "../../images/blood-bank 1.png";
-import request from "../../images/helphand.svg";
+import {NineCards} from "../Utils";
 
 
 
@@ -65,9 +56,9 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
 
         return (
             <React.Fragment>
-                <Container fluid={true} className="mt-2 p-5 ">
+                <Container  className="mt-2 p-5 ">
                 </Container>
-                <Container className="text-left">
+                <Container className="text-left px-0">
                     <div style={{
                         backgroundColor: "#3E64FF",
                         borderRadius: "1.25rem",
@@ -93,74 +84,10 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
                     {/*</Link>*/}
                 </Container>
 
-                <div className="servicehead text-left d-flex justify-content-between mb-3">
+                <div className="servicehead text-left d-flex justify-content-between mb-4">
                        Health Care Services
                 </div>
-                <div>
-                    <div className="container d-flex justify-content-between  p-0 align-self-center px-2">
-                        <Link style={{textDecoration:"none"}} className="homecard" to="/AddHospital/">
-                            <div>
-                                <img src={Addhosp} alt=""/>
-                                <div className="cardtxt ">Hospital</div>
-                            </div>
-                        </Link>
-                        <Link style={{textDecoration:"none"}} className="homecard" to="/help">
-                            <div>
-                                <img src={Givehelp} alt=""/>
-                                <div className="cardtxt ">Give help</div>
-                            </div>
-                        </Link>
-                        <Link style={{textDecoration:"none"}} className="homecard" to="/searchnurse">
-                            <div >
-                                <img src={Nurse} alt=""/>
-                                <div className="cardtxt m-0">Nurse</div>
-                            </div>
-                        </Link>
-                    </div>
-
-                </div>
-                <div>
-
-                    <div className="container d-flex justify-content-between my-2 p-0 align-self-center px-2">
-
-                        <div className="homecard d-flex flex-column ">
-                            <img src={Ambulanceimg} alt=""/>
-                            <div className="cardtxt ">Ambulance</div>
-                        </div>
-                        <div className="homecard">
-                            <img src={Medicine} alt=""/>
-                            <div className="cardtxt ">Medicine</div>
-                        </div>
-                        <Link style={{textDecoration:"none"}} className="homecard" to="/searchdoctor">
-                            <div >
-                                <img src={Doc} alt=""/>
-                                <div className="cardtxt m-0">Doctor</div>
-                            </div>
-                        </Link>
-                    </div>
-
-                </div>
-                <div>
-
-                    <div className="container d-flex justify-content-between  p-0 align-self-center px-2">
-                        <div className="homecard">
-                            <img src={Laboratory} alt=""/>
-                            <div className="cardtxt ">Laboratory</div>
-                        </div>
-                        <div className="homecard">
-                            <img src={BloodBank} alt=""/>
-                            <div className="cardtxt ">Blood Bank</div>
-                        </div>
-                        <Link style={{textDecoration:"none"}} className="homecard" to="/addRequest">
-                            <div >
-                                <img src={request} alt=""/>
-                                <div className="cardtxt m-0">Request</div>
-                            </div>
-                        </Link>
-                    </div>
-
-                </div>
-
+                <NineCards/>
 
                 <Container className="mb-5 pb-3 pt-3 text-left">
                     {/* Displays the component when lat and lng are non-null */}
@@ -169,9 +96,9 @@ class IndexLoc extends AuthComponent<AuthPropsLoc, IndexState>
                             <h6 className="hospnear">Hospitals Near You</h6>
                             <p className=" mr-1">See All</p>
                         </div>
-                        <Col xs={12} id="searchresults">
+                        <div className="col col-xs-12" id="searchresults">
                             <SearchResults updateParent={() => null}/>
-                        </Col>
+                        </div>
                     </> : <></>
                     }
                 </Container>

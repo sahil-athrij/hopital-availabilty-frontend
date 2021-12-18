@@ -1,5 +1,5 @@
 import React from "react";
-import {Col, Container, Row} from "react-bootstrap";
+import {Container} from "@mui/material";
 import {SearchResults} from "../components/cards/SearchResultCard";
 import {getParam} from "../api/QueryCreator";
 import {ResponsiveComponent, ResponsiveState} from "../components/ResponsiveComponent";
@@ -46,28 +46,28 @@ export class Search extends ResponsiveComponent<SearchProps, SearchState>
     {
         console.log(this.state.width);
         return (
-            <Container fluid={true} className="my-5 py-5 ">
+            <Container className="my-5 py-4">
                 {this.state.query !== "Search Hospital" && this.state.query ?
-                    <div className="text-left pt-5 pt-sm-3">Showing Results for <b>&quot;{this.state.query}&quot;</b></div>
+                    <div className="text-left pt-sm-3">Showing Results for <b>&quot;{this.state.query}&quot;</b></div>
                     :
-                    <div className="text-left pt-5 pt-sm-3">Showing Results in <b>&quot;{this.state.loc}&quot;</b></div>
+                    this.state.loc !== "Select Location" && <div className="text-left pt-sm-3">Showing Results in <b>&quot;{this.state.loc}&quot;</b></div>
 
                 }
-                <Row className="my-2  align-self-center" id="listview" role="tabpanel"
+                <div className="my-2 align-self-center" id="listview" role="tabpanel"
                     aria-labelledby="listview-tab">
-                    <Col xs={12} id="searchresults">
+                    <div className="col col-xs-12" id="searchresults">
                         <SearchResults updateParent={() => 
                         {
                             this.updateQuery();
                         }}/>
-                    </Col>
+                    </div>
 
-                </Row>
+                </div>
                 <div className="row my-2  align-self-center " id="mapview" role="tabpanel"
                     aria-labelledby="mapview-tab">
-                    <Col xs={12} md={{span: 8, offset: 2}} id="toplevel1">
+                    <div className="col col-xs-12 col-md-8 offset-md-2"  id="toplevel1">
                         <div id="map"/>
-                    </Col>
+                    </div>
 
                 </div>
             </Container>

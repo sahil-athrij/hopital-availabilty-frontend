@@ -1,39 +1,39 @@
 import React, {Component} from "react";
-import {Marker, MarkerObject} from "../../api/model";
-import { Container, Avatar} from "@mui/material";
-import {Link} from "react-router-dom";
-import {withRouter} from "react-router";
-import {getParam} from "../../api/QueryCreator";
-import Loader from "react-loader-spinner";
 import {AuthPropsLoc} from "../../api/auth";
-import {ResponsiveState} from "../ResponsiveComponent";
-import "./searchCards.css";
+import {AmbulanceObject, Marker} from "../../api/model";
+import {Link} from "react-router-dom";
+import {Avatar, Container} from "@mui/material";
+import Ekmmed from "../../images/ekmmed.png";
 import SmallStar from "../../images/smallstar.svg";
 import Phonecall from "../../images/phonecall.svg";
-import Videocall from "../../images/videocall.svg";
 import Routemap from "../../images/routemap.svg";
+import {withRouter} from "react-router";
+import {ResponsiveState} from "../ResponsiveComponent";
+import {getParam} from "../../api/QueryCreator";
 
-import Ekmmed from "../../images/ekmmed.png";
+import Loader from "react-loader-spinner";
 import {toast} from "react-toastify";
 
 
-interface SearchCardsProps extends AuthPropsLoc {
-    model: MarkerObject
+interface AmbulanceCardsProps extends AuthPropsLoc
+{
+    model: AmbulanceObject;
 }
 
-class SearchCardsLoc extends Component<SearchCardsProps> 
+class AmbulanceCardsLoc extends Component<AmbulanceCardsProps>
 {
 
-    render() 
+    render()
     {
-        console.log(this.props.model.images);
+
 
         return (
-            <Link style={{textDecoration: "none"}} className='text-dark' to={"/details/" + this.props.model.id}>
+            <Link style={{textDecoration: "none"}} className="text-dark w-100" to={"/details/" + this.props.model.id}>
                 {/* Show hospital image */}
                 <div className="cardstyle mb-2 justify-content-between d-flex">
                     <div className="align-self-center">
-                        <Avatar className="align-self-center" sx={{width:"37px", height:"37px", marginLeft:"10px"}} src={this.props.model.images[0]?.image?this.props.model.images[0]?.image:Ekmmed}/>
+                        <Avatar className="align-self-center" sx={{width: "37px", height: "37px", marginLeft: "10px"}}
+                            src={this.props.model.image ? this.props.model.image : Ekmmed}/>
                     </div>
 
 
@@ -44,9 +44,10 @@ class SearchCardsLoc extends Component<SearchCardsProps>
                             <div className="w-60 text-left ">
                                 {this.props.model.name !== null ? this.props.model.name?.split(",")[0] : ""}
                             </div>
-                            <div className="ratingvalue d-flex justify-content-center" style={{height: "fit-content", width: "fit-content"}}>
+                            <div className="ratingvalue d-flex justify-content-center"
+                                style={{height: "fit-content", width: "fit-content"}}>
                                 <div className="px-1">
-                                    {this.props.model.care_rating}
+                                    {this.props.model.rating}
                                 </div>
                                 <img alt={""} className="staricon " src={SmallStar}/>
                             </div>
@@ -57,51 +58,48 @@ class SearchCardsLoc extends Component<SearchCardsProps>
                         <div className="d-flex address-container justify-content-between">
 
                             {/* fetching hospital address */}
-                            <div className={"hospital-address"}>
-                                {this.props.model.address.suburb && this.props.model.address.suburb + ", "}
-                                {this.props.model.address.village && this.props.model.address.village + ", "}
-                                {this.props.model.address.state_district && this.props.model.address.state_district}
-                                {/*{this.props.model.address.state && this.props.model.address.state}*/}
+                            <div className="hospital-address d-flex flex-column">
+                                <div>
+                                    Hospital:{this.props.model.hospital}
+                                </div>
+                                <div>
+                                    Driver:{this.props.model.driver_name}
+                                </div>
                             </div>
 
 
+                            <div className="container d-flex justify-content-end">
 
-                            <div className="container d-flex justify-content-between">
-                                <button className="pvrtab"  onClick={(event) =>
-                                {
-                                    event.preventDefault();
-                                    event.stopPropagation();
-                                    alert("Will be available on next update");
-                                }}>
-                                    <img src={Videocall}  alt=""/>
-                                </button>
-                                {this.props.model.Phone !== "0000000000" ?
-                                    (<button className="pvrtab"  onClick={(event) =>
+                                {this.props.model.phone_number !== "0000000000" ?
+                                    (<button className="pvrtab" onClick={(event) =>
                                     {
                                         event.preventDefault();
                                         event.stopPropagation();
-                                        document.location.href = "tel:" + this.props.model.Phone;
+                                        document.location.href = "tel:" + this.props.model.phone_number;
 
-                                    }}><img src={Phonecall}  alt=""/>
-                                    </button>):(<button className="pvrtab"  onClick={(event) =>
+                                    }}><img src={Phonecall} alt=""/>
+                                    </button>) : (<button className="pvrtab" onClick={(event) =>
                                     {
                                         event.preventDefault();
                                         event.stopPropagation();
                                         alert("Mobile no is not available for selected hospital");
                                     }}>
-                                        <img src={Phonecall}  alt=""/>
+                                        <img src={Phonecall} alt=""/>
                                     </button>)}
-                                <button className="pvrtab"  onClick={(event) =>
-                                {
-                                    event.preventDefault();
-                                    event.stopPropagation();
-                                    const win = window.open(`https://www.google.com/maps/search/${this.props.model.name}/@${this.props.model.lat},${this.props.model.lng},19.88z`, "_blank");
-                                    if (win) 
-                                    
-                                        win.focus();
-                                    
-                                }}>
-                                    <img src={Routemap}  alt=""/>
+                                <button className="pvrtab"
+                                //         onClick={(event) =>
+                                // {
+                                //     event.preventDefault();
+                                //     event.stopPropagation();
+                                //     const win = window.open(`https://www.google.com/maps/search/${this.props.model.name}/@${this.props.model.lat},${this.props.model.lng},19.88z`, "_blank");
+                                //     if (win)
+                                //     {
+                                //         win.focus();
+                                //     }
+                                //
+                                // }}
+                                >
+                                    <img src={Routemap} alt=""/>
                                 </button>
 
                             </div>
@@ -115,15 +113,16 @@ class SearchCardsLoc extends Component<SearchCardsProps>
 
 }
 
-const SearchCards = withRouter(SearchCardsLoc);
+const AmbulanceSearchCard = withRouter(AmbulanceCardsLoc);
 
-
-interface SearchResultsProp extends AuthPropsLoc {
-    updateParent: () => void
+interface SearchResultsProp extends AuthPropsLoc
+{
+    updateParent: () => void;
 }
 
-interface SearchResultsState extends ResponsiveState {
-    models: MarkerObject[]
+interface SearchResultsState extends ResponsiveState
+{
+    models: AmbulanceObject[],
     next: string,
     reset: boolean,
     loc: string,
@@ -131,10 +130,10 @@ interface SearchResultsState extends ResponsiveState {
     offset: number
 }
 
-export class SearchResultsLoc extends Component<SearchResultsProp, SearchResultsState> 
+export class SearchResultsLoc extends Component<SearchResultsProp, SearchResultsState>
 {
 
-    constructor(props: SearchResultsProp) 
+    constructor(props: SearchResultsProp)
     {
         super(props);
         this.state = {...this.state, models: [], next: "", reset: false, loc: "", query: "", offset: 0};
@@ -142,13 +141,13 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
     }
 
 
-    componentDidMount() 
+    componentDidMount()
     {
         const loc = getParam("loc", "Search Location",);
         const lat = getParam("lat", "",);
         const lng = getParam("lng", "",);
         const query = getParam("query", "Search Hospital",);
-        Marker.filter({search: query, lat: lat, lng: lng, limit: 10}).then((markers) => 
+        Marker.filter({search: query, lat: lat, lng: lng, limit: 10}).then((markers) =>
         {
             const next = markers.next;
             const results = markers.results;
@@ -171,38 +170,33 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
         const lng = getParam("lng",);
         const query = getParam("query", "Search Hospital",);
 
-        if (this.state.loc !== loc || this.state.query !== query) 
+        if (this.state.loc !== loc || this.state.query !== query)
         {
 
-            if (this.state.reset) 
+            if (this.state.reset)
             
                 this.setState({reset: false});
             
+
             this.props.updateParent();
-            Marker.filter({search: query, lat: lat, lng: lng, limit: 10}).then((markers) => 
+            Marker.filter({search: query, lat: lat, lng: lng, limit: 10}).then((markers) =>
             {
                 const {results, next} = markers;
                 this.setState({models: results, next: next, reset: true, loc: loc, query: query, offset: 10});
-            }).catch(() =>
-            {
-                toast.error("Oops something went wrong", {
-                    position: "bottom-center"
-                });
-                setTimeout(this.props.history.push, 1000, "/");
             });
             // this.setState({reset: false})
         }
 
     }
 
-    handleNext = () => 
+    handleNext = () =>
     {
         const loc = getParam("loc", "Search Location",);
         const lat = getParam("lat",);
         const lng = getParam("lng",);
         const query = getParam("query", "Search Hospital",);
         const {offset, models} = this.state;
-        Marker.filter({search: query, lat: lat, lng: lng, limit: 10, offset: offset}).then((markers) => 
+        Marker.filter({search: query, lat: lat, lng: lng, limit: 10, offset: offset}).then((markers) =>
         {
             const {results, next} = markers;
             models.push(...results);
@@ -211,15 +205,14 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
 
     };
 
-
-    render() 
+    render()
     {
-        if (this.state.reset) 
+        if (this.state.reset)
         
-            return <Container  className='m-0 p-0'>
-                {this.state.models.map((model, i) => 
+            return <Container  className="m-0 p-0">
+                {this.state.models.map((model, i) =>
                 {
-                    return <SearchCards key={i} model={model}/>;
+                    return <AmbulanceSearchCard key={i} model={model}/>;
                 }
                 )}
                 {this.state.next ?
@@ -229,15 +222,17 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
                 }
             </Container>;
         
-        else 
+        else
         
             return <Container  className='mt-5 pt-5 text-center'>
                 <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
             </Container>;
         
 
+
     }
 
 }
 
-export const SearchResults = withRouter(SearchResultsLoc);
+export const AmbulanceCards = withRouter(AmbulanceCardsLoc);
+

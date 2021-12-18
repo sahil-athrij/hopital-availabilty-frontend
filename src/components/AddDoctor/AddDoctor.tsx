@@ -156,7 +156,7 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                 department: false
             }
         };
-        this.getlanguages();
+        this.getLanguages();
     }
 
     async componentDidMount()
@@ -182,7 +182,7 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
 
     }
 
-    async getlanguages () 
+    async getLanguages ()
     {
         Language.filter({search: this.state.searchTerm}).then((languages) => 
         {
@@ -192,13 +192,7 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
 
     } 
 
-    editSearchTerm = (e: string) => 
-    {
-        this.setState({searchTerm: e}, ()=> 
-        {
-            this.getlanguages();
-        });
-    };
+    editSearchTerm = (e: string) => this.setState({searchTerm: e}, this.getLanguages);
 
     saveDoctor = async () => 
     {
@@ -291,8 +285,6 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
         return (
             this.state.ready ?
                 <div>
-                    {/*TODO plz dont delete me*/}
-
                     <StickyHead title="Add Doctor" onClick={this.saveDoctor} goBack={this.props.history.goBack}/>
 
                     <div className="d-flex justify-content-center align-items-center">
@@ -346,13 +338,9 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                             error={this.state.error.phone_number}
                             helperText={this.state.error.phone_number && "Incorrect format"}
                             type="tel"
+                            disableDropdown
                         />
 
-                        {/* <TextField className="mt-4" fullWidth variant="outlined" label="Contact Number"
-                            error={this.state.error.phone_number} required
-                            helperText={this.state.error.phone_number && "Incorrect format"}
-                            InputLabelProps={{shrink: true, }} type="tel"
-                            onChange={({target}) => this.setState({phone_number: Number(target.value),  error: {...this.state.error, phone_number: (!target.value.match(/^(\+\d{1,3})?\s*\d{10}$/g))}})}/> */}
 
                         <MuiPhoneNumber
                             className="mt-4"
@@ -361,14 +349,10 @@ class AddDoctor extends AuthComponent<AddDoctorProps, AddDoctorState>
                             defaultCountry={"in"}                        
                             InputLabelProps={{shrink: true, }}
                             type="tel"
+                            disableDropdown
                             onChange={(e) => this.handlePhoneChange(e)}
                         />
 
-                        {/* <TextField className="mt-4" fullWidth variant="outlined" label="Whatsapp Number"
-                            error={this.state.error.whatsapp_number}
-                            helperText={this.state.error.whatsapp_number && "Incorrect format"}
-                            InputLabelProps={{shrink: true, }} type="tel"
-                            onChange={({target}) => this.setState({whatsapp_number: Number(target.value),  error: {...this.state.error, whatsapp_number: (!target.value.match(/^(\+\d{1,3})?\s*\d{10}$/g))}})}/> */}
 
                         <TextField className="mt-4" fullWidth variant="outlined" label="Email"
                             error={this.state.error.email}

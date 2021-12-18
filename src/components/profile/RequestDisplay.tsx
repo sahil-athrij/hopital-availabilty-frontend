@@ -4,8 +4,9 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import React from "react";
 import {Patient, PatientObject} from "../../api/model";
-import {Container} from "react-bootstrap";
+import {Container} from "@mui/material";
 import Loader from "react-loader-spinner";
+import {toast} from "react-toastify";
 
 interface RequestDisplayProps extends AuthPropsLoc {
     request: PatientObject
@@ -67,7 +68,13 @@ class RequestDetailsLoc extends AuthComponent<AuthPropsLoc, RequestDetailsState>
         super.componentDidMount();
 
         const requestId = Number(this.props.match.params.requestId);
-        const data = await Patient.get(requestId, {}, true);
+        const data = await Patient.get(requestId, {}, true).catch(() =>
+        {
+            toast.error("Oops something went wrong", {
+                position: "bottom-center"
+            });
+            setTimeout(this.props.history.push, 1000, "/");
+        });
 
         this.setState({request: data as PatientObject});
     }
@@ -130,7 +137,7 @@ class RequestDetailsLoc extends AuthComponent<AuthPropsLoc, RequestDetailsState>
                         </div>
                     </div>
                 </Container> :
-                <Container fluid={true} className="my-5 py-5 ">
+                <Container className="my-5 py-5 ">
                     <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
                 </Container>}
         </>;
