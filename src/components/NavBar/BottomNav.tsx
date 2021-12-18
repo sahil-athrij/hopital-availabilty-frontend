@@ -5,12 +5,14 @@ import {withRouter} from "react-router";
 import Addhosp from "../../images/addhosp_bw.svg";
 import Explore from "../../images/explore_bw.svg";
 import Help from "../../images/help_bw.svg";
-// import Chat from "../../images/chat_bw.svg";
+import Chat from "../../images/chat_bw.svg";
+import home from "../../images/home_bw.svg";
+import homeaf from "../../images/home_af.svg";
 import Account from "../../images/accn_bw.svg";
 import Addhospaf from "../../images/addhosp_af.svg";
 import Exploreaf from "../../images/explore_af.svg";
 import Helpaf from "../../images/help_af.svg";
-// import Chataf from "../../images/chat_af.svg";
+ import Chataf from "../../images/chat_af.svg";
 import Accountaf from "../../images/accnt_af.svg";
 
 
@@ -38,10 +40,10 @@ class BottomNavLoc extends AuthComponent<AuthPropsLoc, BottomNavState>
      */
     getActive() 
     {
-        return this.props.location.pathname.includes("/addRequest") ? 2 :
-            this.props.location.pathname.includes("/addHospital") ? 2 :
-                this.props.location.pathname.includes("/profile/") ? 3 :
-                    this.props.location.pathname.includes("/help") ? 1 : 0;
+        return this.props.location.pathname.includes("/addHospital") ? 1 :
+                this.props.location.pathname.includes("/help") ? 2 :
+                this.props.location.pathname.includes("/chat") ? 3 :
+                this.props.location.pathname.includes("/profile/") ? 4 : 0; 
     }
 
     hashChange = () => 
@@ -67,10 +69,10 @@ class BottomNavLoc extends AuthComponent<AuthPropsLoc, BottomNavState>
         this.props.history.goBack();
     };
     icons = [
-        // {path: "/addHospital", iconbf: Addhosp, iconaf: Addhospaf},
-        {path: "/", iconbf: Explore, iconaf: Exploreaf},
-        {path: "/help", iconbf: Help, iconaf: Helpaf},
+        {path: "/", iconbf: home, iconaf: homeaf},
         {path: "/addHospital", iconbf: Addhosp, iconaf: Addhospaf},
+        {path: "/help", iconbf: Help, iconaf: Helpaf},
+        {path: "/chat", iconbf: Chat, iconaf: Chataf},
         {path: "/profile/", iconbf: Account, iconaf: Accountaf}
     ];
 
