@@ -1,5 +1,6 @@
 import {Omemo} from "./omemo";
 import {Storage} from "./storage";
+import {baseUrl} from "../../../api/api";
 
 export class Connection
 {
@@ -16,7 +17,10 @@ export class Connection
         this.onMessage = onMessage;
         this.resolves = {};
 
-        const websocket = new WebSocket("ws://localhost:2222/connection");
+        if(!baseUrl)
+            throw Error("Websocket url not found in environment.");
+
+        const websocket = new WebSocket(`${baseUrl.replace("http", "ws")}/chat/ws/`);
         this.websocket = websocket;
 
         this.send = (o) => websocket.send(JSON.stringify(o));
