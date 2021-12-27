@@ -36,7 +36,7 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
     {
         return (
             <>
-                {this.state.ready && <button onClick={() => sendMessage(456, "Hello")}>Send</button>}
+                {this.state.ready && <button onClick={() => sendMessage("456", "Hello")}>Send</button>}
                 <h1>{this.state.message}</h1>
             </>
         );
