@@ -11,7 +11,7 @@ export class Connection
     private readonly send: (o: unknown) => void;
     private omemo?: Omemo;
 
-    constructor(username: string, onMessage: (message: string) => void)
+    constructor(username: string, onMessage: (message: string) => unknown)
     {
         this.username = username;
         this.onMessage = onMessage;
