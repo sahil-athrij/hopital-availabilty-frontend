@@ -2,38 +2,32 @@ import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {withRouter} from "react-router";
 import Swiper from "./Swiper";
 
-import {register, sendMessage} from "./lib";
+import SignalConnection from "./lib";
 
-interface ChatState extends AuthState {
-    ready: boolean;
-    messages: Array<string>;
+interface ChatState extends AuthState
+{
+    connection: SignalConnection;
 }
 
 class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState> {
 
     constructor(props: AuthPropsLoc) {
         super(props);
-        this.state = {...this.state, ready: false, messages: [] };
-    }
 
-    async initSession() {
-        if (!this.state.user?.tokens?.private_token)
+        if (!this.state.user?.tokens.private_token || !this.props.match.params.chatId)
             throw Error("User not logged in");
 
-        await register(this.state.user.tokens.private_token,
-            (message: string) => this.setState({messages: [...this.state.messages, message]}));
-    }
-
-    componentDidMount() {
-        super.componentDidMount();
-        this.initSession().then(() => this.setState({ready: true}));
+        this.state = {
+            ...this.state,
+            connection: new SignalConnection(this.state.user?.tokens.private_token, this.props.match.params.chatId)
+        };
     }
 
     render(): JSX.Element {
         return (
             <>
-                {this.state.ready && <button onClick={() => sendMessage("hh", "Hello")}>Send</button>}
-                <h1>{this.state.messages[0]}</h1>
+                {this.state.ready && <button onClick={() => this.state.connection.sendMessage("Hello")}>Send</button>}
+                {this.state.connection.messages.map((msg, i) => <h4 key={i}>{msg}</h4>)}
                 <Swiper/>
             </>
         );

@@ -1,14 +1,9 @@
 import {Connection} from "./connection";
 
 export const NUM_PRE_KEYS = 10;
-export const NS_BASE = "eu.siacs.conversations.axolotl";
-export const NS_DEVICELIST = NS_BASE + ".devicelist";
-export const NS_BUNDLES = NS_BASE + ".bundles:";
 export const AES_KEY_LENGTH = 128;
 export const AES_TAG_LENGTH = 128;
 export const AES_EXTRACTABLE = true;
-
-localStorage.clear();
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -18,22 +13,31 @@ export const KeyHelper = libSignal.KeyHelper;
 export const SignalProtocolAddress = libSignal.SignalProtocolAddress;
 export const SessionBuilder = libSignal.SessionBuilder;
 export const SessionCipher = libSignal.SessionCipher;
-export const FingerprintGenerator = libSignal.FingerprintGenerator;
 
-let connection: Connection | undefined;
-
-export function sendMessage(to: string, message: string)
+export default class SignalConnection
 {
-    if (connection === undefined)
-        throw Error("Call register before sending message");
+    connection: Connection;
+    to: string;
+    messages: Array<string> = [];
 
-    return connection.sendMessage(to, message);
-}
+    constructor(username: string, to: string)
+    {
+        this.to = to;
+        this.connection = new Connection(username, this.handleMessage);
+    }
 
-export function register(username: string, onMessage: (message: string) => void)
-{
-    if (connection !== undefined)
-        return;
+    private handleMessage(message: string)
+    {
+        this.messages.push(message);
+    }
 
-    connection = new Connection(username, onMessage);
+    getMessages()
+    {
+        return this.messages;
+    }
+
+    async sendMessage(message: string)
+    {
+        return this.connection.sendMessage(this.to, message);
+    }
 }
