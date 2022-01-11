@@ -22,8 +22,6 @@ interface PatientState extends AuthState
     helped_models: PatientObject[];
     currenttab:number,
 
-
-
 }
 
 

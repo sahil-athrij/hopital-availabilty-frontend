@@ -1,43 +1,40 @@
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {withRouter} from "react-router";
+import Swiper from "./Swiper";
 
 import {register, sendMessage} from "./lib";
 
-interface ChatState extends AuthState
-{
+interface ChatState extends AuthState {
     ready: boolean;
-    message: string;
+    messages: Array<string>;
 }
 
-class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
-{
+class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState> {
 
-    constructor(props: AuthPropsLoc)
-    {
+    constructor(props: AuthPropsLoc) {
         super(props);
-        this.state = {...this.state, ready: false};
+        this.state = {...this.state, ready: false, messages: [] };
     }
 
-    async initSession()
-    {
-        if(!this.props.match.params.chatId)
+    async initSession() {
+        if (!this.state.user?.tokens?.private_token)
             throw Error("User not logged in");
 
-        await register(this.props.match.params.chatId, (message: string) => this.setState({message}));
+        await register(this.state.user.tokens.private_token,
+            (message: string) => this.setState({messages: [...this.state.messages, message]}));
     }
 
-    componentDidMount()
-    {
+    componentDidMount() {
         super.componentDidMount();
         this.initSession().then(() => this.setState({ready: true}));
     }
 
-    render(): JSX.Element
-    {
+    render(): JSX.Element {
         return (
             <>
-                {this.state.ready && <button onClick={() => sendMessage(456, "Hello")}>Send</button>}
-                <h1>{this.state.message}</h1>
+                {this.state.ready && <button onClick={() => sendMessage("hh", "Hello")}>Send</button>}
+                <h1>{this.state.messages[0]}</h1>
+                <Swiper/>
             </>
         );
     }
