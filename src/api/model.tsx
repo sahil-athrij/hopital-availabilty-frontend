@@ -401,7 +401,6 @@ export const Patient = new Model(baseUrl + "/api/patient/", PatientObject);
 export const DepartmentName = new Model(baseUrl + "/internals/department_names/", DepartmentNameObject);
 export const Nurse = new Model(baseUrl + "/internals/nurses/", NurseObject);
 export const Language = new Model(baseUrl + "/api/language/", LanguageObject);
-export const KeyExchange = new Model(baseUrl + "/chat/key_exchange/", KeyExchangeObject);
 export const Ambulance = new Model(baseUrl + "/internals/ambulance/", AmbulanceObject);
 export const Appointment = new Model(baseUrl + "/internals/appointment/", AppointmentObject);
 export const BloodBank = new Model(baseUrl + "/internals/blood_bank/", AppointmentObject);
@@ -415,7 +414,6 @@ export type ModelRegistry =
     | typeof ModelObject
     | typeof NurseObject
     | typeof DoctorObject
-    | typeof KeyExchangeObject
     | typeof AppointmentObject
     | typeof AmbulanceObject
     | typeof BloodBankObject
