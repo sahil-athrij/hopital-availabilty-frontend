@@ -2,6 +2,7 @@ import {ArrayBufferUtils} from "./arraybuffer";
 import {AES_EXTRACTABLE, AES_KEY_LENGTH, AES_TAG_LENGTH} from "./index";
 import {Device} from "./device";
 import { Store } from "./store";
+import {Key, Message} from "./stanza";
 
 export class Peer
 {
@@ -18,7 +19,7 @@ export class Peer
         this.devices = {};
     }
 
-    async encrypt(plaintext: string)
+    async encrypt(plaintext: string): Promise<Message>
     {
         const remoteDeviceIds = this.store.getDeviceList(this.jid);
         const ownDeviceIds = this.store.getOwnDeviceList().filter((id) =>id !== this.store.getDeviceId());
@@ -48,7 +49,7 @@ export class Peer
             throw "Could not encrypt data with any Signal session";
 
         return {
-            keys: keys,
+            keys: keys as unknown as Key[],
             iv: aes.iv,
             payload: aes.payload
         };

@@ -1,6 +1,6 @@
 import {ArrayBufferUtils} from "./arraybuffer";
 
-interface Key
+export interface Key
 {
     rid?: number;
     prekey?: boolean;
