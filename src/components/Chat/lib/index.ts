@@ -26,10 +26,11 @@ export default class SignalConnection
         this.connection = new Connection(username, this.handleMessage);
     }
 
-    private handleMessage(message: string)
+    handleMessage = (message: string) =>
     {
+        console.log(message, "Received message");
         this.messages.push(message);
-    }
+    };
 
     getMessages()
     {

@@ -1,23 +1,27 @@
 import {ArrayBufferUtils} from "./arraybuffer";
 import {AES_EXTRACTABLE, AES_KEY_LENGTH, AES_TAG_LENGTH} from "./index";
 import {Device} from "./device";
+import { Store } from "./store";
 
 export class Peer
 {
-    constructor(jid, store) 
+    private readonly jid: string;
+    private readonly store: Store;
+    private readonly devices: Record<string, Device>;
+    private static ownJid: string;
+    private static ownDevices: Record<string, Device>;
+
+    constructor(jid: string, store: Store)
     {
         this.jid = jid;
         this.store = store;
         this.devices = {};
     }
 
-    async encrypt(plaintext) 
+    async encrypt(plaintext: string)
     {
         const remoteDeviceIds = this.store.getDeviceList(this.jid);
-        const ownDeviceIds = this.store.getOwnDeviceList().filter((id) => 
-        {
-            return id !== this.store.getDeviceId();
-        });
+        const ownDeviceIds = this.store.getOwnDeviceList().filter((id) =>id !== this.store.getDeviceId());
 
         const aes = await this.encryptWithAES(plaintext);
         const promises = [];
@@ -29,7 +33,7 @@ export class Peer
             promises.push(device.encrypt(aes.keydata));
         }
 
-        for (const id of ownDeviceIds) 
+        for (const id of ownDeviceIds)
         {
             const device = this.getOwnDevice(id);
 
@@ -40,10 +44,8 @@ export class Peer
 
         keys = keys.filter(key => key !== null);
 
-        if (keys.length === 0) 
-        
+        if (keys.length === 0)
             throw "Could not encrypt data with any Signal session";
-        
 
         return {
             keys: keys,
@@ -52,40 +54,36 @@ export class Peer
         };
     }
 
-    decrypt(deviceId, ciphertext, preKey = false) 
+    decrypt(deviceId: number, ciphertext: string, preKey = false)
     {
         const device = this.getDevice(deviceId);
 
         return device.decrypt(ciphertext, preKey);
     }
 
-    getDevice(id) 
+    getDevice(id: number)
     {
-        if (!this.devices[id]) 
-        
+        if (!this.devices[id])
             this.devices[id] = new Device(this.jid, id, this.store);
-        
 
         return this.devices[id];
     }
 
-    getOwnDevice(id) 
+    getOwnDevice(id: number)
     {
-        if (!Peer.ownDevices[id]) 
-        
+        if (!Peer.ownDevices[id])
             Peer.ownDevices[id] = new Device(Peer.ownJid, id, this.store);
-        
 
         return Peer.ownDevices[id];
     }
 
-    static setOwnJid(jid) 
+    static setOwnJid(jid: string)
     { //@REVIEW
         Peer.ownJid = jid;
         Peer.ownDevices = {};
     }
 
-    async encryptWithAES(plaintext) 
+    async encryptWithAES(plaintext: string)
     {
         const iv = window.crypto.getRandomValues(new Uint8Array(12));
         const key = await this.generateAESKey();
@@ -109,12 +107,12 @@ export class Peer
             name: "AES-GCM",
             length: AES_KEY_LENGTH,
         };
-        const keyUsage = ["encrypt", "decrypt"];
+        const keyUsage: KeyUsage[] = ["encrypt", "decrypt"];
 
         return await window.crypto.subtle.generateKey(algo, AES_EXTRACTABLE, keyUsage);
     }
 
-    async generateAESencryptedMessage(iv, key, plaintext) 
+    async generateAESencryptedMessage(iv: Uint8Array, key: CryptoKey, plaintext: string)
     {
         const encryptOptions = {
             name: "AES-GCM",
