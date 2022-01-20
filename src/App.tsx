@@ -39,6 +39,7 @@ import {AddFriendComponent} from "./components/AddFriend/AddFriend";
 import {AddAmbulanceComponent} from "./components/Ambulance/AddAmbulance";
 
 import Chat from "./components/Chat";
+import PersonalChat from "./components/Chat/PersonalChat";
 
 
 const theme = createTheme({
@@ -122,6 +123,8 @@ class AppLoc extends React.Component<AppProps>
                     <Switch>
 
                         <Route path="/chat/:chatId"><Chat/></Route>
+                        <Route path="/chat" exact><Chat/></Route>
+                        <Route path="/test/"><PersonalChat/></Route>
                         <Route path="/doctor/add/:hospital"><AddDoctorComponent/></Route>
                         <Route path="/department/add/:hospital"><AddDepartmentComponent/></Route>
                         <Route path="/doctor/:docId"><DoctorComponent/></Route> {/* Show details about a doctor */}

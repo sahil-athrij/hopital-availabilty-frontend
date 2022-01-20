@@ -3,6 +3,8 @@ import {withRouter} from "react-router";
 
 import SignalConnection, {ChatMessage} from "./lib";
 
+import Swiper from "./Swiper";
+
 interface ChatState extends AuthState
 {
     connection: SignalConnection;
@@ -41,9 +43,11 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
             <>
                 <button onClick={() => this.state.connection.sendMessage("Hello "+Math.random())}>Send</button>
                 {this.state.messages.map(({content}, i) => <h4 key={i}>{content}</h4>)}
+                <Swiper/>
             </>
         );
     }
 }
 
 export default withRouter(ChatLoc);
+  
