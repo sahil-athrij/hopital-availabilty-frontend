@@ -15,31 +15,14 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import MicIcon from "@mui/icons-material/Mic";
 import SendIcon from "@mui/icons-material/Send";
 import React from "react";
-// import { openDB, DBSchema } from 'idb';
 
-
-
-// interface MyDB extends DBSchema {
-//     'favourite-number': {
-//         key: string;
-//         value: number;
-//     };
-//     products: {
-//         value: {
-//             name: string;
-//             price: number;
-//             productCode: string;
-//         };
-//         key: string;
-//         indexes: { 'by-price': number };
-//     };
-// }
 
 interface ChatState extends AuthState
 {
     connection: SignalConnection;
     chat: string;
     message: string;
+    messages: Array<ChatMessage>;
 }
 
 class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState> {
@@ -52,7 +35,7 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState> {
 
         this.state = {
             ...this.state,
-            // connection: new SignalConnection(this.state.user?.tokens.private_token, this.props.match.params.chatId),
+            connection: new SignalConnection(this.state.user?.tokens.private_token, this.props.match.params.chatId, this.onMessage),
             chat: "",
             message: "",
         };
@@ -69,13 +52,12 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState> {
         this.setState({message: this.state.chat});
         this.setState({chat: ""});
     }
+    
+    onMessage = (message: ChatMessage) => this.setState({messages: [...this.state.messages, message]});
 
     render(): JSX.Element {
         return (
             <>
-                {/*{<button onClick={() => this.state.connection.sendMessage("Hello")}>Send</button>}*/}
-                {/*{this.state.connection.messages.map((msg, i) => <h4 key={i}>{msg}</h4>)}*/}
-
                 <div style={{height: "100vh"}}>
                     <div style={{boxShadow: "0px 10px 60px rgba(0, 0, 0, 0.0625)"}} className="d-flex px-3 align-items-center">
                         {/*onClick={() => this.props.history.goBack()}*/}

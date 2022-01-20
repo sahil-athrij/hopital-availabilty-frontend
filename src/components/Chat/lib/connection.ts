@@ -1,11 +1,11 @@
-import {Omemo} from "./omemo";
+import {Omemo, StanzaInterface} from "./omemo";
 import {Storage} from "./storage";
 import {baseUrl} from "../../../api/api";
 
 export class Connection
 {
     onMessage;
-    private readonly username: string;
+    readonly username: string;
     private readonly resolves: Record<string, Array<(bundle: unknown) => void>>;
     private websocket: WebSocket;
     private readonly send: (o: unknown) => void;
@@ -55,7 +55,7 @@ export class Connection
                         devices: devices
                     });
 
-                this.omemo.prepare();
+                await this.omemo.prepare();
                 break;
             case "devices":
                 this.updateDevices(msg);
@@ -119,6 +119,7 @@ export class Connection
     {
         const encryptedMessage = await this.omemo?.encrypt(to, message);
         console.log("sending message: %s to %s", message, to);
+
         this.send({
             type: "message",
             from: this.username,
@@ -127,7 +128,7 @@ export class Connection
         });
     }
 
-    async decrypt(message: string) : Promise<string>
+    async decrypt(message: StanzaInterface) : Promise<string>
     {
         if(!this.omemo)
             throw Error("Not O-memo initialised");
@@ -151,7 +152,7 @@ export class Connection
 
     }
 
-    getBundle(deviceId: string)
+    getBundle(deviceId: number)
     {
         return new Promise( (resolve) =>
         {

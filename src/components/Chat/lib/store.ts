@@ -1,6 +1,8 @@
 import {ArrayBufferUtils} from "./arraybuffer";
 import {Bundle} from "./bundle";
 import {SignalProtocolAddress} from "./index";
+import { Storage } from "./storage";
+import {Connection} from "./connection";
 
 const STORE_PREFIX = "store";
 const STORE_PREFIX_SESSION = "session:";
@@ -8,16 +10,15 @@ const STORE_PREFIX_IDENTITYKEY = "identityKey:";
 const STORE_PREFIX_PREKEY = "25519KeypreKey:";
 const STORE_PREFIX_SIGNEDPREKEY = "25519KeysignedKey:";
 
-//@TODO create SignalStore interface in order to know which functions are required by Signal
-
-export const D_SENDING = 1;
-export const D_RECEIVING = 2;
-
 export class Store
 {
+    private storage: Storage;
+    private connection: Connection;
+    private deviceNumber: number;
+    private Direction: { SENDING: number; RECEIVING: number };
 
-    constructor(storage, connection, deviceNumber) 
-    { //@TODO add ts type
+    constructor(storage: Storage, connection: Connection, deviceNumber: number)
+    {
         this.storage = storage;
         this.connection = connection;
         this.deviceNumber = deviceNumber;
@@ -27,22 +28,22 @@ export class Store
         };
     }
 
-    getOwnDeviceList() 
+    getOwnDeviceList() : number[]
     {
         return this.get("deviceList", []);
     }
 
-    setOwnDeviceList(deviceList) 
+    setOwnDeviceList(deviceList: string[])
     {
         this.put("deviceList", deviceList);
     }
 
-    getDeviceList(identifier) 
+    getDeviceList(identifier: string)
     {
         return this.get("deviceList:" + identifier, []);
     }
 
-    setDeviceList(identifier, deviceList) 
+    setDeviceList(identifier: string, deviceList: string[])
     {
         this.put("deviceList:" + identifier, deviceList);
     }
@@ -69,37 +70,30 @@ export class Store
 
     getDeviceId() 
     {
-        return parseInt(this.get("deviceId"));
+        return parseInt(this.get("deviceId"), );
     }
 
-    put(key, value) 
+    put(key: string, value: unknown)
     {
-        if (key === undefined || value === undefined || key === null || value === null)
+        if (!key || !value || !value)
             throw new Error("Tried to store undefined/null");
 
         //@REVIEW serialization is done in storage.setItem
         const stringified = JSON.stringify(value, function (key, value) 
         {
-            if (value instanceof ArrayBuffer) 
-            
+            if (value instanceof ArrayBuffer)
                 return ArrayBufferUtils.toArray(value);
-            
 
             return value;
         });
 
-        if (key.includes("identityKey")) 
-        
+        if (key.includes("identityKey"))
             console.log("put %s: %s \n %s \n\n", key, value, stringified);
-        
-        
 
-        this.storage.setItem(STORE_PREFIX, key, {
-            v: stringified
-        });
+        this.storage.setItem(STORE_PREFIX, key, {v: stringified});
     }
 
-    get(key, defaultValue) 
+    get(key: string, defaultValue?: unknown)
     {
         if (key === null || key === undefined)
             throw new Error("Tried to get value for undefined/null key");
@@ -110,9 +104,8 @@ export class Store
         {
             const r = JSON.parse(data.v, function (key1, value) 
             {
-                if (/Key$/.test(key1)) 
+                if (key1.endsWith("Key"))
                 {
-                // if (key.includes('Key')) {
                     console.log("get %s has Key %s", key, key1);
                     return ArrayBufferUtils.fromArray(value);
                 }
@@ -120,8 +113,7 @@ export class Store
                 return value;
             });
 
-            if (key === "identityKey") 
-            
+            if (key === "identityKey")
                 console.log("get %s: %s \n %s\n\n", key, data, r);
             
 
@@ -131,7 +123,7 @@ export class Store
         return defaultValue;
     }
 
-    remove(key) 
+    remove(key?: string | null)
     {
         if (key === null || key === undefined)
             throw new Error("Tried to remove value for undefined/null key");
@@ -139,10 +131,9 @@ export class Store
         this.storage.removeItem(STORE_PREFIX, key);
     }
 
-    isTrustedIdentity(identifier, identityKey) 
+    isTrustedIdentity(identifier: string, identityKey?: ArrayBuffer)
     {
-        if (identifier === null || identifier === undefined) 
-        
+        if (!identifier)
             throw new Error("tried to check identity key for undefined/null key");
         
 
@@ -161,9 +152,9 @@ export class Store
         return Promise.resolve(ArrayBufferUtils.isEqual(identityKey, trusted));
     }
 
-    saveIdentity(identifier, identityKey) 
+    saveIdentity(identifier: string, identityKey: unknown)
     {
-        if (identifier === null || identifier === undefined)
+        if (!identifier)
             throw new Error("Tried to put identity key for undefined/null key");
 
         const address = new SignalProtocolAddress.fromString(identifier);
@@ -174,7 +165,7 @@ export class Store
         return Promise.resolve(existing && ArrayBufferUtils.isEqual(identityKey, existing));
     }
 
-    loadPreKey(keyId) 
+    loadPreKey(keyId: string)
     {
         let res = this.get(STORE_PREFIX_PREKEY + keyId);
         if (res !== undefined) 
@@ -188,19 +179,19 @@ export class Store
         return Promise.resolve(res);
     }
 
-    storePreKey(keyId, keyPair) 
+    storePreKey(keyId: number, keyPair: unknown)
     {
         return Promise.resolve(this.put(STORE_PREFIX_PREKEY + keyId, keyPair));
     }
 
-    removePreKey(keyId) 
+    removePreKey(keyId: string)
     {
         //@TODO publish new bundle
 
         return Promise.resolve(this.remove(STORE_PREFIX_PREKEY + keyId));
     }
 
-    loadSignedPreKey(keyId) 
+    loadSignedPreKey(keyId: string)
     {
         let res = this.get(STORE_PREFIX_SIGNEDPREKEY + keyId);
         if (res !== undefined) 
@@ -214,32 +205,32 @@ export class Store
         return Promise.resolve(res);
     }
 
-    storeSignedPreKey(keyId, keyPair) 
+    storeSignedPreKey(keyId: number, keyPair: unknown)
     {
         return Promise.resolve(this.put(STORE_PREFIX_SIGNEDPREKEY + keyId, keyPair));
     }
 
-    removeSignedPreKey(keyId) 
+    removeSignedPreKey(keyId: string)
     {
         return Promise.resolve(this.remove(STORE_PREFIX_SIGNEDPREKEY + keyId));
     }
 
-    loadSession(identifier) 
+    loadSession(identifier: string)
     {
         return Promise.resolve(this.get(STORE_PREFIX_SESSION + identifier));
     }
 
-    storeSession(identifier, record) 
+    storeSession(identifier: string, record: unknown)
     {
         return Promise.resolve(this.put(STORE_PREFIX_SESSION + identifier, record));
     }
 
-    removeSession(identifier) 
+    removeSession(identifier: string)
     {
         return Promise.resolve(this.remove(STORE_PREFIX_SESSION + identifier));
     }
 
-    hasSession(identifier) 
+    hasSession(identifier: string)
     {
         return !!this.get(STORE_PREFIX_SESSION + identifier);
     }
@@ -255,7 +246,7 @@ export class Store
         return Promise.resolve();
     }
 
-    async getPreKeyBundle(address) 
+    async getPreKeyBundle(address: { getDeviceId: () => number; })
     {
         // TODO: get bundle form localstorage
         const bundleElement = await this.connection.getBundle(address.getDeviceId());
