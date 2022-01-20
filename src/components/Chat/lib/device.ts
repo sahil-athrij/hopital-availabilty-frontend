@@ -1,14 +1,19 @@
 import {SessionBuilder, SessionCipher, SignalProtocolAddress} from "./index";
+import { Store } from "./store";
 
 export class Device
 {
-    constructor(jid, id, store) 
+    private readonly store: Store;
+    private readonly address: { getDeviceId: () => number; };
+    private session?: boolean;
+
+    constructor(jid: string, id: number, store: Store)
     {
         this.address = new SignalProtocolAddress(jid, id);
         this.store = store;
     }
 
-    async decrypt(ciphertext, preKey = false) 
+    async decrypt(ciphertext: string, preKey = false)
     {
         const sessionCipher = new SessionCipher(this.store, this.address);
         let plaintextBuffer;
@@ -21,7 +26,7 @@ export class Device
         return plaintextBuffer;
     }
 
-    async encrypt(plaintext) 
+    async encrypt(plaintext: ArrayBufferLike)
     {
         try 
         {
@@ -31,7 +36,7 @@ export class Device
             
 
             const session = this.getSession();
-            const ciphertext = await session.encrypt(plaintext);
+            const ciphertext = await session?.encrypt(plaintext);
 
             return {
                 preKey: ciphertext.type === 3,
@@ -48,7 +53,7 @@ export class Device
         }
     }
 
-    processPreKeyMessage(preKeyBundle) 
+    processPreKeyMessage(preKeyBundle: unknown)
     {
         const builder = new SessionBuilder(this.store, this.address);
 
@@ -64,11 +69,6 @@ export class Device
 
     getSession() 
     {
-        if (!this.session) 
-        
-            this.session = new SessionCipher(this.store, this.address);
-        
-
-        return this.session;
+        return this.session || (this.session = new SessionCipher(this.store, this.address));
     }
 }

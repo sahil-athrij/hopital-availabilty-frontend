@@ -1,44 +1,43 @@
 import {Random} from "./random";
 import {KeyHelper, NUM_PRE_KEYS} from "./index";
 import {Bundle} from "./bundle";
+import {Store} from "./store";
+import {Connection} from "./connection";
 
 export class Bootstrap
 {
-    constructor(store, connection) 
+    private connection: Connection;
+    private store: Store;
+
+    constructor(store: Store, connection: Connection)
     {
         this.store = store;
         this.connection = connection;
     }
 
-    async prepare() 
+    async prepare()
     {
-        if (!this.store.isReady()) 
-        
+        if (!this.store.isReady())
             await this.setup();
-        
 
-        if (!this.store.isPublished()) 
+        if (!this.store.isPublished())
         {
             const bundle = await this.generateBundle();
 
-            // @TODO catch error
             await this.connection.publishBundle(this.store.getDeviceId(), bundle.toObject());
             this.store.put("published", true);
 
-            // @TODO catch error
             await this.addDeviceIdToDeviceList();
         }
-
-        console.debug("OMEMO prepared");
     }
 
-    setup() 
+    setup()
     {
         return Promise.all([
             this.generateDeviceId(),
             KeyHelper.generateIdentityKeyPair(),
             KeyHelper.generateRegistrationId(),
-        ]).then(([deviceId, identityKey, registrationId]) => 
+        ]).then(([deviceId, identityKey, registrationId]) =>
         {
             this.store.put("deviceId", deviceId);
             this.store.put("identityKey", identityKey);
@@ -46,21 +45,19 @@ export class Bootstrap
         });
     }
 
-    generateDeviceId() 
+    generateDeviceId()
     {
         return Promise.resolve(Random.number(Math.pow(2, 31) - 1, 1));
     }
 
-    async generateBundle() 
+    async generateBundle()
     {
         console.debug("Generate OMEMO bundle");
 
         const preKeyPromises = [];
 
-        for (let i = 0; i < NUM_PRE_KEYS; i++) 
-        
+        for (let i = 0; i < NUM_PRE_KEYS; i++)
             preKeyPromises.push(this.generatePreKey(i));
-        
 
         preKeyPromises.push(this.generateSignedPreKey(1));
 
@@ -74,7 +71,7 @@ export class Bootstrap
         });
     }
 
-    async generatePreKey(id) 
+    async generatePreKey(id: number)
     {
         const preKey = await KeyHelper.generatePreKey(id);
 
@@ -83,7 +80,7 @@ export class Bootstrap
         return preKey;
     }
 
-    async generateSignedPreKey(id) 
+    async generateSignedPreKey(id: number)
     {
         const identity = await this.store.getIdentityKeyPair();
         const signedPreKey = await KeyHelper.generateSignedPreKey(identity, id);
@@ -93,15 +90,13 @@ export class Bootstrap
         return signedPreKey;
     }
 
-    addDeviceIdToDeviceList() 
+    addDeviceIdToDeviceList()
     {
         const deviceIds = this.store.getOwnDeviceList();
         const ownDeviceId = this.store.getDeviceId();
 
-        if (deviceIds.indexOf(ownDeviceId) < 0) 
-        //@REVIEW string vs number
+        if (deviceIds.indexOf(ownDeviceId) < 0)
             deviceIds.push(ownDeviceId);
-        
 
         return this.connection.publishDevices(deviceIds);
     }

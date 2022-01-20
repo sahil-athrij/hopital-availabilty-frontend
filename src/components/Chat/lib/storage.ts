@@ -3,6 +3,10 @@ const SEP = ":";
 const IGNORE_KEY = ["rid"];
 const BACKEND = localStorage;
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const $ = $ || null;
+
 export class Storage
 {
     private readonly hooks?: Record<string, unknown>;
@@ -117,7 +121,7 @@ export class Storage
         return BACKEND;
     }
 
-    setItem(...args: string[])
+    setItem(...args: unknown[])
     {
         let key, value;
 
@@ -214,10 +218,7 @@ export class Storage
         const data = this.getItem(key) || {};
 
         if (typeof (variable) === "object") // TODO: I don't know what I am doing
-            $.each(variable, function (key, val)
-            {
-                data[key] = val;
-            });
+            $.each(variable, (key: string | number, val: unknown) => data[key] = val);
         else
             data[variable] = value;
 
@@ -250,10 +251,7 @@ export class Storage
 
         if ($.isArray(item))
 
-            item = $.grep(item, function (e)
-            {
-                return e !== name;
-            });
+            item = $.grep(item, (e: unknown) => e !== name);
 
         else if (typeof (item) === "object" && item !== null)
             delete item[name as string];

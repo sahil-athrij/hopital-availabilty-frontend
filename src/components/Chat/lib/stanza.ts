@@ -1,31 +1,38 @@
 import {ArrayBufferUtils} from "./arraybuffer";
 
-interface Key
+export interface Key
 {
-    rid?: string
-    prekey?: boolean
-    value: string
-    deviceId?: string
-    preKey?: string
-    ciphertext?: { body: string }
+    rid?: number;
+    prekey?: boolean;
+    value: string;
+    deviceId?: number;
+    preKey?: string;
+    ciphertext?: { body: string };
 }
 
-interface Header
+export interface Header
 {
     sid: number,
     iv: string,
     keys: Array<Key>
 }
 
-interface EncryptedElementInterface
+export interface EncryptedElementInterface
 {
-    header: Header
-    payload: string
+    header: Header;
+    payload: string;
+}
+
+export interface Message
+{
+    iv: Uint8Array;
+    payload: string;
+    keys: Array<Key>;
 }
 
 export class Stanza
 {
-    static buildEncryptedStanza(message: { iv: string; payload: string; keys: Array<Key> }, ownDeviceId: number)
+    static buildEncryptedStanza(message: Message, ownDeviceId: number)
     {
         const encryptedElement: EncryptedElementInterface = {
             header: {
@@ -54,7 +61,9 @@ export class Stanza
         const payloadElement = encryptedElement.payload;
 
         if (headerElement === undefined)
+        
             return false;
+        
 
         const sourceDeviceId = headerElement.sid;
         const iv = ArrayBufferUtils.fromBase64(headerElement.iv);
