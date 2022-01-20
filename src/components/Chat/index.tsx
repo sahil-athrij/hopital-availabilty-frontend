@@ -1,7 +1,7 @@
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {withRouter} from "react-router";
 
-import SignalConnection from "./lib";
+import SignalConnection, {ChatMessage} from "./lib";
 import {Link} from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
@@ -21,13 +21,14 @@ interface ChatState extends AuthState
 {
     connection: SignalConnection;
     chat: string;
-    message: string;
     messages: Array<ChatMessage>;
 }
 
-class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState> {
+class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState> 
+{
 
-    constructor(props: AuthPropsLoc) {
+    constructor(props: AuthPropsLoc) 
+    {
         super(props);
 
         if (!this.state.user?.tokens.private_token || !this.props.match.params.chatId)
@@ -35,34 +36,34 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState> {
 
         this.state = {
             ...this.state,
-            connection: new SignalConnection(this.state.user?.tokens.private_token, this.props.match.params.chatId, this.onMessage),
+            connection: new SignalConnection(this.state.user.tokens.private_token, this.props.match.params.chatId, this.onMessage),
             chat: "",
-            message: "",
         };
     }
 
 
-    handleChange = (event: any) =>
+    handleChange = (event: { target: { value: string; }; }) =>
     {
         this.setState({chat: event.target.value});
-    }
+    };
 
-    sendMessage = () =>
+    sendMessage = async () =>
     {
-        this.setState({message: this.state.chat});
+        await this.state.connection.sendMessage(this.state.chat);
         this.setState({chat: ""});
-    }
+    };
     
     onMessage = (message: ChatMessage) => this.setState({messages: [...this.state.messages, message]});
 
-    render(): JSX.Element {
+    render(): JSX.Element 
+    {
         return (
             <>
                 <div style={{height: "100vh"}}>
                     <div style={{boxShadow: "0px 10px 60px rgba(0, 0, 0, 0.0625)"}} className="d-flex px-3 align-items-center">
                         {/*onClick={() => this.props.history.goBack()}*/}
                         <Link style={{textDecoration: "none"}} to="/chat"><ArrowBackIcon sx={{color: "#4F5E7B"}}/></Link>
-                        <img style={{borderRadius: "50%", marginLeft: "1rem"}} src={Account}/>
+                        <img style={{borderRadius: "50%", marginLeft: "1rem"}} src={Account} alt=""/>
                         <div style={{marginLeft: "1rem", paddingTop: "1rem"}} className="d-flex flex-column text-start">
                             <h5>Doctor harruy</h5>
                             <p>online</p>
@@ -86,27 +87,25 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState> {
                         </div>
                     </div>
 
-                    {/*{this.state.message}*/}
-
                     <form
-                        style={{display: 'flex', alignItems: 'center', boxShadow: '0', position: "fixed", bottom: '0', width: "100%"}}
+                        style={{display: "flex", alignItems: "center", boxShadow: "0", position: "fixed", bottom: "0", width: "100%"}}
                     >
-                        <IconButton sx={{ p: '10px' }} aria-label="menu">
+                        <IconButton sx={{ p: "10px" }} aria-label="menu">
                             <SentimentSatisfiedAltIcon />
                         </IconButton>
                         <InputBase
                             sx={{ ml: 1, flex: 1 }}
                             value={this.state.chat}
                             placeholder="Write a message..."
-                            inputProps={{ 'aria-label': 'search google maps' }}
+                            inputProps={{ "aria-label": "search google maps" }}
                             onChange={this.handleChange}
                         />
-                        <IconButton sx={{ p: '10px' }} aria-label="search">
+                        <IconButton sx={{ p: "10px" }} aria-label="search">
                             <AttachFileIcon />
                         </IconButton>
-                        <IconButton sx={{ p: '10px', m: '10px', background: '#385FF6',display: 'flex', alignItems: 'center', justifyContent: "center",
-                            '&:hover': {backgroundColor: '#385FF6'}}}>
-                            {this.state.chat ===""?<MicIcon sx={{ color: '#fff'}} />:<SendIcon onClick={this.sendMessage} sx={{ color: '#fff'}}/>}
+                        <IconButton onClick={this.sendMessage} sx={{ p: "10px", m: "10px", background: "#385FF6", display: "flex", alignItems: "center", justifyContent: "center",
+                            "&:hover": {backgroundColor: "#385FF6"}}}>
+                            {this.state.chat ===""?<MicIcon sx={{ color: "#fff"}} />:<SendIcon sx={{ color: "#fff"}}/>}
                         </IconButton>
                     </form>
                 </div>
