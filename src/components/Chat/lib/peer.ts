@@ -6,22 +6,22 @@ import {Key, Message} from "./stanza";
 
 export class Peer
 {
-    private readonly jid: string;
+    private readonly uid: string;
     private readonly store: Store;
     private readonly devices: Record<string, Device>;
-    private static ownJid: string;
+    private static ownUid: string;
     private static ownDevices: Record<string, Device>;
 
-    constructor(jid: string, store: Store)
+    constructor(uid: string, store: Store)
     {
-        this.jid = jid;
+        this.uid = uid;
         this.store = store;
         this.devices = {};
     }
 
     async encrypt(plaintext: string): Promise<Message>
     {
-        const remoteDeviceIds = this.store.getDeviceList(this.jid);
+        const remoteDeviceIds = this.store.getDeviceList(this.uid);
         const ownDeviceIds = this.store.getOwnDeviceList().filter((id) =>id !== this.store.getDeviceId());
 
         const aes = await this.encryptWithAES(plaintext);
@@ -65,7 +65,7 @@ export class Peer
     getDevice(id: number)
     {
         if (!this.devices[id])
-            this.devices[id] = new Device(this.jid, id, this.store);
+            this.devices[id] = new Device(this.uid, id, this.store);
 
         return this.devices[id];
     }
@@ -73,14 +73,14 @@ export class Peer
     getOwnDevice(id: number)
     {
         if (!Peer.ownDevices[id])
-            Peer.ownDevices[id] = new Device(Peer.ownJid, id, this.store);
+            Peer.ownDevices[id] = new Device(Peer.ownUid, id, this.store);
 
         return Peer.ownDevices[id];
     }
 
-    static setOwnJid(jid: string)
+    static setOwnUid(uid: string)
     { //@REVIEW
-        Peer.ownJid = jid;
+        Peer.ownUid = uid;
         Peer.ownDevices = {};
     }
 

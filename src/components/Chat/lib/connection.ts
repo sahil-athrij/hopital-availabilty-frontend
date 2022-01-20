@@ -119,6 +119,7 @@ export class Connection
     {
         const encryptedMessage = await this.omemo?.encrypt(to, message);
         console.log("sending message: %s to %s", message, to);
+
         this.send({
             type: "message",
             from: this.username,

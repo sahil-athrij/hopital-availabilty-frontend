@@ -20,14 +20,15 @@ export class Bootstrap
         if (!this.store.isReady())
             await this.setup();
 
-        const bundle = await this.generateBundle();
+        if (!this.store.isPublished())
+        {
+            const bundle = await this.generateBundle();
 
-        await this.connection.publishBundle(this.store.getDeviceId(), bundle.toObject());
-        this.store.put("published", true);
+            await this.connection.publishBundle(this.store.getDeviceId(), bundle.toObject());
+            this.store.put("published", true);
 
-        await this.addDeviceIdToDeviceList();
-
-        console.debug("OMEMO prepared");
+            await this.addDeviceIdToDeviceList();
+        }
     }
 
     setup()
@@ -56,10 +57,7 @@ export class Bootstrap
         const preKeyPromises = [];
 
         for (let i = 0; i < NUM_PRE_KEYS; i++)
-        
             preKeyPromises.push(this.generatePreKey(i));
-        
-
 
         preKeyPromises.push(this.generateSignedPreKey(1));
 
@@ -98,11 +96,7 @@ export class Bootstrap
         const ownDeviceId = this.store.getDeviceId();
 
         if (deviceIds.indexOf(ownDeviceId) < 0)
-        //@REVIEW string vs number
-        
             deviceIds.push(ownDeviceId);
-        
-
 
         return this.connection.publishDevices(deviceIds);
     }

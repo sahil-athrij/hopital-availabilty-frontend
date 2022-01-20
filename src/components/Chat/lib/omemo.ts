@@ -29,7 +29,7 @@ export class Omemo
         this.store = new Store(storage, connection, deviceNumber);
         this.peers = {};
 
-        Peer.setOwnJid(connection.username);
+        Peer.setOwnUid(connection.username);
         this.deviceNumber = deviceNumber;
     }
 
@@ -47,8 +47,6 @@ export class Omemo
     {
         if (!this.bootstrap)
             this.bootstrap = new Bootstrap(this.store, this.connection);
-
-        console.log("Preparing O-MEMO");
 
         return this.bootstrap.prepare();
     }

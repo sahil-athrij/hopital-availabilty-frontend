@@ -14,28 +14,31 @@ export const SignalProtocolAddress = libSignal.SignalProtocolAddress;
 export const SessionBuilder = libSignal.SessionBuilder;
 export const SessionCipher = libSignal.SessionCipher;
 
+export interface ChatMessage {
+    type: "sent" | "received",
+    content: string,
+    time: Date,
+    seen: boolean
+}
+
 export default class SignalConnection
 {
-    connection: Connection;
-    to: string;
-    messages: Array<string> = [];
+    private readonly connection: Connection;
+    private readonly to: string;
+    private readonly onMessage: (msg: ChatMessage) => void;
 
-    constructor(username: string, to: string)
+    constructor(username: string, to: string, onMessage: (msg: ChatMessage) => void)
     {
         this.to = to;
+        this.onMessage = onMessage;
         this.connection = new Connection(username, this.handleMessage);
     }
 
     handleMessage = (message: string) =>
     {
-        console.log(message, "Received message");
-        this.messages.push(message);
+        console.debug(message, "Received message");
+        this.onMessage({content: message, time: new Date(), seen: false, type: "received"});
     };
-
-    getMessages()
-    {
-        return this.messages;
-    }
 
     async sendMessage(message: string)
     {
