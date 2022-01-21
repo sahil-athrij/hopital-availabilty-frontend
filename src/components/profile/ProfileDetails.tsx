@@ -1,4 +1,4 @@
-import {AuthComponent, AuthPropsLoc, AuthState, reactUrl} from "../../api/auth";
+import {AuthComponent, AuthPropsLoc, AuthState, reactUrl, refresh_user} from "../../api/auth";
 import {Container, Avatar, Modal, Slider, TextField} from "@mui/material";
 import {withRouter} from "react-router";
 import React from "react";
@@ -246,7 +246,7 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                     p: 4,
                 }}>
                     <Typography variant="h6">
-                          <b>Your ID :</b>&nbsp;{this.state.user?.tokens.private_token}&nbsp;
+                        <b>Your ID :</b>&nbsp;{this.state.user?.tokens.private_token}&nbsp;
                         <Button
                             onClick={() => navigator.share({
                                 title: "NeedMedi",
