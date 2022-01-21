@@ -39,6 +39,7 @@ export default class SignalConnection
 
     handleMessage = (message: string) =>
     {
+        console.debug(message);
         this.messages.push({content: message, time: new Date(), seen: false, type: "received"});
         this.onMessage(this.messages);
 

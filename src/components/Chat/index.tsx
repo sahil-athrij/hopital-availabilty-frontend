@@ -34,15 +34,21 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
     {
         super(props);
 
-        if (!this.state.user?.tokens.private_token || !this.props.match.params.chatId)
-            throw Error("User not logged in");
-
         this.state = {
             ...this.state,
-            connection: new SignalConnection(this.state.user.tokens.private_token, this.props.match.params.chatId, this.onMessage),
             chat: "",
             messages: []
         };
+    }
+
+    componentDidMount()
+    {
+        super.componentDidMount();
+
+        if (!this.state.user?.tokens.private_token || !this.props.match.params.chatId)
+            throw Error("User not logged in");
+
+        this.setState({connection: new SignalConnection(this.state.user.tokens.private_token, this.props.match.params.chatId, this.onMessage)});
     }
 
 
