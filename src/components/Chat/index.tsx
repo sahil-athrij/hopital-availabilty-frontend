@@ -14,8 +14,6 @@ import InputBase from "@mui/material/InputBase";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import MicIcon from "@mui/icons-material/Mic";
 import SendIcon from "@mui/icons-material/Send";
-import React from "react";
-
 
 interface ChatState extends AuthState
 {
@@ -24,10 +22,15 @@ interface ChatState extends AuthState
     messages: Array<ChatMessage>;
 }
 
-class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState> 
+const messageStyle = {
+    sent: {background: "#385FF6", color: "#F7F7F7"},
+    received: {background: "#F7F7F7", color: "#1B1A57"}
+};
+
+class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
 {
 
-    constructor(props: AuthPropsLoc) 
+    constructor(props: AuthPropsLoc)
     {
         super(props);
 
@@ -38,6 +41,7 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
             ...this.state,
             connection: new SignalConnection(this.state.user.tokens.private_token, this.props.match.params.chatId, this.onMessage),
             chat: "",
+            messages: []
         };
     }
 
@@ -49,23 +53,27 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
 
     sendMessage = async () =>
     {
-        await this.state.connection.sendMessage(this.state.chat);
+        if (this.state.chat)
+            await this.state.connection.sendMessage(this.state.chat);
+
         this.setState({chat: ""});
     };
-    
-    onMessage = (message: ChatMessage) => this.setState({messages: [...this.state.messages, message]});
 
-    render(): JSX.Element 
+    onMessage = (messages: Array<ChatMessage>) => this.setState({messages});
+
+    render()
     {
         return (
             <>
                 <div style={{height: "100vh"}}>
-                    <div style={{boxShadow: "0px 10px 60px rgba(0, 0, 0, 0.0625)"}} className="d-flex px-3 align-items-center">
+                    <div style={{boxShadow: "0px 10px 60px rgba(0, 0, 0, 0.0625)"}}
+                        className="d-flex px-3 align-items-center">
                         {/*onClick={() => this.props.history.goBack()}*/}
-                        <Link style={{textDecoration: "none"}} to="/chat"><ArrowBackIcon sx={{color: "#4F5E7B"}}/></Link>
+                        <Link style={{textDecoration: "none"}} to="/chat"><ArrowBackIcon
+                            sx={{color: "#4F5E7B"}}/></Link>
                         <img style={{borderRadius: "50%", marginLeft: "1rem"}} src={Account} alt=""/>
                         <div style={{marginLeft: "1rem", paddingTop: "1rem"}} className="d-flex flex-column text-start">
-                            <h5>Doctor harruy</h5>
+                            <h5>{this.state.user?.first_name}</h5>
                             <p>online</p>
                         </div>
                         <VideocamIcon sx={{marginLeft: "auto", marginRight: "1rem"}} color="action"/>
@@ -73,43 +81,57 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                     </div>
                     <p style={{margin: ".5rem", fontSize: "10px", color: "#A1A1BC"}}>Message Now</p>
 
-                    <div className="d-flex justify-content-start align-items-center mb-3 mx-3">
-
-                        <div style={{background: "#F7F7F7", width: "fit-content", maxWidth: "70%", borderRadius: "8px", color: "#1B1A57"}} className="text-justify p-2">
-                            incoming message
+                    {this.state.messages.map(({content, type}, i) => (
+                        <div
+                            className={`d-flex align-items-center mb-3 mx-3 ${type === "sent" ? "justify-content-end" : "justify-content-start"}`}
+                            key={i}>
+                            <div style={{
+                                ...messageStyle[type],
+                                width: "fit-content",
+                                maxWidth: "70%",
+                                minWidth: "10%",
+                                borderRadius: "8px",
+                            }} className="text-justify p-2">
+                                {content}
+                            </div>
                         </div>
-                    </div>
+                    ))}
 
-                    <div className="d-flex justify-content-end align-items-center mb-3 mx-3">
-
-                        <div style={{background: "#385FF6", width: "fit-content", maxWidth: "70%", borderRadius: "8px", color: "#FFFFFF"}} className="text-justify p-2">
-                            send message
-                        </div>
-                    </div>
-
-                    <form
-                        style={{display: "flex", alignItems: "center", boxShadow: "0", position: "fixed", bottom: "0", width: "100%"}}
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            boxShadow: "0",
+                            position: "fixed",
+                            bottom: "0",
+                            width: "100%"
+                        }}
                     >
-                        <IconButton sx={{ p: "10px" }} aria-label="menu">
-                            <SentimentSatisfiedAltIcon />
+                        <IconButton sx={{p: "10px"}} aria-label="menu">
+                            <SentimentSatisfiedAltIcon/>
                         </IconButton>
                         <InputBase
-                            sx={{ ml: 1, flex: 1 }}
+                            sx={{ml: 1, flex: 1}}
                             value={this.state.chat}
                             placeholder="Write a message..."
-                            inputProps={{ "aria-label": "search google maps" }}
                             onChange={this.handleChange}
                         />
-                        <IconButton sx={{ p: "10px" }} aria-label="search">
-                            <AttachFileIcon />
+                        <IconButton sx={{p: "10px"}}>
+                            <AttachFileIcon/>
                         </IconButton>
-                        <IconButton onClick={this.sendMessage} sx={{ p: "10px", m: "10px", background: "#385FF6", display: "flex", alignItems: "center", justifyContent: "center",
-                            "&:hover": {backgroundColor: "#385FF6"}}}>
-                            {this.state.chat ===""?<MicIcon sx={{ color: "#fff"}} />:<SendIcon sx={{ color: "#fff"}}/>}
+                        <IconButton onClick={this.sendMessage} sx={{
+                            p: "10px",
+                            m: "10px",
+                            background: "#385FF6",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            "&:hover": {backgroundColor: "#385FF6"}
+                        }}>
+                            {this.state.chat ? <SendIcon sx={{color: "#fff"}}/> : <MicIcon sx={{color: "#fff"}}/>}
                         </IconButton>
-                    </form>
+                    </div>
                 </div>
-
             </>
         );
     }

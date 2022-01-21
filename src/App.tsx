@@ -1,6 +1,4 @@
-// import "bootstrap/dist/css/bootstrap.min.css";
 import "./bootstrap.min.css";
-// import {NavBar} from "./components/NavBar/navBar";
 import {Index} from "./components/Index";
 import React from "react";
 import {Route, RouteComponentProps, Switch, withRouter} from "react-router";

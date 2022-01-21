@@ -14,6 +14,8 @@ import contact from "../../images/contact_bw.svg";
 import {Link} from "react-router-dom";
 import {Tab} from "@mui/material";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
+import {withRouter} from "react-router";
+import SignalConnection from "./lib";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -47,13 +49,21 @@ interface SwiperState extends AuthState{
     value: number
 }
 
-export default class Swiper extends AuthComponent<AuthPropsLoc, SwiperState>
+class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState>
 {
     constructor(props: AuthPropsLoc)
     {
         super(props);
 
         this.state = {...this.state, value: 0};
+    }
+
+    componentDidMount()
+    {
+        super.componentDidMount();
+
+        if(this.state.user?.tokens.private_token)
+            new SignalConnection(this.state.user.tokens.private_token, "", () => null);
     }
 
     render()
@@ -174,7 +184,7 @@ export default class Swiper extends AuthComponent<AuthPropsLoc, SwiperState>
                                 </div>
 
                                 <div className="chat-main" style={{height: "35vh", overflow: "auto"}}>
-                                    {this.state.user?.friends?.map((friend, i) =>
+                                    {this.state.user?.chat_friends?.map((friend, i) =>
                                         (<Link to={`/chat/${friend.token}`} key={i}>
                                             <div className="d-flex">
                                                 <div className="ms-2 me-1 d-flex">
@@ -235,3 +245,8 @@ export default class Swiper extends AuthComponent<AuthPropsLoc, SwiperState>
         );
     }
 }
+
+
+const Swiper = withRouter(SwiperLoc);
+
+export default Swiper;
