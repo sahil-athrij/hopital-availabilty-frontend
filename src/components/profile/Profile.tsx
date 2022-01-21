@@ -1,4 +1,4 @@
-import {AuthComponent, AuthState} from "../../api/auth";
+import {AuthComponent, AuthState, refresh_user} from "../../api/auth";
 import React from "react";
 import {Route} from "react-router";
 import {ProfileDetails} from "./ProfileDetails";
@@ -10,6 +10,8 @@ export class Profile extends AuthComponent<Record<string, string|undefined>, Aut
 {
     render() 
     {
+        refresh_user();
+
         if (this.state.auth) 
         
             return (

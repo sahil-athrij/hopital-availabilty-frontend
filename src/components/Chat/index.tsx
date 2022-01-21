@@ -1,4 +1,4 @@
-import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
+import {AuthComponent, AuthPropsLoc, AuthState, Friend} from "../../api/auth";
 import {withRouter} from "react-router";
 
 import SignalConnection, {ChatMessage} from "./lib";
@@ -20,6 +20,7 @@ interface ChatState extends AuthState
     connection: SignalConnection;
     chat: string;
     messages: Array<ChatMessage>;
+    chatUser: Friend;
 }
 
 const messageStyle = {
@@ -45,10 +46,17 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
     {
         super.componentDidMount();
 
-        if (!this.state.user?.tokens.private_token || !this.props.match.params.chatId)
-            throw Error("User not logged in");
+        if (!this.state.user?.tokens.private_token)
+            return this.performAuth();
 
-        this.setState({connection: new SignalConnection(this.state.user.tokens.private_token, this.props.match.params.chatId, this.onMessage)});
+        const chatUser = this.state.user.chat_friends?.find((friend) => friend.token === this.props.match.params.chatId);
+
+        if(!chatUser)
+            return this.props.history.replace("/chat");
+
+        const connection = new SignalConnection(this.state.user.tokens.private_token, chatUser.token, this.onMessage);
+
+        this.setState({connection, chatUser});
     }
 
 
@@ -79,7 +87,7 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                             sx={{color: "#4F5E7B"}}/></Link>
                         <img style={{borderRadius: "50%", marginLeft: "1rem"}} src={Account} alt=""/>
                         <div style={{marginLeft: "1rem", paddingTop: "1rem"}} className="d-flex flex-column text-start">
-                            <h5>{this.state.user?.first_name}</h5>
+                            <h5>{this.state.chatUser.name}</h5>
                             <p>online</p>
                         </div>
                         <VideocamIcon sx={{marginLeft: "auto", marginRight: "1rem"}} color="action"/>
