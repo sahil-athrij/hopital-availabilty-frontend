@@ -4,14 +4,14 @@ import {FullScreenSearch} from "../FullScreen/fullScreenSearch";
 import {AuthComponent, AuthState} from "../../api/auth";
 import {getParam} from "../../api/QueryCreator";
 import {CSSTransition} from "react-transition-group";
-import {Container, Navbar} from "react-bootstrap";
+import {Container, AppBar, IconButton} from "@mui/material";
 import {ResponsiveState} from "../ResponsiveComponent";
 import MenuIcon from "@mui/icons-material/Menu";
 
 
 import "./nabar.css";
 import Avatar from "@mui/material/Avatar";
-import {IconButton} from "@mui/material";
+import {FullScreenUser} from "../FullScreen/FullScreenUser";
 
 
 
@@ -75,8 +75,8 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
             !this.props.location.pathname.includes("/addHospital");
         console.log(this.state.user?.username);
         return (
-            <Navbar collapseOnSelect expand="xl" variant="dark"
-                className={"navbar  fixed-top " + (showSearchBar ? "bg-white" : "bg-grey")}
+            <AppBar style={{boxShadow: "none"}}
+                className={"navbar text-dark fixed-top " + (showSearchBar ? "bg-white" : "bg-grey")}
                 id="navbar">
 
                 <Container className="">
@@ -101,14 +101,19 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
                             Search hospitals
                         </button>
                         <Avatar className="mr-2" sx={{width:"28px", height : "28px", marginRight: ".5rem"}}
-                            src={this.state.user?.image}>{this.state.user ? this.state.user.username ? this.state.user.username[0] : "?" : "?"}</Avatar>
+                            src={this.state.user?.tokens?.profile || undefined}>{this.state.user ? this.state.user.username ? this.state.user.username[0] : "?" : "?"}</Avatar>
 
-
+                        
                     </div>
 
 
                     <CSSTransition classNames="user-screen" in={this.state.show_user} timeout={300}
                         unmountOnExit>
+                        <FullScreenUser close={() =>
+                        {
+                            this.props.history.goBack();
+                            this.setState({show_user: false});
+                        }}/>
                     </CSSTransition>
 
                 </Container>
@@ -128,7 +133,7 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
                 </CSSTransition>
                 }
 
-            </Navbar>
+            </AppBar>
 
         );
     }

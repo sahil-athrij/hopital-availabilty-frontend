@@ -3,7 +3,7 @@ import React from "react";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import Rating from "@mui/material/Rating";
-import profile from "../../images/profile-image.svg";
+import profile from "../../images/profilehead.jpg";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import { Marker, MarkerObject, Review } from "../../api/model";
 import { toast } from "react-toastify";

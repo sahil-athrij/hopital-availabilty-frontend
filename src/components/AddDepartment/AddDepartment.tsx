@@ -51,9 +51,7 @@ class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AddDepartmentState>
 
     render(): JSX.Element 
     {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore                                                                //TODO
-        // const {hspId} = this.props.match.params;
+
 
         return (
             this.state.ready ?

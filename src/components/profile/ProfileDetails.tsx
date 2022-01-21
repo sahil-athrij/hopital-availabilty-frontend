@@ -1,5 +1,5 @@
-import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
-import {Container} from "react-bootstrap";
+import {AuthComponent, AuthPropsLoc, AuthState, reactUrl} from "../../api/auth";
+import {Container, Avatar, Modal, Slider, TextField} from "@mui/material";
 import {withRouter} from "react-router";
 import React from "react";
 import {CSSTransition} from "react-transition-group";
@@ -8,7 +8,7 @@ import {Link} from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Editbutn from "../../images/editButton.svg";
-import {Avatar, Slider} from "@mui/material";
+
 import "./ProfileDetails.css";
 import {withStyles} from "@mui/styles";
 import Givehand from "../../images/Medicaidaccnt.svg";
@@ -24,7 +24,9 @@ import Femaleicon from "../../images/female.svg";
 import TransGen from "../../images/TransGend.svg";
 import PrefNSay from "../../images/genderless.svg";
 import {BigBlueButton} from "../Utils";
-
+import {toast} from "react-toastify";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 const AirbnbSlider = withStyles({
     root: {
@@ -47,10 +49,12 @@ const AirbnbSlider = withStyles({
 
 interface ProfileDetailsState extends AuthState
 {
+    invite: string;
     show_share: boolean;
     tab: number;
     requests: PatientObject[];
     friend_request: PatientObject[];
+    popUp: boolean;
 }
 
 
@@ -89,13 +93,16 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
         this.setState({requests: data.results, friend_request: data1.results});
     }
 
+
+
     getgender = (gender: string) =>
     {
         if (gender === "M")
         
             return (
-                <img src={Maleicon} alt=""/>);
-        // eslint-disable-next-line eqeqeq
+                <img src={Maleicon} alt=""/>
+            );
+
 
         else if (gender === "F")
         
@@ -119,123 +126,176 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
 
     };
 
+    handleInvite = async () =>
+    {
+        const shareData = {
+            title: "NeedMedi",
+            text: `${this.state.user?.username} Invited you to needmedi.com`,
+            url: `${reactUrl}/invite?invite=${this.state.user?.tokens.private_token}`
+        };
+
+        try
+        {
+            await navigator.share(shareData);
+            toast.success("Invited Successfully", {
+                position: "bottom-center"
+            });
+        }
+        catch (error)
+        {
+            toast.error((error as { details: string }).details, {
+                position: "bottom-center"
+            });
+        }
+    };
 
     getTab = () =>
-    {
-        if (this.state.tab === 0)
-        
-            return (
-                <div className="">
-                    <Container className="maincont">
-                        {this.state.requests ? (this.state.requests.map((obj, key) => (
-                            <div key={key}>
+        (this.state.tab === 0 ?
+            <div className="">
+                <Container>
+                    <Link to="/addRequest">
+                        <BigBlueButton text="+ Add New Request"/>
+                    </Link>
+                </Container>
+                <Container >
+                    {this.state.requests ? (this.state.requests.map((obj, key) => (
+                        <div key={key}>
 
-                                <div className="mx-1">
-                                    <div className="maincard d-flex flex-row justify-content-between ">
+                            <div className="mx-1">
+                                <div className="maincard d-flex flex-row justify-content-between ">
 
-                                        <div className="  text-left pl-4 pt-4">
-                                            <h1 className="title m-0">{obj.Name}{this.getgender(obj.gender)}</h1>
-                                            <div className="subtitle">
-                                                <div>Age:{obj.age}</div>
-                                                <div>Symptoms:{obj.symptoms}</div>
-                                                <div>Since:{obj.symdays}</div>
-                                            </div>
+                                    <div className=" lefttxt ">
+                                        <h1 className="title m-0">{obj.Name}{this.getgender(obj.gender)}</h1>
+                                        <div className="subtitle">
+                                            <div>Symptoms:{obj.symptoms}</div>
+                                            <div>Since:{obj.symdays}</div>
                                         </div>
-                                        <div className=" subtitle pr-4 pt-4 ">
-                                            <div className="mt-1">{obj.blood} <img src={Bloodgrp} alt=""/></div>
-                                            <div className="mt-1">Covid:{obj.covidresult ? (
-                                                <img src={CovidPos} alt=""/>) : (
-                                                <img src={CovidNeg} alt=""/>)}</div>
-                                            <div className="mt-1">CT score:{obj.ctscore}</div>
-                                            <Button sx={{
-                                                borderRadius: "10px",
-                                                marginBottom: "1rem",
-                                                textTransform: "none",
-                                                paddingX: "1.25rem",
-                                                paddingY: ".25rem", marginTop: ".5rem"
-                                            }} className="helpbutn"
-                                            variant="contained">Edit</Button>
-
-                                        </div>
-
-
+                                    </div>
+                                    <div className=" subtitle pr-4 pt-4 ">
+                                        <div className="mt-1">{obj.blood} <img src={Bloodgrp} alt=""/></div>
+                                        <div className="mt-1">Covid:{obj.covidresult ? (
+                                            <img src={CovidPos} alt=""/>) : (
+                                            <img src={CovidNeg} alt=""/>)}</div>
+                                        <div className="mt-1">CT score:{obj.ctscore}</div>
+                                        <Button sx={{
+                                            borderRadius: "10px",
+                                            marginBottom: "1rem",
+                                            textTransform: "none",
+                                            paddingX: "1.25rem",
+                                            paddingY: ".25rem", marginTop: ".5rem"
+                                        }} className="helpbutn"
+                                        variant="contained">Edit</Button>
                                     </div>
                                 </div>
                             </div>
-                        ))) : null}
+                        </div>
+                    ))) : null}
 
 
-                    </Container>
-                    <Container>
-                        <Link to="/addRequest">
-                            <BigBlueButton text="+ Add New Request"/>
-                        </Link>
-                    </Container>
-
-                </div>
-            );
-        
-        else if (this.state.tab === 1)
-        
-            return (
-                <div className="">
-                    {/*<Container>*/}
-                    {/*    <div className="frndcard w-100 d-flex justify-content-between mb-2">*/}
-                    {/*        <Avatar src={this.state.user?.uploaded_images[0]?.image} variant="rounded" sx={{*/}
-                    {/*            marginLeft: "6px",*/}
-                    {/*            width: "47.96px",*/}
-                    {/*            height: "50px",*/}
-                    {/*            marginTop:"10px",*/}
-                    {/*            marginBottom:"9px",*/}
-                    {/*            borderRadius:"15px",*/}
-                    {/*        }}>{this.state.user ? this.state.user.username[0] : '?'}</Avatar>*/}
-                    {/*        <div className="d-flex flex-grow-1 flex-column text-left align-self-center ml-2">*/}
-                    {/*            <div className="frndname">Your Friend Name</div>*/}
-                    {/*            <div className="frndemail">friendemailid@gmail.com</div>*/}
-                    {/*        </div>*/}
-
-                    {/*    </div>*/}
-                    {/*</Container>*/}
-                    {/*<Container>*/}
-                    {/*    <Link to="/">*/}
-                    {/*        <BigBlueButton text="Invite  Friend"/>*/}
-                    {/*    </Link>*/}
-                    {/*</Container>*/}
-
-                </div>
-
-            );
-        
-        else if (this.state.tab === 2)
-        
-            return (
-                <div className="m-4">
-
-                </div>
-
-            );
-        
+                </Container>
 
 
-    };
+            </div> :
+            <div>
+                <Container>
+                    <BigBlueButton
+                        onClick={() => this.state.tab === 1 ? this.handleInvite() : this.setState({popUp: true})}
+                        text={this.state.tab === 1 ? "Invite Friend" : "Add Friend"}/>
+                </Container>
+
+                {(this.state.tab === 1 ? this.state.user?.invited : this.state.user?.friends)?.map((friend, key)=>(
+                    <Container key={key}>
+                        <div className="frndcard w-100 d-flex justify-content-between mb-2">
+                            <Avatar src={friend.profile} variant="rounded" sx={{
+                                marginLeft: "6px",
+                                width: "47.96px",
+                                height: "50px",
+                                marginTop: "10px",
+                                marginBottom: "9px",
+                                borderRadius: "15px",
+                            }}>{friend.name[0]}</Avatar>
+                            <div style={{textAlign: "left", marginLeft: "1rem"}}
+                                className="d-flex flex-grow-1 flex-column text-left align-self-center ">
+                                <div className="frndname">{friend.name}</div>
+                                <div className="frndemail">{friend.email}</div>
+                            </div>
+
+                        </div>
+                    </Container>))}
+
+
+            </div>
+        );
+
+    friendPopUp = () =>
+        (
+            <Modal
+                open={this.state.popUp}
+                onClose={() => this.setState({popUp: false})}
+
+            >
+                <Box sx={{
+                    position: "absolute" as const,
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: 400,
+                    bgcolor: "background.paper",
+                    border: "2px solid #000",
+                    boxShadow: 24,
+                    p: 4,
+                }}>
+                    <Typography variant="h6">
+                          <b>Your ID :</b>&nbsp;{this.state.user?.tokens.private_token}&nbsp;
+                        <Button
+                            onClick={() => navigator.share({
+                                title: "NeedMedi",
+                                text: `${this.state.user?.username} sent you a friend request.`,
+                                url: `${reactUrl}/addFriend/${this.state.user?.tokens.private_token}`
+                            })}
+                        >Share</Button>
+                    </Typography>
+                    <br/>
+                    <TextField
+                        value={this.state.invite}
+                        className="my-2" fullWidth variant="outlined"
+                        label="Friend's Id"
+                        InputLabelProps={{shrink: true, }} size="small"
+                        onChange={(event) =>
+                            this.setState({invite: event.target.value})}
+                        InputProps={{
+                            endAdornment:
+                                <Button
+                                    onClick={() => this.state.invite && this.props.history.push(`/addFriend/${this.state.invite}`)}>
+                                    Add
+                                </Button>
+                        }}
+                    />
+                    <Button
+                        variant="contained"
+                        onClick={() => this.setState({popUp: false})}>Cancel</Button>
+                </Box>
+            </Modal>
+        );
 
     render()
+
     {
         return (
             <div>
-
+                <this.friendPopUp />
                 <React.Fragment>
                     <div className="">
                         <Container className="w-100">
                             <div className="d-flex justify-content-between w-100 px-0  mt-4  ">
 
-                                <ArrowBackIcon  onClick={() => this.props.history.goBack()}  />
+                                <ArrowBackIcon  onClick={() => this.props.history.push("/")} />
                                 <p className="Yourprof w-100 text-left align-self-center ">Your Profile</p>
                                 <MoreVertIcon/>
 
                             </div>
                             <div className="userbox d-flex flex-row align-content-around">
-                                <Avatar src={this.state.user?.image} sx={{
+                                <Avatar src={this.state.user?.tokens?.profile || undefined} sx={{
                                     marginRight: "10px",
                                     width: "75px",
                                     height: "75px"
@@ -243,21 +303,24 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                                 <div className="profile d-flex flex-grow-1 flex-column ">
                                     <p className="profname">{this.state.user?.first_name? this.state.user.first_name + " " + this.state.user?.last_name: this.state.user?.username}</p>
                                     <p className="email">{this.state.user?.email}</p>
-                                    <p className="invitecode">Invite code: 8038RRR</p>
+                                    <p className="invitecode">Invite code: {this.state.user?.tokens.private_token}</p>
                                 </div>
-                                <button
-                                    className="editbutn "><b><img src={Editbutn} alt=""/></b>
+                                <button onClick={()=>
+                                {
+                                    this.props.history.push("/profile/edit");
+                                }}
+                                className="editbutn" ><b><img src={Editbutn} alt=""/></b>
                                 </button>
                             </div>
                             <div className="bg-grey px-4  mx-4 mb-4">
                                 <div className="d-flex flex-row align-items-center">
                                     <div className="d-flex flex-column">
-                                        <p className="point1">{this.state.user?.tokens.points}</p>
+                                        <p className="point1">{this.state.user?.tokens?.points}</p>
                                         <p className="point2">Points</p>
                                     </div>
                                     <AirbnbSlider className="slider mx-2"
                                         size="small"
-                                        defaultValue={this.state.user?.tokens.points}
+                                        defaultValue={this.state.user?.tokens?.points}
                                         aria-label="Small"
                                         valueLabelDisplay="auto"
                                         max={500}
@@ -274,19 +337,19 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                                 <button className={`card-about card-1 ${this.state.tab === 0 && "active"}`}
                                     onClick={() => this.setState({tab: 0})}>
                                     <img src={Givehand} alt={"doctor svg"}/>
-                                    <p className="m-0"><b>1</b><br/>Requests</p>
+                                    <p className="m-0"><b>{this.state.requests?.length}</b><br/>Requests</p>
                                 </button>
 
                                 <button className={`card-about card-1 ${this.state.tab === 1 && "active"}`}
                                     onClick={() => this.setState({tab: 1})}>
                                     <img src={Friendship} alt={"layout svg"}/>
-                                    <p className="m-0"><b>good</b><br/>Friends</p>
+                                    <p className="m-0"><b>{this.state.user?.invited?.length || 0}</b><br/>Invited</p>
                                 </button>
 
                                 <button className={`card-about card-1 ${this.state.tab === 2 && "active"}`}
                                     onClick={() => this.setState({tab: 2})}>
                                     <img src={reviewsvg} alt={"review svg"}/>
-                                    <p className="m-0"><b><br/></b>Item three</p>
+                                    <p className="m-0"><b>{this.state.user?.friends?.length || 0}</b><br/>Friends</p>
                                 </button>
 
 

@@ -3,14 +3,16 @@ import React from "react";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {withRouter} from "react-router";
 import Addhosp from "../../images/addhosp_bw.svg";
-import Explore from "../../images/explore_bw.svg";
+// import Explore from "../../images/explore_bw.svg";
 import Help from "../../images/help_bw.svg";
-import Request from "../../images/req_bw.svg";
+import Chat from "../../images/chat_main.svg";
+import home from "../../images/home_bw.svg";
+import homeaf from "../../images/home_af.svg";
 import Account from "../../images/accn_bw.svg";
 import Addhospaf from "../../images/addhosp_af.svg";
-import Exploreaf from "../../images/explore_af.svg";
+// import Exploreaf from "../../images/explore_af.svg";
 import Helpaf from "../../images/help_af.svg";
-import Requestaf from "../../images/req_af.svg";
+ import Chataf from "../../images/chat_af.svg";
 import Accountaf from "../../images/accnt_af.svg";
 
 
@@ -38,9 +40,10 @@ class BottomNavLoc extends AuthComponent<AuthPropsLoc, BottomNavState>
      */
     getActive() 
     {
-        return this.props.location.pathname.includes("/addRequest") ? 3 :
-            this.props.location.pathname.includes("/addHospital") ? 0 :
-                this.props.location.pathname.includes("/profile/") ? 4 : this.props.location.pathname.includes("/help") ? 2 : 1;
+        return this.props.location.pathname.includes("/addHospital") ? 1 :
+                this.props.location.pathname.includes("/help") ? 2 :
+                this.props.location.pathname.includes("/chat") ? 3 :
+                this.props.location.pathname.includes("/profile/") ? 4 : 0; 
     }
 
     hashChange = () => 
@@ -65,25 +68,27 @@ class BottomNavLoc extends AuthComponent<AuthPropsLoc, BottomNavState>
         this.props.history.push(value);
         this.props.history.goBack();
     };
-    icons = [{path: "/addHospital", iconbf: Addhosp, iconaf: Addhospaf},
-        {path: "/", iconbf: Explore, iconaf: Exploreaf}, {path: "/help", iconbf: Help, iconaf: Helpaf},
-        {path: "/addRequest", iconbf: Request, iconaf: Requestaf}, {
-            path: "/profile/",
-            iconbf: Account,
-            iconaf: Accountaf
-        }];
+    icons = [
+        {path: "/", iconbf: home, iconaf: homeaf},
+        {path: "/addHospital", iconbf: Addhosp, iconaf: Addhospaf},
+        {path: "/help", iconbf: Help, iconaf: Helpaf},
+        {path: "/chat", iconbf: Chat, iconaf: Chataf},
+        {path: "/profile/", iconbf: Account, iconaf: Accountaf}
+    ];
 
     render(): JSX.Element 
     {
         return <React.Fragment>
-            <BottomNavigation value={this.state.value} className='bottomnavbar fixed-bottom'
+            <div className="py-4 w-100"></div>
+            <BottomNavigation value={this.state.value} className='fixed-bottom'
             >
                 {this.icons.map((icon, key) => (
-                    <BottomNavigationAction onClick={(event) =>
-                        (this.handleChange(event, icon.path, key))} key={key}
-                    value={icon.path}     //TODO Onclick correction
-                    icon={<img alt=""
-                        src={this.state.active === key ? icon.iconaf : icon.iconbf}/>}/>))}
+                    <BottomNavigationAction sx={{minWidth: "auto", padding: "0", maxWidth: "auto", width: "auto"}}
+                        onClick={(event) =>
+                            (this.handleChange(event, icon.path, key))} key={key}
+                        value={icon.path}     //TODO Onclick correction
+                        icon={<img alt=""
+                            src={this.state.active === key ? icon.iconaf : icon.iconbf}/>}/>))}
             </BottomNavigation>
         </React.Fragment>;
 

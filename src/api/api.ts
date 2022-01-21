@@ -4,7 +4,7 @@ import {ModelRegistry} from "./model";
 export const baseUrl = process.env.BASE_URL;
 
 
-export async function get(url: string, kwargs = {}, headers = {}) 
+export async function get(url: string, kwargs = {}, headers = {})
 {
     const response = await fetch(url + "?" + new URLSearchParams(kwargs),
         {
@@ -13,11 +13,11 @@ export async function get(url: string, kwargs = {}, headers = {})
             }
         }
     );
-    if (response.status > 300) 
+    if (response.status > 300)
     
         throw (response);
     
-    else 
+    else
     {
 
         console.log(response);
@@ -25,7 +25,7 @@ export async function get(url: string, kwargs = {}, headers = {})
     }
 }
 
-export async function post(url: RequestInfo, kwargs = {}, headers = {}) 
+export async function post(url: RequestInfo, kwargs = {}, headers = {})
 {
     const response = await fetch(url, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -36,11 +36,11 @@ export async function post(url: RequestInfo, kwargs = {}, headers = {})
         body: JSON.stringify(kwargs)
     }
     );
-    if (response.status > 300) 
+    if (response.status > 300)
     
         throw (response);
     
-    else 
+    else
     {
 
         console.log(response);
@@ -48,7 +48,7 @@ export async function post(url: RequestInfo, kwargs = {}, headers = {})
     }
 }
 
-export async function filePost(url: RequestInfo, formData: FormData, headers = {}) 
+export async function filePost(url: RequestInfo, formData: FormData, headers = {})
 {
     const response = await fetch(url, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -58,11 +58,11 @@ export async function filePost(url: RequestInfo, formData: FormData, headers = {
         body: formData
     }
     );
-    if (response.status > 300) 
+    if (response.status > 300)
     
         throw (response);
     
-    else 
+    else
     {
         console.log(response);
         return response.json();
@@ -70,7 +70,24 @@ export async function filePost(url: RequestInfo, formData: FormData, headers = {
 }
 
 
-export async function patch(url: RequestInfo, kwargs = {}, headers = {}) 
+export async function filePatch(url: RequestInfo, formData: FormData, headers = {})
+{
+    const response = await fetch(url, {
+        method: "PATCH", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            ...headers
+        },
+        body: formData
+    });
+
+    if (response.status > 300)
+        throw (response);
+    else
+        return response.json();
+}
+
+
+export async function patch(url: RequestInfo, kwargs = {}, headers = {})
 {
     const response = await fetch(url, {
         method: "PATCH", // *GET, POST, PUT, DELETE, etc.
@@ -81,11 +98,11 @@ export async function patch(url: RequestInfo, kwargs = {}, headers = {})
         body: JSON.stringify(kwargs)
     }
     );
-    if (response.status > 300) 
+    if (response.status > 300)
     
         throw (response);
     
-    else 
+    else
     {
 
         console.log(response);
@@ -93,19 +110,20 @@ export async function patch(url: RequestInfo, kwargs = {}, headers = {})
     }
 }
 
-export interface ModelData {
+export interface ModelData
+{
     [key: string]: number | string,
 }
 
 
-export class ModelObject 
+export class ModelObject
 {
     data;
     baseUrl;
     id: number;
     fields: string[] = ["id"];
 
-    constructor(data: ModelData, baseUrl: string) 
+    constructor(data: ModelData, baseUrl: string)
     {
         this.data = data;
         this.id = data.id as number;
@@ -113,110 +131,147 @@ export class ModelObject
 
     }
 
-    getData() 
+    getData()
     {
-        for(const item of this.fields)
-            (this as  Record<string, unknown>)[item]= this.data[item];
-
+        for (const item of this.fields)
+            (this as Record<string, unknown>)[item] = this.data[item];
     }
 
-    setData() 
+    setData()
     {
-        for(const item of this.fields)
+        for (const item of this.fields)
             this.data[item] = (this as unknown as Record<string, string | number>)[item];
-
     }
 
-    save = async () => 
+    save = async () =>
     {
         this.setData();
         const headers = {"Authorization": `Bearer ${getAuth()}`};
         return patch(`${this.baseUrl}${this.id}/`, this.data, headers);
     };
 
+    modify = async (path: string, data = this.data) =>
+    {
+        try
+
+        {
+            this.setData();
+            const headers = {"Authorization": `Bearer ${getAuth()}`};
+            return await post(`${this.baseUrl}${this.id}/${path}`, data, headers);
+
+        }
+        catch (e)
+        {
+
+            throw await (e as { json: () => Promise<unknown> }).json();
+        }
+
+    };
+
 }
 
 
-export default class Model 
+export default class Model
 {
     baseurl: string;
     modelClass: ModelRegistry;
 
-    constructor(baseUrl: string, modelClass: ModelRegistry) 
+    constructor(baseUrl: string, modelClass: ModelRegistry)
     {
         this.baseurl = baseUrl;
         this.modelClass = modelClass;
     }
 
 
-    get = async (id: number | string, kwargs:Record<string, unknown> = {}, auth=false) =>
+    get = async (id: number | string, kwargs: Record<string, unknown> = {}, auth = false) =>
     {
         let headers = {};
 
-        if (auth) 
+        if (auth)
         
             headers = {"Authorization": `Bearer ${getAuth()}`};
         
+
+
         const data = await get(`${this.baseurl}${id}/`, kwargs, headers);
         return new this.modelClass(data, this.baseurl);
 
     };
 
-    filter = async (kwargs = {}, auth = false) => 
+    filter = async (kwargs = {}, auth = false) =>
     {
-        try 
+        try
         {
             let headers = {};
 
-            if (auth) 
+            if (auth)
             
                 headers = {"Authorization": `Bearer ${getAuth()}`};
             
+
+
             const data = await get(`${this.baseurl}`, kwargs, headers);
-            const lst=data.results.map((item: ModelData) => new this.modelClass(item, this.baseurl));
+            const lst = data.results.map((item: ModelData) => new this.modelClass(item, this.baseurl));
             return {results: lst, next: data.next};
         }
-        catch (e) 
+        catch (e)
         {
             throw e;
         }
     };
     /*path doesn't need /
     * */
-    action_general = async (path: string, kwargs = {}, auth = false) => 
+    action_general = async (path: string, kwargs = {}, auth = false) =>
     {
-        try 
+        try
         {
             let headers = {};
-            if (auth) 
+            if (auth)
             
                 headers = {"Authorization": `Bearer ${getAuth()}`};
             
+
+
             const data = await get(`${this.baseurl}${path}`, kwargs, headers);
-            const lst=data.results.map((item: ModelData) =>new this.modelClass(item, this.baseurl));
+            const lst = data.results.map((item: ModelData) => new this.modelClass(item, this.baseurl));
 
             return {results: lst, next: data.next};
         }
-        catch (e) 
+        catch (e)
         {
             throw e;
         }
     };
 
+
     /**
      * @param {{}} kwargs
      */
-    async create(kwargs = {}) 
+    async create(kwargs = {})
     {
-        try 
+        try
         {
             const headers = {"Authorization": `Bearer ${getAuth()}`};
             const data = await post(`${this.baseurl}`, kwargs, headers);
             return new this.modelClass(data, this.baseurl);
         }
-        catch (e) 
+        catch (e)
         {
-            throw await (e as {json: () => Promise<unknown>}).json();
+            throw await (e as { json: () => Promise<unknown> }).json();
+        }
+    }
+
+    async action_post(path: string, kwargs = {})
+    {
+        try
+        {
+            const headers = {"Authorization": `Bearer ${getAuth()}`};
+            const data = await post(`${this.baseurl}${path}`, kwargs, headers);
+            return new this.modelClass(data, this.baseurl);
+        }
+        catch (e)
+        {
+            throw await (e as { json: () => Promise<unknown> }).json();
         }
     }
 

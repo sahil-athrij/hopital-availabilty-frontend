@@ -13,7 +13,7 @@ body{
 
 .overlap-group4 {
     align-items: center;
-    background: linear-gradient(180deg, #FFFFFF 0%, #FCFAFA 100%), #2041C6;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FCFAFA 100%);
     border-bottom-left-radius: 40px;
     border-bottom-right-radius: 40px;
     /*background-image: url(icons/bg@2x.svg);*/
@@ -317,3 +317,44 @@ body{
     font-size: 18px;
     color: #000000;
 }
+
+.css-1n2mv2k{
+    justify-content: space-around !important;
+}
+
+.css-1dozdou {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.css-1nq8pqn-MuiButtonBase-root-MuiPickersDay-root:not(.Mui-selected){
+    border: 2px solid #0047FF !important;
+    border-radius: 6px !important;
+}
+
+.css-1nq8pqn-MuiButtonBase-root-MuiPickersDay-root{
+    height: 44px !important;
+}
+
+.css-14xf4ov-MuiButtonBase-root-MuiPickersDay-root{
+    height: 44px !important;
+}
+
+.css-14xf4ov-MuiButtonBase-root-MuiPickersDay-root.Mui-selected:hover{
+    border-radius: 6px !important;
+}
+
+.css-1nq8pqn-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
+    border-radius: 6px !important;
+}
+
+.css-14xf4ov-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
+    border-radius: 6px !important;
+}
+
+.css-wkc7by-MuiButtonBase-root-MuiPickersDay-root.Mui-selected:hover {
+    border-radius: 6px !important;
+    height: 44px !important;
+}
+
+

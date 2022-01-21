@@ -3,7 +3,7 @@ import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import React from "react";
 
 import "./details.css";
-import {Container} from "react-bootstrap";
+import {Container, Avatar} from "@mui/material";
 import SwipeableViews from "react-swipeable-views";
 import Loader from "react-loader-spinner";
 import {withRouter} from "react-router";
@@ -13,7 +13,7 @@ import layoutsvg from "../../images/layout.svg";
 import reviewsvg from "../../images/review.svg";
 import starsvg from "../../images/borderstar.svg";
 
-import image from "./icons/image@2x.png";
+import image from "../../images/hsppage.jpg";
 import icon from "./icons/icon-1@2x.png";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import share_icon from "./icons/shareicon.svg";
@@ -23,7 +23,10 @@ import direction_icon from "./icons/primary@2x.png";
 
 import {DepartmentCards} from "./DepatrmentCards";
 import {DoctorCards} from "./DoctorCards";
-import {ReviewCards} from "./ReviewCards"; 
+import {ReviewCards} from "./ReviewCards";
+
+import {toast} from "react-toastify";
+
 
 
 interface DetailsState extends AuthState {
@@ -102,7 +105,13 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState>
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const hspId = Number(this.props.match.params.hspId);
-        const marker = await Marker.get(hspId) as MarkerObject;
+        const marker = await Marker.get(hspId).catch(() =>
+        {
+            toast.error("Oops something went wrong", {
+                position: "bottom-center"
+            });
+            setTimeout(this.props.history.push, 1000, "/");
+        }) as MarkerObject;
 
         this.setState({model: marker, ready: true, id: hspId});
 
@@ -142,12 +151,13 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                                 <div className="bck-btn m-0">
                                     <ArrowBackIcon onClick={() => this.props.history.goBack()}/>
                                 </div>
-                                <div className="hbg-mnu m-0">
+                                <div className="hbg-mnu d-flex m-0 justify-content-center">
                                     <img alt={""} width={"5px"} height={"15px"} src={icon}/>
                                 </div>
                             </div>
-
-                            <img alt={""} className="m-0" height={"178px"} width={"178px"} src={image}/>
+                            <div className="d-flex justify-content-center mb-4">
+                                <Avatar alt={""} className="m-0" sx={{height:"120px", width:"120px"}}  src={this.state.model.images[0].image || image}/>
+                            </div>
                         </div>
                         <div className="font-weight-bold h4">
                             {model.name}
@@ -159,12 +169,19 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                                     {[model.address?.village, model.address?.suburb, model.address?.county, model.address?.state].filter(Boolean).join(", ")}
                                 </div>
                             </div>
-                            <div className="w-100 d-flex justify-content-around">
-                                <ActionButton src={direction_icon} caption={"Route"}
+                            <div  className="w-100 d-flex justify-content-around ">
+                                <ActionButton  src={direction_icon} caption={"Route"}
                                     action={`https://www.google.com/maps/search/${model.name}/@${model.lat},${model.lng},19.88z`}/>
                                 <ActionButton src={phone_icon} caption={"Phone"} action={`tel:${model.Phone}`}/>
                                 <ActionButton src={share_icon} caption={"Share"}
                                     share={{title: model.name, url: this.props.location.pathname}}/>
+                                {/*<Link style={{textDecoration:"none"}} className="homecard" to="/help">*/}
+                                {/*    <div>*/}
+                                {/*        <img src={Givehelp} alt=""/>*/}
+                                {/*        <div className="cardtxt ">Give help</div>*/}
+                                {/*    </div>*/}
+                                {/*</Link>*/}
+
                             </div>
 
                         </div>
@@ -232,7 +249,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                         </TabPanel>
                     </SwipeableViews>
                 </> :
-                <Container fluid={true} className="my-5 py-5 ">
+                <Container  className="my-5 py-5 ">
                     <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
                 </Container>
 

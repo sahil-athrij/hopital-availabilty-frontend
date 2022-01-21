@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {Marker, MarkerObject} from "../../api/model";
-import { Container} from "react-bootstrap";
+import { Container, Avatar} from "@mui/material";
 import {Link} from "react-router-dom";
 import {withRouter} from "react-router";
 import {getParam} from "../../api/QueryCreator";
@@ -12,8 +12,9 @@ import SmallStar from "../../images/smallstar.svg";
 import Phonecall from "../../images/phonecall.svg";
 import Videocall from "../../images/videocall.svg";
 import Routemap from "../../images/routemap.svg";
-import {Avatar} from "@mui/material";
-import Ekmmed from "../../images/ekmmed.svg";
+
+import Ekmmed from "../../images/ekmmed.png";
+import {toast} from "react-toastify";
 
 
 interface SearchCardsProps extends AuthPropsLoc {
@@ -30,7 +31,7 @@ class SearchCardsLoc extends Component<SearchCardsProps>
         return (
             <Link style={{textDecoration: "none"}} className='text-dark' to={"/details/" + this.props.model.id}>
                 {/* Show hospital image */}
-                <div className="cardstyle   mb-3 justify-content-between d-flex">
+                <div className="cardstyle mb-2 justify-content-between d-flex">
                     <div className="align-self-center">
                         <Avatar className="align-self-center" sx={{width:"37px", height:"37px", marginLeft:"10px"}} src={this.props.model.images[0]?.image?this.props.model.images[0]?.image:Ekmmed}/>
                     </div>
@@ -43,8 +44,8 @@ class SearchCardsLoc extends Component<SearchCardsProps>
                             <div className="w-60 text-left ">
                                 {this.props.model.name !== null ? this.props.model.name?.split(",")[0] : ""}
                             </div>
-                            <div className="ratingvalue d-flex  align-items-center justify-content-center">
-                                <div>
+                            <div className="ratingvalue d-flex justify-content-center" style={{height: "fit-content", width: "fit-content"}}>
+                                <div className="px-1">
                                     {this.props.model.care_rating}
                                 </div>
                                 <img alt={""} className="staricon " src={SmallStar}/>
@@ -57,10 +58,10 @@ class SearchCardsLoc extends Component<SearchCardsProps>
 
                             {/* fetching hospital address */}
                             <div className={"hospital-address"}>
-                                {this.props.model.address.suburb && this.props.model.address.suburb + " ,"}     
-                                {this.props.model.address.village && this.props.model.address.village + " ,"}
-                                {this.props.model.address.state_district && this.props.model.address.state_district + " ,"}
-                                {this.props.model.address.state && this.props.model.address.state}
+                                {this.props.model.address.suburb && this.props.model.address.suburb + ", "}
+                                {this.props.model.address.village && this.props.model.address.village + ", "}
+                                {this.props.model.address.state_district && this.props.model.address.state_district}
+                                {/*{this.props.model.address.state && this.props.model.address.state}*/}
                             </div>
 
 
@@ -152,6 +153,12 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
             const next = markers.next;
             const results = markers.results;
             this.setState({models: results, next: next, reset: true, loc: loc, query: query, offset: 10});
+        }).catch(() =>
+        {
+            toast.error("Oops something went wrong", {
+                position: "bottom-center"
+            });
+            setTimeout(this.props.history.push, 1000, "/");
         });
 
         this.setState({reset: false});
@@ -176,6 +183,12 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
             {
                 const {results, next} = markers;
                 this.setState({models: results, next: next, reset: true, loc: loc, query: query, offset: 10});
+            }).catch(() =>
+            {
+                toast.error("Oops something went wrong", {
+                    position: "bottom-center"
+                });
+                setTimeout(this.props.history.push, 1000, "/");
             });
             // this.setState({reset: false})
         }
@@ -203,7 +216,7 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
     {
         if (this.state.reset) 
         
-            return <Container fluid={true} className='m-0 p-0'>
+            return <Container  className='m-0 p-0'>
                 {this.state.models.map((model, i) => 
                 {
                     return <SearchCards key={i} model={model}/>;
@@ -218,7 +231,7 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
         
         else 
         
-            return <Container fluid={true} className='mt-5 pt-5 text-center'>
+            return <Container  className='mt-5 pt-5 text-center'>
                 <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
             </Container>;
         

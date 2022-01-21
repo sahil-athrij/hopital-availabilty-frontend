@@ -17,10 +17,15 @@
 .subtitle {
     font-size: 12px;
     color: #606267;
+    padding-right: 1rem;
 }
 .helpbutn {
     background: linear-gradient(180deg, #0338B9 0%, #3E64FF 100%);
 }
-.maincont {
-    padding-bottom: 4.5rem;
+
+.lefttxt {
+    text-align: left;
+    padding-left: 1rem;
+    line-height: 1.5rem;
+    padding-top: 1.9375rem;
 }

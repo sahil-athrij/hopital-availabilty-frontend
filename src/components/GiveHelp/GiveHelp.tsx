@@ -2,9 +2,6 @@ import {Patient, PatientObject} from "../../api/model";
 import {AuthComponent, AuthState} from "../../api/auth";
 import {RouteComponentProps, withRouter} from "react-router";
 import * as React from "react";
-import CloseIcon from "@mui/icons-material/Close";
-import Button from "@mui/material/Button";
-import {Container} from "@mui/material";
 import "./GiveHelp.css";
 import Maleicon from "../../images/male.svg";
 import Femaleicon from "../../images/female.svg";
@@ -13,69 +10,208 @@ import CovidNeg from "../../images/corneg.svg";
 import Bloodgrp from "../../images/bloodgroup.svg";
 import TransGen from "../../images/TransGend.svg";
 import PrefNSay from "../../images/genderless.svg";
+import {StickyHead} from "../Utils";
+import {toast} from "react-toastify";
+import {Button, Chip, Container, ListItem} from "@mui/material";
 
 
-interface PatientState extends AuthState {
+
+interface PatientState extends AuthState
+{
     models: PatientObject[];
-
+    helped_models: PatientObject[];
+    currenttab:number,
 
 }
 
 
-export type AuthPropsLoc = RouteComponentProps<Record<string, string|undefined>>
+export type AuthPropsLoc = RouteComponentProps<Record<string, string | undefined>>
 
-export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState> 
+export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
 {
 
-    constructor(props: AuthPropsLoc) 
+    constructor(props: AuthPropsLoc)
     {
         super(props);
         this.state = {
             ...this.state,
+            currenttab:0,
 
 
         };
 
 
     }
+    styles = [{
+        background: "linear-gradient(180deg, #0338B9 0%, #3E64FF 100%)",
+        color: "white",
+        margin: 0,
+        fontSize: "16px",
+        borderRadius: "10px"
+    }, {background: "#F0F0F0", margin: 0, fontSize: "16px", borderRadius: "10px"}];
+    tab_name=["Requests", "Helped by you"];
 
-    componentDidMount() 
+    componentDidMount()
     {
 
-        Patient.action_general("all", {}, true).then((patients) => 
+
+        Patient.action_general("all", {}, true).then((patients) =>
         {
             const results = patients.results;
             this.setState({models: results});
+            console.log(results);
+
         });
-        console.log(this.state.models);
+        Patient.action_general("help", {}, true).then((patients) =>
+        {
+            const results = patients.results;
+            this.setState({helped_models: results});
+            console.log(results);
+        });
+
+
     }
 
-    getgender = (gender: string) => 
+    getgender = (gender: string) =>
     {
-        if (gender === "M") 
+        if (gender === "M")
         
             return (
-                <img src={Maleicon}  alt=""/>);
+                <img src={Maleicon} alt=""/>);
         
-        else if (gender === "F") 
+        else if (gender === "F")
         
             return (
-                <img src={Femaleicon}  alt=""/>
+                <img src={Femaleicon} alt=""/>
             );
         
-        else if (gender === "NB") 
+        else if (gender === "NB")
         
             return (
-                <img src={TransGen}  alt=""/>
+                <img src={TransGen} alt=""/>
             );
         
-        else if (gender === "NP") 
+        else if (gender === "NP")
         
             return (
-                <img src={PrefNSay}  alt=""/>
+                <img src={PrefNSay} alt=""/>
             );
         
 
+
+    };
+
+    givehelp = async (obj: PatientObject) =>
+    {
+        try
+        {
+            await obj.modify("help/");
+            toast.success("Thank you for helping out", {
+                position: "bottom-center"
+            });
+        }
+        catch (error)
+        {
+            console.error(error);
+            toast.error((error as { details: string }).details, {
+                position: "bottom-center"
+            });
+        }
+    };
+
+    fields=()=>
+    {
+        if(this.state.currenttab===0)
+            return(
+                <Container className="maincont">
+                    {this.state.models ? (this.state.models.map((obj, key) => (
+                        <div key={key}>
+
+                            <div className="mx-1">
+                                <div className="maincard d-flex flex-row justify-content-between ">
+
+                                    <div className="  lefttxt  ">
+                                        <h1 className="title m-0">{obj.Name}{this.getgender(obj.gender)}</h1>
+                                        <div className="subtitle">
+                                            <div>Symptoms:{obj.symptoms}</div>
+                                            <div>Since:{obj.symdays}</div>
+                                        </div>
+                                    </div>
+                                    <div className=" subtitle  pt-4 ">
+                                        <div className="mt-1">{obj.blood} <img src={Bloodgrp} alt=""/></div>
+                                        <div className="mt-1">Covid:{obj.covidresult ? (
+                                            <img src={CovidPos} alt=""/>) : (
+                                            <img src={CovidNeg} alt=""/>)}</div>
+                                        <div className="mt-1">CT score:{obj.ctscore}</div>
+                                        <Button
+                                            onClick={() => this.givehelp(obj)}
+                                            sx={{
+                                                borderRadius: "10px",
+                                                marginBottom: "1rem",
+                                                textTransform: "none",
+                                                paddingX: "1.25rem",
+                                                paddingY: ".25rem", marginTop: ".5rem"
+                                            }} className="helpbutn"
+                                            variant="contained">Help</Button>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    ))) : null}
+
+
+                </Container>
+
+
+            );
+        if(this.state.currenttab===1)
+            return (
+                <Container className="maincont">
+                    {this.state.helped_models ? (this.state.helped_models.map((obj, key) => (
+                        <div key={key}>
+
+                            <div className="mx-1">
+                                <div className="maincard d-flex flex-row justify-content-between ">
+
+                                    <div className="  lefttxt  ">
+                                        <h1 className="title m-0">{obj.Name}{this.getgender(obj.gender)}</h1>
+                                        <div className="subtitle">
+                                            <div>Symptoms:{obj.symptoms}</div>
+                                            <div>Since:{obj.symdays}</div>
+                                        </div>
+                                    </div>
+                                    <div className=" subtitle  pt-4 ">
+                                        <div className="mt-1">{obj.blood} <img src={Bloodgrp} alt=""/></div>
+                                        <div className="mt-1">Covid:{obj.covidresult ? (
+                                            <img src={CovidPos} alt=""/>) : (
+                                            <img src={CovidNeg} alt=""/>)}</div>
+                                        <div className="mt-1">CT score:{obj.ctscore}</div>
+                                        <Button
+                                            onClick={() => this.givehelp(obj)}
+                                            sx={{
+                                                borderRadius: "10px",
+                                                marginBottom: "1rem",
+                                                textTransform: "none",
+                                                paddingX: "1.25rem",
+                                                paddingY: ".25rem", marginTop: ".5rem"
+                                            }} className="helpbutn"
+                                            variant="contained">Help</Button>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    ))) : null}
+
+
+                </Container>
+
+            );
     };
 
 
@@ -103,69 +239,48 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
     //             position: 'bottom-center'
     //         })
     // }
-
-
-    render() 
+    handleChange=()=>
     {
-        if (!this.state.auth) 
+        this.setState({
+            currenttab: this.state.currenttab + 1
+        });
+    };
+
+    render()
+    {
+        if (!this.state.auth)
         {
             this.performAuth();
             return (<></>);
         }
-        else 
+        else
         {
             console.log(this.state);
             return (
-                <div className="mb-3">
+                <div className="mb-3 ">
 
-                    <Container className=" tophead d-flex justify-content-between p-3  ">
-                        <CloseIcon onClick={() => this.props.history.goBack()}/>
-                        <p className="align-self-center m-0 p-0 text-left flex-grow-1 pl-4"><b>Give Help</b>
-                        </p>
-                        <Button className="sub"
-                            variant="contained">Submit</Button>
+                    <StickyHead title="Give Help" onClick={() => undefined} goBack={this.props.history.goBack}/>
+                    <ListItem className='d-flex justify-content-around'
+                        value={this.state.currenttab}
+                    >
 
-                    </Container>
+                        {
+                            this.tab_name.map((label, index) => (
+                                <div key={index} className="d-flex">
 
-                    <Container className="maincont">
-                        {this.state.models ? (this.state.models.map((obj, key) => (
-                            <div key={key}>
-
-                                <div className="mx-1">
-                                    <div className="maincard d-flex flex-row justify-content-between ">
-
-                                        <div className="  text-left pl-4 pt-4">
-                                            <h1 className="title m-0">{obj.Name}{this.getgender(obj.gender)}</h1>
-                                            <div className="subtitle">
-                                                <div>Age:{obj.age}</div>
-                                                <div>Symptoms:{obj.symptoms}</div>
-                                                <div>Since:{obj.symdays}</div>
-                                            </div>
-                                        </div>
-                                        <div className=" subtitle pr-4 pt-4 ">
-                                            <div className="mt-1">{obj.blood} <img src={Bloodgrp}  alt=""/></div>
-                                            <div className="mt-1">Covid:{obj.covidresult ? (<img src={CovidPos}  alt=""/>) : (
-                                                <img src={CovidNeg}  alt=""/>)}</div>
-                                            <div className="mt-1">CT score:{obj.ctscore}</div>
-                                            <Button sx={{
-                                                borderRadius: "10px",
-                                                marginBottom: "1rem",
-                                                textTransform: "none",
-                                                paddingX: "1.25rem",
-                                                paddingY: ".25rem", marginTop:".5rem"
-                                            }} className="helpbutn"
-                                            variant="contained">Help</Button>
-
-                                        </div>
-
-
-                                    </div>
+                                    <Chip  className='' label={label} onClick={()=>this.setState({
+                                        currenttab: index
+                                    })}
+                                    sx={this.styles[this.state.currenttab === index ? 0 : 1]}/>
                                 </div>
-                            </div>
-                        ))) : null}
+                            ))
+                        }
 
+                    </ListItem>
+                    {
+                        this.fields()
+                    }
 
-                    </Container>
 
                 </div>
 

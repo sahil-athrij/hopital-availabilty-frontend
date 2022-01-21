@@ -4,7 +4,7 @@ import "./details.css";
 
 import {DoctorObject} from "../../api/model";
 import doctor_fallback from "./icons/doctor-fallback.png";
-import {Container} from "react-bootstrap";
+import {Container} from "@mui/material";
 import starsvg from "../../images/star.svg";
 
 import search_icon from "./icons/search-icon.svg";

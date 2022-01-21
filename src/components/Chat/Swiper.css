@@ -1,0 +1,15 @@
+.css-19kzrtu
+{
+    padding: 0 !important;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.chat-main::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.chat-main {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}

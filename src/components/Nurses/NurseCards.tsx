@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 
 import {NurseObject} from "../../api/model";
 import doctor_fallback from "../Details/icons/doctor-fallback.png";
-import {Container} from "react-bootstrap";
+import {Container} from "@mui/material";
 import starsvg from "../../images/star.svg";
 
 import search_icon from "../Details/icons/search-icon.svg";

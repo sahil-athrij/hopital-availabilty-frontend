@@ -1,7 +1,5 @@
 import {AuthComponent, AuthState} from "../../api/auth";
-import {Container} from "react-bootstrap";
-import React from "react";
-import {
+import {Container,
     FormControl,
     FormControlLabel,
     FormLabel,
@@ -11,8 +9,10 @@ import {
     StepLabel,
     Stepper,
     TextField
-} from "@mui/material";
-import Switch from "react-bootstrap/Switch";
+    , Switch } from "@mui/material";
+import React from "react";
+
+
 import {toast} from "react-toastify";
 import {Patient} from "../../api/model";
 

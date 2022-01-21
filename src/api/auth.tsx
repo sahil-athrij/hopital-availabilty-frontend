@@ -2,9 +2,11 @@ import {ResponsiveComponent, ResponsiveState} from "../components/ResponsiveComp
 import {RouteComponentProps, withRouter} from "react-router";
 import {getParam, getQueryVariable} from "./QueryCreator";
 import {baseUrl, post} from "./api";
-import {Container} from "react-bootstrap";
+import {Container} from "@mui/material";
 import Loader from "react-loader-spinner";
 import React from "react";
+import {toast} from "react-toastify";
+import {LanguageObject} from "./model";
 
 
 const client_id = "6tWdAZrlxUA26FJSMjE7oKBpTNGaqJRl2bsmNMRb";
@@ -82,10 +84,10 @@ export function setObj(str: string, data: Record<string, unknown> | null)
 
 }
 
-export function getObj(str: string) 
+export function getObj(str: string)
 {
     const item = localStorage.getItem(str);
-    return JSON.parse(typeof item === "string" ? item : "{}");
+    return JSON.parse(item || "{}");
 }
 
 let timer = Date.now();
@@ -106,13 +108,20 @@ function makeid(length: number)
 
 export type AuthPropsLoc = RouteComponentProps<Record<string, string|undefined>>
 
+type Friends={
+    name:string,
+    email:string,
+    profile:string,
+}
 type token = {
     private_token: string,
     invite_token: string,
     invited: number,
     points: number,
-
-
+    profile: string | null,
+    phone_number: string,
+    languages: Array<LanguageObject>,
+    language: Array<LanguageObject>,
 }
 
 export interface AuthState extends ResponsiveState {
@@ -120,13 +129,15 @@ export interface AuthState extends ResponsiveState {
     refresh_view: boolean
     auth: string | null
     refresh: string | null
-    user: {
+    user?: {
+        id: number,
         tokens: token,
         email:string,
-        image:string,
         username: string,
         first_name: string,
         last_name: string,
+        friends?:Friends[],
+        invited?: Friends[]
     } | null
 }
 
@@ -260,6 +271,12 @@ export class HandleTokenLoc extends AuthComponent<AuthPropsLoc, AuthState>
                 
                     this.props.history.push("/");
                 
+            }).catch(() =>
+            {
+                toast.error("Oops something went wrong", {
+                    position: "bottom-center"
+                });
+                setTimeout(this.props.history.push, 1000, "/");
             });
 
 

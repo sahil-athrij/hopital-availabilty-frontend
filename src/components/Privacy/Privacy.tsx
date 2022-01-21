@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-import {Container} from "react-bootstrap";
+import {Container} from "@mui/material";
 
 /**
  * Describes the privacy and policy of needmedi.com 
