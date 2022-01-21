@@ -149,7 +149,6 @@ export class Connection
         //@TODO handle own update (check for own device id)
         else
             this.omemo?.storeDeviceList(message.username, deviceIds);
-
     }
 
     getBundle(deviceId: number)

@@ -1,8 +1,8 @@
 import React, {Component} from "react";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Account from "../../images/ventilator.svg";
-import VideocamIcon from '@mui/icons-material/Videocam';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import VideocamIcon from "@mui/icons-material/Videocam";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 
 class PersonalChat extends Component
@@ -13,8 +13,8 @@ class PersonalChat extends Component
             <div>
                 <div style={{boxShadow: "0px 10px 60px rgba(0, 0, 0, 0.0625)"}} className="d-flex px-3 align-items-center">
                     {/*onClick={() => this.props.history.goBack()}*/}
-                   <ArrowBackIcon/>
-                    <img style={{borderRadius: "50%", marginLeft: "1rem"}} src={Account}/>
+                    <ArrowBackIcon/>
+                    <img style={{borderRadius: "50%", marginLeft: "1rem"}} src={Account} alt=""/>
                     <div style={{marginLeft: "1rem", paddingTop: "1rem"}} className="d-flex flex-column text-start">
                         <h5>Doctor harruy</h5>
                         <p>online</p>

@@ -284,7 +284,6 @@ export class Storage
         const newValue = this.parseValue(ev.newValue);
 
         if (IGNORE_KEY.indexOf(<string>key) > -1)
-
             return;
 
         const eventNames = Object.keys(hooks || {});

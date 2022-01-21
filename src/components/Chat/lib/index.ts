@@ -1,4 +1,5 @@
 import {Connection} from "./connection";
+import {toast} from "react-toastify";
 
 export const NUM_PRE_KEYS = 10;
 export const AES_KEY_LENGTH = 128;
@@ -25,23 +26,38 @@ export default class SignalConnection
 {
     private readonly connection: Connection;
     private readonly to: string;
-    private readonly onMessage: (msg: ChatMessage) => void;
+    private readonly onMessage: (msg: Array<ChatMessage>) => void;
+    private readonly messages: Array<ChatMessage>;
 
-    constructor(username: string, to: string, onMessage: (msg: ChatMessage) => void)
+    constructor(username: string, to: string, onMessage: (msg: Array<ChatMessage>) => void)
     {
         this.to = to;
         this.onMessage = onMessage;
         this.connection = new Connection(username, this.handleMessage);
+        this.messages = JSON.parse(localStorage.getItem(`messages-${this.to}`) || "[]");
     }
 
     handleMessage = (message: string) =>
     {
-        console.debug(message, "Received message");
-        this.onMessage({content: message, time: new Date(), seen: false, type: "received"});
+        console.debug(message);
+        this.messages.push({content: message, time: new Date(), seen: false, type: "received"});
+        this.onMessage(this.messages);
+
+        localStorage.setItem(`messages-${this.to}`, JSON.stringify(this.messages));
     };
 
     async sendMessage(message: string)
     {
-        return this.connection.sendMessage(this.to, message);
+        await this.connection.sendMessage(this.to, message)
+            .then(() =>
+            {
+                const msg = <ChatMessage> {content: message, time: new Date(), seen: false, type: "sent"};
+
+                this.messages.push(msg);
+                this.onMessage(this.messages);
+
+                localStorage.setItem(`messages-${this.to}`, JSON.stringify(this.messages));
+            })
+            .catch((error) => toast.error(error, { position: "bottom-center"}));
     }
 }

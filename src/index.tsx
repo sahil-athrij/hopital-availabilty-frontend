@@ -5,14 +5,20 @@ import reportWebVitals from "./reportWebVitals";
 import {BrowserRouter} from "react-router-dom";
 import { Workbox } from "workbox-window";
 
-const wb = new Workbox("sw.js");
+try
+{
+    const wb = new Workbox("sw.js");
+    
+    if ("serviceWorker" in navigator)
+        if(location.hostname !== "localhost" && location.protocol === "https:")
+            wb.register();
+        else
+            navigator.serviceWorker.getRegistrations()
+                .then(registrations => registrations.forEach(registration => registration.unregister()));
+}
+catch (e)
+{}
 
-if ("serviceWorker" in navigator)
-    if(location.hostname !== "localhost")
-        wb.register();
-    else
-        navigator.serviceWorker.getRegistrations()
-            .then(registrations => registrations.forEach(registration => registration.unregister()));
 
 ReactDOM.render(
     <BrowserRouter>

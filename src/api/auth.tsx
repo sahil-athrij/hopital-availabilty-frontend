@@ -109,6 +109,7 @@ function makeid(length: number)
 export type AuthPropsLoc = RouteComponentProps<Record<string, string|undefined>>
 
 type Friends={
+    token: string;
     name:string,
     email:string,
     profile:string,
@@ -137,6 +138,7 @@ export interface AuthState extends ResponsiveState {
         first_name: string,
         last_name: string,
         friends?:Friends[],
+        chat_friends?:Friends[],
         invited?: Friends[]
     } | null
 }
