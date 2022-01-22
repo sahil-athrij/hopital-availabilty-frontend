@@ -18,7 +18,7 @@ export const SessionCipher = libSignal.SessionCipher;
 export interface ChatMessage {
     type: "sent" | "received",
     content: string,
-    time: Date,
+    time: string,
     seen: boolean
 }
 
@@ -37,10 +37,26 @@ export default class SignalConnection
         this.messages = JSON.parse(localStorage.getItem(`messages-${this.to}`) || "[]");
     }
 
+    getMessages ()
+    {
+        return this.messages
+    }
+
+    getTime = (date:any) =>
+    {
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        return hours + ':' + minutes + ' ' + ampm;
+    }
+
     handleMessage = (message: string) =>
     {
         console.debug(message);
-        this.messages.push({content: message, time: new Date(), seen: false, type: "received"});
+        this.messages.push({content: message, time: this.getTime(new Date()), seen: false, type: "received"});
         this.onMessage(this.messages);
 
         localStorage.setItem(`messages-${this.to}`, JSON.stringify(this.messages));
@@ -51,7 +67,7 @@ export default class SignalConnection
         await this.connection.sendMessage(this.to, message)
             .then(() =>
             {
-                const msg = <ChatMessage> {content: message, time: new Date(), seen: false, type: "sent"};
+                const msg = <ChatMessage> {content: message, time: this.getTime(new Date()), seen: false, type: "sent"};
 
                 this.messages.push(msg);
                 this.onMessage(this.messages);

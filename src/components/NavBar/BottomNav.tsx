@@ -5,7 +5,7 @@ import {withRouter} from "react-router";
 import Addhosp from "../../images/addhosp_bw.svg";
 // import Explore from "../../images/explore_bw.svg";
 import Help from "../../images/help_bw.svg";
-import Chat from "../../images/chat_main.svg";
+import Chat from "../../images/chat_home.svg";
 import home from "../../images/home_bw.svg";
 import homeaf from "../../images/home_af.svg";
 import Account from "../../images/accn_bw.svg";

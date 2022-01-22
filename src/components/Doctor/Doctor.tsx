@@ -154,7 +154,7 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
             const slot = this.state.slot;
 
             if(!slot?.date || !slot?.start || !slot?.end)
-                throw new Error("Somebody teach this guy to fill forms");
+                throw new Error("Please select a slot");
 
             await Appointment.create({
                 doctor: this.state.model.id,
