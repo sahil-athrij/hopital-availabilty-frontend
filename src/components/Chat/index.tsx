@@ -14,6 +14,11 @@ import InputBase from "@mui/material/InputBase";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import MicIcon from "@mui/icons-material/Mic";
 import SendIcon from "@mui/icons-material/Send";
+import "./Swiper.css";
+import DoneIcon from '@mui/icons-material/Done';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import {createRef} from "react";
+
 
 interface ChatState extends AuthState
 {
@@ -28,9 +33,11 @@ const messageStyle = {
     received: {background: "#F7F7F7", color: "#1B1A57"}
 };
 
+
 class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
 {
 
+    messagesEndRef = createRef<HTMLDivElement>();
     constructor(props: AuthPropsLoc)
     {
         super(props);
@@ -38,25 +45,38 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
         this.state = {
             ...this.state,
             chat: "",
-            messages: []
         };
+        if (!this.state.user?.tokens?.private_token)
+            this.performAuth();
+
+        else
+          {
+                const chatUser = this.state.user.chat_friends?.find((friend) => friend.token === this.props.match.params.chatId);
+
+                if(!chatUser)
+                    this.props.history.replace("/chat");
+
+               else
+                {
+                    const connection = new SignalConnection(this.state.user.tokens.private_token, chatUser.token, this.onMessage);
+                    this.state = {...this.state, connection, chatUser, messages: connection.getMessages()};
+                }
+            }
+    }
+
+
+    onMessage = (messages: Array<ChatMessage>) => this.setState({messages}, ()=>this.scrollToBottom());
+
+    scrollToBottom = () => {
+        this.messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
     }
 
     componentDidMount()
     {
         super.componentDidMount();
-
-        if (!this.state.user?.tokens.private_token)
-            return this.performAuth();
-
-        const chatUser = this.state.user.chat_friends?.find((friend) => friend.token === this.props.match.params.chatId);
-
-        if(!chatUser)
-            return this.props.history.replace("/chat");
-
-        const connection = new SignalConnection(this.state.user.tokens.private_token, chatUser.token, this.onMessage);
-
-        this.setState({connection, chatUser});
+        if (!this.state.auth)
+            this.performAuth();
+        this.scrollToBottom();
     }
 
 
@@ -70,17 +90,18 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
         if (this.state.chat)
             await this.state.connection.sendMessage(this.state.chat);
 
+        // this.timeNow = this.getTime(new Date);
+        // console.log(this.timeNow)
         this.setState({chat: ""});
     };
 
-    onMessage = (messages: Array<ChatMessage>) => this.setState({messages});
 
     render()
     {
         return (
             <>
                 <div style={{height: "100vh"}}>
-                    <div style={{boxShadow: "0px 10px 60px rgba(0, 0, 0, 0.0625)"}}
+                    <div style={{boxShadow: "0px 10px 60px rgba(0, 0, 0, 0.0625)", position: "sticky", top: "0", background: "#fff"}}
                         className="d-flex px-3 align-items-center">
                         {/*onClick={() => this.props.history.goBack()}*/}
                         <Link style={{textDecoration: "none"}} to="/chat"><ArrowBackIcon
@@ -93,23 +114,36 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                         <VideocamIcon sx={{marginLeft: "auto", marginRight: "1rem"}} color="action"/>
                         <MoreVertIcon/>
                     </div>
-                    <p style={{margin: ".5rem", fontSize: "10px", color: "#A1A1BC"}}>Message Now</p>
 
-                    {this.state.messages.map(({content, type}, i) => (
-                        <div
-                            className={`d-flex align-items-center mb-3 mx-3 ${type === "sent" ? "justify-content-end" : "justify-content-start"}`}
-                            key={i}>
-                            <div style={{
-                                ...messageStyle[type],
-                                width: "fit-content",
-                                maxWidth: "70%",
-                                minWidth: "10%",
-                                borderRadius: "8px",
-                            }} className="text-justify p-2">
-                                {content}
-                            </div>
-                        </div>
-                    ))}
+
+                   <div>
+                       <div className="chat-main" style={{overflowY: "auto", zIndex: 100, marginBottom: "3.5rem"}}>
+                           <p style={{margin: ".5rem", fontSize: "10px", color: "#A1A1BC"}}>Message Now</p>
+
+                           {this.state.messages.map(({content, type, time, seen}, i) => (
+                               <div ref={this.messagesEndRef}
+                                   className={`d-flex align-items-center mb-3 mx-3 ${type === "sent" ? "justify-content-end" : "justify-content-start"}`}
+                                   key={i}>
+                                   <div style={{
+                                       ...messageStyle[type],
+                                       width: "fit-content",
+                                       maxWidth: "70%",
+                                       minWidth: "10%",
+                                       borderRadius: "8px",
+                                       wordWrap: "break-word",
+                                       textAlign: "left",
+                                   }} className="p-2">
+                                       {content}
+                                       <div className="d-flex" style={{marginRight: "-11px"}}>
+                                           <p style={{marginBottom: "0", fontSize: "8px", marginLeft: "auto"}}>{time}</p>
+                                           {seen?<DoneAllIcon sx={{height: "12px"}}/>:
+                                               <DoneIcon sx={{height: "12px"}}/>}
+                                       </div>
+                                   </div>
+                               </div>
+                           ))}
+                       </div>
+                   </div>
 
                     <div
                         style={{
@@ -118,7 +152,10 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                             boxShadow: "0",
                             position: "fixed",
                             bottom: "0",
-                            width: "100%"
+                            width: "100%",
+                            height: "4rem",
+                            zIndex: 200,
+                            background: "#fff",
                         }}
                     >
                         <IconButton sx={{p: "10px"}} aria-label="menu">
