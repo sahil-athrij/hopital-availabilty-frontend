@@ -1,23 +1,23 @@
-const decoder = new (window).TextDecoder("utf-8");
-const encoder = new (window).TextEncoder("utf-8");
+const decoder = new TextDecoder("utf-8");
+const encoder = new TextEncoder();
 
-function bufferConcat()
+function bufferConcat(...args: ArrayBuffer[])
 {
     let length = 0;
     let buffer = null;
 
-    for (const i in arguments)
+    for (const i in args)
     {
-        buffer = arguments[i];
+        buffer = args[i];
         length += buffer.byteLength;
     }
 
     const joined = new Uint8Array(length);
     let offset = 0;
 
-    for (const i in arguments)
+    for (const i in args)
     {
-        buffer = arguments[i];
+        buffer = args[i];
         joined.set(new Uint8Array(buffer), offset);
         offset += buffer.byteLength;
     }
@@ -35,7 +35,7 @@ for (let i = 0; i < chars.length; i++)
 class Base64ArrayBuffer
 {
 
-    static encode(arraybuffer)
+    static encode(arraybuffer: ArrayBuffer)
     {
         const bytes = new Uint8Array(arraybuffer), len = bytes.length;
         let i, base64 = "";
@@ -59,7 +59,7 @@ class Base64ArrayBuffer
         return base64;
     }
 
-    static decode(base64)
+    static decode(base64: string)
     {
         const len = base64.length;
         let bufferLength = base64.length * 0.75, i, p = 0, encoded1, encoded2, encoded3, encoded4;
@@ -94,64 +94,66 @@ class Base64ArrayBuffer
 
 export class ArrayBufferUtils
 {
-    static concat(a, b)
+    static concat(a: ArrayBuffer, b: ArrayBuffer)
     {
         return bufferConcat(a, b);
     }
 
-    static decode(a)
+    static decode(a?: BufferSource)
     {
         return decoder.decode(a);
     }
 
-    static encode(s)
+    static encode(s?: string)
     {
         return encoder.encode(s); //@REVIEW returns Uint8Array  
     }
 
-    static toBase64(a)
+    static toBase64(a: ArrayBuffer)
     {
         return Base64ArrayBuffer.encode(a);
     }
 
-    static fromBase64(s)
+    static fromBase64(s: string)
     {
         return Base64ArrayBuffer.decode(s);
     }
 
-    static toString(thing)
+    static toString(thing: unknown)
     {
         if (typeof thing === "string")
 
             return thing;
 
-        return new (window).dcodeIO.ByteBuffer.wrap(thing).toString("binary");
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        return new dcodeIO.ByteBuffer.wrap(thing).toString("binary");
     }
 
-    static isEqual(a, b)
+    static isEqual(a: ArrayBuffer, b: ArrayBuffer)
     {
         // TODO: Special-case arraybuffers, etc
         if (a === undefined || b === undefined)
 
             return false;
 
-        a = ArrayBufferUtils.toString(a);
-        b = ArrayBufferUtils.toString(b);
+        const as = ArrayBufferUtils.toString(a);
+        const bs = ArrayBufferUtils.toString(b);
 
-        const maxLength = Math.max(a.length, b.length);
+        const maxLength = Math.max(as.length, bs.length);
         if (maxLength < 5)
 
             throw new Error("a/b compare too short");
 
-        return a.substring(0, Math.min(maxLength, a.length)) === b.substring(0, Math.min(maxLength, b.length));
+        return as.substring(0, Math.min(maxLength, as.length)) === bs.substring(0, Math.min(maxLength, bs.length));
     }
 
-    static toArray(a)
+    static toArray(a: ArrayBuffer)
     {
-        return Array.apply([], new Uint8Array(a));
+        return Array.apply([], new Uint8Array(a) as unknown as unknown[]);
     }
 
-    static fromArray(a)
+    static fromArray(a: ArrayBuffer)
     {
         return new Uint8Array(a).buffer;
     }

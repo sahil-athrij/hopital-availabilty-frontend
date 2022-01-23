@@ -8,6 +8,9 @@ import {setCacheNameDetails} from "workbox-core";
 
 import defaultFont from "../public/fallbacks/default-font.ttf";
 import noNetworkImage from "../public/fallbacks/no-network.png";
+import SignalConnection from "./components/Chat/lib";
+
+let connection: SignalConnection;
 
 setCacheNameDetails({prefix: "__APP_NAME__", suffix: "__APP_VERSION__"});
 
@@ -93,5 +96,10 @@ addEventListener("message", (event) =>
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         self.skipWaiting();
+
+    else if(event.data?.type === "SEND" && connection)
+        connection.sendMessage(event.data.message, event.data.to).then();
+    else if(event.data?.type === "CREATE")
+        connection = new SignalConnection(event.data.token);
 
 });

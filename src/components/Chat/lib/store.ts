@@ -152,7 +152,7 @@ export class Store
         return Promise.resolve(ArrayBufferUtils.isEqual(identityKey, trusted));
     }
 
-    saveIdentity(identifier: string, identityKey: unknown)
+    saveIdentity(identifier: string, identityKey: ArrayBuffer)
     {
         if (!identifier)
             throw new Error("Tried to put identity key for undefined/null key");
@@ -256,7 +256,7 @@ export class Store
             return Promise.reject("Found no bundle");
         
 
-        const bundle = Bundle.fromJSON(bundleElement);
+        const bundle = Bundle.fromJSON(bundleElement as Record<string, unknown>);
 
         //@REVIEW registrationId??? Gajim uses probably own registration id.
         return bundle.toSignalBundle(address.getDeviceId());

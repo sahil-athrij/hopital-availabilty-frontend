@@ -1,6 +1,6 @@
 export class Random
 {
-    static number(max, min = 0) 
+    static number(max: number, min = 0)
     {
         if (crypto && typeof crypto.getRandomValues === "function") 
         
@@ -12,7 +12,7 @@ export class Random
         
     }
  
-    static numberWithCSPRG(max, min) 
+    static numberWithCSPRG(max: number, min: number)
     {
         const randomBuffer = new Uint32Array(1);
  
@@ -25,7 +25,7 @@ export class Random
         return Math.floor(randomNumber * (max - min + 1)) + min;
     }
  
-    static numberWithoutCSPRG(max, min) 
+    static numberWithoutCSPRG(max: number, min: number)
     {
         return Math.floor(Math.random() * (max - min)) + min;
     }

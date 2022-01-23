@@ -1,17 +1,18 @@
 import {Omemo, StanzaInterface} from "./omemo";
 import {Storage} from "./storage";
 import {baseUrl} from "../../../api/api";
+import {getAuth} from "../../../api/auth";
 
 export class Connection
 {
     onMessage;
-    readonly username: string;
+    readonly username;
     private readonly resolves: Record<string, Array<(bundle: unknown) => void>>;
-    private websocket: WebSocket;
-    private readonly send: (o: unknown) => void;
+    private websocket;
+    private readonly send;
     private omemo?: Omemo;
 
-    constructor(username: string, onMessage: (message: string) => unknown)
+    constructor(username: string, onMessage: (message: string, from: string) => unknown)
     {
         this.username = username;
         this.onMessage = onMessage;
@@ -20,10 +21,10 @@ export class Connection
         if(!baseUrl)
             throw Error("Websocket url not found in environment.");
 
-        const websocket = new WebSocket(`${baseUrl.replace("http", "ws")}/chat/ws/`);
+        const websocket = new WebSocket(`${baseUrl.replace("http", "ws")}/chat/ws?token=${getAuth()}`);
         this.websocket = websocket;
 
-        this.send = (o) => websocket.send(JSON.stringify(o));
+        this.send = (o: object) => websocket.send(JSON.stringify(o));
 
         websocket.onopen = () =>
         {
@@ -76,7 +77,7 @@ export class Connection
                 break;
             case "message":
                 if ("encrypted" in msg)
-                    this.onMessage(await this.decrypt(msg));
+                    this.onMessage(await this.decrypt(msg), msg.from);
                 break;
             default:
                 console.warn("unknown message type: %s", msg.type);

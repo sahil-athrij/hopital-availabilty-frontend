@@ -26,7 +26,7 @@ export interface EncryptedElementInterface
 export interface Message
 {
     iv: Uint8Array;
-    payload: string;
+    payload: ArrayBuffer;
     keys: Array<Key>;
 }
 

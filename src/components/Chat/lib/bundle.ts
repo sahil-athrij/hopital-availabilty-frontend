@@ -1,9 +1,31 @@
 import {ArrayBufferUtils} from "./arraybuffer";
 import {Random} from "./random";
 
+interface IdentityKeyInterface {
+    pubKey: ArrayBuffer;
+}
+
+interface PreKeyInterface{
+    keyPair: { pubKey: ArrayBuffer; };
+    keyId: string;
+}
+
+interface SignedPreKeyInterface {
+    signature: ArrayBuffer;
+    keyPair: { pubKey: ArrayBuffer; };
+    keyId: string;
+}
+
+interface BundleInterface {
+    identityKey: IdentityKeyInterface;
+    signedPreKey: SignedPreKeyInterface;
+    preKeys: Array<PreKeyInterface>;
+}
+
 export class Bundle
 {
-    constructor(bundle) 
+    private bundle;
+    constructor(bundle: BundleInterface)
     {
         this.bundle = bundle;
     }
@@ -26,7 +48,7 @@ export class Bundle
         return this.bundle.preKeys[candidateNumber];
     }
 
-    toSignalBundle(registrationId) 
+    toSignalBundle(registrationId: number)
     {
         const preKey = this.getRandomPreKey();
         const signedPreKey = this.getSignedPreKey();
@@ -65,7 +87,7 @@ export class Bundle
         };
     }
 
-    static fromJSON(json) 
+    static fromJSON(json: Record<string, unknown>)
     {
         const xmlIdentityKey = json["identityKey"];
         const xmlSignedPreKeyPublic = json["signedPreKeyPublic"];
@@ -78,12 +100,12 @@ export class Bundle
             },
             signedPreKey: {
                 keyPair: {
-                    pubKey: ArrayBufferUtils.fromBase64(xmlSignedPreKeyPublic.value)
+                    pubKey: ArrayBufferUtils.fromBase64((xmlSignedPreKeyPublic as {value: string}).value)
                 },
                 signature: ArrayBufferUtils.fromBase64(xmlSignedPreKeySignature),
-                keyId: xmlSignedPreKeyPublic.signedPreKeyId
+                keyId: (xmlSignedPreKeyPublic as {signedPreKeyId: string}).signedPreKeyId
             },
-            preKeys: xmlPreKeys.map(function (element)
+            preKeys: (xmlPreKeys as Array<{value: string, preKeyId: string}>).map(function (element)
             {
                 return {
                     keyPair: {

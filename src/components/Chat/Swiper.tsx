@@ -15,8 +15,6 @@ import {Link} from "react-router-dom";
 import {Tab} from "@mui/material";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {withRouter} from "react-router";
-import ReplyIcon from '@mui/icons-material/Reply';
-import SignalConnection from "./lib";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -25,7 +23,8 @@ interface TabPanelProps {
     value: number;
 }
 
-function TabPanel(props: TabPanelProps) {
+function TabPanel(props: TabPanelProps) 
+{
     const {children, value, index, ...other} = props;
 
     return (
@@ -39,7 +38,7 @@ function TabPanel(props: TabPanelProps) {
 
         >
             {value === index && (
-                <Box sx={{py: 3,height:"100%"}}>
+                <Box sx={{py: 3, height:"100%"}}>
                     {children}
                 </Box>
             )}
@@ -51,21 +50,17 @@ interface SwiperState extends AuthState {
     value: number
 }
 
-class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState> {
-    constructor(props: AuthPropsLoc) {
+class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState> 
+{
+    constructor(props: AuthPropsLoc) 
+    {
         super(props);
 
         this.state = {...this.state, value: 0};
     }
 
-    componentDidMount() {
-        super.componentDidMount();
-
-        if (this.state.user?.tokens.private_token)
-            new SignalConnection(this.state.user.tokens.private_token, "", () => null);
-    }
-
-    render() {
+    render() 
+    {
         return (
             <>
                 <Tabs
@@ -193,8 +188,8 @@ class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState> {
                                             <div className="d-flex">
                                                 <div className="ms-2 me-1 d-flex">
                                                     <img className="align-items-center"
-                                                         style={{borderRadius: "100%", height: "3rem"}} src={Account}
-                                                         alt={"profile"}/>
+                                                        style={{borderRadius: "100%", height: "3rem"}} src={Account}
+                                                        alt={"profile"}/>
                                                     <div style={{
                                                         width: "10px",
                                                         height: "10px",
@@ -210,9 +205,9 @@ class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState> {
                                                     {/*<p style={{color: "#4F5E7B"}}>recent message</p>*/}
                                                 </div>
                                                 <div style={{marginLeft: "auto", marginRight: ".5rem"}}
-                                                     className="d-flex flex-column align-items-center">
+                                                    className="d-flex flex-column align-items-center">
                                                     <p style={{color: "#4F5E7B"}}
-                                                       className="m-0"> {Math.floor(Math.random() * 12)}:0{Math.floor(Math.random() * 10)}</p>
+                                                        className="m-0"> {Math.floor(Math.random() * 12)}:0{Math.floor(Math.random() * 10)}</p>
                                                     {/*<div style={{*/}
                                                     {/*    width: "24px",*/}
                                                     {/*    height: "24px",*/}
@@ -228,7 +223,7 @@ class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState> {
                                 </div>
 
                                 <Fab style={{position: "fixed", bottom: 30, right: 20, background: "#385FF6"}}
-                                     color="primary" aria-label="add">
+                                    color="primary" aria-label="add">
                                     <img src={Plus} alt={"plus"}/>
                                 </Fab>
 

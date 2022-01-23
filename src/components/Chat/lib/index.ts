@@ -8,7 +8,7 @@ export const AES_EXTRACTABLE = true;
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-const libSignal = (window).libsignal;
+const libSignal = libsignalc;
 
 export const KeyHelper = libSignal.KeyHelper;
 export const SignalProtocolAddress = libSignal.SignalProtocolAddress;
@@ -25,54 +25,38 @@ export interface ChatMessage {
 export default class SignalConnection
 {
     private readonly connection: Connection;
-    private readonly to: string;
-    private readonly onMessage: (msg: Array<ChatMessage>) => void;
-    private readonly messages: Array<ChatMessage>;
+    private readonly messages: Record<string, Array<ChatMessage>>;
 
-    constructor(username: string, to: string, onMessage: (msg: Array<ChatMessage>) => void)
+    constructor(username: string)
     {
-        this.to = to;
-        this.onMessage = onMessage;
         this.connection = new Connection(username, this.handleMessage);
-        this.messages = JSON.parse(localStorage.getItem(`messages-${this.to}`) || "[]");
+        this.messages = {};
     }
 
-    getMessages ()
+    getTime = (date: Date) => date.toLocaleTimeString("en-US", { hour: "numeric", minute: "numeric", hour12: true });
+
+
+    handleMessage(message: string, from: string)
     {
-        return this.messages
+        if(!(from in this.messages))
+            this.messages[from] = JSON.parse(localStorage.getItem(`messages-${from}`) || "[]");
+
+        this.messages[from].push({content: message, time: this.getTime(new Date()), seen: false, type: "received"});
+        localStorage.setItem(`messages-${from}`, JSON.stringify(this.messages));
     }
 
-    getTime = (date:any) =>
+    async sendMessage(message: string, to: string)
     {
-        let hours = date.getHours();
-        let minutes = date.getMinutes();
-        let ampm = hours >= 12 ? 'pm' : 'am';
-        hours = hours % 12;
-        hours = hours ? hours : 12; // the hour '0' should be '12'
-        minutes = minutes < 10 ? '0'+minutes : minutes;
-        return hours + ':' + minutes + ' ' + ampm;
-    }
+        if(!(to in this.messages))
+            this.messages[to] = JSON.parse(localStorage.getItem(`messages-${to}`) || "[]");
 
-    handleMessage = (message: string) =>
-    {
-        console.debug(message);
-        this.messages.push({content: message, time: this.getTime(new Date()), seen: false, type: "received"});
-        this.onMessage(this.messages);
-
-        localStorage.setItem(`messages-${this.to}`, JSON.stringify(this.messages));
-    };
-
-    async sendMessage(message: string)
-    {
-        await this.connection.sendMessage(this.to, message)
+        await this.connection.sendMessage(to, message)
             .then(() =>
             {
                 const msg = <ChatMessage> {content: message, time: this.getTime(new Date()), seen: false, type: "sent"};
 
-                this.messages.push(msg);
-                this.onMessage(this.messages);
-
-                localStorage.setItem(`messages-${this.to}`, JSON.stringify(this.messages));
+                this.messages[to].push(msg);
+                localStorage.setItem(`messages-${to}`, JSON.stringify(this.messages));
             })
             .catch((error) => toast.error(error, { position: "bottom-center"}));
     }
