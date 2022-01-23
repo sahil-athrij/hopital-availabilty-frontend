@@ -15,6 +15,7 @@ import {Link} from "react-router-dom";
 import {Tab} from "@mui/material";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {withRouter} from "react-router";
+import ReplyIcon from '@mui/icons-material/Reply';
 import SignalConnection from "./lib";
 
 interface TabPanelProps {
@@ -92,80 +93,85 @@ class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState>
                 >
                     <TabPanel value={this.state.value} index={0}>
                         <div>
-                            {/*<div style={{height: "45vh"}}>*/}
-                            {/*    <div style={{*/}
-                            {/*        textAlign: "left",*/}
-                            {/*        fontSize: "20px",*/}
-                            {/*        lineHeight: "20px",*/}
-                            {/*        margin: "1rem",*/}
-                            {/*        paddingLeft: ".5rem"*/}
-                            {/*    }}>*/}
-                            {/*        Chats*/}
-                            {/*    </div>*/}
-                            {/*<div style={{marginBottom: "2rem"}}> TODO: Implement */}
-                            {/*    <div className="d-flex justify-content-between">*/}
-                            {/*        <div style={{*/}
-                            {/*            textAlign: "left",*/}
-                            {/*            fontSize: "18px",*/}
-                            {/*            lineHeight: "24.55px",*/}
-                            {/*            margin: "1rem"*/}
-                            {/*        }}>*/}
-                            {/*            Pinned Chats*/}
-                            {/*        </div>*/}
+                            <div style={{maxHeight: "45vh"}}>
+                                <div style={{
+                                    textAlign: "left",
+                                    fontSize: "20px",
+                                    lineHeight: "20px",
+                                    margin: "1rem",
+                                    paddingLeft: ".5rem"
+                                }}>
+                                    Chats
+                                </div>
+                            <div style={{marginBottom: "2rem"}}> {/*TODO: Implement*/}
+                                <div className="d-flex justify-content-between">
+                                    <div style={{
+                                        textAlign: "left",
+                                        fontSize: "18px",
+                                        lineHeight: "24.55px",
+                                        margin: "1rem"
+                                    }}>
+                                        Pinned Chats
+                                    </div>
 
-                            {/*        <img style={{*/}
-                            {/*            height: "3rem",*/}
-                            {/*            borderRadius: "100%",*/}
-                            {/*            marginRight: "1rem",*/}
-                            {/*            alignItems: "center"*/}
-                            {/*        }} src={Account} alt={"profile"}/>*/}
-                            {/*    </div>*/}
+                                    <img style={{
+                                        height: "3rem",
+                                        borderRadius: "100%",
+                                        marginRight: "1rem",
+                                        alignItems: "center"
+                                    }} src={Account} alt={"profile"}/>
+                                </div>
 
-                            {/*    <div className="chat-main d-flex flex-wrap justify-content-around m-2"*/}
-                            {/*        style={{height: "30vh", overflow: "auto"}}>*/}
+                                {/*<div className="chat-main d-flex flex-wrap justify-content-around m-2 pb-2"*/}
+                                {/*    style={{maxHeight: "30vh", overflow: "auto"}}>*/}
 
-                            {/*        <div className="p-1" style={{*/}
-                            {/*            width: "40%",*/}
-                            {/*            background: "#F7F7F7",*/}
-                            {/*            marginTop: "1rem",*/}
-                            {/*            borderRadius: "8px"*/}
-                            {/*        }}>*/}
-                            {/*            <div className="d-flex p-2">*/}
-                            {/*                <div style={{marginRight: "1rem", height: "2.5rem"}} className="d-flex">*/}
-                            {/*                    <img style={{borderRadius: "100%", alignItems: "center"}}*/}
-                            {/*                        src={Account} alt={"profile"}/>*/}
-                            {/*                    <div style={{*/}
-                            {/*                        width: "10px",*/}
-                            {/*                        height: "10px",*/}
-                            {/*                        borderRadius: "50%",*/}
-                            {/*                        background: "#4CE417",*/}
-                            {/*                        alignSelf: "end",*/}
-                            {/*                        marginBottom: "1px",*/}
-                            {/*                        marginLeft: "-13px"*/}
-                            {/*                    }}/>*/}
-                            {/*                </div>*/}
-                            {/*                <p style={{fontSize: ".8rem", textAlign: "left", color: "#1B1A57"}}>Name*/}
-                            {/*                    of a person</p>*/}
-                            {/*            </div>*/}
+                                {/*    <div className="p-1" style={{*/}
+                                {/*        width: "40%",*/}
+                                {/*        height: "50%",*/}
+                                {/*        background: "#F7F7F7",*/}
+                                {/*        marginTop: "1rem",*/}
+                                {/*        borderRadius: "8px"*/}
+                                {/*    }}>*/}
+                                {/*        <div className="d-flex p-2">*/}
+                                {/*            <div style={{marginRight: "1rem", height: "2.5rem"}} className="d-flex">*/}
+                                {/*                <img style={{borderRadius: "100%", alignItems: "center"}}*/}
+                                {/*                    src={Account} alt={"profile"}/>*/}
+                                {/*                <div style={{*/}
+                                {/*                    width: "10px",*/}
+                                {/*                    height: "10px",*/}
+                                {/*                    borderRadius: "50%",*/}
+                                {/*                    background: "#4CE417",*/}
+                                {/*                    alignSelf: "end",*/}
+                                {/*                    marginBottom: "1px",*/}
+                                {/*                    marginLeft: "-13px"*/}
+                                {/*                }}/>*/}
+                                {/*            </div>*/}
+                                {/*            <p style={{fontSize: ".8rem", textAlign: "left", color: "#1B1A57"}}>Name*/}
+                                {/*                of a person</p>*/}
+                                {/*        </div>*/}
 
-                            {/*            <div className="d-flex justify-content-center align-items-center px-2 mb-2">*/}
-                            {/*                <ReplyIcon sx={{height: "1rem"}} color="action"/>*/}
-                            {/*                <p className="d-flex justify-content-center align-items-center mb-0"*/}
-                            {/*                    style={{fontSize: ".7rem", textAlign: "left", color: "#4F5E7B"}}>Some*/}
-                            {/*                    chat here...</p>*/}
-                            {/*            </div>*/}
-                            {/*        </div>*/}
-                            {/*    </div>*/}
-                            {/*</div>*/}
+                                {/*        <div className="d-flex justify-content-center align-items-center px-2 mb-2">*/}
+                                {/*            <ReplyIcon sx={{height: "1rem"}} color="action"/>*/}
+                                {/*            <p className="d-flex justify-content-center align-items-center mb-0"*/}
+                                {/*                style={{fontSize: ".7rem", textAlign: "left", color: "#4F5E7B"}}>Some*/}
+                                {/*                chat here...</p>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
 
-                            {/*</div>*/}
+
+                                {/*</div>*/}
+
+                            </div>
+
+                            </div>
 
 
                             <div className="m-2" style={{
                                 boxShadow: "0px -8px 32px rgba(70, 96, 135, 0.1)",
                                 borderRadius: "16px 16px 0 0",
                                 bottom: "0",
-                                height: "90vh" // TODO: This was 37 vh
+                                minHeight: "35vh", // TODO: This was 37 vh
+                                height: "36rem"
                             }}>
                                 <div className="d-flex align-items-center justify-content-center">
                                     <div style={{
@@ -203,26 +209,26 @@ class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState>
                                                 </div>
                                                 <div style={{color: "#1B1A57"}} className="text-start">
                                                     {friend.name}
-                                                    <p style={{color: "#4F5E7B"}}>gdfgdfh</p>
+                                                    {/*<p style={{color: "#4F5E7B"}}>recent message</p>*/}
                                                 </div>
                                                 <div style={{marginLeft: "auto", marginRight: ".5rem"}}
                                                     className="d-flex flex-column align-items-center">
-                                                    <p style={{color: "#4F5E7B"}} className="m-0"> 18:31</p>
-                                                    <div style={{
-                                                        width: "24px",
-                                                        height: "24px",
-                                                        borderRadius: "50%",
-                                                        background: "blue",
-                                                        color: "#FFFFFF"
-                                                    }}>3
-                                                    </div>
+                                                    <p style={{color: "#4F5E7B"}} className="m-0"> {Math.floor(Math.random()*12)}:0{Math.floor(Math.random()*10)}</p>
+                                                    {/*<div style={{*/}
+                                                    {/*    width: "24px",*/}
+                                                    {/*    height: "24px",*/}
+                                                    {/*    borderRadius: "50%",*/}
+                                                    {/*    background: "blue",*/}
+                                                    {/*    color: "#FFFFFF"*/}
+                                                    {/*}}>3*/}
+                                                    {/*</div>*/}
                                                 </div>
                                             </div>
                                         </Link>)
                                     )}
                                 </div>
 
-                                <Fab style={{position: "fixed", bottom: 33, right: 20, background: "#385FF6"}}
+                                <Fab style={{position: "fixed", bottom: 60, right: 20, background: "#385FF6"}}
                                     color="primary" aria-label="add">
                                     <img src={Plus} alt={"plus"}/>
                                 </Fab>
