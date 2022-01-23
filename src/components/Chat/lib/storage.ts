@@ -9,10 +9,7 @@ const $ = $ || null;
 
 export class Storage
 {
-    private readonly hooks?: Record<string, unknown>;
-    private static tested?: boolean;
-    static storageNotConform: boolean;
-    private static toSNC: undefined;
+    private readonly hooks: Record<string, unknown>;
     private name?: string;
 
     static clear(name: string)
@@ -35,23 +32,6 @@ export class Storage
     constructor()
     {
         this.hooks = {};
-
-        if (Storage.tested === undefined)
-        {
-            Storage.tested = false;
-            Storage.storageNotConform = false;
-            Storage.toSNC = undefined;
-        }
-
-        if (!Storage.tested)
-        {
-            Storage.tested = true;
-
-            this.testStorage();
-        }
-
-        window.addEventListener("storage", this.onStorageEvent, false);
-
     }
 
     getName()
@@ -73,37 +53,6 @@ export class Storage
         });
 
         return key;
-    }
-
-    testStorage()
-    {
-        const randomNumber = Math.round(Math.random() * 1000000000) + "";
-        const key = this.getPrefix() + randomNumber;
-
-        const listenerFunction = function (ev: StorageEvent)
-        {
-            if (ev.newValue === randomNumber)
-            {
-                clearTimeout(timeout);
-                cleanup();
-                Storage.storageNotConform = true;
-            }
-        };
-
-        const cleanup = function ()
-        {
-            window.removeEventListener("storage", listenerFunction, false);
-            BACKEND.removeItem(key);
-        };
-
-        window.addEventListener("storage", listenerFunction, false);
-
-        const timeout = setTimeout(function ()
-        {
-            cleanup();
-        }, 20);
-
-        BACKEND.setItem(key, randomNumber);
     }
 
     getPrefix()
@@ -156,13 +105,12 @@ export class Storage
         const oldValue = BACKEND.getItem(pre_key);
 
         BACKEND.setItem(pre_key, String(value || ""));
-
-        if (!Storage.storageNotConform && oldValue !== value)
-            this.onStorageEvent({
-                key: pre_key,
-                oldValue: oldValue,
-                newValue: value
-            } as unknown as StorageEvent);
+        
+        this.onStorageEvent({
+            key: pre_key,
+            oldValue: oldValue,
+            newValue: value
+        } as unknown as StorageEvent);
 
     }
 
@@ -250,7 +198,6 @@ export class Storage
         let item = this.getItem(<string>key);
 
         if ($.isArray(item))
-
             item = $.grep(item, (e: unknown) => e !== name);
 
         else if (typeof (item) === "object" && item !== null)

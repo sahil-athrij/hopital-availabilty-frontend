@@ -101,5 +101,4 @@ addEventListener("message", (event) =>
         connection.sendMessage(event.data.message, event.data.to).then();
     else if(event.data?.type === "CREATE")
         connection = new SignalConnection(event.data.token);
-
 });
