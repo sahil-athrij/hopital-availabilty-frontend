@@ -28,14 +28,14 @@ export class Store
         };
     }
 
-    getOwnDeviceList() : number[]
+    async getOwnDeviceList(): Promise<number[]> 
     {
-        return this.get("deviceList", []);
+        return await this.get("deviceList", []);
     }
 
-    setOwnDeviceList(deviceList: string[])
+    async setOwnDeviceList(deviceList: string[]) 
     {
-        this.put("deviceList", deviceList);
+        await this.put("deviceList", deviceList);
     }
 
     getDeviceList(identifier: string)
@@ -43,19 +43,19 @@ export class Store
         return this.get("deviceList:" + identifier, []);
     }
 
-    setDeviceList(identifier: string, deviceList: string[])
+    async setDeviceList(identifier: string, deviceList: string[]) 
     {
-        this.put("deviceList:" + identifier, deviceList);
+        await this.put("deviceList:" + identifier, deviceList);
     }
 
-    isReady() 
+    async isReady() 
     {
-        return this.get("deviceId") && this.get("identityKey") && this.get("registrationId");
+        return await this.get("deviceId") && await this.get("identityKey") && this.get("registrationId");
     }
 
-    isPublished() 
+    async isPublished() 
     {
-        return this.get("published") === "true" || this.get("published") === true;
+        return await this.get("published") === "true" || await this.get("published") === true;
     }
 
     getIdentityKeyPair() 
@@ -68,12 +68,12 @@ export class Store
         return Promise.resolve(this.get("registrationId"));
     }
 
-    getDeviceId() 
+    async getDeviceId() 
     {
-        return parseInt(this.get("deviceId"), );
+        return parseInt(await this.get("deviceId"));
     }
 
-    put(key: string, value: unknown)
+    async put(key: string, value: unknown) 
     {
         if (!key || !value || !value)
             throw new Error("Tried to store undefined/null");
@@ -90,21 +90,21 @@ export class Store
         if (key.includes("identityKey"))
             console.log("put %s: %s \n %s \n\n", key, value, stringified);
 
-        this.storage.setItem(STORE_PREFIX, key, {v: stringified});
+        await this.storage.setItem(STORE_PREFIX, key, {v: stringified});
     }
 
-    get(key: string, defaultValue?: unknown)
+    async get(key: string, defaultValue?: unknown) 
     {
         if (key === null || key === undefined)
             throw new Error("Tried to get value for undefined/null key");
 
-        const data = this.storage.getItem(STORE_PREFIX, key);
+        const data = await this.storage.getItem(STORE_PREFIX, key);
 
         if (data) 
         {
             const r = JSON.parse(data.v, function (key1, value) 
             {
-                if (key1.endsWith("Key"))
+                if (key1.endsWith("Key")) 
                 {
                     console.log("get %s has Key %s", key, key1);
                     return ArrayBufferUtils.fromArray(value);
@@ -115,7 +115,7 @@ export class Store
 
             if (key === "identityKey")
                 console.log("get %s: %s \n %s\n\n", key, data, r);
-            
+
 
             return r;
         }
@@ -123,36 +123,36 @@ export class Store
         return defaultValue;
     }
 
-    remove(key?: string | null)
+    async remove(key?: string | null) 
     {
         if (key === null || key === undefined)
             throw new Error("Tried to remove value for undefined/null key");
 
-        this.storage.removeItem(STORE_PREFIX, key);
+        await this.storage.removeItem(STORE_PREFIX, key);
     }
 
-    isTrustedIdentity(identifier: string, identityKey?: ArrayBuffer)
+    async isTrustedIdentity(identifier: string, identityKey?: ArrayBuffer) 
     {
         if (!identifier)
             throw new Error("tried to check identity key for undefined/null key");
-        
 
-        if (!(identityKey instanceof ArrayBuffer)) 
-        
+
+        if (!(identityKey instanceof ArrayBuffer))
+
             throw new Error("Expected identityKey to be an ArrayBuffer");
-        
+
 
         const trusted = this.get(STORE_PREFIX_IDENTITYKEY + identifier);
         console.log("trusted %s \t %s \t %s", trusted === undefined, trusted, STORE_PREFIX_IDENTITYKEY + identifier);
-        if (trusted === undefined) 
-        
-            return Promise.resolve(true);
-        
+        if (trusted === undefined)
 
-        return Promise.resolve(ArrayBufferUtils.isEqual(identityKey, trusted));
+            return Promise.resolve(true);
+
+
+        return Promise.resolve(ArrayBufferUtils.isEqual(identityKey, await trusted));
     }
 
-    saveIdentity(identifier: string, identityKey: ArrayBuffer)
+    async saveIdentity(identifier: string, identityKey: ArrayBuffer) 
     {
         if (!identifier)
             throw new Error("Tried to put identity key for undefined/null key");
@@ -162,19 +162,19 @@ export class Store
         const existing = this.get(STORE_PREFIX_IDENTITYKEY + address.toString());
         this.put(STORE_PREFIX_IDENTITYKEY + address.toString(), identityKey); //@REVIEW stupid?
 
-        return Promise.resolve(existing && ArrayBufferUtils.isEqual(identityKey, existing));
+        return Promise.resolve(existing && ArrayBufferUtils.isEqual(identityKey, await existing));
     }
 
-    loadPreKey(keyId: string)
+    async loadPreKey(keyId: string) 
     {
-        let res = this.get(STORE_PREFIX_PREKEY + keyId);
-        if (res !== undefined) 
-        
+        let res = await this.get(STORE_PREFIX_PREKEY + keyId);
+        if (res !== undefined)
+
             res = {
                 pubKey: res.pubKey,
                 privKey: res.privKey
             };
-        
+
 
         return Promise.resolve(res);
     }
@@ -191,16 +191,16 @@ export class Store
         return Promise.resolve(this.remove(STORE_PREFIX_PREKEY + keyId));
     }
 
-    loadSignedPreKey(keyId: string)
+    async loadSignedPreKey(keyId: string) 
     {
-        let res = this.get(STORE_PREFIX_SIGNEDPREKEY + keyId);
-        if (res !== undefined) 
-        
+        let res = await this.get(STORE_PREFIX_SIGNEDPREKEY + keyId);
+        if (res !== undefined)
+
             res = {
                 pubKey: res.pubKey,
                 privKey: res.privKey
             };
-        
+
 
         return Promise.resolve(res);
     }
@@ -240,7 +240,7 @@ export class Store
         //@TODO implement removeAllSessions
         // for (var id in this.store) {
         //    if (id.startsWith(this.STORE_prefix + ':' + 'session' + identifier)) {
-        //       localStorage.removeItem(this.STORE_prefix + ':' + id);
+        //       localForage.removeItem(this.STORE_prefix + ':' + id);
         //    }
         // }
         return Promise.resolve();
@@ -248,7 +248,7 @@ export class Store
 
     async getPreKeyBundle(address: { getDeviceId: () => number; })
     {
-        // TODO: get bundle form localstorage
+        // TODO: get bundle form localForage
         const bundleElement = await this.connection.getBundle(address.getDeviceId());
 
         if (bundleElement === undefined) 

@@ -1,5 +1,6 @@
 import {Connection} from "./connection";
 import {toast} from "react-toastify";
+import localForage from "localforage";
 
 export const NUM_PRE_KEYS = 10;
 export const AES_KEY_LENGTH = 128;
@@ -33,22 +34,24 @@ export default class SignalConnection
         this.messages = {};
     }
 
+
+
     getTime = (date: Date) => date.toLocaleTimeString("en-US", { hour: "numeric", minute: "numeric", hour12: true });
 
 
-    handleMessage(message: string, from: string)
+    async handleMessage(message: string, from: string) 
     {
-        if(!(from in this.messages))
-            this.messages[from] = JSON.parse(localStorage.getItem(`messages-${from}`) || "[]");
+        if (!(from in this.messages))
+            this.messages[from] = await localForage.getItem(`messages-${from}`) || [];
 
         this.messages[from].push({content: message, time: this.getTime(new Date()), seen: false, type: "received"});
-        localStorage.setItem(`messages-${from}`, JSON.stringify(this.messages));
+        await localForage.setItem(`messages-${from}`, this.messages);
     }
 
     async sendMessage(message: string, to: string)
     {
         if(!(to in this.messages))
-            this.messages[to] = JSON.parse(localStorage.getItem(`messages-${to}`) || "[]");
+            this.messages[to] = await localForage.getItem(`messages-${to}`) || [];
 
         await this.connection.sendMessage(to, message)
             .then(() =>
@@ -56,7 +59,7 @@ export default class SignalConnection
                 const msg = <ChatMessage> {content: message, time: this.getTime(new Date()), seen: false, type: "sent"};
 
                 this.messages[to].push(msg);
-                localStorage.setItem(`messages-${to}`, JSON.stringify(this.messages));
+                return localForage.setItem(`messages-${to}`, this.messages);
             })
             .catch((error) => toast.error(error, { position: "bottom-center"}));
     }

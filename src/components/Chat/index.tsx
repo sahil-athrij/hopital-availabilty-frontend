@@ -19,6 +19,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import {createRef} from "react";
 import {ServiceWorkerContext} from "../../index";
+import localForage from "localforage";
 
 
 interface ChatState extends AuthState {
@@ -60,14 +61,14 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
 
     scrollToBottom = () => this.messagesEndRef.current?.scrollIntoView({behavior: "smooth"});
 
-    componentDidMount() 
+    async componentDidMount() 
     {
         super.componentDidMount();
 
         if (!this.state.auth)
             this.performAuth();
 
-        this.onMessage(JSON.parse(localStorage.getItem(`messages-${this.state.chatUser.token}`) || "[]"));
+        this.onMessage(await localForage.getItem(`messages-${this.state.chatUser.token}`) || []);
 
         window.addEventListener("storage", (e) =>
             e.key?.endsWith(this.state.chatUser.token) && this.onMessage(JSON.parse(e.newValue || "[]")));

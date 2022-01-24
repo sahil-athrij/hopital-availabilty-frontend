@@ -1,7 +1,9 @@
+import localForage from "localforage";
+
 const PREFIX = "jsxc2";
 const SEP = ":";
 const IGNORE_KEY = ["rid"];
-const BACKEND = localStorage;
+const BACKEND = localForage;
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -12,7 +14,7 @@ export class Storage
     private readonly hooks: Record<string, unknown>;
     private name?: string;
 
-    static clear(name: string)
+    static async clear(name: string)
     {
         let prefix = PREFIX + SEP;
 
@@ -25,7 +27,7 @@ export class Storage
                 continue;
 
             if (key.startsWith(prefix))
-                BACKEND.removeItem(key);
+                await BACKEND.removeItem(key);
         }
     }
 
@@ -70,16 +72,16 @@ export class Storage
         return BACKEND;
     }
 
-    setItem(...args: unknown[])
+    async setItem(...args: unknown[]) 
     {
         let key, value;
 
-        if (args.length === 2)
+        if (args.length === 2) 
         {
             key = args[0];
             value = args[1];
         }
-        else if (args.length === 3)
+        else if (args.length === 3) 
         {
             key = args[0] + SEP + args[1];
             value = args[2];
@@ -89,14 +91,14 @@ export class Storage
         if (typeof (value) === "object")
 
             // exclude jquery objects, because otherwise safari will fail
-            try
+            try 
             {
-                value = JSON.stringify(value, function (key, val)
+                value = JSON.stringify(value, function (key, val) 
                 {
                     return val;
                 });
             }
-            catch (err)
+            catch (err) 
             {
                 console.warn("Could not stringify value", err);
             }
@@ -104,8 +106,9 @@ export class Storage
         const pre_key = this.getPrefix() + key;
         const oldValue = BACKEND.getItem(pre_key);
 
-        BACKEND.setItem(pre_key, String(value || ""));
-        
+        await BACKEND.setItem(pre_key, String(value || ""));
+
+
         this.onStorageEvent({
             key: pre_key,
             oldValue: oldValue,
@@ -114,7 +117,7 @@ export class Storage
 
     }
 
-    getItem(...args: string[])
+    async getItem(...args: string[])
     {
         let key;
 
@@ -128,10 +131,10 @@ export class Storage
 
         key = this.getPrefix() + key;
 
-        return this.parseValue(BACKEND.getItem(key));
+        return this.parseValue(await BACKEND.getItem(key));
     }
 
-    removeItem(...args: string[])
+    async removeItem(...args: string[])
     {
         let key;
 
@@ -143,67 +146,68 @@ export class Storage
 
             key = args[0] + SEP + args[1];
 
-        BACKEND.removeItem(this.getPrefix() + key);
+        await BACKEND.removeItem(this.getPrefix() + key);
     }
 
-    updateItem(...args: string[])
+    async updateItem(...args: string[]) 
     {
         let key, variable, value; // TODO Call me if you get an error, or don't
 
-        if (args.length === 4 || (args.length === 3 && typeof variable === "object"))
+        if (args.length === 4 || (args.length === 3 && typeof variable === "object")) 
         {
             key = args[0] + SEP + args[1];
             variable = args[2];
             value = args[3];
         }
-        else
+        else 
         {
             key = args[0];
             variable = args[1];
             value = args[2];
         }
 
-        const data = this.getItem(key) || {};
+        const data = await this.getItem(key) || {};
 
         if (typeof (variable) === "object") // TODO: I don't know what I am doing
             $.each(variable, (key: string | number, val: unknown) => data[key] = val);
         else
             data[variable] = value;
 
-        this.setItem(key, data);
+        await this.setItem(key, data);
     }
 
-    increment(key: string)
+    async increment(key: string) 
     {
         const value = Number(this.getItem(key));
 
-        this.setItem(key, String(value + 1));
+        await this.setItem(key, String(value + 1));
     }
 
-    removeElement(...args: unknown[])
+    async removeElement(...args: unknown[]) 
     {
         let key, name: unknown;
 
-        if (args.length === 2)
+        if (args.length === 2) 
         {
             key = args[0];
             name = args[1];
         }
-        else if (args.length === 3)
+        else if (args.length === 3) 
         {
             key = args[0] + SEP + args[1];
             name = args[2];
         }
 
-        let item = this.getItem(<string>key);
+        let item = await this.getItem(<string>key);
 
         if ($.isArray(item))
+
             item = $.grep(item, (e: unknown) => e !== name);
 
         else if (typeof (item) === "object" && item !== null)
             delete item[name as string];
 
-        this.setItem(<string>key, item);
+        await this.setItem(<string>key, item);
     }
 
     removeHook(eventName: string | number, func: string)
