@@ -18,7 +18,7 @@ import "./Swiper.css";
 import DoneIcon from "@mui/icons-material/Done";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import {createRef} from "react";
-import {ServiceWorkerContext} from "../../index";
+import {ServiceWorkerContext} from "../../SwContext";
 import localForage from "localforage";
 
 
@@ -83,7 +83,7 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
     sendMessage = async () => 
     {
         if (this.state.chat)
-            this.context.messageSW({message: this.state.chat, to: this.state.chatUser.token});
+            this.context.messageSW({message: this.state.chat, to: this.state.chatUser.token, type: "SEND"});
 
         this.setState({chat: ""});
     };

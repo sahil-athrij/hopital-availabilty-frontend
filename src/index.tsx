@@ -3,13 +3,27 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import {BrowserRouter} from "react-router-dom";
-import { Workbox } from "workbox-window";
+import {ServiceWorkerContext, wb} from "./SwContext";
 
-const wb = new Workbox("sw.js");
 
-wb.register();
+addEventListener("storage", (e) =>
+{
+    if(typeof window === "undefined")
+        return;
+    console.log("1st");
 
-export const ServiceWorkerContext = React.createContext(wb);
+    if(e.key !== "user" || !e.newValue)
+        return;
+    console.log("2nd");
+
+    const user = JSON.parse(e.newValue);
+
+    if(!user?.tokens?.private_token)
+        return;
+    console.log("3rd");
+    console.log("work aavunilla");
+    wb.messageSW({type: "CREATE", token: user.tokens.private_token});
+});
 
 ReactDOM.render(
     <BrowserRouter>
@@ -22,18 +36,7 @@ ReactDOM.render(
     document.getElementById("root")
 );
 
-addEventListener("storage", (e) =>
-{
-    if(e.key !== "user" || !e.newValue)
-        return;
 
-    const user = JSON.parse(e.newValue);
-
-    if(!user?.tokens?.private_token)
-        return;
-
-    wb.messageSW({type: "CREATE", token: user.tokens.private_token});
-});
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

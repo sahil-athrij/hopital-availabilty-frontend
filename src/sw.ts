@@ -76,7 +76,7 @@ setDefaultHandler(new StaleWhileRevalidate({}));
 
 // This "catch" handler is triggered when any of the other routes fail to
 // generate a response.
-setCatchHandler(async (options) => 
+setCatchHandler(async (options) =>
 {
     const fallbacks: { [key: string]: string; } = {
         document: "/offline.html",
@@ -90,7 +90,7 @@ setCatchHandler(async (options) =>
     Response.error();
 });
 
-addEventListener("message", (event) => 
+addEventListener("message", (event) =>
 {
     if (event.data?.type === "SKIP_WAITING")
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -100,5 +100,10 @@ addEventListener("message", (event) =>
     else if(event.data?.type === "SEND" && connection)
         connection.sendMessage(event.data.message, event.data.to).then();
     else if(event.data?.type === "CREATE")
+    {
+        console.log("creating connection");
         connection = new SignalConnection(event.data.token);
+    }
+
 });
+
