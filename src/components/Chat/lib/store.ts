@@ -109,18 +109,17 @@ export class Store
 
 
         if (!(identityKey instanceof ArrayBuffer))
-
             throw new Error("Expected identityKey to be an ArrayBuffer");
 
 
-        const trusted = this.get<ArrayBuffer>(STORE_PREFIX_IDENTITYKEY + identifier);
+        const trusted = await this.get<ArrayBuffer>(STORE_PREFIX_IDENTITYKEY + identifier);
         console.log("trusted %s \t %s \t %s", trusted === undefined, trusted, STORE_PREFIX_IDENTITYKEY + identifier);
         if (trusted === undefined)
 
             return Promise.resolve(true);
 
 
-        return Promise.resolve(ArrayBufferUtils.isEqual(identityKey, await trusted));
+        return Promise.resolve(ArrayBufferUtils.isEqual(identityKey, trusted));
     }
 
     async saveIdentity(identifier: string, identityKey: ArrayBuffer) 
