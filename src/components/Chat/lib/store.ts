@@ -1,10 +1,10 @@
 import {ArrayBufferUtils} from "./arraybuffer";
-import {Bundle} from "./bundle";
+import {Bundle, IdentityKeyInterface} from "./bundle";
 import {SignalProtocolAddress} from "./index";
 import { Storage } from "./storage";
 import {Connection} from "./connection";
 
-const STORE_PREFIX = "store";
+const STORE_PREFIX = "";
 const STORE_PREFIX_SESSION = "session:";
 const STORE_PREFIX_IDENTITYKEY = "identityKey:";
 const STORE_PREFIX_PREKEY = "25519KeypreKey:";
@@ -30,7 +30,7 @@ export class Store
 
     async getOwnDeviceList(): Promise<number[]> 
     {
-        return await this.get("deviceList", []);
+        return (await this.get<number[]>("deviceList")) || [];
     }
 
     async setOwnDeviceList(deviceList: string[]) 
@@ -60,7 +60,7 @@ export class Store
 
     getIdentityKeyPair() 
     {
-        return Promise.resolve(this.get("identityKey"));
+        return Promise.resolve(this.get<IdentityKeyInterface>("identityKey"));
     }
 
     getLocalRegistrationId() 
@@ -70,57 +70,28 @@ export class Store
 
     async getDeviceId() 
     {
-        return parseInt(await this.get("deviceId"));
+        return parseInt((await this.get<string>("deviceId")) || "0");
     }
 
     async put(key: string, value: unknown) 
     {
-        if (!key || !value || !value)
+        if (!key || !value)
             throw new Error("Tried to store undefined/null");
 
-        //@REVIEW serialization is done in storage.setItem
-        const stringified = JSON.stringify(value, function (key, value) 
-        {
-            if (value instanceof ArrayBuffer)
-                return ArrayBufferUtils.toArray(value);
-
-            return value;
-        });
-
         if (key.includes("identityKey"))
-            console.log("put %s: %s \n %s \n\n", key, value, stringified);
+            console.log("put %s: ", key, value);
 
-        await this.storage.setItem(STORE_PREFIX, key, {v: stringified});
+        await this.storage.setItem(STORE_PREFIX, key, value);
     }
 
-    async get(key: string, defaultValue?: unknown) 
+    async get<T>(key: string, defaultValue?: T)
     {
         if (key === null || key === undefined)
             throw new Error("Tried to get value for undefined/null key");
 
         const data = await this.storage.getItem(STORE_PREFIX, key);
 
-        if (data) 
-        {
-            const r = JSON.parse(data.v, function (key1, value) 
-            {
-                if (key1.endsWith("Key")) 
-                {
-                    console.log("get %s has Key %s", key, key1);
-                    return ArrayBufferUtils.fromArray(value);
-                }
-
-                return value;
-            });
-
-            if (key === "identityKey")
-                console.log("get %s: %s \n %s\n\n", key, data, r);
-
-
-            return r;
-        }
-
-        return defaultValue;
+        return data as T || defaultValue;
     }
 
     async remove(key?: string | null) 
@@ -142,7 +113,7 @@ export class Store
             throw new Error("Expected identityKey to be an ArrayBuffer");
 
 
-        const trusted = this.get(STORE_PREFIX_IDENTITYKEY + identifier);
+        const trusted = this.get<ArrayBuffer>(STORE_PREFIX_IDENTITYKEY + identifier);
         console.log("trusted %s \t %s \t %s", trusted === undefined, trusted, STORE_PREFIX_IDENTITYKEY + identifier);
         if (trusted === undefined)
 
@@ -159,7 +130,7 @@ export class Store
 
         const address = new SignalProtocolAddress.fromString(identifier);
 
-        const existing = this.get(STORE_PREFIX_IDENTITYKEY + address.toString());
+        const existing = this.get<ArrayBuffer>(STORE_PREFIX_IDENTITYKEY + address.toString());
         await this.put(STORE_PREFIX_IDENTITYKEY + address.toString(), identityKey); //@REVIEW stupid?
 
         return Promise.resolve(existing && ArrayBufferUtils.isEqual(identityKey, await existing));
@@ -167,9 +138,8 @@ export class Store
 
     async loadPreKey(keyId: string) 
     {
-        let res = await this.get(STORE_PREFIX_PREKEY + keyId);
+        let res = await this.get<{pubKey: ArrayBuffer, privKey: ArrayBuffer }>(STORE_PREFIX_PREKEY + keyId);
         if (res !== undefined)
-
             res = {
                 pubKey: res.pubKey,
                 privKey: res.privKey
@@ -193,7 +163,7 @@ export class Store
 
     async loadSignedPreKey(keyId: string) 
     {
-        let res = await this.get(STORE_PREFIX_SIGNEDPREKEY + keyId);
+        let res = await this.get<{pubKey: ArrayBuffer, privKey: ArrayBuffer }>(STORE_PREFIX_SIGNEDPREKEY + keyId);
         if (res !== undefined)
 
             res = {

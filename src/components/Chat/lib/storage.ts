@@ -1,7 +1,7 @@
 import localForage from "localforage";
 
-const PREFIX = "jsxc2";
-const SEP = ":";
+const PREFIX = "";
+const SEP = "";
 const IGNORE_KEY = ["rid"];
 const BACKEND = localForage;
 
@@ -87,26 +87,10 @@ export class Storage
             value = args[2];
         }
 
-        //@REVIEW why do we just stringify objects?
-        if (typeof (value) === "object")
-
-            // exclude jquery objects, because otherwise safari will fail
-            try 
-            {
-                value = JSON.stringify(value, function (key, val) 
-                {
-                    return val;
-                });
-            }
-            catch (err) 
-            {
-                console.warn("Could not stringify value", err);
-            }
-
         const pre_key = this.getPrefix() + key;
         const oldValue = BACKEND.getItem(pre_key);
 
-        await BACKEND.setItem(pre_key, String(value || ""));
+        await BACKEND.setItem(pre_key, value);
 
 
         this.onStorageEvent({
@@ -131,7 +115,7 @@ export class Storage
 
         key = this.getPrefix() + key;
 
-        return this.parseValue(await BACKEND.getItem(key));
+        return BACKEND.getItem(key);
     }
 
     async removeItem(...args: string[])
@@ -149,34 +133,7 @@ export class Storage
         await BACKEND.removeItem(this.getPrefix() + key);
     }
 
-    async updateItem(...args: string[]) 
-    {
-        let key, variable, value; // TODO Call me if you get an error, or don't
-
-        if (args.length === 4 || (args.length === 3 && typeof variable === "object")) 
-        {
-            key = args[0] + SEP + args[1];
-            variable = args[2];
-            value = args[3];
-        }
-        else 
-        {
-            key = args[0];
-            variable = args[1];
-            value = args[2];
-        }
-
-        const data = await this.getItem(key) || {};
-
-        if (typeof (variable) === "object") // TODO: I don't know what I am doing
-            $.each(variable, (key: string | number, val: unknown) => data[key] = val);
-        else
-            data[variable] = value;
-
-        await this.setItem(key, data);
-    }
-
-    async increment(key: string) 
+    async increment(key: string)
     {
         const value = Number(this.getItem(key));
 
@@ -205,7 +162,7 @@ export class Storage
             item = $.grep(item, (e: unknown) => e !== name);
 
         else if (typeof (item) === "object" && item !== null)
-            delete item[name as string];
+            delete (item as Record<string, unknown>)[name as string];
 
         await this.setItem(<string>key, item);
     }
@@ -231,8 +188,8 @@ export class Storage
     {
         const hooks = this.hooks;
         const key = ev.key?.replace(new RegExp("^" + this.getPrefix()), "");
-        const oldValue = this.parseValue(ev.oldValue);
-        const newValue = this.parseValue(ev.newValue);
+        const oldValue = ev.oldValue;
+        const newValue = ev.newValue;
 
         if (IGNORE_KEY.indexOf(<string>key) > -1)
             return;
@@ -245,21 +202,9 @@ export class Storage
                 const eventNameHooks = <Array<(newValue: string, oldValue:string, key:string) => unknown>>hooks[eventName] || [];
                 eventNameHooks.forEach(function (hook)
                 {
-                    hook(newValue, oldValue, key);
+                    hook(newValue || "", oldValue || "", key);
                 });
             }
         });
     };
-
-    parseValue(value: string | null)
-    {
-        try
-        {
-            return JSON.parse(<string>value);
-        }
-        catch (e)
-        {
-            return value;
-        }
-    }
 }
