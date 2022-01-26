@@ -15,6 +15,7 @@ import {Link} from "react-router-dom";
 import {Tab} from "@mui/material";
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {withRouter} from "react-router";
+import SignalConnection from "./lib";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -57,6 +58,9 @@ class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState>
         super(props);
 
         this.state = {...this.state, value: 0};
+
+        if(this.state.user?.tokens.private_token)
+            new SignalConnection(this.state.user.tokens.private_token, () => null);
     }
 
     render() 

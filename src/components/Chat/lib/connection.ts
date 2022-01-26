@@ -1,14 +1,12 @@
 import {Omemo, StanzaInterface} from "./omemo";
 import {Storage} from "./storage";
-import {baseUrl} from "../../../api/api";
-import {getAuth} from "../../../api/auth";
 
 export class Connection
 {
     onMessage;
     readonly username;
     private readonly resolves: Record<string, Array<(bundle: unknown) => void>>;
-    private websocket;
+    private channel;
     private readonly send;
     private omemo?: Omemo;
 
@@ -18,29 +16,24 @@ export class Connection
         this.onMessage = onMessage;
         this.resolves = {};
 
-        if(!baseUrl)
-            throw Error("Websocket url not found in environment.");
+        const channel = new BroadcastChannel("chat");
+        this.channel = channel;
 
-        const websocket = new WebSocket(`${baseUrl.replace("http", "ws")}/chat/ws?token=${getAuth()}`);
-        this.websocket = websocket;
+        this.send = (o: object) => channel.postMessage({type: "SEND", payload: JSON.stringify(o)});
 
-        this.send = (o: object) => websocket.send(JSON.stringify(o));
+        this.send({
+            type: "register",
+            username: this.username
+        });
 
-        websocket.onopen = () =>
+        this.channel.onmessage = async ({data}) =>
         {
-            console.log("socket opened");
+            if(typeof data !== "string")
+                return;
 
-            this.send({
-                type: "register",
-                username: this.username
-            });
-        };
+            console.log("received message %s", data);
 
-        websocket.onmessage = async (event) =>
-        {
-            console.log("received message %s", event.data);
-
-            const msg = JSON.parse(event.data);
+            const msg = JSON.parse(data);
 
             switch (msg.type)
             {
@@ -82,17 +75,6 @@ export class Connection
             default:
                 console.warn("unknown message type: %s", msg.type);
             }
-        };
-
-        websocket.onclose = function (event)
-        {
-            console.log("close %s", event);
-        };
-
-        window.onbeforeunload = function ()
-        {
-            websocket.onclose = () => undefined;
-            websocket.close();
         };
     }
 

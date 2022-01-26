@@ -160,7 +160,7 @@ export class Store
         const address = new SignalProtocolAddress.fromString(identifier);
 
         const existing = this.get(STORE_PREFIX_IDENTITYKEY + address.toString());
-        this.put(STORE_PREFIX_IDENTITYKEY + address.toString(), identityKey); //@REVIEW stupid?
+        await this.put(STORE_PREFIX_IDENTITYKEY + address.toString(), identityKey); //@REVIEW stupid?
 
         return Promise.resolve(existing && ArrayBufferUtils.isEqual(identityKey, await existing));
     }
@@ -223,11 +223,6 @@ export class Store
     storeSession(identifier: string, record: unknown)
     {
         return Promise.resolve(this.put(STORE_PREFIX_SESSION + identifier, record));
-    }
-
-    removeSession(identifier: string)
-    {
-        return Promise.resolve(this.remove(STORE_PREFIX_SESSION + identifier));
     }
 
     hasSession(identifier: string)

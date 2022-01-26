@@ -1,44 +1,24 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import reportWebVitals from "./reportWebVitals";
 import {BrowserRouter} from "react-router-dom";
-import {ServiceWorkerContext, wb} from "./SwContext";
+// import { Workbox } from "workbox-window";
+import {getAuth} from "./api/auth";
 
+// new Workbox("/sw.js").register();
+navigator.serviceWorker.register("/chat.js").then();
 
-addEventListener("storage", (e) =>
-{
-    if(typeof window === "undefined")
-        return;
-    console.log("1st");
+const user = localStorage.getItem("user");
 
-    if(e.key !== "user" || !e.newValue)
-        return;
-    console.log("2nd");
-
-    const user = JSON.parse(e.newValue);
-
-    if(!user?.tokens?.private_token)
-        return;
-    console.log("3rd");
-    console.log("work aavunilla");
-    wb.messageSW({type: "CREATE", token: user.tokens.private_token});
-});
+if(user)
+    new BroadcastChannel("chat").postMessage({type: "CREATE", token: getAuth(),
+        username: JSON.parse(user).tokens.private_token});
 
 ReactDOM.render(
     <BrowserRouter>
         <React.StrictMode>
-            <ServiceWorkerContext.Provider value={wb}>
-                <App />
-            </ServiceWorkerContext.Provider>
+            <App />
         </React.StrictMode>
     </BrowserRouter>,
     document.getElementById("root")
 );
-
-
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals(console.log);

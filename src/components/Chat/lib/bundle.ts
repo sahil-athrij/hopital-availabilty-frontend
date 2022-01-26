@@ -96,13 +96,13 @@ export class Bundle
 
         return new Bundle({
             identityKey: {
-                pubKey: ArrayBufferUtils.fromBase64(xmlIdentityKey)
+                pubKey: ArrayBufferUtils.fromBase64(xmlIdentityKey as string)
             },
             signedPreKey: {
                 keyPair: {
                     pubKey: ArrayBufferUtils.fromBase64((xmlSignedPreKeyPublic as {value: string}).value)
                 },
-                signature: ArrayBufferUtils.fromBase64(xmlSignedPreKeySignature),
+                signature: ArrayBufferUtils.fromBase64(xmlSignedPreKeySignature as string),
                 keyId: (xmlSignedPreKeyPublic as {signedPreKeyId: string}).signedPreKeyId
             },
             preKeys: (xmlPreKeys as Array<{value: string, preKeyId: string}>).map(function (element)

@@ -1,5 +1,4 @@
 import {Connection} from "./connection";
-import {toast} from "react-toastify";
 import localForage from "localforage";
 
 export const NUM_PRE_KEYS = 10;
@@ -9,7 +8,7 @@ export const AES_EXTRACTABLE = true;
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-const libSignal = libsignalc;
+const libSignal = window.libsignal;
 
 export const KeyHelper = libSignal.KeyHelper;
 export const SignalProtocolAddress = libSignal.SignalProtocolAddress;
@@ -25,19 +24,18 @@ export interface ChatMessage {
 
 export default class SignalConnection
 {
-    private readonly connection: Connection;
+    private readonly connection;
     private readonly messages: Record<string, Array<ChatMessage>>;
+    private readonly onMessage;
 
-    constructor(username: string)
+    constructor(username: string, onMessage: (messages: ChatMessage[]) => void)
     {
         this.connection = new Connection(username, this.handleMessage);
         this.messages = {};
+        this.onMessage = onMessage;
     }
 
-
-
     getTime = (date: Date) => date.toLocaleTimeString("en-US", { hour: "numeric", minute: "numeric", hour12: true });
-
 
     async handleMessage(message: string, from: string) 
     {
@@ -46,6 +44,7 @@ export default class SignalConnection
 
         this.messages[from].push({content: message, time: this.getTime(new Date()), seen: false, type: "received"});
         await localForage.setItem(`messages-${from}`, this.messages);
+        this.onMessage(this.messages[from]);
     }
 
     async sendMessage(message: string, to: string)
@@ -61,6 +60,6 @@ export default class SignalConnection
                 this.messages[to].push(msg);
                 return localForage.setItem(`messages-${to}`, this.messages);
             })
-            .catch((error) => toast.error(error, { position: "bottom-center"}));
+            .catch((e) =>console.error(e));
     }
 }

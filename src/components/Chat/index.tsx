@@ -1,7 +1,7 @@
 import {AuthComponent, AuthPropsLoc, AuthState, Friend} from "../../api/auth";
 import {withRouter} from "react-router";
 
-import {ChatMessage} from "./lib";
+import SignalConnection, {ChatMessage} from "./lib";
 import {Link} from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
@@ -18,7 +18,6 @@ import "./Swiper.css";
 import DoneIcon from "@mui/icons-material/Done";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import {createRef} from "react";
-import {ServiceWorkerContext} from "../../SwContext";
 import localForage from "localforage";
 
 
@@ -26,6 +25,7 @@ interface ChatState extends AuthState {
     chat: string;
     messages: Array<ChatMessage>;
     chatUser: Friend;
+    connection: SignalConnection;
 }
 
 const messageStyle = {
@@ -38,7 +38,6 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
 {
 
     messagesEndRef = createRef<HTMLDivElement>();
-    static contextType = ServiceWorkerContext;
 
     constructor(props: AuthPropsLoc) 
     {
@@ -46,14 +45,15 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
 
         const chatUser = this.state.user?.chat_friends?.find((friend) => friend.token === this.props.match.params.chatId);
 
-        if (!chatUser)
+        if (!chatUser || !this.state.user?.tokens.private_token)
             this.props.history.replace("/chat");
         else
             this.state = {
                 ...this.state,
                 chat: "",
                 chatUser,
-                messages: []
+                messages: [],
+                connection: new SignalConnection(this.state.user.tokens.private_token, this.onMessage)
             };
     }
 
@@ -83,7 +83,7 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
     sendMessage = async () => 
     {
         if (this.state.chat)
-            this.context.messageSW({message: this.state.chat, to: this.state.chatUser.token, type: "SEND"});
+            await this.state.connection.sendMessage(this.state.chat, this.state.chatUser.token);
 
         this.setState({chat: ""});
     };
