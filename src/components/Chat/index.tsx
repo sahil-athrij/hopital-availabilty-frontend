@@ -105,8 +105,8 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                             sx={{color: "#4F5E7B"}}/></Link>
                         <img style={{borderRadius: "50%", marginLeft: "1rem"}} src={Account} alt=""/>
                         <div style={{marginLeft: "1rem", paddingTop: "1rem"}} className="d-flex flex-column text-start">
-                            <h5>{this.state.chatUser.name}</h5>
-                            <p>online</p>
+                            <div className="h5 m-0 fw-bold">{this.state.chatUser.name}</div>
+                            <div>online</div>
                         </div>
                         <VideocamIcon sx={{marginLeft: "auto", marginRight: "1rem"}} color="action"/>
                         <MoreVertIcon/>
