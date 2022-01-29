@@ -54,7 +54,7 @@ class RTCMesh extends Component<RTCMeshProps, RTCMeshState>
         this.rtcPeerConnection = new RTCPeerConnection({iceServers: this.state.iceServers});
     }
 
-    openCamera = async (fromHandleOffer: boolean) => 
+    openCamera = async (fromHandleOffer: boolean) =>
     {
         const {mediaConstraints, localMediaStream} = this.state;
         try 
@@ -189,7 +189,7 @@ class RTCMesh extends Component<RTCMeshProps, RTCMeshState>
             text,
             roomKey,
             socketID,
-            iceServers,
+            // iceServers,
             connectionStarted,
         } = this.state;
         const sendMessage = this.socket.send.bind(this.socket);
