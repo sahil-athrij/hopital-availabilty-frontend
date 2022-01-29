@@ -6,7 +6,7 @@ interface PeerConnectionProps {
     localMediaStream: MediaStream,
     rtcPeerConnection: RTCPeerConnection,
     roomInfo: {
-        roomKey: string, socketID: string |null
+        roomKey: string | null, socketID: string |null
     }
     sendMessage: (message: string) => void;
     addRemoteStream:(remoteMediaStream: MediaStream)=>void,
@@ -41,7 +41,7 @@ class PeerConnection extends Component <PeerConnectionProps>
         {
             const offer = await rtcPeerConnection.createOffer();
             await rtcPeerConnection.setLocalDescription(offer);
-            const payload = createPayload(roomInfo.roomKey, roomInfo.socketID as string, rtcPeerConnection.localDescription);
+            const payload = createPayload(roomInfo.roomKey as string, roomInfo.socketID as string, rtcPeerConnection.localDescription);
             const offerMessage = createMessage(TYPE_OFFER, payload);
             sendMessage(JSON.stringify(offerMessage));
         }
@@ -57,7 +57,7 @@ class PeerConnection extends Component <PeerConnectionProps>
         {
             const {sendMessage, roomInfo} = this.props;
             const {candidate} = rtcPeerConnectionIceEvent;
-            const payload = createPayload(roomInfo.roomKey, roomInfo.socketID as string, JSON.stringify(candidate));
+            const payload = createPayload(roomInfo.roomKey as string, roomInfo.socketID as string, JSON.stringify(candidate));
             const iceCandidateMessage = createMessage(TYPE_ICECANDIDATE, payload);
             sendMessage(JSON.stringify(iceCandidateMessage));
         }

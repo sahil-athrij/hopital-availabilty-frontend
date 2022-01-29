@@ -21,8 +21,8 @@ interface RTCMeshState {
     mediaConstraints: MediaStreamConstraints
     localMediaStream: null | MediaStream | void
     remoteMediaStream: null | MediaStream | void
-    roomKey: null | number | string,
-    socketID: null | string | number,
+    roomKey: null  | string,
+    socketID: null | string,
     connectionStarted: boolean,
     text: string
 }
@@ -54,7 +54,7 @@ class RTCMesh extends Component<RTCMeshProps, RTCMeshState>
         this.rtcPeerConnection = new RTCPeerConnection({iceServers: this.state.iceServers});
     }
 
-    openCamera = async (fromHandleOffer: boolean) => 
+    openCamera = async (fromHandleOffer: boolean) =>
     {
         const {mediaConstraints, localMediaStream} = this.state;
         try 
@@ -189,7 +189,7 @@ class RTCMesh extends Component<RTCMeshProps, RTCMeshState>
             text,
             roomKey,
             socketID,
-            iceServers,
+            // iceServers,
             connectionStarted,
         } = this.state;
         const sendMessage = this.socket.send.bind(this.socket);
@@ -207,7 +207,7 @@ class RTCMesh extends Component<RTCMeshProps, RTCMeshState>
                 />
                 <PeerConnection
                     rtcPeerConnection={this.rtcPeerConnection}
-                    iceServers={iceServers}
+                    // iceServers={iceServers}
                     localMediaStream={localMediaStream as MediaStream}
                     addRemoteStream={this.addRemoteStream}
                     startConnection={connectionStarted}
