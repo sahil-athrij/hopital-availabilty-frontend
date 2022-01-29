@@ -1,7 +1,7 @@
 import {ArrayBufferUtils} from "./arraybuffer";
 import {Random} from "./random";
 
-interface IdentityKeyInterface {
+export interface IdentityKeyInterface {
     pubKey: ArrayBuffer;
 }
 
@@ -17,7 +17,7 @@ interface SignedPreKeyInterface {
 }
 
 interface BundleInterface {
-    identityKey: IdentityKeyInterface;
+    identityKey?: IdentityKeyInterface;
     signedPreKey: SignedPreKeyInterface;
     preKeys: Array<PreKeyInterface>;
 }
@@ -54,7 +54,7 @@ export class Bundle
         const signedPreKey = this.getSignedPreKey();
 
         return {
-            identityKey: this.getIdentityKey().pubKey,
+            identityKey: this.getIdentityKey()?.pubKey,
             registrationId: registrationId,
             preKey: {
                 keyId: preKey.keyId,
@@ -76,7 +76,7 @@ export class Bundle
                 value: ArrayBufferUtils.toBase64(this.bundle.signedPreKey.keyPair.pubKey)
             },
             signedPreKeySignature: ArrayBufferUtils.toBase64(this.bundle.signedPreKey.signature),
-            identityKey: ArrayBufferUtils.toBase64(this.bundle.identityKey.pubKey),
+            identityKey: ArrayBufferUtils.toBase64(this.bundle.identityKey?.pubKey),
             preKeyPublic: this.bundle.preKeys.map(function (preKey)
             {
                 return {
@@ -96,13 +96,13 @@ export class Bundle
 
         return new Bundle({
             identityKey: {
-                pubKey: ArrayBufferUtils.fromBase64(xmlIdentityKey)
+                pubKey: ArrayBufferUtils.fromBase64(xmlIdentityKey as string)
             },
             signedPreKey: {
                 keyPair: {
                     pubKey: ArrayBufferUtils.fromBase64((xmlSignedPreKeyPublic as {value: string}).value)
                 },
-                signature: ArrayBufferUtils.fromBase64(xmlSignedPreKeySignature),
+                signature: ArrayBufferUtils.fromBase64(xmlSignedPreKeySignature as string),
                 keyId: (xmlSignedPreKeyPublic as {signedPreKeyId: string}).signedPreKeyId
             },
             preKeys: (xmlPreKeys as Array<{value: string, preKeyId: string}>).map(function (element)

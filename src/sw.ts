@@ -8,9 +8,6 @@ import {setCacheNameDetails} from "workbox-core";
 
 import defaultFont from "../public/fallbacks/default-font.ttf";
 import noNetworkImage from "../public/fallbacks/no-network.png";
-import SignalConnection from "./components/Chat/lib";
-
-let connection: SignalConnection;
 
 setCacheNameDetails({prefix: "__APP_NAME__", suffix: "__APP_VERSION__"});
 
@@ -76,7 +73,7 @@ setDefaultHandler(new StaleWhileRevalidate({}));
 
 // This "catch" handler is triggered when any of the other routes fail to
 // generate a response.
-setCatchHandler(async (options) => 
+setCatchHandler(async (options) =>
 {
     const fallbacks: { [key: string]: string; } = {
         document: "/offline.html",
@@ -88,17 +85,4 @@ setCatchHandler(async (options) =>
     fallbacks[options.event.request.destination] &&
     await matchPrecache(fallbacks[options.event.request.destination])) ||
     Response.error();
-});
-
-addEventListener("message", (event) => 
-{
-    if (event.data?.type === "SKIP_WAITING")
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        self.skipWaiting();
-
-    else if(event.data?.type === "SEND" && connection)
-        connection.sendMessage(event.data.message, event.data.to).then();
-    else if(event.data?.type === "CREATE")
-        connection = new SignalConnection(event.data.token);
 });

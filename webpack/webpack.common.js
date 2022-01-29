@@ -9,7 +9,10 @@ const Dotenv = require("dotenv-webpack");
 const buildFolder = path.resolve(__dirname, "..", "./build");
 
 module.exports = (env) => ({
-    entry: path.resolve(__dirname, "..", "./src/index.tsx"),
+    entry: {
+        "bundle": path.resolve(__dirname, "..", "./src/index.tsx"),
+        "chat": path.resolve(__dirname, "..", "src/chat-worker.ts")
+    },
     resolve: {
         extensions: [".tsx", ".ts", ".js"],
     },
@@ -72,7 +75,10 @@ module.exports = (env) => ({
     output: {
         path: buildFolder,
         publicPath: "/",
-        filename: "bundle.js",
+        filename: "[name].js",
+    },
+    experiments: {
+        topLevelAwait: true
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -109,6 +115,7 @@ module.exports = (env) => ({
         new CopyPlugin({
             patterns: [
                 {from: path.resolve(__dirname, "..", "public/robots.txt")},
+                {from: path.resolve(__dirname, "..", "public/libsignal-protocol.js")},
                 {
                     from: path.resolve(__dirname, "..", "public/.well-known/"),
                     to: path.resolve(buildFolder, ".well-known")
@@ -119,7 +126,7 @@ module.exports = (env) => ({
             swSrc: path.resolve(__dirname, "..", "src/sw.ts"),
             exclude: [/\.map$/, /^manifest.*\.js(?:on)?$/, /\.(jpe?g|png|webp)$/i]
         }),
-        new Dotenv({path:  path.resolve(__dirname, "..", `./.${env}.env`)})
+        new Dotenv({path: path.resolve(__dirname, "..", `./.${env}.env`)})
     ],
     stats: "errors-warnings"
 })

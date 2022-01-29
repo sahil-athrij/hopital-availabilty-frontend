@@ -1,7 +1,7 @@
 import {AuthComponent, AuthPropsLoc, AuthState, Friend} from "../../api/auth";
 import {withRouter} from "react-router";
 
-import {ChatMessage} from "./lib";
+import SignalConnection, {ChatMessage} from "./lib";
 import {Link} from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
@@ -18,13 +18,14 @@ import "./Swiper.css";
 import DoneIcon from "@mui/icons-material/Done";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import {createRef} from "react";
-import {ServiceWorkerContext} from "../../index";
+import localForage from "localforage";
 
 
 interface ChatState extends AuthState {
     chat: string;
     messages: Array<ChatMessage>;
     chatUser: Friend;
+    connection: SignalConnection;
 }
 
 const messageStyle = {
@@ -37,7 +38,6 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
 {
 
     messagesEndRef = createRef<HTMLDivElement>();
-    static contextType = ServiceWorkerContext;
 
     constructor(props: AuthPropsLoc) 
     {
@@ -45,7 +45,7 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
 
         const chatUser = this.state.user?.chat_friends?.find((friend) => friend.token === this.props.match.params.chatId);
 
-        if (!chatUser)
+        if (!chatUser || !this.state.user?.tokens.private_token)
             this.props.history.replace("/chat");
         else
             this.state = {
@@ -60,17 +60,18 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
 
     scrollToBottom = () => this.messagesEndRef.current?.scrollIntoView({behavior: "smooth"});
 
-    componentDidMount() 
+    async componentDidMount() 
     {
         super.componentDidMount();
 
-        if (!this.state.auth)
-            this.performAuth();
+        if (!this.state.auth || !this.state.user?.tokens?.private_token)
+            return this.performAuth();
 
-        this.onMessage(JSON.parse(localStorage.getItem(`messages-${this.state.chatUser.token}`) || "[]"));
+        this.onMessage(await localForage.getItem(`messages-${this.state.chatUser.token}`) || []);
 
-        window.addEventListener("storage", (e) =>
-            e.key?.endsWith(this.state.chatUser.token) && this.onMessage(JSON.parse(e.newValue || "[]")));
+        this.setState({
+            connection: new SignalConnection(this.state.user.tokens.private_token, this.state.chatUser.token, this.onMessage)
+        });
     }
 
 
@@ -82,7 +83,7 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
     sendMessage = async () => 
     {
         if (this.state.chat)
-            this.context.messageSW({message: this.state.chat, to: this.state.chatUser.token});
+            await this.state.connection?.sendMessage(this.state.chat);
 
         this.setState({chat: ""});
     };
@@ -90,6 +91,7 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
 
     render() 
     {
+        console.log(this.state.messages);
         return (
             <>
                 <div style={{height: "90vh"}}>
@@ -122,7 +124,7 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                     }}>
                         <p style={{margin: ".5rem", fontSize: "10px", color: "#A1A1BC"}}>Message Now</p>
 
-                        {this.state.messages.map(({content, type, time, seen}, i) => 
+                        {this.state.messages.map(({content, type, time, seen}, i) =>
                         {
 
                             const next = this.state.messages[i + 1];

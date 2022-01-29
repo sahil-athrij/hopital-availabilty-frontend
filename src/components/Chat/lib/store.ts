@@ -1,10 +1,9 @@
 import {ArrayBufferUtils} from "./arraybuffer";
-import {Bundle} from "./bundle";
+import {Bundle, IdentityKeyInterface} from "./bundle";
 import {SignalProtocolAddress} from "./index";
 import { Storage } from "./storage";
 import {Connection} from "./connection";
 
-const STORE_PREFIX = "store";
 const STORE_PREFIX_SESSION = "session:";
 const STORE_PREFIX_IDENTITYKEY = "identityKey:";
 const STORE_PREFIX_PREKEY = "25519KeypreKey:";
@@ -28,14 +27,14 @@ export class Store
         };
     }
 
-    getOwnDeviceList() : number[]
+    async getOwnDeviceList(): Promise<number[]> 
     {
-        return this.get("deviceList", []);
+        return (await this.get<number[]>("deviceList")) || [];
     }
 
-    setOwnDeviceList(deviceList: string[])
+    async setOwnDeviceList(deviceList: string[]) 
     {
-        this.put("deviceList", deviceList);
+        await this.put("deviceList", deviceList);
     }
 
     getDeviceList(identifier: string)
@@ -43,24 +42,24 @@ export class Store
         return this.get("deviceList:" + identifier, []);
     }
 
-    setDeviceList(identifier: string, deviceList: string[])
+    async setDeviceList(identifier: string, deviceList: string[]) 
     {
-        this.put("deviceList:" + identifier, deviceList);
+        await this.put("deviceList:" + identifier, deviceList);
     }
 
-    isReady() 
+    async isReady() 
     {
-        return this.get("deviceId") && this.get("identityKey") && this.get("registrationId");
+        return await this.get("deviceId") && await this.get("identityKey") && this.get("registrationId");
     }
 
-    isPublished() 
+    async isPublished() 
     {
-        return this.get("published") === "true" || this.get("published") === true;
+        return await this.get("published") === "true" || await this.get("published") === true;
     }
 
     getIdentityKeyPair() 
     {
-        return Promise.resolve(this.get("identityKey"));
+        return Promise.resolve(this.get<IdentityKeyInterface>("identityKey"));
     }
 
     getLocalRegistrationId() 
@@ -68,113 +67,82 @@ export class Store
         return Promise.resolve(this.get("registrationId"));
     }
 
-    getDeviceId() 
+    async getDeviceId() 
     {
-        return parseInt(this.get("deviceId"), );
+        return parseInt((await this.get<string>("deviceId")) || "0");
     }
 
-    put(key: string, value: unknown)
+    async put(key: string, value: unknown) 
     {
-        if (!key || !value || !value)
+        if (!key || !value)
             throw new Error("Tried to store undefined/null");
 
-        //@REVIEW serialization is done in storage.setItem
-        const stringified = JSON.stringify(value, function (key, value) 
-        {
-            if (value instanceof ArrayBuffer)
-                return ArrayBufferUtils.toArray(value);
-
-            return value;
-        });
-
         if (key.includes("identityKey"))
-            console.log("put %s: %s \n %s \n\n", key, value, stringified);
+            console.log("put %s: ", key, value);
 
-        this.storage.setItem(STORE_PREFIX, key, {v: stringified});
+        await this.storage.setItem(key, value);
     }
 
-    get(key: string, defaultValue?: unknown)
+    async get<T>(key: string, defaultValue?: T)
     {
         if (key === null || key === undefined)
             throw new Error("Tried to get value for undefined/null key");
 
-        const data = this.storage.getItem(STORE_PREFIX, key);
+        const data = await this.storage.getItem(key);
 
-        if (data) 
-        {
-            const r = JSON.parse(data.v, function (key1, value) 
-            {
-                if (key1.endsWith("Key"))
-                {
-                    console.log("get %s has Key %s", key, key1);
-                    return ArrayBufferUtils.fromArray(value);
-                }
-
-                return value;
-            });
-
-            if (key === "identityKey")
-                console.log("get %s: %s \n %s\n\n", key, data, r);
-            
-
-            return r;
-        }
-
-        return defaultValue;
+        return data as T || defaultValue;
     }
 
-    remove(key?: string | null)
+    async remove(key?: string | null) 
     {
         if (key === null || key === undefined)
             throw new Error("Tried to remove value for undefined/null key");
 
-        this.storage.removeItem(STORE_PREFIX, key);
+        await this.storage.removeItem(key);
     }
 
-    isTrustedIdentity(identifier: string, identityKey?: ArrayBuffer)
+    async isTrustedIdentity(identifier: string, identityKey?: ArrayBuffer) 
     {
         if (!identifier)
             throw new Error("tried to check identity key for undefined/null key");
-        
 
-        if (!(identityKey instanceof ArrayBuffer)) 
-        
+
+        if (!(identityKey instanceof ArrayBuffer))
             throw new Error("Expected identityKey to be an ArrayBuffer");
-        
 
-        const trusted = this.get(STORE_PREFIX_IDENTITYKEY + identifier);
+
+        const trusted = await this.get<ArrayBuffer>(STORE_PREFIX_IDENTITYKEY + identifier);
         console.log("trusted %s \t %s \t %s", trusted === undefined, trusted, STORE_PREFIX_IDENTITYKEY + identifier);
-        if (trusted === undefined) 
-        
+        if (trusted === undefined)
+
             return Promise.resolve(true);
-        
+
 
         return Promise.resolve(ArrayBufferUtils.isEqual(identityKey, trusted));
     }
 
-    saveIdentity(identifier: string, identityKey: ArrayBuffer)
+    async saveIdentity(identifier: string, identityKey: ArrayBuffer) 
     {
         if (!identifier)
             throw new Error("Tried to put identity key for undefined/null key");
 
         const address = new SignalProtocolAddress.fromString(identifier);
 
-        const existing = this.get(STORE_PREFIX_IDENTITYKEY + address.toString());
-        this.put(STORE_PREFIX_IDENTITYKEY + address.toString(), identityKey); //@REVIEW stupid?
+        const existing = this.get<ArrayBuffer>(STORE_PREFIX_IDENTITYKEY + address.toString());
+        await this.put(STORE_PREFIX_IDENTITYKEY + address.toString(), identityKey); //@REVIEW stupid?
 
-        return Promise.resolve(existing && ArrayBufferUtils.isEqual(identityKey, existing));
+        return Promise.resolve(existing && ArrayBufferUtils.isEqual(identityKey, await existing));
     }
 
-    loadPreKey(keyId: string)
+    async loadPreKey(keyId: string) 
     {
-        let res = this.get(STORE_PREFIX_PREKEY + keyId);
-        if (res !== undefined) 
-        
+        let res = await this.get<{pubKey: ArrayBuffer, privKey: ArrayBuffer }>(STORE_PREFIX_PREKEY + keyId);
+        if (res !== undefined)
             res = {
                 pubKey: res.pubKey,
                 privKey: res.privKey
             };
-        
+
 
         return Promise.resolve(res);
     }
@@ -191,16 +159,16 @@ export class Store
         return Promise.resolve(this.remove(STORE_PREFIX_PREKEY + keyId));
     }
 
-    loadSignedPreKey(keyId: string)
+    async loadSignedPreKey(keyId: string) 
     {
-        let res = this.get(STORE_PREFIX_SIGNEDPREKEY + keyId);
-        if (res !== undefined) 
-        
+        let res = await this.get<{pubKey: ArrayBuffer, privKey: ArrayBuffer }>(STORE_PREFIX_SIGNEDPREKEY + keyId);
+        if (res !== undefined)
+
             res = {
                 pubKey: res.pubKey,
                 privKey: res.privKey
             };
-        
+
 
         return Promise.resolve(res);
     }
@@ -225,14 +193,9 @@ export class Store
         return Promise.resolve(this.put(STORE_PREFIX_SESSION + identifier, record));
     }
 
-    removeSession(identifier: string)
+    async hasSession(identifier: string)
     {
-        return Promise.resolve(this.remove(STORE_PREFIX_SESSION + identifier));
-    }
-
-    hasSession(identifier: string)
-    {
-        return !!this.get(STORE_PREFIX_SESSION + identifier);
+        return !!(await this.get(STORE_PREFIX_SESSION + identifier));
     }
 
     removeAllSessions()
@@ -240,7 +203,7 @@ export class Store
         //@TODO implement removeAllSessions
         // for (var id in this.store) {
         //    if (id.startsWith(this.STORE_prefix + ':' + 'session' + identifier)) {
-        //       localStorage.removeItem(this.STORE_prefix + ':' + id);
+        //       localForage.removeItem(this.STORE_prefix + ':' + id);
         //    }
         // }
         return Promise.resolve();
@@ -248,7 +211,7 @@ export class Store
 
     async getPreKeyBundle(address: { getDeviceId: () => number; })
     {
-        // TODO: get bundle form localstorage
+        // TODO: get bundle form localForage
         const bundleElement = await this.connection.getBundle(address.getDeviceId());
 
         if (bundleElement === undefined) 

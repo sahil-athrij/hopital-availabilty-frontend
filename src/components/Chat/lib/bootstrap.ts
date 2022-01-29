@@ -17,15 +17,15 @@ export class Bootstrap
 
     async prepare()
     {
-        if (!this.store.isReady())
+        if (!await this.store.isReady())
             await this.setup();
 
-        if (!this.store.isPublished())
+        if (!await this.store.isPublished())
         {
             const bundle = await this.generateBundle();
 
-            await this.connection.publishBundle(this.store.getDeviceId(), bundle.toObject());
-            this.store.put("published", true);
+            await this.connection.publishBundle(await this.store.getDeviceId(), bundle.toObject());
+            await this.store.put("published", true);
 
             await this.addDeviceIdToDeviceList();
         }
@@ -37,11 +37,11 @@ export class Bootstrap
             this.generateDeviceId(),
             KeyHelper.generateIdentityKeyPair(),
             KeyHelper.generateRegistrationId(),
-        ]).then(([deviceId, identityKey, registrationId]) =>
+        ]).then(async ([deviceId, identityKey, registrationId]) =>
         {
-            this.store.put("deviceId", deviceId);
-            this.store.put("identityKey", identityKey);
-            this.store.put("registrationId", registrationId);
+            await this.store.put("deviceId", deviceId);
+            await this.store.put("identityKey", identityKey);
+            await this.store.put("registrationId", registrationId);
         });
     }
 
@@ -90,10 +90,10 @@ export class Bootstrap
         return signedPreKey;
     }
 
-    addDeviceIdToDeviceList()
+    async addDeviceIdToDeviceList()
     {
-        const deviceIds = this.store.getOwnDeviceList();
-        const ownDeviceId = this.store.getDeviceId();
+        const deviceIds = await this.store.getOwnDeviceList();
+        const ownDeviceId = await this.store.getDeviceId();
 
         if (deviceIds.indexOf(ownDeviceId) < 0)
             deviceIds.push(ownDeviceId);

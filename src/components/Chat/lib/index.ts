@@ -1,5 +1,5 @@
 import {Connection} from "./connection";
-import {toast} from "react-toastify";
+import localForage from "localforage";
 
 export const NUM_PRE_KEYS = 10;
 export const AES_KEY_LENGTH = 128;
@@ -8,7 +8,7 @@ export const AES_EXTRACTABLE = true;
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-const libSignal = libsignalc;
+const libSignal = window.libsignal;
 
 export const KeyHelper = libSignal.KeyHelper;
 export const SignalProtocolAddress = libSignal.SignalProtocolAddress;
@@ -24,40 +24,49 @@ export interface ChatMessage {
 
 export default class SignalConnection
 {
-    private readonly connection: Connection;
-    private readonly messages: Record<string, Array<ChatMessage>>;
+    private readonly connection;
+    private messages?: Array<ChatMessage>;
+    private readonly onMessage;
+    private readonly to;
 
-    constructor(username: string)
+    constructor(username: string, to: string, onMessage: (messages: ChatMessage[]) => void)
     {
         this.connection = new Connection(username, this.handleMessage);
-        this.messages = {};
+        this.onMessage = onMessage;
+        this.to = to;
     }
 
     getTime = (date: Date) => date.toLocaleTimeString("en-US", { hour: "numeric", minute: "numeric", hour12: true });
 
-
-    handleMessage(message: string, from: string)
+    handleMessage = async (message: string, from: string) =>
     {
-        if(!(from in this.messages))
-            this.messages[from] = JSON.parse(localStorage.getItem(`messages-${from}`) || "[]");
+        console.log(message, "Handle Message");
 
-        this.messages[from].push({content: message, time: this.getTime(new Date()), seen: false, type: "received"});
-        localStorage.setItem(`messages-${from}`, JSON.stringify(this.messages));
-    }
+        if(!this.messages)
+            this.messages = await localForage.getItem(`messages-${from}`) || [];
 
-    async sendMessage(message: string, to: string)
+        console.log(this.messages, "Handle Messages");
+
+        this.messages.push({content: message, time: this.getTime(new Date()), seen: false, type: "received"});
+        await localForage.setItem(`messages-${from}`, this.messages);
+        this.onMessage(this.messages);
+    };
+
+    async sendMessage(message: string)
     {
-        if(!(to in this.messages))
-            this.messages[to] = JSON.parse(localStorage.getItem(`messages-${to}`) || "[]");
+        if(!this.messages)
+            this.messages = await localForage.getItem(`messages-${(this.to)}`) || [];
 
-        await this.connection.sendMessage(to, message)
+        await this.connection.sendMessage(this.to, message)
             .then(() =>
             {
                 const msg = <ChatMessage> {content: message, time: this.getTime(new Date()), seen: false, type: "sent"};
 
-                this.messages[to].push(msg);
-                localStorage.setItem(`messages-${to}`, JSON.stringify(this.messages));
+                this.messages?.push(msg);
+                this.onMessage(this.messages || []);
+
+                return localForage.setItem(`messages-${this.to}`, this.messages);
             })
-            .catch((error) => toast.error(error, { position: "bottom-center"}));
+            .catch((e) =>console.error(e));
     }
 }

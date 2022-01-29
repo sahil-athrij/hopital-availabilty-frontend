@@ -21,8 +21,8 @@ export class Peer
 
     async encrypt(plaintext: string): Promise<Message>
     {
-        const remoteDeviceIds = this.store.getDeviceList(this.uid);
-        const ownDeviceIds = this.store.getOwnDeviceList().filter((id) =>id !== this.store.getDeviceId());
+        const remoteDeviceIds = await this.store.getDeviceList(this.uid);
+        const ownDeviceIds = (await this.store.getOwnDeviceList()).filter(async (id) =>id !== await this.store.getDeviceId());
 
         const aes = await this.encryptWithAES(plaintext);
         const promises = [];
@@ -30,14 +30,12 @@ export class Peer
         for (const id of remoteDeviceIds) 
         {
             const device = this.getDevice(id);
-
             promises.push(device.encrypt(aes.keydata));
         }
 
         for (const id of ownDeviceIds)
         {
             const device = this.getOwnDevice(id);
-
             promises.push(device.encrypt(aes.keydata));
         }
 

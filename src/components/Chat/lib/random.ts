@@ -2,12 +2,9 @@ export class Random
 {
     static number(max: number, min = 0)
     {
-        if (crypto && typeof crypto.getRandomValues === "function") 
-        
+        if (crypto && typeof crypto.getRandomValues === "function")
             return Random.numberWithCSPRG(max, min);
-        
-        else 
-        
+        else
             return Random.numberWithoutCSPRG(max, min);
         
     }

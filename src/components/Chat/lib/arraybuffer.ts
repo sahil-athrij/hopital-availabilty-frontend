@@ -109,9 +109,9 @@ export class ArrayBufferUtils
         return encoder.encode(s); //@REVIEW returns Uint8Array  
     }
 
-    static toBase64(a: ArrayBuffer)
+    static toBase64(a?: ArrayBuffer)
     {
-        return Base64ArrayBuffer.encode(a);
+        return a ? Base64ArrayBuffer.encode(a) : "";
     }
 
     static fromBase64(s: string)
@@ -130,7 +130,7 @@ export class ArrayBufferUtils
         return new dcodeIO.ByteBuffer.wrap(thing).toString("binary");
     }
 
-    static isEqual(a: ArrayBuffer, b: ArrayBuffer)
+    static isEqual(a: ArrayBuffer | undefined, b: ArrayBuffer | undefined)
     {
         // TODO: Special-case arraybuffers, etc
         if (a === undefined || b === undefined)
