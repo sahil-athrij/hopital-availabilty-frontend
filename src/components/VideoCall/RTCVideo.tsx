@@ -11,7 +11,7 @@ class RTCVideo extends PureComponent <RTCVideoProps>
         super(props);
     }
 
-    addMediaStream = (video: { srcObject: MediaStream; }) =>
+    addMediaStream = (video: HTMLVideoElement) =>
     {
         const {mediaStream} = this.props;
         // Prevents throwing error upon a setState change when mediaStream is null

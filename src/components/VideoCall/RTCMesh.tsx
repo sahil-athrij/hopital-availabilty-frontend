@@ -21,8 +21,8 @@ interface RTCMeshState {
     mediaConstraints: MediaStreamConstraints
     localMediaStream: null | MediaStream | void
     remoteMediaStream: null | MediaStream | void
-    roomKey: null | number | string,
-    socketID: null | string | number,
+    roomKey: null  | string,
+    socketID: null | string,
     connectionStarted: boolean,
     text: string
 }
@@ -207,7 +207,7 @@ class RTCMesh extends Component<RTCMeshProps, RTCMeshState>
                 />
                 <PeerConnection
                     rtcPeerConnection={this.rtcPeerConnection}
-                    iceServers={iceServers}
+                    // iceServers={iceServers}
                     localMediaStream={localMediaStream as MediaStream}
                     addRemoteStream={this.addRemoteStream}
                     startConnection={connectionStarted}
