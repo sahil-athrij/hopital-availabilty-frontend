@@ -4,7 +4,6 @@ import {SignalProtocolAddress} from "./index";
 import { Storage } from "./storage";
 import {Connection} from "./connection";
 
-const STORE_PREFIX = "";
 const STORE_PREFIX_SESSION = "session:";
 const STORE_PREFIX_IDENTITYKEY = "identityKey:";
 const STORE_PREFIX_PREKEY = "25519KeypreKey:";
@@ -81,7 +80,7 @@ export class Store
         if (key.includes("identityKey"))
             console.log("put %s: ", key, value);
 
-        await this.storage.setItem(STORE_PREFIX, key, value);
+        await this.storage.setItem(key, value);
     }
 
     async get<T>(key: string, defaultValue?: T)
@@ -89,7 +88,7 @@ export class Store
         if (key === null || key === undefined)
             throw new Error("Tried to get value for undefined/null key");
 
-        const data = await this.storage.getItem(STORE_PREFIX, key);
+        const data = await this.storage.getItem(key);
 
         return data as T || defaultValue;
     }
@@ -99,7 +98,7 @@ export class Store
         if (key === null || key === undefined)
             throw new Error("Tried to remove value for undefined/null key");
 
-        await this.storage.removeItem(STORE_PREFIX, key);
+        await this.storage.removeItem(key);
     }
 
     async isTrustedIdentity(identifier: string, identityKey?: ArrayBuffer) 
@@ -194,9 +193,9 @@ export class Store
         return Promise.resolve(this.put(STORE_PREFIX_SESSION + identifier, record));
     }
 
-    hasSession(identifier: string)
+    async hasSession(identifier: string)
     {
-        return !!this.get(STORE_PREFIX_SESSION + identifier);
+        return !!(await this.get(STORE_PREFIX_SESSION + identifier));
     }
 
     removeAllSessions()

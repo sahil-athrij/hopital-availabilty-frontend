@@ -30,10 +30,8 @@ export class Device
     {
         try 
         {
-            if (!this.store.hasSession(this.address.toString())) 
-            
+            if (!await this.store.hasSession(this.address.toString()))
                 await this.establishSession();
-            
 
             const session = this.getSession();
             const ciphertext = await session?.encrypt(plaintext);

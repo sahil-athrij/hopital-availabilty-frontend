@@ -1,14 +1,15 @@
 import {Omemo, StanzaInterface} from "./omemo";
 import {Storage} from "./storage";
+import {getAuth} from "../../../api/auth";
 
 export class Connection
 {
     onMessage;
     readonly username;
     private readonly resolves: Record<string, Array<(bundle: unknown) => void>>;
-    private channel;
     private readonly send;
     private omemo?: Omemo;
+    private lastMessage = "";
 
     constructor(username: string, onMessage: (message: string, from: string) => unknown)
     {
@@ -16,20 +17,23 @@ export class Connection
         this.onMessage = onMessage;
         this.resolves = {};
 
-        const channel = new BroadcastChannel("chat");
-        this.channel = channel;
+        const channel = new WebSocket(
+            `${process.env.BASE_URL?.replace("http", "ws")}/chat/ws?token=${getAuth()}`);
 
-        this.send = (o: object) => channel.postMessage({type: "SEND", payload: JSON.stringify(o)});
+        this.send = (o: object) => channel.send(JSON.stringify(o));
 
-        this.send({
-            type: "register",
-            username: this.username
-        });
+        channel.onopen = () =>
+            this.send({
+                type: "register",
+                username: this.username
+            });
 
-        this.channel.onmessage = async ({data}) =>
+        channel.onmessage = async ({data}) =>
         {
-            if(typeof data !== "string")
+            if(this.lastMessage === data)
                 return;
+
+            this.lastMessage = data;
 
             console.log("received message %s", data);
 

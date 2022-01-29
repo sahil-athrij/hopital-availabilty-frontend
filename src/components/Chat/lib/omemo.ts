@@ -75,8 +75,8 @@ export class Omemo
         if (!encryptedData)
             throw "Could not parse encrypted stanza";
 
-        const ownDeviceId = this.store.getDeviceId();
-        const ownPreKeyFiltered = encryptedData.keys.filter(async ({deviceId}) => await ownDeviceId === Number(deviceId));
+        const ownDeviceId = await this.store.getDeviceId();
+        const ownPreKeyFiltered = encryptedData.keys.filter(({deviceId}) => ownDeviceId === Number(deviceId));
 
         if (ownPreKeyFiltered.length !== 1)
             return Promise.reject(`Found ${ownPreKeyFiltered.length} PreKeys which match my device id (${ownDeviceId}).`);

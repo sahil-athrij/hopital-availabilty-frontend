@@ -60,7 +60,7 @@ class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState>
         this.state = {...this.state, value: 0};
 
         if(this.state.user?.tokens.private_token)
-            new SignalConnection(this.state.user.tokens.private_token, () => null);
+            new SignalConnection(this.state.user.tokens.private_token, "",  () => null);
     }
 
     render() 

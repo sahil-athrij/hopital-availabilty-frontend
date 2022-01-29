@@ -1,7 +1,5 @@
 import localForage from "localforage";
 
-const PREFIX = "";
-const SEP = "";
 const IGNORE_KEY = ["rid"];
 const BACKEND = localForage;
 
@@ -16,17 +14,12 @@ export class Storage
 
     static async clear(name: string)
     {
-        let prefix = PREFIX + SEP;
-
-        if (prefix)
-            prefix = prefix + name + SEP;
-
         for (const key in BACKEND)
         {
             if (!BACKEND.hasOwnProperty(key))
                 continue;
 
-            if (key.startsWith(prefix))
+            if (key.startsWith(name))
                 await BACKEND.removeItem(key);
         }
     }
@@ -43,28 +36,12 @@ export class Storage
 
     generateKey(...args: [])
     {
-        let key = "";
-
-        args.forEach(function (arg)
-        {
-            if (key !== "")
-
-                key += SEP;
-
-            key += arg;
-        });
-
-        return key;
+        return args.join("");
     }
 
     getPrefix()
     {
-        let prefix = PREFIX + SEP;
-
-        if (this.name)
-            prefix += this.name + SEP;
-
-        return prefix;
+        return this.name || "";
     }
 
     getBackend()
@@ -72,7 +49,7 @@ export class Storage
         return BACKEND;
     }
 
-    async setItem(...args: unknown[]) 
+    async setItem(...args: unknown[])
     {
         let key, value;
 
@@ -83,7 +60,7 @@ export class Storage
         }
         else if (args.length === 3) 
         {
-            key = args[0] + SEP + args[1];
+            key = String(args[0]) + args[1];
             value = args[2];
         }
 
@@ -111,7 +88,7 @@ export class Storage
 
         else if (arguments.length === 2)
 
-            key = args[0] + SEP + args[1];
+            key = String(args[0]) + args[1];
 
         key = this.getPrefix() + key;
 
@@ -128,7 +105,7 @@ export class Storage
 
         else if (args.length === 2)
 
-            key = args[0] + SEP + args[1];
+            key = String(args[0]) + args[1];
 
         await BACKEND.removeItem(this.getPrefix() + key);
     }
@@ -151,7 +128,7 @@ export class Storage
         }
         else if (args.length === 3) 
         {
-            key = args[0] + SEP + args[1];
+            key = String(args[0]) + args[1];
             name = args[2];
         }
 

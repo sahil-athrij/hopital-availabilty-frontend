@@ -1,17 +1,37 @@
-let websocket: WebSocket;
-
-const channel = new BroadcastChannel("chat");
-
-channel.addEventListener("message", async (event) =>
+if(typeof window === "undefined")
 {
-    if (event.data?.type === "SEND" && websocket)
-        websocket.send(event.data.payload);
-    else if (event.data?.type === "CREATE" && process.env.BASE_URL && !websocket?.OPEN)
+    let queue: string[] = [];
+    let websocket: WebSocket;
+    let token: string;
+
+    const send = new BroadcastChannel("from-worker");
+
+    function openWs()
     {
-        websocket = new WebSocket(
-            `${process.env.BASE_URL.replace("http", "ws")}/chat/ws?token=${event.data.token}`);
-        websocket.addEventListener("message", ({data}) => channel.postMessage(data));
+        if (!token || !process.env.BASE_URL)
+            return false;
+
+        const ws = new WebSocket(`${process.env.BASE_URL.replace("http", "ws")}/chat/ws?token=${token}`);
+
+        ws.onmessage = ({data}) => send.postMessage(data);
+        ws.onopen = () => queue = queue.filter((msg) => ws.send(msg));
+        ws.onclose = () => openWs();
     }
-});
+
+    new BroadcastChannel("control").onmessage = (({data}) =>
+    {
+        token = data;
+        openWs();
+    });
+
+    new BroadcastChannel("to-worker").onmessage = async ({data}) =>
+    {
+        console.log(data, "to worker");
+        if(!websocket || websocket.CLOSED || websocket.CLOSING || !websocket.OPEN)
+            return queue.push(data);
+
+        websocket.send(data);
+    };
+}
 
 export {};

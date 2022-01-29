@@ -2,17 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import {BrowserRouter} from "react-router-dom";
-// import { Workbox } from "workbox-window";
-import {getAuth} from "./api/auth";
+import { Workbox } from "workbox-window";
 
-// new Workbox("/sw.js").register();
-navigator.serviceWorker.register("/chat.js").then();
-
-const user = localStorage.getItem("user");
-
-if(user)
-    new BroadcastChannel("chat").postMessage({type: "CREATE", token: getAuth(),
-        username: JSON.parse(user).tokens.private_token});
+if(location.hostname !== "localhost" && location.protocol !== "http:")
+    new Workbox("/sw.js").register();
 
 ReactDOM.render(
     <BrowserRouter>

@@ -25,40 +25,47 @@ export interface ChatMessage {
 export default class SignalConnection
 {
     private readonly connection;
-    private readonly messages: Record<string, Array<ChatMessage>>;
+    private messages?: Array<ChatMessage>;
     private readonly onMessage;
+    private readonly to;
 
-    constructor(username: string, onMessage: (messages: ChatMessage[]) => void)
+    constructor(username: string, to: string, onMessage: (messages: ChatMessage[]) => void)
     {
         this.connection = new Connection(username, this.handleMessage);
-        this.messages = {};
         this.onMessage = onMessage;
+        this.to = to;
     }
 
     getTime = (date: Date) => date.toLocaleTimeString("en-US", { hour: "numeric", minute: "numeric", hour12: true });
 
-    async handleMessage(message: string, from: string) 
+    handleMessage = async (message: string, from: string) =>
     {
-        if (!(from in this.messages))
-            this.messages[from] = await localForage.getItem(`messages-${from}`) || [];
+        console.log(message, "Handle Message");
 
-        this.messages[from].push({content: message, time: this.getTime(new Date()), seen: false, type: "received"});
+        if(!this.messages)
+            this.messages = await localForage.getItem(`messages-${from}`) || [];
+
+        console.log(this.messages, "Handle Messages");
+
+        this.messages.push({content: message, time: this.getTime(new Date()), seen: false, type: "received"});
         await localForage.setItem(`messages-${from}`, this.messages);
-        this.onMessage(this.messages[from]);
-    }
+        this.onMessage(this.messages);
+    };
 
-    async sendMessage(message: string, to: string)
+    async sendMessage(message: string)
     {
-        if(!(to in this.messages))
-            this.messages[to] = await localForage.getItem(`messages-${to}`) || [];
+        if(!this.messages)
+            this.messages = await localForage.getItem(`messages-${(this.to)}`) || [];
 
-        await this.connection.sendMessage(to, message)
+        await this.connection.sendMessage(this.to, message)
             .then(() =>
             {
                 const msg = <ChatMessage> {content: message, time: this.getTime(new Date()), seen: false, type: "sent"};
 
-                this.messages[to].push(msg);
-                return localForage.setItem(`messages-${to}`, this.messages);
+                this.messages?.push(msg);
+                this.onMessage(this.messages || []);
+
+                return localForage.setItem(`messages-${this.to}`, this.messages);
             })
             .catch((e) =>console.error(e));
     }
