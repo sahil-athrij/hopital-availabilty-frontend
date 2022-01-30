@@ -35,12 +35,12 @@ export class Omemo
 
     storeOwnDeviceList(deviceList: string[])
     {
-        this.store.setOwnDeviceList(deviceList);
+        return this.store.setOwnDeviceList(deviceList);
     }
 
     storeDeviceList(identifier: string, deviceList: string[])
     {
-        this.store.setDeviceList(identifier, deviceList);
+        return this.store.setDeviceList(identifier, deviceList);
     }
 
     prepare()
@@ -56,7 +56,7 @@ export class Omemo
         const peer = this.getPeer(contact);
 
         return peer.encrypt(message)
-            .then((encryptedMessages: Message) => Stanza.buildEncryptedStanza(encryptedMessages, this.store.getDeviceId()));
+            .then(async (encryptedMessages: Message) => Stanza.buildEncryptedStanza(encryptedMessages, await this.store.getDeviceId()));
     }
 
     async decrypt(stanza: StanzaInterface)
@@ -64,12 +64,10 @@ export class Omemo
         if (stanza.type !== "message")
             throw "Root element is no message element";
 
-
         const encryptedElement = stanza.encrypted;
 
         if (encryptedElement === undefined)
             throw "No encrypted stanza found";
-
 
         const from = stanza.from;
         const encryptedData = Stanza.parseEncryptedStanza(encryptedElement);
@@ -77,8 +75,7 @@ export class Omemo
         if (!encryptedData)
             throw "Could not parse encrypted stanza";
 
-
-        const ownDeviceId = this.store.getDeviceId();
+        const ownDeviceId = await this.store.getDeviceId();
         const ownPreKeyFiltered = encryptedData.keys.filter(({deviceId}) => ownDeviceId === Number(deviceId));
 
         if (ownPreKeyFiltered.length !== 1)

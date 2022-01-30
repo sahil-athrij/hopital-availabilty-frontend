@@ -188,37 +188,37 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
         const model = this.state.model;
 
         return (
-            this.state.ready ?
+            this.state.ready ? 
                 <>
                     {!this.state.booking ? <>
-                    <div className="overlap-group4">
-                        <div className="d-flex justify-content-between w-100 px-3 align-items-centre">
-                            <ArrowBackIcon className="left-align" onClick={() => this.props.history.goBack()}/>
+                        <div className="overlap-group4">
+                            <div className="d-flex justify-content-between w-100 px-3 align-items-centre">
+                                <ArrowBackIcon className="left-align" onClick={() => this.props.history.goBack()}/>
+                                <img alt={""}
+                                    className="icon-2 mx-3"
+                                    src={icon}
+                                />
+
+                            </div>
+
                             <img alt={""}
-                                className="icon-2 mx-3"
-                                src={icon}
+                                className="image"
+                                src={model.image ? model.image : image}
                             />
 
+                            <div className="text-1 nunito-semi-bold-ebony-clay-20px">
+                                {model.name}
+                            </div>
+                            <div className="viralogist nunito-semi-bold-lynch-14px">
+                                {model.specialization}
+                            </div>
+                            <div className="flex-row-1">
+                                <DoctorStats value={model.patients >= 1000 ? "1000+" : model.patients} title={"Patients"}
+                                    icon={icon2} class={"blue"}/>
+                                <DoctorStats value={model.experience} title={"Experience"} icon={icon3} class={"red"}/>
+                                <DoctorStats value={model.rating} title={"Rating"} icon={icon4} class={"yellow"}/>
+                            </div>
                         </div>
-
-                        <img alt={""}
-                            className="image"
-                            src={model.image ? model.image : image}
-                        />
-
-                        <div className="text-1 nunito-semi-bold-ebony-clay-20px">
-                            {model.name}
-                        </div>
-                        <div className="viralogist nunito-semi-bold-lynch-14px">
-                            {model.specialization}
-                        </div>
-                        <div className="flex-row-1">
-                            <DoctorStats value={model.patients >= 1000 ? "1000+" : model.patients} title={"Patients"}
-                                icon={icon2} class={"blue"}/>
-                            <DoctorStats value={model.experience} title={"Experience"} icon={icon3} class={"red"}/>
-                            <DoctorStats value={model.rating} title={"Rating"} icon={icon4} class={"yellow"}/>
-                        </div>
-                    </div>
                         <div className={"about"}>
                             <div className="about-doctor nunito-semi-bold-ebony-clay-18px">
                                 {model.about}
@@ -268,15 +268,15 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                                 <div className="d-flex justify-content-between w-100 px-3 align-items-centre">
                                     <ArrowBackIcon className="left-align" onClick={() => this.props.history.goBack()}/>
                                     <img alt={""}
-                                         className="icon-2 mx-3"
-                                         src={icon}
+                                        className="icon-2 mx-3"
+                                        src={icon}
                                     />
 
                                 </div>
 
                                 <img alt={""}
-                                     className="image"
-                                     src={model.image ? model.image : image}
+                                    className="image"
+                                    src={model.image ? model.image : image}
                                 />
 
                                 <div className="nunito-semi-bold-ebony-clay-20px">
@@ -304,10 +304,10 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                                 <div className="row d-flex justify-content-center">
                                     {model.slots && model.slots.filter(({date}) => this.state.slot.date === date).map((slot, i) =>
                                         <Chip  className="col-4 m-1" key={i}
-                                              label={`${slot.start.slice(0,5)} - ${slot.end.slice(0,5)}`}
-                                              variant="filled"
-                                              color={this.state.slot === slot ? "primary" : "default"}
-                                              onClick={() => this.setState({slot: slot})} />
+                                            label={`${slot.start.slice(0, 5)} - ${slot.end.slice(0, 5)}`}
+                                            variant="filled"
+                                            color={this.state.slot === slot ? "primary" : "default"}
+                                            onClick={() => this.setState({slot: slot})} />
                                     )}
                                 </div>
                                 <TextField

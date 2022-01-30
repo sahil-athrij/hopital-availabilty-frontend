@@ -19,11 +19,11 @@
     "not op_mini all"
   ],
   "dependencies": {
-    "@emotion/styled": "^11.3.0",
+    "@emotion/styled": "^11.6.0",
     "@material-ui/styles": "^4.11.4",
     "@mui/icons-material": "^5.2.0",
     "@mui/lab": "^5.0.0-alpha.51",
-    "@mui/material": "^5.2.2",
+    "@mui/material": "^5.3.1",
     "@mui/styles": "^5.0.1",
     "@popperjs/core": "^2.10.2",
     "bfj": "^7.0.2",
@@ -33,7 +33,7 @@
     "idb": "^6.1.5",
     "identity-obj-proxy": "3.0.0",
     "leaflet": "^1.7.1",
-    "libsignal-protocol-nodejs": "^0.1.4",
+    "localforage": "^1.10.0",
     "material-ui-phone-number": "^3.0.0",
     "prompts": "2.4.2",
     "prop-types": "^15.7.2",

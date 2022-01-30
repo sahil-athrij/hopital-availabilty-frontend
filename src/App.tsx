@@ -38,6 +38,7 @@ import {AddAmbulanceComponent} from "./components/Ambulance/AddAmbulance";
 
 import Chat from "./components/Chat";
 import Swiper from "./components/Chat/Swiper";
+import VideoCall from "./components/Chat/VideoCall";
 
 
 const theme = createTheme({
@@ -121,6 +122,7 @@ class AppLoc extends React.Component<AppProps>
                     <Switch>
 
                         <Route path="/chat/:chatId"><Chat/></Route>
+                        <Route path="/videochat"><VideoCall/></Route>
                         <Route path="/chat" exact><Swiper/><BottomNav/></Route>
                         <Route path="/doctor/add/:hospital"><AddDoctorComponent/><BottomNav/></Route>
                         <Route path="/department/add/:hospital"><AddDepartmentComponent/><BottomNav/></Route>

@@ -73,7 +73,7 @@ setDefaultHandler(new StaleWhileRevalidate({}));
 
 // This "catch" handler is triggered when any of the other routes fail to
 // generate a response.
-setCatchHandler(async (options) => 
+setCatchHandler(async (options) =>
 {
     const fallbacks: { [key: string]: string; } = {
         document: "/offline.html",
@@ -85,13 +85,4 @@ setCatchHandler(async (options) =>
     fallbacks[options.event.request.destination] &&
     await matchPrecache(fallbacks[options.event.request.destination])) ||
     Response.error();
-});
-
-addEventListener("message", (event) => 
-{
-    if (event.data?.type === "SKIP_WAITING")
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        self.skipWaiting();
-
 });

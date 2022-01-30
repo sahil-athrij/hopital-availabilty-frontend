@@ -1,45 +1,43 @@
 import {Omemo, StanzaInterface} from "./omemo";
 import {Storage} from "./storage";
-import {baseUrl} from "../../../api/api";
+import {getAuth} from "../../../api/auth";
 
 export class Connection
 {
     onMessage;
-    readonly username: string;
+    readonly username;
     private readonly resolves: Record<string, Array<(bundle: unknown) => void>>;
-    private websocket: WebSocket;
-    private readonly send: (o: unknown) => void;
+    private readonly send;
     private omemo?: Omemo;
+    private lastMessage = "";
 
-    constructor(username: string, onMessage: (message: string) => unknown)
+    constructor(username: string, onMessage: (message: string, from: string) => unknown)
     {
         this.username = username;
         this.onMessage = onMessage;
         this.resolves = {};
 
-        if(!baseUrl)
-            throw Error("Websocket url not found in environment.");
+        const channel = new WebSocket(
+            `${process.env.BASE_URL?.replace("http", "ws")}/chat/ws?token=${getAuth()}`);
 
-        const websocket = new WebSocket(`${baseUrl.replace("http", "ws")}/chat/ws/`);
-        this.websocket = websocket;
+        this.send = (o: object) => channel.send(JSON.stringify(o));
 
-        this.send = (o) => websocket.send(JSON.stringify(o));
-
-        websocket.onopen = () =>
-        {
-            console.log("socket opened");
-
+        channel.onopen = () =>
             this.send({
                 type: "register",
                 username: this.username
             });
-        };
 
-        websocket.onmessage = async (event) =>
+        channel.onmessage = async ({data}) =>
         {
-            console.log("received message %s", event.data);
+            if(this.lastMessage === data)
+                return;
 
-            const msg = JSON.parse(event.data);
+            this.lastMessage = data;
+
+            console.log("received message %s", data);
+
+            const msg = JSON.parse(data);
 
             switch (msg.type)
             {
@@ -76,22 +74,11 @@ export class Connection
                 break;
             case "message":
                 if ("encrypted" in msg)
-                    this.onMessage(await this.decrypt(msg));
+                    this.onMessage(await this.decrypt(msg), msg.from);
                 break;
             default:
                 console.warn("unknown message type: %s", msg.type);
             }
-        };
-
-        websocket.onclose = function (event)
-        {
-            console.log("close %s", event);
-        };
-
-        window.onbeforeunload = function ()
-        {
-            websocket.onclose = () => undefined;
-            websocket.close();
         };
     }
 
