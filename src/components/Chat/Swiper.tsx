@@ -12,8 +12,8 @@ import recent from "../../images/recent_bw.svg";
 import call from "../../images/call_bw.svg";
 import contact from "../../images/contact_bw.svg";
 import {Link} from "react-router-dom";
-import {Tab} from "@mui/material";
-import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
+import {Avatar, Tab} from "@mui/material";
+import {AuthComponent, AuthPropsLoc, AuthState, refresh_user} from "../../api/auth";
 import {withRouter} from "react-router";
 import SignalConnection from "./lib";
 
@@ -53,7 +53,7 @@ interface SwiperState extends AuthState {
 
 class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState> 
 {
-    constructor(props: AuthPropsLoc) 
+    constructor(props: AuthPropsLoc)
     {
         super(props);
 
@@ -62,6 +62,18 @@ class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState>
         if(this.state.user?.tokens.private_token)
             new SignalConnection(this.state.user.tokens.private_token, "",  () => null);
     }
+
+    async componentDidMount()
+    {
+        super.componentDidMount();
+
+        if (!this.state.auth || !this.state.user?.tokens?.private_token)
+            return this.performAuth();
+        refresh_user();
+    }
+
+    getTime = (date: Date) => date.toLocaleTimeString("en-US", { hour: "numeric", minute: "numeric", hour12: true });
+
 
     render() 
     {
@@ -111,12 +123,18 @@ class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState>
                                             Pinned Chats
                                         </div>
 
-                                        <img style={{
-                                            height: "3rem",
-                                            borderRadius: "100%",
+                                        {/*<img style={{*/}
+                                        {/*    height: "3rem",*/}
+                                        {/*    borderRadius: "100%",*/}
+                                        {/*    marginRight: "1rem",*/}
+                                        {/*    alignItems: "center"*/}
+                                        {/*}} src={Account} alt={"profile"}/>*/}
+                                        <Avatar src={this.state.user?.tokens?.profile || undefined} variant="rounded" sx={{
+                                            height: "2.5rem",
+                                            borderRadius: "50%",
                                             marginRight: "1rem",
                                             alignItems: "center"
-                                        }} src={Account} alt={"profile"}/>
+                                        }}>{this.state.user?.username ? this.state.user.username[0] : "?"}</Avatar>
                                     </div>
 
                                     {/*<div className="chat-main d-flex flex-wrap justify-content-around m-2 pb-2"*/}
@@ -191,17 +209,24 @@ class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState>
                                         (<Link to={`/chat/${friend.token}`} key={i}>
                                             <div className="d-flex">
                                                 <div className="ms-2 me-1 d-flex">
-                                                    <img className="align-items-center"
-                                                        style={{borderRadius: "100%", height: "3rem"}} src={Account}
-                                                        alt={"profile"}/>
+                                                    {/*<img className="align-items-center"*/}
+                                                    {/*    style={{borderRadius: "100%", height: "3rem"}} src={Account}*/}
+                                                    {/*    alt={"profile"}/>*/}
+                                                    <Avatar src={friend.name|| undefined} variant="rounded" sx={{
+                                                        height: "2.5rem",
+                                                        borderRadius: "50%",
+                                                        marginRight: "1rem",
+                                                        alignItems: "center"
+                                                    }}>{friend.name ? friend.name[0] : "?"}</Avatar>
                                                     <div style={{
                                                         width: "10px",
                                                         height: "10px",
                                                         borderRadius: "50%",
                                                         background: "#4CE417",
                                                         alignSelf: "end",
-                                                        marginBottom: "17px",
-                                                        marginLeft: "-9px"
+                                                        marginBottom: "5px",
+                                                        marginLeft: "-24px",
+                                                        zIndex: 1000,
                                                     }}/>
                                                 </div>
                                                 <div style={{color: "#1B1A57"}} className="text-start">
@@ -211,7 +236,7 @@ class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState>
                                                 <div style={{marginLeft: "auto", marginRight: ".5rem"}}
                                                     className="d-flex flex-column align-items-center">
                                                     <p style={{color: "#4F5E7B"}}
-                                                        className="m-0"> {Math.floor(Math.random() * 12)}:0{Math.floor(Math.random() * 10)}</p>
+                                                        className="m-0">{friend.last_seen && this.getTime(new Date(friend.last_seen))}</p>
                                                     {/*<div style={{*/}
                                                     {/*    width: "24px",*/}
                                                     {/*    height: "24px",*/}
