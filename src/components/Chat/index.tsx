@@ -16,7 +16,7 @@ import MicIcon from "@mui/icons-material/Mic";
 import SendIcon from "@mui/icons-material/Send";
 import "./Swiper.css";
 import DoneIcon from "@mui/icons-material/Done";
-import DoneAllIcon from "@mui/icons-material/DoneAll";
+// import DoneAllIcon from "@mui/icons-material/DoneAll";
 import {createRef} from "react";
 import localForage from "localforage";
 
@@ -32,6 +32,7 @@ const messageStyle = {
     sent: {background: "#385FF6", color: "#F7F7F7"},
     received: {background: "#F7F7F7", color: "#1B1A57"}
 };
+
 
 
 class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState> 
@@ -56,7 +57,12 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
             };
     }
 
-    onMessage = (messages: Array<ChatMessage>) => this.setState({messages}, () => this.scrollToBottom());
+    onMessage = (messages: Array<ChatMessage>) =>
+    {
+        this.setState({messages}, () => this.scrollToBottom());
+        console.log("messages");
+        console.log(messages);
+    };
 
     scrollToBottom = () => this.messagesEndRef.current?.scrollIntoView({behavior: "smooth"});
 
@@ -124,40 +130,44 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                     }}>
                         <p style={{margin: ".5rem", fontSize: "10px", color: "#A1A1BC"}}>Message Now</p>
 
-                        {this.state.messages.map(({content, type, time, seen}, i) =>
+                        {this.state.messages.map(({content, type, time}, i) =>
                         {
 
                             const next = this.state.messages[i + 1];
                             const prev = this.state.messages[i - 1];
                             const corner_top = (prev?.type === type) ? "8px" : "25px";
                             const corner_bottom =(next?.type === type) ? "8px"  : "25px";
+                            const border = type !== "sent"?{borderTopLeftRadius:corner_top,
+                                borderBottomLeftRadius:corner_bottom}:{borderTopRightRadius:corner_top,
+                                borderBottomRightRadius:corner_bottom};
                             return (
                                 <div ref={this.messagesEndRef}
-                                    className={`d-flex align-items-center mb-1 mx-2 ${type === "sent" ? "justify-content-end" : "justify-content-start"}`}
+                                    className={`d-flex align-items-center mb-1 mx-2 ${type[i+1] !== type[i]? "mt-5": "mt-0"} ${type === "sent" ? "justify-content-end" : "justify-content-start"}`}
                                     key={i}>
                                     <div style={{
                                         ...messageStyle[type],
                                         width: "fit-content",
-                                        maxWidth: "70%",
+                                        maxWidth: "85%",
                                         minWidth: "10%",
                                         borderRadius: "25px",
-                                        borderTopRightRadius:corner_top,
-                                        borderBottomRightRadius:corner_bottom,
-
-                                        wordWrap: "break-word",
+                                        ...border,
+                                        wordBreak: "break-word",
+                                        // wordWrap: "break-word",
                                         textAlign: "left",
-                                    }} className="p-1 px-3 d-flex flex-row">
+                                    }} className="p-1 pt-2 px-3 d-flex flex-column">
                                         {content}
-                                        {!next &&
+                                        {/*{!next &&*/}
                                         <div className="ms-1 d-flex align-self-end" >
                                             <p style={{
                                                 marginBottom: "0",
                                                 fontSize: "8px",
                                                 marginLeft: "auto"
                                             }}>{time}</p>
-                                            {seen ? <DoneAllIcon sx={{height: "12px"}}/> :
-                                                <DoneIcon sx={{height: "12px"}}/>}
-                                        </div>}
+                                            {type === "sent" && <DoneIcon sx={{height: "12px"}}/>
+                                                // <DoneAllIcon sx={{height: "12px"}}/>
+                                            }
+                                        </div>
+                                        {/*}*/}
                                     </div>
                                 </div>
                             );
