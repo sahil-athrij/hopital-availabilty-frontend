@@ -60,8 +60,6 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
     onMessage = (messages: Array<ChatMessage>) =>
     {
         this.setState({messages}, () => this.scrollToBottom());
-        console.log("messages");
-        console.log(messages);
     };
 
     scrollToBottom = () => this.messagesEndRef.current?.scrollIntoView({behavior: "smooth"});
@@ -142,7 +140,7 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                                 borderBottomRightRadius:corner_bottom};
                             return (
                                 <div ref={this.messagesEndRef}
-                                    className={`d-flex align-items-center mb-1 mx-2 ${type[i+1] !== type[i]? "mt-5": "mt-0"} ${type === "sent" ? "justify-content-end" : "justify-content-start"}`}
+                                    className={`d-flex align-items-center mb-2 mx-2 ${prev?.type !== type? "mt-5": "mt-0"} ${type === "sent" ? "justify-content-end" : "justify-content-start"}`}
                                     key={i}>
                                     <div style={{
                                         ...messageStyle[type],
