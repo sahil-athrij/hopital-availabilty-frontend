@@ -15,7 +15,8 @@ export const SignalProtocolAddress = libSignal.SignalProtocolAddress;
 export const SessionBuilder = libSignal.SessionBuilder;
 export const SessionCipher = libSignal.SessionCipher;
 
-export interface ChatMessage {
+export interface ChatMessage
+{
     type: "sent" | "received",
     content: string,
     time: string,
@@ -31,21 +32,19 @@ export default class SignalConnection
 
     constructor(username: string, to: string, onMessage: (messages: ChatMessage[]) => void)
     {
-        this.connection = new Connection(username, this.handleMessage);
+        this.connection = new Connection(username, to, this.handleMessage);
         this.onMessage = onMessage;
         this.to = to;
     }
 
-    getTime = (date: Date) => date.toLocaleTimeString("en-US", { hour: "numeric", minute: "numeric", hour12: true });
+    getTime = (date: Date) => date.toLocaleTimeString("en-US", {hour: "numeric", minute: "numeric", hour12: true});
 
     handleMessage = async (message: string, from: string) =>
     {
         console.log(message, "Handle Message");
 
-        if(!this.messages)
+        if (!this.messages)
             this.messages = await localForage.getItem(`messages-${from}`) || [];
-
-        console.log(this.messages, "Handle Messages");
 
         this.messages.push({content: message, time: this.getTime(new Date()), seen: false, type: "received"});
         await localForage.setItem(`messages-${from}`, this.messages);
@@ -54,19 +53,24 @@ export default class SignalConnection
 
     async sendMessage(message: string)
     {
-        if(!this.messages)
+        if (!this.messages)
             this.messages = await localForage.getItem(`messages-${(this.to)}`) || [];
 
-        await this.connection.sendMessage(this.to, message)
+        await this.connection.sendMessage(message)
             .then(() =>
             {
-                const msg = <ChatMessage> {content: message, time: this.getTime(new Date()), seen: false, type: "sent"};
+                const msg = <ChatMessage>{content: message, time: this.getTime(new Date()), seen: false, type: "sent"};
 
                 this.messages?.push(msg);
                 this.onMessage(this.messages || []);
 
                 return localForage.setItem(`messages-${this.to}`, this.messages);
             })
-            .catch((e) =>console.error(e));
+            .catch((e) => console.error(e));
+    }
+
+    tareDown()
+    {
+        this.connection.disconnect();
     }
 }

@@ -1,26 +1,32 @@
 import {Omemo, StanzaInterface} from "./omemo";
 import {Storage} from "./storage";
 import {getAuth} from "../../../api/auth";
+import localForage from "localforage";
 
 export class Connection
 {
-    onMessage;
+    private readonly onMessage;
     readonly username;
+    private readonly to;
     private readonly resolves: Record<string, Array<(bundle: unknown) => void>>;
     private readonly send;
     private omemo?: Omemo;
     private lastMessage = "";
+    readonly disconnect;
 
-    constructor(username: string, onMessage: (message: string, from: string) => unknown)
+    constructor(username: string, to: string, onMessage: (message: string, from: string) => unknown)
     {
         this.username = username;
         this.onMessage = onMessage;
+        this.to = to;
         this.resolves = {};
 
         const channel = new WebSocket(
             `${process.env.BASE_URL?.replace("http", "ws")}/chat/ws?token=${getAuth()}`);
 
         this.send = (o: object) => channel.send(JSON.stringify(o));
+
+        this.disconnect = () => channel.close();
 
         channel.onopen = () =>
             this.send({
@@ -42,8 +48,10 @@ export class Connection
             switch (msg.type)
             {
             case "registered":
-                const devices = msg.devices;
-                console.log("registered, already registered devices: \n%s", JSON.stringify(devices, null, 4));
+                const ownId = await localForage.getItem<number>("deviceId");
+
+                const devices = msg.devices.filter((id: number) => Number(id) !== ownId);
+                console.log("registered, already registered devices: \n", devices);
 
                 const storage = new Storage();
                 this.omemo = new Omemo(storage, this, devices.length);
@@ -102,15 +110,15 @@ export class Connection
         });
     }
 
-    async sendMessage(to: string, message: string)
+    async sendMessage(message: string)
     {
-        const encryptedMessage = await this.omemo?.encrypt(to, message);
-        console.log("sending message: %s to %s", message, to);
+        const encryptedMessage = await this.omemo?.encrypt(this.to, message);
+        console.log("sending message: %s to %s", message, this.to);
 
         this.send({
             type: "message",
             from: this.username,
-            to: to,
+            to: this.to,
             encrypted: encryptedMessage
         });
     }
@@ -148,7 +156,8 @@ export class Connection
             this.resolves[deviceId].push(resolve);
             this.send({
                 type: "getBundle",
-                deviceId: deviceId
+                deviceId,
+                username: this.to
             });
         });
     }

@@ -37,9 +37,9 @@ export class Store
         await this.put("deviceList", deviceList);
     }
 
-    getDeviceList(identifier: string)
+    async getDeviceList(identifier: string)
     {
-        return this.get("deviceList:" + identifier, []);
+        return await this.get("deviceList:" + identifier, []) || [];
     }
 
     async setDeviceList(identifier: string, deviceList: string[]) 
@@ -214,10 +214,8 @@ export class Store
         // TODO: get bundle form localForage
         const bundleElement = await this.connection.getBundle(address.getDeviceId());
 
-        if (bundleElement === undefined) 
-        
+        if (bundleElement === undefined)
             return Promise.reject("Found no bundle");
-        
 
         const bundle = Bundle.fromJSON(bundleElement as Record<string, unknown>);
 

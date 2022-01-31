@@ -16,7 +16,6 @@ import MicIcon from "@mui/icons-material/Mic";
 import SendIcon from "@mui/icons-material/Send";
 import "./Swiper.css";
 import DoneIcon from "@mui/icons-material/Done";
-// import DoneAllIcon from "@mui/icons-material/DoneAll";
 import {createRef} from "react";
 import localForage from "localforage";
 
@@ -57,12 +56,7 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
             };
     }
 
-    onMessage = (messages: Array<ChatMessage>) =>
-    {
-        this.setState({messages}, () => this.scrollToBottom());
-        console.log("messages");
-        console.log(messages);
-    };
+    onMessage = (messages: Array<ChatMessage>) => this.setState({messages}, () => this.scrollToBottom());
 
     scrollToBottom = () => this.messagesEndRef.current?.scrollIntoView({behavior: "smooth"});
 
@@ -78,6 +72,12 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
         this.setState({
             connection: new SignalConnection(this.state.user.tokens.private_token, this.state.chatUser.token, this.onMessage)
         });
+    }
+
+    componentWillUnmount()
+    {
+        super.componentWillUnmount();
+        this.state.connection.tareDown();
     }
 
 
@@ -97,7 +97,6 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
 
     render() 
     {
-        console.log(this.state.messages);
         return (
             <>
                 <div style={{height: "90vh"}}>
@@ -108,7 +107,6 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                         background: "#fff"
                     }}
                     className="d-flex px-3 align-items-center">
-                        {/*onClick={() => this.props.history.goBack()}*/}
                         <Link style={{textDecoration: "none"}} to="/chat"><ArrowBackIcon
                             sx={{color: "#4F5E7B"}}/></Link>
                         <img style={{borderRadius: "50%", marginLeft: "1rem"}} src={Account} alt=""/>
