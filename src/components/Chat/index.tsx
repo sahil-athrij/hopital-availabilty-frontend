@@ -140,7 +140,7 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                                 borderBottomRightRadius:corner_bottom};
                             return (
                                 <div ref={this.messagesEndRef}
-                                    className={`d-flex align-items-center mb-1 mx-2 ${type[i+1] !== type[i]? "mt-5": "mt-0"} ${type === "sent" ? "justify-content-end" : "justify-content-start"}`}
+                                    className={`d-flex align-items-center mb-1 mx-2 ${prev?.type !== type? "mt-4": "mt-0"} ${type === "sent" ? "justify-content-end" : "justify-content-start"}`}
                                     key={i}>
                                     <div style={{
                                         ...messageStyle[type],

@@ -48,7 +48,7 @@ export default class SignalConnection
         if (!this.messages)
             this.messages = await localForage.getItem(`messages-${from}`) || [];
 
-        const type = from !== this.username ? "sent" : "received";
+        const type = from === this.username ? "sent" : "received";
 
         this.messages.push({content: message, time: this.getTime(new Date()), seen: false, type});
         await localForage.setItem(`messages-${from}`, this.messages);

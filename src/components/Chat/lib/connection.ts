@@ -62,6 +62,10 @@ export class Connection
                     });
 
                 await this.omemo.prepare();
+
+                if(ownId)
+                    this.publishDevices([...devices, ownId], ownId);
+
                 break;
             case "devices":
                 this.updateDevices(msg);
