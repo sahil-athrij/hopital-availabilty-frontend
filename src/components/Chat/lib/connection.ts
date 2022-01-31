@@ -90,13 +90,14 @@ export class Connection
         };
     }
 
-    publishDevices(devices: Array<number>)
+    publishDevices(devices: Array<number>, ownDeviceId: number)
     {
         console.log("sending devices: \n%s", JSON.stringify(devices, null, 4));
         this.send({
             type: "devices",
             username: this.username,
-            devices: devices
+            devices: devices,
+            ownDeviceId
         });
     }
 

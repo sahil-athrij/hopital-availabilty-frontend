@@ -121,10 +121,13 @@ export class Store
         return Promise.resolve(ArrayBufferUtils.isEqual(identityKey, trusted));
     }
 
-    async saveIdentity(identifier: string, identityKey: ArrayBuffer) 
+    async saveIdentity(identifier: string, identityKey: ArrayBuffer | string)
     {
         if (!identifier)
             throw new Error("Tried to put identity key for undefined/null key");
+
+        if(typeof identityKey === "string")
+            identityKey = ArrayBufferUtils.toString(identityKey);
 
         const address = new SignalProtocolAddress.fromString(identifier);
 
