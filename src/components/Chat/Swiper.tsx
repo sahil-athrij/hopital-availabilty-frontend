@@ -48,7 +48,8 @@ function TabPanel(props: TabPanelProps)
 }
 
 interface SwiperState extends AuthState {
-    value: number
+    value: number,
+    connection: SignalConnection
 }
 
 class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState> 
@@ -58,9 +59,24 @@ class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState>
         super(props);
 
         this.state = {...this.state, value: 0};
+    }
 
-        if(this.state.user?.tokens.private_token)
-            new SignalConnection(this.state.user.tokens.private_token, "",  () => null);
+    componentDidMount()
+    {
+        super.componentDidMount();
+        if(!this.state.auth)
+            this.performAuth();
+
+        if(this.state.user?.tokens?.private_token)
+            this.setState({
+                connection: new SignalConnection(this.state.user.tokens.private_token, "", () => null)
+            });
+    }
+
+    componentWillUnmount()
+    {
+        super.componentWillUnmount();
+        this.state.connection.tareDown();
     }
 
     async componentDidMount()

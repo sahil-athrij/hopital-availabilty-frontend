@@ -16,7 +16,6 @@ import MicIcon from "@mui/icons-material/Mic";
 import SendIcon from "@mui/icons-material/Send";
 import "./Swiper.css";
 import DoneIcon from "@mui/icons-material/Done";
-// import DoneAllIcon from "@mui/icons-material/DoneAll";
 import {createRef} from "react";
 import localForage from "localforage";
 
@@ -57,10 +56,7 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
             };
     }
 
-    onMessage = (messages: Array<ChatMessage>) =>
-    {
-        this.setState({messages}, () => this.scrollToBottom());
-    };
+    onMessage = (messages: Array<ChatMessage>) => this.setState({messages}, () => this.scrollToBottom());
 
     scrollToBottom = () => this.messagesEndRef.current?.scrollIntoView({behavior: "smooth"});
 
@@ -76,6 +72,12 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
         this.setState({
             connection: new SignalConnection(this.state.user.tokens.private_token, this.state.chatUser.token, this.onMessage)
         });
+    }
+
+    componentWillUnmount()
+    {
+        super.componentWillUnmount();
+        this.state.connection.tareDown();
     }
 
 
@@ -95,7 +97,6 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
 
     render() 
     {
-        console.log(this.state.messages);
         return (
             <>
                 <div style={{height: "90vh"}}>
@@ -106,7 +107,6 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                         background: "#fff"
                     }}
                     className="d-flex px-3 align-items-center">
-                        {/*onClick={() => this.props.history.goBack()}*/}
                         <Link style={{textDecoration: "none"}} to="/chat"><ArrowBackIcon
                             sx={{color: "#4F5E7B"}}/></Link>
                         <img style={{borderRadius: "50%", marginLeft: "1rem"}} src={Account} alt=""/>
@@ -140,7 +140,7 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                                 borderBottomRightRadius:corner_bottom};
                             return (
                                 <div ref={this.messagesEndRef}
-                                    className={`d-flex align-items-center mb-2 mx-2 ${prev?.type !== type? "mt-5": "mt-0"} ${type === "sent" ? "justify-content-end" : "justify-content-start"}`}
+                                    className={`d-flex align-items-center mb-1 mx-2 ${prev?.type !== type? "mt-4": "mt-0"} ${type === "sent" ? "justify-content-end" : "justify-content-start"}`}
                                     key={i}>
                                     <div style={{
                                         ...messageStyle[type],

@@ -130,7 +130,7 @@ export class ArrayBufferUtils
         return new dcodeIO.ByteBuffer.wrap(thing).toString("binary");
     }
 
-    static isEqual(a: ArrayBuffer | undefined, b: ArrayBuffer | undefined)
+    static isEqual(a?: ArrayBuffer | string, b?: ArrayBuffer | string)
     {
         // TODO: Special-case arraybuffers, etc
         if (a === undefined || b === undefined)

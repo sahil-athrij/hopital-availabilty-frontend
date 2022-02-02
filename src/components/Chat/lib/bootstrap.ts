@@ -98,6 +98,6 @@ export class Bootstrap
         if (deviceIds.indexOf(ownDeviceId) < 0)
             deviceIds.push(ownDeviceId);
 
-        return this.connection.publishDevices(deviceIds);
+        return this.connection.publishDevices(deviceIds, ownDeviceId);
     }
 }
