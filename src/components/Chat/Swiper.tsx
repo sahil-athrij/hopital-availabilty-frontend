@@ -2,7 +2,6 @@ import * as React from "react";
 import SwipeableViews from "react-swipeable-views";
 import Tabs from "@mui/material/Tabs";
 import Box from "@mui/material/Box";
-import Account from "../../images/ventilator.svg";
 import "./Swiper.css";
 import Fab from "@mui/material/Fab";
 import Plus from "../../images/chat_plus.svg";
@@ -17,20 +16,21 @@ import {AuthComponent, AuthPropsLoc, AuthState, refresh_user} from "../../api/au
 import {withRouter} from "react-router";
 import SignalConnection from "./lib";
 
-interface TabPanelProps {
+interface TabPanelProps
+{
     children?: React.ReactNode;
     dir?: string;
     index: number;
     value: number;
 }
 
-function TabPanel(props: TabPanelProps) 
+function TabPanel(props: TabPanelProps)
 {
     const {children, value, index, ...other} = props;
 
     return (
         <div
-            style={{height:"87vh"}}
+            style={{height: "87vh"}}
             role="tabpanel"
             hidden={value !== index}
             id={`full-width-tabpanel-${index}`}
@@ -39,7 +39,7 @@ function TabPanel(props: TabPanelProps)
 
         >
             {value === index && (
-                <Box sx={{py: 3, height:"100%"}}>
+                <Box sx={{py: 3, height: "100%"}}>
                     {children}
                 </Box>
             )}
@@ -47,12 +47,13 @@ function TabPanel(props: TabPanelProps)
     );
 }
 
-interface SwiperState extends AuthState {
+interface SwiperState extends AuthState
+{
     value: number,
     connection: SignalConnection
 }
 
-class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState> 
+class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState>
 {
     constructor(props: AuthPropsLoc)
     {
@@ -64,13 +65,17 @@ class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState>
     componentDidMount()
     {
         super.componentDidMount();
-        if(!this.state.auth)
+
+        refresh_user();
+
+        if (!this.state.auth)
             this.performAuth();
 
-        if(this.state.user?.tokens?.private_token)
+        if (this.state.user?.tokens?.private_token)
             this.setState({
                 connection: new SignalConnection(this.state.user.tokens.private_token, "", () => null)
             });
+        
     }
 
     componentWillUnmount()
@@ -79,19 +84,10 @@ class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState>
         this.state.connection.tareDown();
     }
 
-    async componentDidMount()
-    {
-        super.componentDidMount();
-
-        if (!this.state.auth || !this.state.user?.tokens?.private_token)
-            return this.performAuth();
-        refresh_user();
-    }
-
-    getTime = (date: Date) => date.toLocaleTimeString("en-US", { hour: "numeric", minute: "numeric", hour12: true });
+    getTime = (date: Date) => date.toLocaleTimeString("en-US", {hour: "numeric", minute: "numeric", hour12: true});
 
 
-    render() 
+    render()
     {
         return (
             <>
@@ -145,12 +141,13 @@ class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState>
                                         {/*    marginRight: "1rem",*/}
                                         {/*    alignItems: "center"*/}
                                         {/*}} src={Account} alt={"profile"}/>*/}
-                                        <Avatar src={this.state.user?.tokens?.profile || undefined} variant="rounded" sx={{
-                                            height: "2.5rem",
-                                            borderRadius: "50%",
-                                            marginRight: "1rem",
-                                            alignItems: "center"
-                                        }}>{this.state.user?.username ? this.state.user.username[0] : "?"}</Avatar>
+                                        <Avatar src={this.state.user?.tokens?.profile || undefined} variant="rounded"
+                                            sx={{
+                                                height: "2.5rem",
+                                                borderRadius: "50%",
+                                                marginRight: "1rem",
+                                                alignItems: "center"
+                                            }}>{this.state.user?.username ? this.state.user.username[0] : "?"}</Avatar>
                                     </div>
 
                                     {/*<div className="chat-main d-flex flex-wrap justify-content-around m-2 pb-2"*/}
@@ -228,7 +225,7 @@ class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState>
                                                     {/*<img className="align-items-center"*/}
                                                     {/*    style={{borderRadius: "100%", height: "3rem"}} src={Account}*/}
                                                     {/*    alt={"profile"}/>*/}
-                                                    <Avatar src={friend.name|| undefined} variant="rounded" sx={{
+                                                    <Avatar src={friend.name || undefined} variant="rounded" sx={{
                                                         height: "2.5rem",
                                                         borderRadius: "50%",
                                                         marginRight: "1rem",
