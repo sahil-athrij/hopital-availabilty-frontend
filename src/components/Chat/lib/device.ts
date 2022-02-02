@@ -58,7 +58,7 @@ export class Device
         return builder.processPreKey(preKeyBundle);
     }
 
-    async establishSession() 
+    async establishSession()
     {
         const signalBundle = await this.store.getPreKeyBundle(this.address);
 
