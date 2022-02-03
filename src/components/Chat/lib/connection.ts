@@ -14,7 +14,7 @@ export class Connection
     private lastMessage = "";
     readonly disconnect;
 
-    constructor(username: string, to: string, onMessage: (message: string, from: string) => unknown)
+    constructor(username: string, to: string, onMessage: (message: string, from: string, mime: string) => unknown)
     {
         this.username = username;
         this.onMessage = onMessage;
@@ -41,7 +41,7 @@ export class Connection
 
             this.lastMessage = data;
 
-            console.log("received message %s", data);
+            console.log("received message of type", data.type);
 
             const msg = JSON.parse(data);
 
@@ -86,7 +86,7 @@ export class Connection
                 break;
             case "message":
                 if ("encrypted" in msg)
-                    this.onMessage(await this.decrypt(msg), msg.from);
+                    this.onMessage(await this.decrypt(msg), msg.from, msg.mime);
                 break;
             default:
                 console.warn("unknown message type: %s", msg.type);
@@ -115,16 +115,17 @@ export class Connection
         });
     }
 
-    async sendMessage(message: string)
+    async sendMessage(message: string, mime?:string)
     {
         const encryptedMessage = await this.omemo?.encrypt(this.to, message);
-        console.log("sending message: %s to %s", message, this.to);
+        console.log("sending message to", this.to);
 
         this.send({
             type: "message",
             from: this.username,
             to: this.to,
-            encrypted: encryptedMessage
+            encrypted: encryptedMessage,
+            mime
         });
     }
 
@@ -133,10 +134,7 @@ export class Connection
         if(!this.omemo)
             throw Error("Not O-memo initialised");
 
-        const decrypted = await this.omemo.decrypt(message);
-        console.log("decrypted message: %s", decrypted);
-
-        return decrypted;
+        return await this.omemo.decrypt(message);
     }
 
     updateDevices(message: { devices: Array<string>, username: string })

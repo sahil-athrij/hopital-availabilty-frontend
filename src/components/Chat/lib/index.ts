@@ -18,9 +18,11 @@ export const SessionCipher = libSignal.SessionCipher;
 export interface ChatMessage
 {
     type: "sent" | "received",
-    content: string,
+    content?: string,
     time: string,
     seen: boolean
+    mime?: string
+    attachment?: string
 }
 
 export default class SignalConnection
@@ -41,7 +43,9 @@ export default class SignalConnection
 
     getTime = (date: Date) => date.toLocaleTimeString("en-US", {hour: "numeric", minute: "numeric", hour12: true});
 
-    handleMessage = async (message: string, from: string) =>
+
+
+    handleMessage = async (message: string, from: string, mime: string) =>
     {
         console.log(message, "Handle Message");
 
@@ -50,22 +54,32 @@ export default class SignalConnection
 
         const type = from === this.username ? "sent" : "received";
 
-        this.messages.push({content: message, time: this.getTime(new Date()), seen: false, type});
+        const msg = {time: this.getTime(new Date()), seen: false, type};
+
+        if(!mime)
+            this.messages.push({...msg, content: message} as ChatMessage);
+        else
+            this.messages.push({...msg, attachment: message, mime} as ChatMessage);
+
         await localForage.setItem(`messages-${from}`, this.messages);
         this.onMessage(this.messages);
     };
 
-    async sendMessage(message: string)
+    async sendMessage(message: string, mime?: string)
     {
         if (!this.messages)
             this.messages = await localForage.getItem(`messages-${(this.to)}`) || [];
 
-        await this.connection.sendMessage(message)
+        await this.connection.sendMessage(message, mime)
             .then(() =>
             {
-                const msg = <ChatMessage>{content: message, time: this.getTime(new Date()), seen: false, type: "sent"};
+                const msg = {time: this.getTime(new Date()), seen: false, type: "sent"};
 
-                this.messages?.push(msg);
+                if(!mime)
+                    this.messages?.push({...msg, content: message} as ChatMessage);
+                else
+                    this.messages?.push({...msg, attachment: message, mime} as ChatMessage);
+
                 this.onMessage(this.messages || []);
 
                 return localForage.setItem(`messages-${this.to}`, this.messages);

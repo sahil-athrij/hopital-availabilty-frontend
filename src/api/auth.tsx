@@ -7,6 +7,7 @@ import Loader from "react-loader-spinner";
 import React from "react";
 import {toast} from "react-toastify";
 import {LanguageObject} from "./model";
+import localForage from "localforage";
 
 
 const client_id = "6tWdAZrlxUA26FJSMjE7oKBpTNGaqJRl2bsmNMRb";
@@ -217,8 +218,7 @@ export class AuthComponent<P, S extends AuthState>
         setRefresh("");
         setAuth("");
         setObj("user", null);
-
-
+        return localForage.clear().then(() => true);
     };
 
     refreshAuth = () => 

@@ -16,7 +16,7 @@ import MicIcon from "@mui/icons-material/Mic";
 import SendIcon from "@mui/icons-material/Send";
 import "./Swiper.css";
 import DoneIcon from "@mui/icons-material/Done";
-import {createRef} from "react";
+import React, {ChangeEvent, createRef} from "react";
 import localForage from "localforage";
 
 
@@ -25,6 +25,7 @@ interface ChatState extends AuthState {
     messages: Array<ChatMessage>;
     chatUser: Friend;
     connection: SignalConnection;
+    mime?: string;
 }
 
 const messageStyle = {
@@ -37,7 +38,9 @@ const messageStyle = {
 class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState> 
 {
 
-    messagesEndRef = createRef<HTMLDivElement>();
+    private readonly messagesEndRef = createRef<HTMLDivElement>();
+    private readonly fileInput = createRef<HTMLInputElement>();
+    private readonly imageInput = createRef<HTMLInputElement>();
 
     constructor(props: AuthPropsLoc) 
     {
@@ -80,18 +83,37 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
         this.state.connection.tareDown();
     }
 
-
-    handleChange = (event: { target: { value: string; }; }) => 
-    {
-        this.setState({chat: event.target.value});
-    };
-
-    sendMessage = async () => 
+    sendMessage = async () =>
     {
         if (this.state.chat)
-            await this.state.connection?.sendMessage(this.state.chat);
+            await this.state.connection?.sendMessage(this.state.chat, this.state.mime);
 
-        this.setState({chat: ""});
+        this.setState({chat: "", mime: undefined});
+    };
+
+    uploadFile = async (event: ChangeEvent<HTMLInputElement>) =>
+    {
+        const reader = new FileReader();
+        const read = new Promise((resolve, reject) =>
+        {
+            reader.onloadend = resolve;
+            reader.onerror = reject;
+        });
+
+        const file = event.target.files?.[0];
+
+        if (file)
+        {
+            reader.readAsDataURL(file);
+            await read;
+
+            this.setState({
+                mime: file?.type || "application/octet-stream",
+                chat: reader.result?.toString() || ""
+            });
+
+            await this.sendMessage();
+        }
     };
 
 
@@ -128,7 +150,7 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                     }}>
                         <p style={{margin: ".5rem", fontSize: "10px", color: "#A1A1BC"}}>Message Now</p>
 
-                        {this.state.messages.map(({content, type, time}, i) =>
+                        {this.state.messages.map(({content, type, time, attachment}, i) =>
                         {
 
                             const next = this.state.messages[i + 1];
@@ -150,11 +172,9 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                                         borderRadius: "25px",
                                         ...border,
                                         wordBreak: "break-word",
-                                        // wordWrap: "break-word",
                                         textAlign: "left",
                                     }} className="p-1 pt-2 px-3 d-flex flex-column">
-                                        {content}
-                                        {/*{!next &&*/}
+                                        {content || <a download="chat_message" className={"text-white"} href={attachment}>Download</a>}
                                         <div className="ms-1 d-flex align-self-end" >
                                             <p style={{
                                                 marginBottom: "0",
@@ -165,7 +185,6 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                                                 // <DoneAllIcon sx={{height: "12px"}}/>
                                             }
                                         </div>
-                                        {/*}*/}
                                     </div>
                                 </div>
                             );
@@ -193,9 +212,9 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                         sx={{ml: 1, flex: 1}}
                         value={this.state.chat}
                         placeholder="Write a message..."
-                        onChange={this.handleChange}
+                        onChange={({target}) => this.setState({chat: target.value})}
                     />
-                    <IconButton sx={{p: "10px"}}>
+                    <IconButton sx={{p: "10px"}} onClick={() => this.fileInput.current?.click()}>
                         <AttachFileIcon/>
                     </IconButton>
                     <IconButton onClick={this.sendMessage} sx={{
@@ -209,6 +228,8 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                     }}>
                         {this.state.chat ? <SendIcon sx={{color: "#fff"}}/> : <MicIcon sx={{color: "#fff"}}/>}
                     </IconButton>
+                    <input type="file" hidden onChange={this.uploadFile} accept="video/*,image/*" ref={this.imageInput}/>
+                    <input type="file" hidden onChange={this.uploadFile} accept="*" ref={this.fileInput}/>
                 </div>
             </>
         );
