@@ -22,7 +22,7 @@ export class Connection
         this.resolves = {};
 
         const channel = new WebSocket(
-            `${process.env.BASE_URL?.replace("http", "ws")}/chat/ws?token=${getAuth()}`);
+            `${process.env.BASE_URL?.replace("http", "ws")}/ws/chat/message?token=${getAuth()}`);
 
         this.send = (o: object) => channel.send(JSON.stringify(o));
 

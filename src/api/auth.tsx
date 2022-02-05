@@ -114,14 +114,7 @@ export interface Friend {
     name:string,
     email:string,
     profile:string,
-}
-
-export interface chatFriends {
-    token: string,
-    name:string,
-    email:string,
-    profile:string,
-    last_seen: string,
+    last_seen?: string,
 }
 
 
@@ -149,7 +142,7 @@ export interface AuthState extends ResponsiveState {
         first_name: string,
         last_name: string,
         friends?:Friend[],
-        chat_friends?:chatFriends[],
+        chat_friends?: Friend[],
         invited?: Friend[]
     } | null
 }

@@ -7,7 +7,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import Account from "../../images/ventilator.svg";
 import VideocamIcon from "@mui/icons-material/Videocam";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import IconButton from "@mui/material/IconButton";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
 import InputBase from "@mui/material/InputBase";
@@ -28,6 +27,7 @@ import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import PermMediaIcon from "@mui/icons-material/PermMedia";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import Picker from "emoji-picker-react";
+
 
 
 interface ChatState extends AuthState
@@ -60,11 +60,11 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
         const chatUser = this.state.user?.chat_friends?.find((friend) => friend.token === this.props.match.params.chatId);
 
         if (!chatUser || !this.state.user?.tokens.private_token)
-        {
+        
             this.props.history.replace("/chat");
-        }
+        
         else
-        {
+       
             this.state = {
                 ...this.state,
                 chat: "",
@@ -72,7 +72,6 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                 messages: [],
                 showPicker: false,
             };
-        }
     }
 
     // onEmojiClick = () => {
@@ -93,9 +92,9 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
         super.componentDidMount();
 
         if (!this.state.auth || !this.state.user?.tokens?.private_token)
-        {
+
+        
             return this.performAuth();
-        }
 
         this.onMessage(await localForage.getItem(`messages-${this.state.chatUser.token}`) || []);
 
@@ -113,9 +112,10 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
     sendMessage = async () =>
     {
         if (this.state.chat)
-        {
+
             await this.state.connection?.sendMessage(this.state.chat, this.state.mime);
-        }
+        
+
 
         this.setState({chat: "", mime: undefined});
     };
@@ -159,13 +159,15 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                     }} className="d-flex px-3 align-items-center">
                         <Link style={{textDecoration: "none"}} to="/chat"><ArrowBackIcon
                             sx={{color: "#4F5E7B"}}/></Link>
+
                         <img style={{borderRadius: "50%", marginLeft: "1rem"}} src={Account} alt=""/>
                         <div style={{marginLeft: "1rem", paddingTop: "1rem"}} className="d-flex flex-column text-start">
                             <div className="h5 m-0 fw-bold">{this.state.chatUser.name}</div>
-                            <div>online</div>
+                            <div>Last seen on {this.state.chatUser.last_seen}</div>
                         </div>
-                        <VideocamIcon sx={{marginLeft: "auto", marginRight: "1rem"}} color="action"/>
-                        <MoreVertIcon/>
+                        <Link style={{textDecoration: "none"}} to={`/video_call/${this.state.chatUser.token}`}>
+                            <VideocamIcon sx={{marginLeft: "auto", marginRight: "1rem"}} color="action"/>
+                        </Link>
                     </div>
 
 
@@ -185,10 +187,12 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                             const prev = this.state.messages[i - 1];
                             const corner_top = (prev?.type === type) ? "8px" : "25px";
                             const corner_bottom = (next?.type === type) ? "8px" : "25px";
+
                             console.log(mime);
                             const border: CSSProperties = type !== "sent" ? {
                                 borderTopLeftRadius: corner_top,
                                 borderBottomLeftRadius: corner_bottom,
+
                             } : {
                                 borderTopRightRadius: corner_top,
                                 borderBottomRightRadius: corner_bottom
@@ -212,6 +216,7 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                                     opacity: "1"};
                             return (
                                 <div ref={this.messagesEndRef} className={`d-flex align-items-center mb-1 mx-2 ${prev?.type !== type ? "mt-4" : "mt-0"} ${type === "sent" ? "justify-content-end" : "justify-content-start"}`}
+
                                     key={i}>
                                     <div style={{
                                         ...messageStyle[type],
@@ -222,6 +227,7 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                                         ...border,
                                         wordBreak: "break-word",
                                         textAlign: "left",
+
                                     }} className="d-flex flex-column">
                                         {content ? <div>{content}</div> :
                                             // <a download="chat_message" className={"text-white"} href={attachment}>
@@ -236,6 +242,7 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                                             //</a>
                                         }
                                         <div className="ms-1" style={timeStyle}>
+
 
                                             <p style={{
                                                 marginBottom: "0",
@@ -326,7 +333,8 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                     }}>
                         {this.state.chat ? <SendIcon sx={{color: "#fff"}}/> : <MicIcon sx={{color: "#fff"}}/>}
                     </IconButton>
-                    <input type="file" hidden onChange={this.uploadFile} accept="video/*,image/*" ref={this.imageInput}/>
+                    <input type="file" hidden onChange={this.uploadFile} accept="video/*,image/*"
+                        ref={this.imageInput}/>
                     <input type="file" hidden onChange={this.uploadFile} accept="*" ref={this.fileInput}/>
                 </div>
             </>
