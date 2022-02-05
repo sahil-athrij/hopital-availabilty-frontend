@@ -153,16 +153,13 @@ export class ModelObject
     modify = async (path: string, data = this.data) =>
     {
         try
-
         {
             this.setData();
             const headers = {"Authorization": `Bearer ${getAuth()}`};
             return await post(`${this.baseUrl}${this.id}/${path}`, data, headers);
-
         }
         catch (e)
         {
-
             throw await (e as { json: () => Promise<unknown> }).json();
         }
 
@@ -227,10 +224,7 @@ export default class Model
         {
             let headers = {};
             if (auth)
-            
                 headers = {"Authorization": `Bearer ${getAuth()}`};
-            
-
 
             const data = await get(`${this.baseurl}${path}`, kwargs, headers);
             const lst = data.results.map((item: ModelData) => new this.modelClass(item, this.baseurl));

@@ -100,6 +100,7 @@ module.exports = (env) => ({
             orientation: "any",
             theme_color: "#3E64FF",
             publicPath: "/",
+            "gcm_sender_id": "569002618626",
             icons: [
                 {
                     src: path.resolve(__dirname, "..", "public/android-chrome-512x512.png"),
@@ -128,6 +129,6 @@ module.exports = (env) => ({
         }),
         new Dotenv({path: path.resolve(__dirname, "..", `./.${env}.env`)})
     ],
-    stats: "errors-warnings"
+    stats: false
 })
 ;

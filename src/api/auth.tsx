@@ -23,7 +23,6 @@ export function getAuth()
 function setAuth(token: string) 
 {
     localStorage.setItem("accessToken", token);
-
 }
 
 function getRefresh() 
