@@ -95,12 +95,8 @@ class UserMenuBoxLoc extends AuthComponent<MenuBoxProps, UserMenuBoxState>
                                 <div className="logintext">{this.state.user?.username}</div>
                             </div>
                             <div className="mb-2">
-                                <BigBlueButton onClick={()=>
-                                {
-                                    this.removeAuth();
-                                    window.location.href="/";
-                                }
-                                } text={"Log Out"}/>
+                                <BigBlueButton onClick={async ()=> window.confirm("Say good bye to your chats 😥 ?") &&
+                                    await this.removeAuth() && (window.location.href="/")} text={"Log Out"}/>
                             </div>
                         </div>
 

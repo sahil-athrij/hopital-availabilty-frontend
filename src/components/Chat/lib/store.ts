@@ -217,7 +217,7 @@ export class Store
         // TODO: get bundle form localForage
         const bundleElement = await this.connection.getBundle(address.getDeviceId());
 
-        if (bundleElement === undefined)
+        if (!bundleElement)
             return Promise.reject("Found no bundle");
 
         const bundle = Bundle.fromJSON(bundleElement as Record<string, unknown>);
