@@ -15,8 +15,19 @@ import MicIcon from "@mui/icons-material/Mic";
 import SendIcon from "@mui/icons-material/Send";
 import "./Swiper.css";
 import DoneIcon from "@mui/icons-material/Done";
-import React, {ChangeEvent, createRef} from "react";
+import React, {ChangeEvent, createRef, CSSProperties} from "react";
 import localForage from "localforage";
+import Typography from "@mui/material/Typography";
+// import Button from "@mui/material/Button";
+import Popper from "@mui/material/Popper";
+import PopupState, {bindToggle, bindPopper} from "material-ui-popup-state";
+import Fade from "@mui/material/Fade";
+import Paper from "@mui/material/Paper";
+import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import PermMediaIcon from "@mui/icons-material/PermMedia";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import Picker from "emoji-picker-react";
+
 
 
 interface ChatState extends AuthState
@@ -26,11 +37,12 @@ interface ChatState extends AuthState
     chatUser: Friend;
     connection: SignalConnection;
     mime?: string;
+    showPicker: boolean;
 }
 
 const messageStyle = {
     sent: {background: "#385FF6", color: "#F7F7F7"},
-    received: {background: "#F7F7F7", color: "#1B1A57"}
+    received: {background: "#F7F7F7", color: "#1B1A57"},
 };
 
 
@@ -52,15 +64,24 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
             this.props.history.replace("/chat");
         
         else
-        
+       
             this.state = {
                 ...this.state,
                 chat: "",
                 chatUser,
-                messages: []
+                messages: [],
+                showPicker: false,
             };
-        
     }
+
+    // onEmojiClick = () => {
+    //     // setInputStr((prevInput) => prevInput + emojiObject.emoji);
+    //     // this.setState({ShowPicker: false});
+    // };
+    // onEmojiClick = (event, emojiObject) => {
+    //     setInputStr((prevInput) => prevInput + emojiObject.emoji);
+    //     this.setState({ShowPicker: false});
+    // };
 
     onMessage = (messages: Array<ChatMessage>) => this.setState({messages}, () => this.scrollToBottom());
 
@@ -71,9 +92,9 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
         super.componentDidMount();
 
         if (!this.state.auth || !this.state.user?.tokens?.private_token)
+
         
             return this.performAuth();
-        
 
         this.onMessage(await localForage.getItem(`messages-${this.state.chatUser.token}`) || []);
 
@@ -91,9 +112,10 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
     sendMessage = async () =>
     {
         if (this.state.chat)
-        
+
             await this.state.connection?.sendMessage(this.state.chat, this.state.mime);
         
+
 
         this.setState({chat: "", mime: undefined});
     };
@@ -123,7 +145,6 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
         }
     };
 
-
     render()
     {
         return (
@@ -133,11 +154,12 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                         boxShadow: "0px 10px 60px rgba(0, 0, 0, 0.0625)",
                         position: "sticky",
                         top: "0",
-                        background: "#fff"
-                    }}
-                    className="d-flex px-3 align-items-center">
-                        <Link style={{textDecoration: "none"}} to="/chat">
-                            <ArrowBackIcon sx={{color: "#4F5E7B"}}/></Link>
+                        background: "#fff",
+                        zIndex: 1000,
+                    }} className="d-flex px-3 align-items-center">
+                        <Link style={{textDecoration: "none"}} to="/chat"><ArrowBackIcon
+                            sx={{color: "#4F5E7B"}}/></Link>
+
                         <img style={{borderRadius: "50%", marginLeft: "1rem"}} src={Account} alt=""/>
                         <div style={{marginLeft: "1rem", paddingTop: "1rem"}} className="d-flex flex-column text-start">
                             <div className="h5 m-0 fw-bold">{this.state.chatUser.name}</div>
@@ -154,27 +176,47 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                         position: "relative",
                         overflowY: "auto",
                         zIndex: 100,
-                        marginBottom: "3.5rem"
+                        marginBottom: "3.5rem",
                     }}>
                         <p style={{margin: ".5rem", fontSize: "10px", color: "#A1A1BC"}}>Message Now</p>
 
-                        {this.state.messages.map(({content, type, time, attachment}, i) =>
+                        {this.state.messages.map(({content, type, time, attachment, mime}, i) =>
                         {
 
                             const next = this.state.messages[i + 1];
                             const prev = this.state.messages[i - 1];
                             const corner_top = (prev?.type === type) ? "8px" : "25px";
                             const corner_bottom = (next?.type === type) ? "8px" : "25px";
-                            const border = type !== "sent" ? {
+
+                            console.log(mime);
+                            const border: CSSProperties = type !== "sent" ? {
                                 borderTopLeftRadius: corner_top,
-                                borderBottomLeftRadius: corner_bottom
+                                borderBottomLeftRadius: corner_bottom,
+
                             } : {
                                 borderTopRightRadius: corner_top,
                                 borderBottomRightRadius: corner_bottom
                             };
+                            if(attachment)
+                            {
+                                border.position = "relative";
+                            }
+                            else
+                            {
+                                border.padding = ".25rem";
+                                border.paddingLeft = "1rem";
+                                border.paddingRight = "1rem";
+                                border.paddingTop = ".5rem";
+                            }
+
+                            const timeStyle: CSSProperties = content? {display: "flex", alignSelf: "end"} :
+                                {display: "flex", alignSelf: "end", position: "absolute",
+                                    bottom: "4px",
+                                    right: "4px",
+                                    opacity: "1"};
                             return (
-                                <div ref={this.messagesEndRef}
-                                    className={`d-flex align-items-center mb-1 mx-2 ${prev?.type !== type ? "mt-4" : "mt-0"} ${type === "sent" ? "justify-content-end" : "justify-content-start"}`}
+                                <div ref={this.messagesEndRef} className={`d-flex align-items-center mb-1 mx-2 ${prev?.type !== type ? "mt-4" : "mt-0"} ${type === "sent" ? "justify-content-end" : "justify-content-start"}`}
+
                                     key={i}>
                                     <div style={{
                                         ...messageStyle[type],
@@ -185,14 +227,27 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                                         ...border,
                                         wordBreak: "break-word",
                                         textAlign: "left",
-                                    }} className="p-1 pt-2 px-3 d-flex flex-column">
-                                        {content || <a download="chat_message" className={"text-white"}
-                                            href={attachment}>Download</a>}
-                                        <div className="ms-1 d-flex align-self-end">
+
+                                    }} className="d-flex flex-column">
+                                        {content ? <div>{content}</div> :
+                                            // <a download="chat_message" className={"text-white"} href={attachment}>
+                                            <img
+                                                style={{
+                                                    width: "100%",
+                                                    borderRadius: "25px", ...border,
+                                                    marginLeft: "0",
+                                                    marginRight: "0",
+                                                    position: "relative"
+                                                }} src={attachment} alt={"download"}/>
+                                            //</a>
+                                        }
+                                        <div className="ms-1" style={timeStyle}>
+
+
                                             <p style={{
                                                 marginBottom: "0",
                                                 fontSize: "8px",
-                                                marginLeft: "auto"
+                                                marginLeft: "auto",
                                             }}>{time}</p>
                                             {type === "sent" && <DoneIcon sx={{height: "12px"}}/>
                                                 // <DoneAllIcon sx={{height: "12px"}}/>
@@ -205,6 +260,12 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                     </div>
                 </div>
 
+                <div style={{position: "sticky", bottom: "4rem"}}>
+                    {this.state.showPicker && (
+                        <Picker pickerStyle={{width: "100%"}} onEmojiClick={(event, emojiObject) => this.setState({chat: this.state.chat + emojiObject.emoji})}/>
+                    )}
+
+                </div>
                 <div
                     style={{
                         display: "flex",
@@ -219,7 +280,10 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                     }}
                 >
                     <IconButton sx={{p: "10px"}} aria-label="menu">
-                        <SentimentSatisfiedAltIcon/>
+                        <SentimentSatisfiedAltIcon onClick={() =>
+                        {
+                            this.setState({showPicker: !this.state.showPicker});
+                        }}/>
                     </IconButton>
                     <InputBase
                         sx={{ml: 1, flex: 1}}
@@ -227,9 +291,37 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                         placeholder="Write a message..."
                         onChange={({target}) => this.setState({chat: target.value})}
                     />
-                    <IconButton sx={{p: "10px"}} onClick={() => this.fileInput.current?.click()}>
-                        <AttachFileIcon/>
-                    </IconButton>
+                    <PopupState variant="popper" popupId="demo-popup-popper">
+                        {(popupState) => (
+                            <div>
+                                <IconButton sx={{p: "10px"}} {...bindToggle(popupState)} >
+                                    <AttachFileIcon/>
+                                </IconButton>
+                                <Popper className="d-flex justify-content-center align-items-center" style={{zIndex: 1000, width: "100vw"}} {...bindPopper(popupState)} transition>
+                                    {({TransitionProps}) => (
+                                        <Fade style={{width: "95vw", height: "6rem",}} {...TransitionProps} timeout={350}>
+                                            <Paper className="d-flex align-items-center justify-content-around mb-3">
+                                                <Typography sx={{p: 2}}><InsertDriveFileIcon
+                                                    sx={{color: "#5157ae", fontSize: "2rem"}}
+                                                    onClick={() => this.fileInput.current?.click()}/><p
+                                                    style={{fontSize: "13px", marginBottom: "0"}}>Document</p>
+                                                </Typography>
+                                                <Typography sx={{p: 2}}><PermMediaIcon
+                                                    sx={{color: "#b462cf", fontSize: "2rem"}}
+                                                    onClick={() => this.imageInput.current?.click()}/><p
+                                                    style={{fontSize: "13px", marginBottom: "0"}}>Media</p></Typography>
+                                                <Typography sx={{p: 2}}><CameraAltIcon
+                                                    sx={{color: "#d44a6d", fontSize: "2rem"}}
+                                                    onClick={() => this.imageInput.current?.click()}/><p
+                                                    style={{fontSize: "13px", marginBottom: "0"}}>Camera</p>
+                                                </Typography>
+                                            </Paper>
+                                        </Fade>
+                                    )}
+                                </Popper>
+                            </div>
+                        )}
+                    </PopupState>
                     <IconButton onClick={this.sendMessage} sx={{
                         p: "10px",
                         m: "10px",
