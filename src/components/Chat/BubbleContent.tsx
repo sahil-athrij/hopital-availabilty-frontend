@@ -130,8 +130,7 @@ class BubbleContent extends AuthComponent<BubbleContentProps, AuthState>
                                 // href={this.props.attachment}
                                 ref={this.aTag}
                                 download={new Date().toString()}> <InsertDriveFileIcon
-                                        sx={{...this.props.messageStyle, fontSize: "2rem"}}
-                                    />Download</a>
+                                        sx={{...this.props.messageStyle, fontSize: "2rem"}}/>Download</a>
                             </div>
                         </object>
             }
