@@ -18,7 +18,6 @@ import DoneIcon from "@mui/icons-material/Done";
 import React, {ChangeEvent, createRef, CSSProperties} from "react";
 import localForage from "localforage";
 import Typography from "@mui/material/Typography";
-// import Button from "@mui/material/Button";
 import Popper from "@mui/material/Popper";
 import PopupState, {bindToggle, bindPopper} from "material-ui-popup-state";
 import Fade from "@mui/material/Fade";
@@ -198,9 +197,9 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                                 borderBottomRightRadius: corner_bottom
                             };
                             if(attachment)
-                            {
+                            
                                 border.position = "relative";
-                            }
+                            
                             else
                             {
                                 border.padding = ".25rem";
@@ -299,7 +298,7 @@ class ChatLoc extends AuthComponent<AuthPropsLoc, ChatState>
                                 </IconButton>
                                 <Popper className="d-flex justify-content-center align-items-center" style={{zIndex: 1000, width: "100vw"}} {...bindPopper(popupState)} transition>
                                     {({TransitionProps}) => (
-                                        <Fade style={{width: "95vw", height: "6rem",}} {...TransitionProps} timeout={350}>
+                                        <Fade style={{width: "95vw", height: "6rem", }} {...TransitionProps} timeout={350}>
                                             <Paper className="d-flex align-items-center justify-content-around mb-3">
                                                 <Typography sx={{p: 2}}><InsertDriveFileIcon
                                                     sx={{color: "#5157ae", fontSize: "2rem"}}
