@@ -86,3 +86,10 @@ setCatchHandler(async (options) =>
     await matchPrecache(fallbacks[options.event.request.destination])) ||
     Response.error();
 });
+
+self.addEventListener("install", () =>
+{
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    self.skipWaiting();
+});
