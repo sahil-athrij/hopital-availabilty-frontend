@@ -183,10 +183,13 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
     pad = (no: number | string) => no > 9 ? no : `0${no}`;
     toDjangoDate = (date: Date) => `${date.getFullYear()}-${this.pad(date.getMonth()+1)}-${this.pad(date.getDate())}`;
 
+    slots = [{ date: "Feb 18 2022", start: "09:30:00 GMT+0530", end: "10:30:00 GMT+0530" }, { date: "Feb 19 2022", start: "10:30:00 GMT+0530", end: "11:30:00 GMT+0530" }, { date: "Feb 20 2022", start: "08:30:00 GMT+0530", end: "11:40:00 GMT+0530" }];
+    ranges = [{start: "Feb 18 2022", end: "Feb 20 2022" }];
+
     render()
     {
         const model = this.state.model;
-
+        console.log(model);
         return (
             this.state.ready ? 
                 <>
@@ -229,7 +232,7 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                         </div>
                         <div className={"about "}>
                             <div className="about-doctor nunito-semi-bold-ebony-clay-18px">Working Time</div>
-                            <p className="dr-bellamy-nicholas nunito-bold-lynch-14px">
+                            <div className="dr-bellamy-nicholas nunito-bold-lynch-14px">
                                 {model.working_time.map(({working_time, hospital}, i) => (
                                     <p key={i}>
                                         {DAYS[working_time.day as number]} -
@@ -238,7 +241,7 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                                     </p>
                                 )
                                 )}
-                            </p>
+                            </div>
                         </div>
                         <div className="communication">
                             <div className="communication-1 nunito-semi-bold-ebony-clay-18px">Communication</div>
@@ -296,13 +299,20 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                                 {/*    <DoctorStats value={model.rating} title={"Rating"} icon={icon4} class={"yellow"}/>*/}
                                 {/*</div>*/}
                             </div>
+
                             <CustomDatePicker
-                                ranges={model.ranges && model.ranges.map(({start, end}) => ({start: new Date(start), end: new Date(end)}))}
+                                ranges={this.ranges && this.ranges.map(({start, end}) => ({start: new Date(start), end: new Date(end)}))}
                                 onChange={(date) => date && this.setState({slot: {date: this.toDjangoDate(date)}})}/>
                             <Typography variant={"h6"}>Available Time</Typography>
+                            
+                            {/*<CustomDatePicker*/}
+                            {/*    ranges={model.ranges && model.ranges.map(({start, end}) => ({start: new Date(start), end: new Date(end)}))}*/}
+                            {/*    onChange={(date) => date && this.setState({slot: {date: this.toDjangoDate(date)}})}/>*/}
+                            {/*<Typography variant={"h6"}>Available Time</Typography>*/}
                             <Container>
+
                                 <div className="row d-flex justify-content-center">
-                                    {model.slots && model.slots.filter(({date}) => this.state.slot.date === date).map((slot, i) =>
+                                    {this.slots && this.slots.map((slot, i) =>
                                         <Chip  className="col-4 m-1" key={i}
                                             label={`${slot.start.slice(0, 5)} - ${slot.end.slice(0, 5)}`}
                                             variant="filled"
@@ -310,6 +320,16 @@ class DoctorLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                                             onClick={() => this.setState({slot: slot})} />
                                     )}
                                 </div>
+                                
+                                {/*<div className="row d-flex justify-content-center">*/}
+                                {/*    {model.slots && model.slots.filter(({date}) => this.state.slot.date === date).map((slot, i) =>*/}
+                                {/*        <Chip  className="col-4 m-1" key={i}*/}
+                                {/*            label={`${slot.start.slice(0, 5)} - ${slot.end.slice(0, 5)}`}*/}
+                                {/*            variant="filled"*/}
+                                {/*            color={this.state.slot === slot ? "primary" : "default"}*/}
+                                {/*            onClick={() => this.setState({slot: slot})} />*/}
+                                {/*    )}*/}
+                                {/*</div>*/}
                                 <TextField
                                     style={{marginTop: "1rem"}}
                                     id="outlined-select-currency"
