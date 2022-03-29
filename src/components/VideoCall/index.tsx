@@ -87,7 +87,7 @@ class VideoCallLoc extends AuthComponent<AuthPropsLoc, VideoCallState>
     {
         return (
             <>
-                <div style={{zIndex: 50, height: "100vh", color: "#8DB5B4"}}>
+                <div style={{zIndex: 50, height: "100vh", color: "#8DB5B4", backgroundColor: "#3E64FF"}}>
                     <div style={{padding: "1rem"}} className="d-flex justify-content-center align-items-center">
                         <Link style={{textDecoration: "none"}} to={`/chat/${this.state.chatUser.token}`}>
                             <KeyboardArrowDownIcon color={"error"} />
@@ -111,76 +111,85 @@ class VideoCallLoc extends AuthComponent<AuthPropsLoc, VideoCallState>
                             <Button onClick={() => this.state.acceptCall(false)}>Reject</Button>
                             <Button onClick={() => this.state.rtc.tearDown()}>Stop</Button>
 
+                            <Global
+                                styles={{
+                                    ".MuiDrawer-root > .MuiPaper-root": {
+                                        height: "10%",
+                                        overflow: "visible",
+                                    },
+                                }}
+                            />
+                            <SwipeableDrawer
+                                style={{zIndex: 100}}
+                                anchor="bottom"
+                                open={this.state.openStatus}
+                                disableSwipeToOpen={false}
+                                onClose={() => this.setState({openStatus: false})}
+                                onOpen={() => this.setState({openStatus: true})}
+                                ModalProps={{
+                                    keepMounted: true,
+                                }}
+                            >
+                                <StyledBox
+                                    sx={{
+                                        position: "absolute",
+                                        top: "-5rem",
+                                        borderTopLeftRadius: 10,
+                                        borderTopRightRadius: 10,
+                                        visibility: "visible",
+                                        right: 0,
+                                        left: 0,
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        flexDirection: "column",
+                                    }}
+                                >
+                                    <IconButton onClick={()=>this.setState({openStatus: false})}>
+                                        <KeyboardArrowDownIcon />
+                                    </IconButton>
+                                    <div style={{paddingBottom: "2rem"}} className="d-flex justify-content-around w-100">
+                                        <IconButton>
+                                            <FlipCameraIosIcon style={{color: "#fff"}}/>
+                                        </IconButton>
+
+                                        <IconButton style={{color: "#fff"}}>
+                                            <VolumeUpIcon/>
+                                        </IconButton>
+
+                                        <IconButton style={{color: "#fff"}}>
+                                            <VideocamOffIcon/>
+                                        </IconButton>
+
+                                        <IconButton style={{color: "#fff"}}>
+                                            <MicOffIcon/>
+                                        </IconButton>
+
+                                        <IconButton style={{color: "#fff", background: "#E91C43"}}>
+                                            <CallEndIcon/>
+                                        </IconButton>
+
+                                    </div>
+                                </StyledBox>
+                                <StyledBox
+                                    sx={{
+                                        px: 2,
+                                        pb: 2,
+                                        height: "100%",
+                                        overflow: "auto",
+                                    }}
+                                >
+                                </StyledBox>
+                            </SwipeableDrawer>
+
                         </>
                     }
+
+
                 </div>
-                <Global
-                    styles={{
-                        ".MuiDrawer-root > .MuiPaper-root": {
-                            height: "10%",
-                            overflow: "visible",
-                        },
-                    }}
-                />
-                <SwipeableDrawer
-                    style={{zIndex: 100}}
-                    anchor="bottom"
-                    open={this.state.openStatus}
-                    disableSwipeToOpen={false}
-                    onClose={() => this.setState({openStatus: false})}
-                    onOpen={() => this.setState({openStatus: true})}
-                >
-                    <StyledBox
-                        sx={{
-                            position: "absolute",
-                            top: "-5rem",
-                            borderTopLeftRadius: 10,
-                            borderTopRightRadius: 10,
-                            visibility: "visible",
-                            right: 0,
-                            left: 0,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            flexDirection: "column",
-                        }}
-                    >
-                        <IconButton onClick={()=>this.setState({openStatus: false})}>
-                            <KeyboardArrowDownIcon />
-                        </IconButton>
-                        <div style={{paddingBottom: "2rem"}} className="d-flex justify-content-around w-100">
-                            <IconButton>
-                                <FlipCameraIosIcon style={{color: "#fff"}}/>
-                            </IconButton>
 
-                            <IconButton style={{color: "#fff"}}>
-                                <VolumeUpIcon/>
-                            </IconButton>
 
-                            <IconButton style={{color: "#fff"}}>
-                                <VideocamOffIcon/>
-                            </IconButton>
 
-                            <IconButton style={{color: "#fff"}}>
-                                <MicOffIcon/>
-                            </IconButton>
-
-                            <IconButton style={{color: "#fff", background: "#E91C43"}}>
-                                <CallEndIcon/>
-                            </IconButton>
-
-                        </div>
-                    </StyledBox>
-                    <StyledBox
-                        sx={{
-                            px: 2,
-                            pb: 2,
-                            height: "100%",
-                            overflow: "auto",
-                        }}
-                    >
-                    </StyledBox>
-                </SwipeableDrawer>
             </>
         );
     }

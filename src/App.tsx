@@ -18,7 +18,7 @@ import {ThemeProvider} from "@mui/styles";
 import {green, pink} from "@mui/material/colors";
 import {Privacy} from "./components/Privacy/Privacy";
 import {Add} from "./components/AddHospital/Add";
-import {DoctorComponent} from "./components/Doctor/Doctor";
+import {DoctorComponent, BookingComponent} from "./components/Doctor/Doctor";
 import {AddDoctorComponent} from "./components/AddDoctor/AddDoctor";
 import {AddDepartmentComponent} from "./components/AddDepartment/AddDepartment";
 import {Addpatient} from "./components/AddPatient/AddPatient";
@@ -126,7 +126,8 @@ class AppLoc extends React.Component<AppProps>
                         <Route path="/chat" exact><Swiper/><BottomNav/></Route>
                         <Route path="/doctor/add/:hospital"><AddDoctorComponent/><BottomNav/></Route>
                         <Route path="/department/add/:hospital"><AddDepartmentComponent/><BottomNav/></Route>
-                        <Route path="/doctor/:docId"><DoctorComponent/><BottomNav/></Route> {/* Show details about a doctor */}
+                        <Route path="/doctor/:docId" exact><DoctorComponent/><BottomNav/></Route> {/* Show details about a doctor */}
+                        <Route path="/doctor/:docId/book"><BookingComponent/></Route> {/* Show booing doctor */}
                         <Route path="/doctor/add/:hospital" ><AddDoctorComponent/><BottomNav/></Route>
                         <Route path="/addFriend/:token" ><AddFriendComponent/><BottomNav/></Route>
 
