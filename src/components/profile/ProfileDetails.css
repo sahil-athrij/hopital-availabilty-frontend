@@ -77,3 +77,32 @@
     text-align: left;
 }
 
+
+
+
+
+.box {
+    position: relative;
+    display: inline-block;
+}
+
+.bestseller:after {
+    content: "Invited";
+    z-index: 1;
+    overflow: hidden;
+    font-size: 10px;
+    font-weight: bold;
+    color: #FFF;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 20px;
+    transform: rotate(45deg);
+    width: 123px;
+    display: block;
+    background: #4369fa;
+    background: linear-gradient(#4369fa 0%, #4369fa 100%);
+    box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+    position: absolute;
+    top: 20px; right: -30px;
+    clip-path: polygon(120px 20px, 90px -10px, 30px -10px, 0px 20px, 10px 30px,  110px 30px)
+}

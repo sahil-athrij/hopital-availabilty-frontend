@@ -7,10 +7,12 @@ import {CSSTransition} from "react-transition-group";
 import {Container, AppBar, IconButton} from "@mui/material";
 import {ResponsiveState} from "../ResponsiveComponent";
 import MenuIcon from "@mui/icons-material/Menu";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import Badge from "@mui/material/Badge";
 
 
 import "./nabar.css";
-import Avatar from "@mui/material/Avatar";
+// import Avatar from "@mui/material/Avatar";
 import {FullScreenUser} from "../FullScreen/FullScreenUser";
 
 
@@ -100,8 +102,11 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
                         }}>
                             Search hospitals
                         </button>
-                        <Avatar className="mr-2" sx={{width:"28px", height : "28px", marginRight: ".5rem"}}
-                            src={this.state.user?.tokens?.profile || undefined}>{this.state.user ? this.state.user.username ? this.state.user.username[0] : "?" : "?"}</Avatar>
+                        <Badge badgeContent={4} sx={{marginRight: ".25rem"}} color="primary">
+                            <NotificationsNoneIcon sx={{width:"28px", height : "28px"}} color="disabled" />
+                        </Badge>
+                        {/*<Avatar className="mr-2" sx={{width:"28px", height : "28px", marginRight: ".5rem"}}*/}
+                        {/*    src={this.state.user?.tokens?.profile || undefined}>{this.state.user ? this.state.user.username ? this.state.user.username[0] : "?" : "?"}</Avatar>*/}
 
                         
                     </div>

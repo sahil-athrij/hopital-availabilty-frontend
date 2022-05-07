@@ -89,11 +89,9 @@ export const NineCards =()=>(
     <>
         <div>
             <div className="container d-flex justify-content-between  p-0 align-self-center px-2">
-                <Link style={{textDecoration:"none"}} className="homecard" to="/search">
-                    <div>
-                        <img src={Addhosp} alt=""/>
-                        <div className="cardtxt ">Hospital</div>
-                    </div>
+                <Link style={{textDecoration:"none"}} className="homecard" to="/searchambulance">
+                    <img src={Ambulanceimg} alt=""/>
+                    <div className="cardtxt ">Ambulance</div>
                 </Link>
                 <Link style={{textDecoration:"none"}} className="homecard" to="/searchdoctor">
                     <div >
@@ -114,18 +112,19 @@ export const NineCards =()=>(
         <div>
 
             <div className="container d-flex justify-content-between my-2 p-0 align-self-center px-2">
-                <Link style={{textDecoration:"none"}} className="homecard" to="/searchambulance">
-                    <img src={Ambulanceimg} alt=""/>
-                    <div className="cardtxt ">Ambulance</div>
-                </Link>
-                <div className="homecard">
-                    <img src={Medicine} alt=""/>
-                    <div className="cardtxt ">Medicine</div>
-                </div>
-                <div className="homecard">
-                    <img src={BloodBank} alt=""/>
-                    <div className="cardtxt ">Blood Bank</div>
-                </div>
+
+                {/*<div className="homecard">*/}
+                {/*    <img src={Medicine} alt=""/>*/}
+                {/*    <div className="cardtxt ">Medicine</div>*/}
+                {/*</div>*/}
+                {/*<div className="homecard">*/}
+                {/*    <img src={BloodBank} alt=""/>*/}
+                {/*    <div className="cardtxt ">Blood Bank</div>*/}
+                {/*</div>*/}
+                {/*<div className="homecard">*/}
+                {/*    <img src={Laboratory} alt=""/>*/}
+                {/*    <div className="cardtxt ">Laboratory</div>*/}
+                {/*</div>*/}
 
             </div>
 
@@ -133,6 +132,13 @@ export const NineCards =()=>(
         <div>
 
             <div className="container d-flex justify-content-between  p-0 align-self-center px-2">
+                <Link style={{textDecoration:"none"}} className="homecard" to="/search">
+                    <div>
+                        <img src={Addhosp} alt=""/>
+                        <div className="cardtxt ">Hospital</div>
+                    </div>
+                </Link>
+
                 <Link style={{textDecoration:"none"}} className="homecard" to="/help">
                     <div>
                         <img src={Givehelp} alt=""/>
@@ -146,12 +152,6 @@ export const NineCards =()=>(
                         <div className="cardtxt m-0">Request</div>
                     </div>
                 </Link>
-
-                <div className="homecard">
-                    <img src={Laboratory} alt=""/>
-                    <div className="cardtxt ">Laboratory</div>
-                </div>
-
 
             </div>
 
