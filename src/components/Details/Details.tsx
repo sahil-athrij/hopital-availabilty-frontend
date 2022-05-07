@@ -156,7 +156,7 @@ class DetailsLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                                 </div>
                             </div>
                             <div className="d-flex justify-content-center mb-4">
-                                <Avatar alt={""} className="m-0" sx={{height:"120px", width:"120px"}}  src={this.state.model.images[0].image || image}/>
+                                <Avatar alt={""} className="m-0" sx={{height:"120px", width:"120px"}}  src={this.state.model.images[0]?.image?this.state.model.images[0].image : image}/>
                             </div>
                         </div>
                         <div className="font-weight-bold h4">

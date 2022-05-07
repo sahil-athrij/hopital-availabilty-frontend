@@ -72,16 +72,16 @@ const bluechip = {
     background: "#3E64FF", "&:hover": {
         background: "#3E64FF",
         color: "white",
-    }, borderRadius: "5px", color: "white", fontSize: "10px", width: "76px", height: "21px"
+    }, borderRadius: "5px", color: "white", fontSize: "15px", width: "126px", height: "41px"
 };
 
 const greychip = {
     background: "#F0F0F0",
     borderRadius: "5px",
     color: "black",
-    fontSize: "10px",
-    width: "76px",
-    height: "21px"
+    fontSize: "15px",
+    width: "126px",
+    height: "41px"
 };
 
 const departments = ["Cardiology", "Anaesthesiology", "Dermatology", "Endocrinology", "Gastroenterology", "Oncology",
@@ -304,7 +304,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                         <Button sx={{textTransform: "none", marginLeft: "auto"}} endIcon={<KeyboardArrowDownIcon/>}
                             onClick={() => (this.setState({filter_active: !this.state.filter_active})
                             )}>
-                            Filter
+                            Search options
                         </Button>
                     </div>
 
@@ -411,7 +411,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                     }} className="fixed-bottom w-100 h-50 p-3" sx={{overflowY: "auto"}}>
 
                     <div className="filtertop w-100 d-flex justify-content-between pt-3 pb-2 px-3 align-self-center">
-                        Select all that apply
+                        Select the tags you want to search
                         <IconButton  onClick={() =>
                         {
                             this.setState({filter_active: false}
@@ -424,43 +424,43 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                     {
                         this.setState({filters: []});
                     }}>
-                        clear filter
+                        clear
                     </Button>:<></>}
                     <div className="filterbottom d-flex flex-column">
-                        <div className="filterhead text-center w-100 mb-2 mt-4 ">Types</div>
-                        <div className="chips d-flex flex-wrap ">
+                        <div className="filterhead text-center w-100 mb-4 mt-4 ">Types</div>
+                        <div className="chips d-flex flex-wrap justify-content-between align-items-center">
                             {types.map((value, key) => (
-                                <div key={key} className="col-3 mb-2">
+                                <div key={key} className="child mb-2">
                                     <StyledChip onClick={() => this.handleChipChange(value)}
                                         sx={this.state.filters.includes(value) ? bluechip : greychip}
                                         label={value} />
                                 </div>
                             ))}
                         </div>
-                        <div className="filterhead text-center w-100 mb-2 mt-2 ">Departments</div>
-                        <div className="chips d-flex flex-wrap ">
+                        <div className="filterhead text-center w-100 mb-4 mt-2 ">Departments</div>
+                        <div className="chips d-flex flex-wrap justify-content-between align-items-center">
                             {departments.map((value, key) => (
-                                <div key={key} className="col-3 mb-2">
+                                <div key={key} className="child mb-2">
                                     <StyledChip onClick={() => this.handleChipChange(value)}
                                         sx={this.state.filters.includes(value) ? bluechip : greychip}
                                         label={value} />
                                 </div>
                             ))}
                         </div>
-                        <div className="filterhead text-center w-100 mb-2 mt-2 ">Ownership</div>
-                        <div className="chips d-flex flex-wrap ">
+                        <div className="filterhead text-center w-100 mb-4 mt-2 ">Ownership</div>
+                        <div className="chips d-flex flex-wrap justify-content-between align-items-center">
                             {ownership.map((value, key) => (
-                                <div key={key} className="col-3 mb-2">
+                                <div key={key} className="child mb-2">
                                     <StyledChip onClick={() => this.handleChipChange(value)}
                                         sx={this.state.filters.includes(value) ? bluechip : greychip}
                                         label={value} />
                                 </div>
                             ))}
                         </div>
-                        <div className="filterhead text-center w-100 mb-2 mt-2 ">Medicine</div>
-                        <div className="chips d-flex flex-wrap ">
+                        <div className="filterhead text-center w-100 mb-4 mt-2 ">Medicine</div>
+                        <div className="chips d-flex flex-wrap justify-content-around align-items-center">
                             {medicine.map((value, key) => (
-                                <div key={key} className="col-3 mb-2">
+                                <div key={key} className="child mb-2">
                                     <StyledChip onClick={() => this.handleChipChange(value)}
                                         sx={this.state.filters.includes(value) ? bluechip : greychip}
                                         label={value} />

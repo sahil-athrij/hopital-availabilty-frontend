@@ -39,6 +39,8 @@ import {AddAmbulanceComponent} from "./components/Ambulance/AddAmbulance";
 import Chat from "./components/Chat";
 import Swiper from "./components/Chat/Swiper";
 import VideoCall from "./components/VideoCall";
+import Notification from "./components/Notification/Notification";
+import SearchUser from "./components/Search/SearchUser";
 
 
 const theme = createTheme({
@@ -130,16 +132,20 @@ class AppLoc extends React.Component<AppProps>
                         <Route path="/doctor/:docId/book"><BookingComponent/></Route> {/* Show booing doctor */}
                         <Route path="/doctor/add/:hospital" ><AddDoctorComponent/><BottomNav/></Route>
                         <Route path="/addFriend/:token" ><AddFriendComponent/><BottomNav/></Route>
+                        <Route path="/notification" ><Notification/></Route>
 
                         <Route path="/details/reviews/:hspId">
                             <AddHospitalReview/>
                             <BottomNav/>
                         </Route>
                         <Route path="/details/:hspId"> <Details/></Route>{/* Show details about a hospital */}
-                        <Route path="/search">
+                        <Route path="/search" exact>
                             <NavBar/>
                             <Search/>
                             <BottomNav/>
+                        </Route>
+                        <Route path="/searchuser">
+                            <SearchUser/>
                         </Route>
 
                         <Route path="/ambulance">

@@ -102,7 +102,10 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
                         }}>
                             Search hospitals
                         </button>
-                        <Badge badgeContent={4} sx={{marginRight: ".25rem"}} color="primary">
+                        <Badge onClick={() =>
+                        {
+                            this.props.history.push( "/notification");
+                        }} badgeContent={0} sx={{marginRight: ".25rem"}} color="primary">
                             <NotificationsNoneIcon sx={{width:"28px", height : "28px"}} color="disabled" />
                         </Badge>
                         {/*<Avatar className="mr-2" sx={{width:"28px", height : "28px", marginRight: ".5rem"}}*/}
