@@ -10,11 +10,11 @@ import {Link} from "react-router-dom";
 import Addhosp from "../../images/addhospcard.svg";
 import Givehelp from "../../images/givehelpcard.svg";
 import Nurse from "../../images/nurse 1.png";
-import Ambulanceimg from "../../images/ambulance 1.png";
-import Medicine from "../../images/Medicine.svg";
+import SearchUser from "../../images/Male-user-search-icon.png";
+// import Medicine from "../../images/Medicine.svg";
 import Doc from "../../images/Doc.svg";
-import Laboratory from "../../images/laboratory 1.png";
-import BloodBank from "../../images/blood-bank 1.png";
+// import Laboratory from "../../images/laboratory 1.png";
+// import BloodBank from "../../images/blood-bank 1.png";
 import request from "../../images/helphand.svg";
 
 
@@ -89,9 +89,13 @@ export const NineCards =()=>(
     <>
         <div>
             <div className="container d-flex justify-content-between  p-0 align-self-center px-2">
-                <Link style={{textDecoration:"none"}} className="homecard" to="/searchambulance">
-                    <img src={Ambulanceimg} alt=""/>
-                    <div className="cardtxt ">Ambulance</div>
+                {/*<Link style={{textDecoration:"none"}} className="homecard" to="/searchambulance">*/}
+                {/*    <img src={Ambulanceimg} alt=""/>*/}
+                {/*    <div className="cardtxt ">Ambulance</div>*/}
+                {/*</Link>*/}
+                <Link style={{textDecoration:"none"}} className="homecard" to="/searchuser">
+                    <img style={{width: "3.5rem"}} src={SearchUser} alt=""/>
+                    <div style={{marginTop: "0"}} className="cardtxt ">Search User</div>
                 </Link>
                 <Link style={{textDecoration:"none"}} className="homecard" to="/searchdoctor">
                     <div >

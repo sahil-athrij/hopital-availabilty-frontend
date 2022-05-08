@@ -75,7 +75,6 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
         const showSearchBar = !this.props.location.pathname.includes("/details") &&       //to hide search bar in details, profiles, addhospital
             !this.props.location.pathname.includes("/profile") &&
             !this.props.location.pathname.includes("/addHospital");
-        console.log(this.state.user?.username);
         return (
             <AppBar style={{boxShadow: "none"}}
                 className={"navbar text-dark fixed-top " + (showSearchBar ? "bg-white" : "bg-grey")}
