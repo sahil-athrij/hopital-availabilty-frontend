@@ -90,26 +90,29 @@ class SearchdoctorLoc extends AuthComponent <AuthPropsLoc, SearchDoctorState>
     {
         return (
             <div className="mx-2 pt-4 mb-5 pb-4">
-                <div className="d-flex justify-content-between align-items-center">
-                    <ArrowBackIcon onClick={() => this.props.history.goBack()}/>
-                    <p className="m-0"><b>Doctors</b></p>
-                    <img src={filter} alt="filter"/>
+                <div style={{left: "0", top: "0", background: "#fff", zIndex: 100, padding: "8px"}} className="position-fixed w-100">
+                    <div className="d-flex justify-content-between align-items-center">
+                        <ArrowBackIcon onClick={() => this.props.history.goBack()}/>
+                        <p className="m-0"><b>Doctors</b></p>
+                        <img src={filter} alt="filter"/>
+                    </div>
+                    <div className="mt-2">
+                        <Search>
+                            <SearchIconWrapper>
+                                <SearchIcon />
+                            </SearchIconWrapper>
+                            <StyledInputBase
+                                placeholder="Search for doctors"
+                                inputProps={{ "aria-label": "search" }}
+                                type="text"
+                                value={this.state.searchTerm}
+                                onChange = {(event) => this.editSearchTerm(event.target.value)}
+                            />
+                        </Search>
+                    </div>
                 </div>
-                <div className="mt-2">
-                    <Search>
-                        <SearchIconWrapper>
-                            <SearchIcon />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            placeholder="Search for doctors"
-                            inputProps={{ "aria-label": "search" }}
-                            type="text"
-                            value={this.state.searchTerm}
-                            onChange = {(event) => this.editSearchTerm(event.target.value)}
-                        />
-                    </Search>
-                </div>
-                <div className="d-flex justify-content-around flex-wrap mt-3 px-0 p-0">
+
+                <div style={{paddingTop: "70px"}} className="mt-3 px-0">
 
                     {this.state.doctors && this.state.doctors.map((model, i) => <DoctorProfile model={model} key={i}/>)}
 

@@ -9,6 +9,7 @@ import starsvg from "../../images/star.svg";
 
 import search_icon from "./icons/search-icon.svg";
 import {BigBlueButton} from "../Utils";
+import Button from "@mui/material/Button";
 
 
 interface CardProps {
@@ -27,32 +28,45 @@ export default class DoctorProfile extends React.Component<CardProps, { open: bo
     render() 
     {
         return (
-            <div className="my-1 doctor-card ">
-                <Link style={{textDecoration:"none"}} to={`/doctor/${this.props.model.id}`}>
+            <div className="my-2 doctor-card ">
+
+                <div>
                     <div>
-                        <div>
-                            <div>
-                                <img className="Doc-icon"
-                                    src={this.props.model.image || doctor_fallback}
-                                    alt={""}
-                                    width={"80px"}
-                                    height={"80px"}
-                                />
-                                <div className="nunito-black-ebony-clay-16px">
+                        <div className="d-flex">
+                            <img className="Doc-icon"
+                                src={this.props.model.image || doctor_fallback}
+                                alt={""}
+                                width={"80px"}
+                                height={"80px"}
+                            />
+                            <div className="d-flex justify-content-center flex-column align-items-start">
+                                <div className="nunito-black-ebony-clay-16px text-start">
                                     {this.props.model.name}
                                 </div>
-                                <div className="nunito-black-lynch-12px">
+                                <div className="nunito-black-lynch-12px text-start">
                                     {this.props.model.specialization || "General"}
                                 </div>
+                                <div>
+                                    <img
+                                        src={starsvg} alt={"star"}/> {this.props.model.rating || 0} ({(this.props.model.reviews || []).length} reviews)
+                                </div>
                             </div>
-                            <div>
-                                <img
-                                    src={starsvg} alt={"star"}/> {this.props.model.rating || 0} ({(this.props.model.reviews || []).length} reviews)
+
+                            <div style={{marginLeft: "auto"}} className="d-flex justify-content-around">
+                                <Link className="d-flex align-items-center mx-2" style={{textDecoration:"none"}} to={`/doctor/${this.props.model.id}`}>
+                                    <Button variant="outlined">View</Button>
+                                </Link>
+
+                                <Link className="d-flex align-items-center" style={{textDecoration:"none"}} to={`/doctor/${this.props.model.id}/book`}>
+                                    <Button variant="contained">Book</Button>
+                                </Link>
                             </div>
 
                         </div>
+
+
                     </div>
-                </Link>
+                </div>
             </div>
         );
     }

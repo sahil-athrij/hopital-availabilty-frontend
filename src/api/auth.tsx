@@ -7,7 +7,7 @@ import Loader from "react-loader-spinner";
 import React from "react";
 import {toast} from "react-toastify";
 import {LanguageObject} from "./model";
-import localForage from "localforage";
+// import localForage from "localforage";
 
 
 const client_id = "6tWdAZrlxUA26FJSMjE7oKBpTNGaqJRl2bsmNMRb";
@@ -114,6 +114,7 @@ export interface Friend {
     email:string,
     profile:string,
     last_seen?: string,
+    invited: boolean,
 }
 
 
@@ -140,9 +141,8 @@ export interface AuthState extends ResponsiveState {
         username: string,
         first_name: string,
         last_name: string,
-        friends?:Friend[],
-        chat_friends?: Friend[],
-        invited?: Friend[]
+        friends:Friend[],
+        chat_friends?: Friend[]
     } | null
 }
 
@@ -210,7 +210,7 @@ export class AuthComponent<P, S extends AuthState>
         setRefresh("");
         setAuth("");
         setObj("user", null);
-        return localForage.clear().then(() => true);
+        return  true;
     };
 
     refreshAuth = () => 

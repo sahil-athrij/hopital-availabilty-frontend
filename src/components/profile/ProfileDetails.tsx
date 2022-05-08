@@ -27,6 +27,13 @@ import {BigBlueButton} from "../Utils";
 import {toast} from "react-toastify";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import SpeedDial from "@mui/material/SpeedDial";
+import SpeedDialIcon from "@mui/material/SpeedDialIcon";
+import SpeedDialAction from "@mui/material/SpeedDialAction";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import AddIcon from "@mui/icons-material/Add";
+
+
 
 const AirbnbSlider = withStyles({
     root: {
@@ -149,6 +156,8 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
         }
     };
 
+    actions = [{ icon: <AddIcon />, name: "Add" }, { icon: <PersonAddIcon/>, name: "Invite" }];
+
     getTab = () =>
         (this.state.tab === 0 ?
             <div className="">
@@ -196,14 +205,14 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
 
 
             </div> :
-            <div>
+            <div className="pb-2">
                 <Container>
-                    <BigBlueButton
-                        onClick={() => this.state.tab === 1 ? this.handleInvite() : this.setState({popUp: true})}
-                        text={this.state.tab === 1 ? "Invite Friend" : "Add Friend"}/>
+                    {/*<BigBlueButton*/}
+                    {/*    onClick={() => this.state.tab === 1 ? this.handleInvite() : this.setState({popUp: true})}*/}
+                    {/*    text={this.state.tab === 1 ? "Invite Friend" : "Add Friend"}/>*/}
                 </Container>
 
-                {(this.state.tab === 1 ? this.state.user?.invited : this.state.user?.friends)?.map((friend, key)=>(
+                {this.state.user?.friends.map((friend, key)=>(
                     <Container key={key}>
                         <div className="frndcard w-100 d-flex justify-content-between mb-2">
                             <Avatar src={friend.profile} variant="rounded" sx={{
@@ -220,10 +229,10 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                                 <div className="frndemail">{friend.email}</div>
                             </div>
 
+                            {friend.invited && <div className="box bestseller"></div>}
+
                         </div>
                     </Container>))}
-
-
             </div>
         );
 
@@ -340,22 +349,38 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                                     <p className="m-0"><b>{this.state.requests?.length}</b><br/>Requests</p>
                                 </button>
 
-                                <button className={`card-about card-1 ${this.state.tab === 1 && "active"}`}
-                                    onClick={() => this.setState({tab: 1})}>
-                                    <img src={Friendship} alt={"layout svg"}/>
-                                    <p className="m-0"><b>{this.state.user?.invited?.length || 0}</b><br/>Invited</p>
-                                </button>
-
                                 <button className={`card-about card-1 ${this.state.tab === 2 && "active"}`}
                                     onClick={() => this.setState({tab: 2})}>
                                     <img src={reviewsvg} alt={"review svg"}/>
                                     <p className="m-0"><b>{this.state.user?.friends?.length || 0}</b><br/>Friends</p>
                                 </button>
 
+                                <button disabled={true} className={`card-about card-1 ${this.state.tab === 1 && "active"}`}
+                                    onClick={() => this.setState({tab: 1})}>
+                                    <img src={Friendship} alt={"layout svg"}/>
+                                    <p className="m-0"><b>{" "}</b><br/>Invited</p>
+                                </button>
+
 
                             </div>
                         </Container>
                         {this.getTab()}
+
+                        {this.state.tab === 2 && <SpeedDial
+                            ariaLabel="SpeedDial basic example"
+                            sx={{ position: "fixed", bottom: 100, right: 16 }}
+                            icon={<SpeedDialIcon />}
+                        >
+                            {this.actions.map((action) => (
+                                <SpeedDialAction
+                                    key={action.name}
+                                    icon={action.icon}
+                                    tooltipTitle={action.name}
+                                    tooltipOpen
+                                    onClick={() => action.name === "Invite" ? this.handleInvite() : this.setState({popUp: true})}
+                                />
+                            ))}
+                        </SpeedDial>}
 
                     </div>
 
