@@ -12,7 +12,8 @@ import {BigBlueButton} from "../Utils";
 import Button from "@mui/material/Button";
 
 
-interface CardProps {
+interface CardProps
+{
     model: DoctorObject
 }
 

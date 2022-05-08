@@ -74,7 +74,6 @@ class SearchdoctorLoc extends AuthComponent <AuthPropsLoc, SearchDoctorState>
             this.setState({doctors: results, next: next});
             console.log(doctors.results);
         });
-
     } 
 
     editSearchTerm = (e: string) => 

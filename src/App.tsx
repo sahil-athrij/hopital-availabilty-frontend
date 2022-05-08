@@ -40,7 +40,7 @@ import Chat from "./components/Chat";
 import Swiper from "./components/Chat/Swiper";
 import VideoCall from "./components/VideoCall";
 import Notification from "./components/Notification/Notification";
-import SearchUser from "./components/Search/SearchUser";
+import {SearchUser} from "./components/Search/SearchUser";
 
 
 const theme = createTheme({

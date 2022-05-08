@@ -4,7 +4,17 @@ import {RouteComponentProps, withRouter} from "react-router";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import {Chip,  ListItem, TextField, Container} from "@mui/material";
+import {
+    Chip,
+    ListItem,
+    TextField,
+    Container,
+    FormLabel,
+    RadioGroup,
+    FormControlLabel,
+    Radio,
+    FormControl
+} from "@mui/material";
 import "./AddPatient.css";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuItem from "@mui/material/MenuItem";
@@ -16,6 +26,7 @@ import {toast} from "react-toastify";
 interface AddPatientState extends AuthState {
     model: PatientObject;
     activeStep: number;
+    public: boolean;
     skipped: number;
     avail_attender: boolean;
     avail_hospital: boolean;
@@ -62,7 +73,7 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState>
             avail_attender: false,
             avail_hospital: false,
             Name: "",
-
+            public: false,
             gender: "",
             address: "",
             requirement: "",
@@ -193,6 +204,17 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState>
                             InputLabelProps={{shrink: true, }} size="small"
                             onChange={(event) =>
                                 this.setState({otherRequirement: event.target.value})}/>}
+                    <FormControl sx={{textAlign: "left", width: "100%"}} className="mt-4">
+                        <FormLabel id="demo-controlled-radio-buttons-group">Do you wish to make your request public?</FormLabel>
+                        <RadioGroup
+                            value={this.state.public}
+                            onChange={(event) =>
+                                event.target.value === "true"?this.setState({public: true}):this.setState({public: false})}>
+
+                            <FormControlLabel value="true" control={<Radio />} label="Yes" />
+                            <FormControlLabel value="false" control={<Radio />} label="No" />
+                        </RadioGroup>
+                    </FormControl>
 
                 </div>
             );
