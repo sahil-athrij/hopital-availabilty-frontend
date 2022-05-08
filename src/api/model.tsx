@@ -159,6 +159,40 @@ export class DepartmentObject extends ModelObject
 
 }
 
+// export class UserSearchObject extends ModelObject
+// {
+//     id: -1;
+//     first_name: string;
+//     last_name: string;
+//     private_token: string;
+//
+//     constructor(data: ModelData, baseUrl: string)
+//     {
+//         super(data, baseUrl);
+//         this.fields = ["id", "first_name", "last_name", "private_token"];
+//         this.getData();
+//     }
+//
+// }
+export class UserSearchObject extends ModelObject
+{
+    id = -1;
+    first_name= "";
+    last_name="";
+    private_token ="";
+    image ="";
+
+
+    constructor(data: ModelData, baseUrl: string)
+    {
+        super(data, baseUrl);
+        this.fields = ["id", "first_name", "last_name", "private_token", "image"];
+        this.getData();
+    }
+
+}
+
+
 export class DoctorObject extends ModelObject
 {
     id = -1;
@@ -404,6 +438,7 @@ export const Language = new Model(baseUrl + "/api/language/", LanguageObject);
 export const Ambulance = new Model(baseUrl + "/internals/ambulance/", AmbulanceObject);
 export const Appointment = new Model(baseUrl + "/internals/appointment/", AppointmentObject);
 export const BloodBank = new Model(baseUrl + "/internals/blood_bank/", AppointmentObject);
+export const UserSearch = new Model(baseUrl + "/auth/search_users", UserSearchObject);
 
 
 export type ModelRegistry =
@@ -417,3 +452,4 @@ export type ModelRegistry =
     | typeof AppointmentObject
     | typeof AmbulanceObject
     | typeof BloodBankObject
+    | typeof UserSearchObject
