@@ -156,7 +156,7 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
         }
     };
 
-    actions = [{ icon: <AddIcon />, name: "Add" }, { icon: <PersonAddIcon/>, name: "Invite" }];
+    actions = [{ icon: <AddIcon />, name: "Add Friend" }, { icon: <PersonAddIcon/>, name: "Invite Friend" }];
 
     getTab = () =>
         (this.state.tab === 0 ?
@@ -377,7 +377,7 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                                     icon={action.icon}
                                     tooltipTitle={action.name}
                                     tooltipOpen
-                                    onClick={() => action.name === "Invite" ? this.handleInvite() : this.setState({popUp: true})}
+                                    onClick={() => action.name === "Invite Friend" ? this.handleInvite() : this.setState({popUp: true})}
                                 />
                             ))}
                         </SpeedDial>}
