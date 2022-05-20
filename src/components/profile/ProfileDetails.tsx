@@ -1,4 +1,4 @@
-import {AuthComponent, AuthPropsLoc, AuthState, reactUrl, refresh_user} from "../../api/auth";
+import {AuthComponent, AuthPropsLoc, AuthState, reactUrl} from "../../api/auth";
 import {Container, Avatar, Modal, Slider, TextField} from "@mui/material";
 import {withRouter} from "react-router";
 import React from "react";
@@ -11,9 +11,9 @@ import Editbutn from "../../images/editButton.svg";
 
 import "./ProfileDetails.css";
 import {withStyles} from "@mui/styles";
-import Givehand from "../../images/Medicaidaccnt.svg";
-import Friendship from "../../images/friendshipaccnt.svg";
-import reviewsvg from "../../images/review.svg";
+import Record from "../../images/reco.svg";
+import offers from "../../images/offers.svg";
+import reviewsvg from "../../images/friendshipaccnt.svg";
 import Bloodgrp from "../../images/bloodgroup.svg";
 import CovidPos from "../../images/corpos.svg";
 import CovidNeg from "../../images/corneg.svg";
@@ -32,6 +32,7 @@ import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import AddIcon from "@mui/icons-material/Add";
+import SearchIcon from "@mui/icons-material/Search";
 
 
 
@@ -156,84 +157,88 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
         }
     };
 
-    actions = [{ icon: <AddIcon />, name: "Add Friend" }, { icon: <PersonAddIcon/>, name: "Invite Friend" }];
+    actions = [{ icon: <AddIcon />, name: "Add Friend", task: ()=>this.setState({popUp: true})}, { icon: <PersonAddIcon/>, name: "Invite Friend", task: ()=>this.handleInvite() }, {icon: <SearchIcon/>, name: "Search Friend", task: ()=>this.props.history.push("/searchuser")}];
 
     getTab = () =>
         (this.state.tab === 0 ?
             <div className="">
-                <Container>
-                    <Link to="/addRequest">
-                        <BigBlueButton text="+ Add New Request"/>
-                    </Link>
-                </Container>
-                <Container >
-                    {this.state.requests ? (this.state.requests.map((obj, key) => (
-                        <div key={key}>
+                {/*<Container>*/}
+                {/*    <Link to="/addRequest">*/}
+                {/*        <BigBlueButton text="+ Add New Request"/>*/}
+                {/*    </Link>*/}
+                {/*</Container>*/}
+                {/*<Container >*/}
+                {/*    {this.state.requests ? (this.state.requests.map((obj, key) => (*/}
+                {/*        <div key={key}>*/}
 
-                            <div className="mx-1">
-                                <div className="maincard d-flex flex-row justify-content-between ">
+                {/*            <div className="mx-1">*/}
+                {/*                <div className="maincard d-flex flex-row justify-content-between ">*/}
 
-                                    <div className=" lefttxt ">
-                                        <h1 className="title m-0">{obj.Name}{this.getgender(obj.gender)}</h1>
-                                        <div className="subtitle">
-                                            <div>Symptoms:{obj.symptoms}</div>
-                                            <div>Since:{obj.symdays}</div>
-                                        </div>
-                                    </div>
-                                    <div className=" subtitle pr-4 pt-4 ">
-                                        <div className="mt-1">{obj.blood} <img src={Bloodgrp} alt=""/></div>
-                                        <div className="mt-1">Covid:{obj.covidresult ? (
-                                            <img src={CovidPos} alt=""/>) : (
-                                            <img src={CovidNeg} alt=""/>)}</div>
-                                        <div className="mt-1">CT score:{obj.ctscore}</div>
-                                        <Button sx={{
-                                            borderRadius: "10px",
-                                            marginBottom: "1rem",
-                                            textTransform: "none",
-                                            paddingX: "1.25rem",
-                                            paddingY: ".25rem", marginTop: ".5rem"
-                                        }} className="helpbutn"
-                                        variant="contained">Edit</Button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ))) : null}
+                {/*                    <div className=" lefttxt ">*/}
+                {/*                        <h1 className="title m-0">{obj.Name}{this.getgender(obj.gender)}</h1>*/}
+                {/*                        <div className="subtitle">*/}
+                {/*                            <div>Symptoms:{obj.symptoms}</div>*/}
+                {/*                            <div>Since:{obj.symdays}</div>*/}
+                {/*                        </div>*/}
+                {/*                    </div>*/}
+                {/*                    <div className=" subtitle pr-4 pt-4 ">*/}
+                {/*                        <div className="mt-1">{obj.blood} <img src={Bloodgrp} alt=""/></div>*/}
+                {/*                        <div className="mt-1">Covid:{obj.covidresult ? (*/}
+                {/*                            <img src={CovidPos} alt=""/>) : (*/}
+                {/*                            <img src={CovidNeg} alt=""/>)}</div>*/}
+                {/*                        <div className="mt-1">CT score:{obj.ctscore}</div>*/}
+                {/*                        <Button sx={{*/}
+                {/*                            borderRadius: "10px",*/}
+                {/*                            marginBottom: "1rem",*/}
+                {/*                            textTransform: "none",*/}
+                {/*                            paddingX: "1.25rem",*/}
+                {/*                            paddingY: ".25rem", marginTop: ".5rem"*/}
+                {/*                        }} className="helpbutn"*/}
+                {/*                        variant="contained">Edit</Button>*/}
+                {/*                    </div>*/}
+                {/*                </div>*/}
+                {/*            </div>*/}
+                {/*        </div>*/}
+                {/*    ))) : null}*/}
 
 
-                </Container>
+                {/*</Container>*/}
 
 
             </div> :
-            <div className="pb-2">
-                <Container>
-                    {/*<BigBlueButton*/}
-                    {/*    onClick={() => this.state.tab === 1 ? this.handleInvite() : this.setState({popUp: true})}*/}
-                    {/*    text={this.state.tab === 1 ? "Invite Friend" : "Add Friend"}/>*/}
-                </Container>
+            this.state.tab===1?
+                <div className="pb-2 friend-section">
+                    <Container>
+                        {/*<BigBlueButton*/}
+                        {/*    onClick={() => this.state.tab === 1 ? this.handleInvite() : this.setState({popUp: true})}*/}
+                        {/*    text={this.state.tab === 1 ? "Invite Friend" : "Add Friend"}/>*/}
+                    </Container>
 
-                {this.state.user?.friends.map((friend, key)=>(
-                    <Container key={key}>
-                        <div className="frndcard w-100 d-flex justify-content-between mb-2">
-                            <Avatar src={friend.profile} variant="rounded" sx={{
-                                marginLeft: "6px",
-                                width: "47.96px",
-                                height: "50px",
-                                marginTop: "10px",
-                                marginBottom: "9px",
-                                borderRadius: "15px",
-                            }}>{friend.name[0]}</Avatar>
-                            <div style={{textAlign: "left", marginLeft: "1rem"}}
-                                className="d-flex flex-grow-1 flex-column text-left align-self-center ">
-                                <div className="frndname">{friend.name}</div>
-                                <div className="frndemail">{friend.email}</div>
+                    {this.state.user?.friends.map((friend, key)=>(
+                        <Container key={key}>
+                            <div className="frndcard w-100 d-flex justify-content-between mb-2">
+                                <Avatar src={friend.profile} variant="rounded" sx={{
+                                    marginLeft: "6px",
+                                    width: "47.96px",
+                                    height: "50px",
+                                    marginTop: "10px",
+                                    marginBottom: "9px",
+                                    borderRadius: "15px",
+                                }}>{friend.name[0]}</Avatar>
+                                <div style={{textAlign: "left", marginLeft: "1rem"}}
+                                    className="d-flex flex-grow-1 flex-column text-left align-self-center ">
+                                    <div className="frndname">{friend.name}</div>
+                                    <div className="frndemail">{friend.email}</div>
+                                </div>
+
+                                {/*{friend.invited && <div className="box bestseller"></div>} for including best volunteer*/}
+
                             </div>
+                        </Container>))}
+                </div>:
+                <div>
 
-                            {friend.invited && <div className="box bestseller"></div>}
-
-                        </div>
-                    </Container>))}
-            </div>
+                </div>
         );
 
     friendPopUp = () =>
@@ -345,20 +350,20 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
 
                                 <button className={`card-about card-1 ${this.state.tab === 0 && "active"}`}
                                     onClick={() => this.setState({tab: 0})}>
-                                    <img src={Givehand} alt={"doctor svg"}/>
-                                    <p className="m-0"><b>{this.state.requests?.length}</b><br/>Requests</p>
+                                    <img src={Record} alt={"doctor svg"}/>
+                                    <p className="m-0"><b>{this.state.requests?.length}</b><br/>Medical Record</p>
                                 </button>
 
-                                <button className={`card-about card-1 ${this.state.tab === 2 && "active"}`}
-                                    onClick={() => this.setState({tab: 2})}>
+                                <button className={`card-about card-1 ${this.state.tab === 1 && "active"}`}
+                                    onClick={() => this.setState({tab: 1})}>
                                     <img src={reviewsvg} alt={"review svg"}/>
                                     <p className="m-0"><b>{this.state.user?.friends?.length || 0}</b><br/>Friends</p>
                                 </button>
 
-                                <button disabled={true} className={`card-about card-1 ${this.state.tab === 1 && "active"}`}
-                                    onClick={() => this.setState({tab: 1})}>
-                                    <img src={Friendship} alt={"layout svg"}/>
-                                    <p className="m-0"><b>{" "}</b><br/>Invited</p>
+                                <button className={`card-about card-1 ${this.state.tab === 2 && "active"}`}
+                                    onClick={() => this.setState({tab: 2})}>
+                                    <img src={offers} alt={"layout svg"}/>
+                                    <p className="m-0"><b>{"0"}</b><br/>Offers</p>
                                 </button>
 
 
@@ -366,7 +371,7 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                         </Container>
                         {this.getTab()}
 
-                        {this.state.tab === 2 && <SpeedDial
+                        {this.state.tab === 1 && <SpeedDial
                             ariaLabel="SpeedDial basic example"
                             sx={{ position: "fixed", bottom: 100, right: 16 }}
                             icon={<SpeedDialIcon />}
@@ -377,7 +382,7 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
                                     icon={action.icon}
                                     tooltipTitle={action.name}
                                     tooltipOpen
-                                    onClick={() => action.name === "Invite Friend" ? this.handleInvite() : this.setState({popUp: true})}
+                                    onClick={action.task}
                                 />
                             ))}
                         </SpeedDial>}
