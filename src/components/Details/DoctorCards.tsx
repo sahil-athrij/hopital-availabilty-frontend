@@ -10,6 +10,7 @@ import starsvg from "../../images/star.svg";
 import search_icon from "./icons/search-icon.svg";
 import {BigBlueButton} from "../Utils";
 import Button from "@mui/material/Button";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 
 interface CardProps
@@ -29,7 +30,7 @@ export default class DoctorProfile extends React.Component<CardProps, { open: bo
     render() 
     {
         return (
-            <div className="my-2 doctor-card ">
+            <Link className="my-3 doctor-card" style={{textDecoration:"none"}} to={`/doctor/${this.props.model.id}`}>
 
                 <div>
                     <div>
@@ -40,35 +41,46 @@ export default class DoctorProfile extends React.Component<CardProps, { open: bo
                                 width={"80px"}
                                 height={"80px"}
                             />
-                            <div className="d-flex justify-content-center flex-column align-items-start">
-                                <div className="nunito-black-ebony-clay-16px text-start">
+                            <div style={{width: "-webkit-fill-available"}} className="d-flex justify-content-center flex-column align-items-start">
+                                <div style={{fontSize: "18px"}} className="nunito-black-ebony-clay-16px text-start">
                                     {this.props.model.name}
                                 </div>
                                 <div className="nunito-black-lynch-12px text-start">
                                     {this.props.model.specialization || "General"}
                                 </div>
-                                <div>
+                                <div className="bold">
                                     <img
                                         src={starsvg} alt={"star"}/> {this.props.model.rating || 0} ({(this.props.model.reviews || []).length} reviews)
                                 </div>
-                            </div>
-
-                            <div style={{marginLeft: "auto"}} className="d-flex justify-content-around">
-                                <Link className="d-flex align-items-center mx-2" style={{textDecoration:"none"}} to={`/doctor/${this.props.model.id}`}>
-                                    <Button variant="outlined">View</Button>
-                                </Link>
-
-                                <Link className="d-flex align-items-center" style={{textDecoration:"none"}} to={`/doctor/${this.props.model.id}/book`}>
-                                    <Button variant="contained">Book</Button>
-                                </Link>
+                                <div className="bold" style={{marginLeft: "auto", marginRight: "1rem",marginTop: "20px"}}>
+                                    <div>
+                                        Available Slot
+                                    </div>
+                                    <div style={{color: "#3E64FF"}}>
+                                        12 December 03pm
+                                    </div>
+                                    <p style={{color: "#A1A1A1", fontSize: "13px"}}>
+                                        view more<ArrowDropDownIcon/>
+                                    </p>
+                                </div>
                             </div>
 
                         </div>
 
+                        <div className="d-flex justify-content-between">
+                            <div className="d-flex mx-2 bold" style={{textDecoration:"none"}}>
+                                Hospital Name<br/>
+                                8 Years Experience
+                            </div>
+
+                            <Link className="d-flex align-items-center" style={{textDecoration:"none", marginRight: "2rem"}} to={`/doctor/${this.props.model.id}/book`}>
+                                <Button sx={{width: "99px", background: " linear-gradient(180deg, #0338B9 0%, #3E64FF 100%);", borderRadius: "20px"}} variant="contained">Book</Button>
+                            </Link>
+                        </div>
 
                     </div>
                 </div>
-            </div>
+            </Link>
         );
     }
 }
