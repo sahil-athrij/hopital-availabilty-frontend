@@ -1,3 +1,15 @@
+.bold
+{
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 900;
+    font-size: 13px;
+    line-height: 15px;
+    text-align: center;
+    letter-spacing: 0.166861px;
+    color: #6B779A;
+}
+
 .details-place {
     font-weight: 600;
     height: 36px;
@@ -91,18 +103,21 @@
 }
 .doctor-card {
     background: #FFFFFF;
-    box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.0625);
+    box-shadow: 0px 10px 60px rgba(0, 0, 0, 29%);
     border-radius: 20px;
     display: block;
     /*width: 150px;*/
     /*width: 47%;*/
     /*height: 13rem;*/
     height: auto;
-    padding: 0.5rem ;
+    padding: 1rem ;
+    /*height: 197px;*/
 
 }
 .Doc-icon {
     border-radius: 100%;
+    width: 110px;
+    height: 110px;
 }
 .doc-container {
     display: block;
