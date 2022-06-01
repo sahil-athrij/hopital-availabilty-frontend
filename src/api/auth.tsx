@@ -66,25 +66,25 @@ export function refresh_user(tries = 0)
     }).catch((error) => 
     {
         console.log(error);
-        if (tries < 1) 
-        
+        if (tries < 1)
+
             refreshToken().then(() => 
             {
                 refresh_user(1);
             });
-        
+
     });
 
 
 }
 
-export function setObj(str: string, data: Record<string, unknown> | null)
+export function setObj(str: string, data: Record<string, unknown> | null) 
 {
     localStorage.setItem(str, JSON.stringify(data));
 
 }
 
-export function getObj(str: string)
+export function getObj(str: string) 
 {
     const item = localStorage.getItem(str);
     return JSON.parse(item || "{}");
@@ -97,22 +97,22 @@ function makeid(length: number)
     let result = "";
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) 
-    
+    for (let i = 0; i < length; i++)
+
         result += characters.charAt(Math.floor(Math.random() *
             charactersLength));
-    
+
     return result;
 }
 
 
-export type AuthPropsLoc = RouteComponentProps<Record<string, string|undefined>>
+export type AuthPropsLoc = RouteComponentProps<Record<string, string | undefined>>
 
 export interface Friend {
     token: string,
-    name:string,
-    email:string,
-    profile:string,
+    name: string,
+    email: string,
+    profile: string,
     last_seen?: string,
     invited: boolean,
 }
@@ -137,17 +137,17 @@ export interface AuthState extends ResponsiveState {
     user?: {
         id: number,
         tokens: token,
-        email:string,
+        email: string,
         username: string,
         first_name: string,
         last_name: string,
-        friends:Friend[],
+        friends: Friend[],
         chat_friends?: Friend[]
     } | null
 }
 
 export class AuthComponent<P, S extends AuthState>
-    extends ResponsiveComponent <P, S>
+    extends ResponsiveComponent <P, S> 
 {
     constructor(props: P) 
     {
@@ -156,10 +156,10 @@ export class AuthComponent<P, S extends AuthState>
         const refresh = getRefresh();
         const user = getObj("user");
         const diff = Date.now() - timer;
-        if (diff > 36000 * 1000) 
-        
+        if (diff > 36000 * 1000)
+
             this.refreshAuth();
-        
+
         this.state = {
             ...this.state,
             refresh_view: false,
@@ -196,10 +196,10 @@ export class AuthComponent<P, S extends AuthState>
 
         };
         let pathname = window.location.pathname;
-        if (pathname.includes("invite")) 
-        
+        if (pathname.includes("invite"))
+
             pathname = "/";
-        
+
         localStorage.setItem(state, pathname + window.location.search);
         window.location.href = `${baseUrl}/auth/o/authorize/?` + new URLSearchParams(kwargs);
     };
@@ -210,7 +210,7 @@ export class AuthComponent<P, S extends AuthState>
         setRefresh("");
         setAuth("");
         setObj("user", null);
-        return  true;
+        return true;
     };
 
     refreshAuth = () => 
@@ -243,10 +243,10 @@ export class HandleTokenLoc extends AuthComponent<AuthPropsLoc, AuthState>
         const code = getQueryVariable("code");
         const state = getQueryVariable("state");
         const error = getQueryVariable("error");
-        if(error)
-        
+        if (error)
+
             this.props.history.push("/");
-        
+
         const kwargs = {
             client_id,
             redirect_uri,
@@ -267,15 +267,15 @@ export class HandleTokenLoc extends AuthComponent<AuthPropsLoc, AuthState>
             post(`${baseUrl}/auth/users/me/`, {}, {"Authorization": `Bearer ${response.access_token}`}).then((response) => 
             {
                 setObj("user", response.results[0]);
-                if (location) 
+                if (location)
 
                     this.props.history.push(location);
-                
-                else 
-                
+
+                else
+
                     this.props.history.push("/");
-                
-            }).catch(() =>
+
+            }).catch(() => 
             {
                 toast.error("Oops something went wrong", {
                     position: "bottom-center"
@@ -306,11 +306,16 @@ export const HandleToken = withRouter(HandleTokenLoc);
 
 export class HandleInviteLoc extends AuthComponent<AuthPropsLoc, AuthState> 
 {
-    componentDidMount() 
+    async componentDidMount() 
     {
         super.componentDidMount();
         console.log(this.props.location);
-        getParam("invite", "", true);
+        const invite = getParam("invite", "", true);
+        await post(`${baseUrl}/auth/users/friend/`, {invite}, {"Authorization": `Bearer ${getAuth()}`})
+            .then(() => console.log("friend added"))
+            .catch((error) => console.log("Oops Something went wrong.", error));
+
+        // this.setState({ready: true});
         this.performAuth();
 
     }
