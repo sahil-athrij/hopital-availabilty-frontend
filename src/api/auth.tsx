@@ -288,7 +288,7 @@ export class HandleInviteLoc extends AuthComponent<AuthPropsLoc, AuthState> {
             .catch((error) => console.log("Oops Something went wrong.", error));
 
         // this.setState({ready: true});
-        this.performAuth();
+        // this.performAuth();
 
     }
 
