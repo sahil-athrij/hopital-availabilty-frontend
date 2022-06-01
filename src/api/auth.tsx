@@ -15,24 +15,29 @@ export const reactUrl = process.env.REACT_URL;
 
 const redirect_uri = reactUrl + "/set_token/";
 
-export function getAuth() {
+export function getAuth() 
+{
     return localStorage.getItem("accessToken");
 }
 
-function setAuth(token: string) {
+function setAuth(token: string) 
+{
     localStorage.setItem("accessToken", token);
 }
 
-function getRefresh() {
+function getRefresh() 
+{
     return localStorage.getItem("refreshToken");
 }
 
-function setRefresh(token: string) {
+function setRefresh(token: string) 
+{
     localStorage.setItem("refreshToken", token);
 
 }
 
-async function refreshToken() {
+async function refreshToken() 
+{
     const state = getQueryVariable("state");
     const refresh_token = getRefresh();
     const kwargs = {
@@ -43,23 +48,28 @@ async function refreshToken() {
         refresh_token: refresh_token,
         response_type: "token"
     };
-    await post(`${baseUrl}/auth/o/token/`, kwargs).then((response) => {
+    await post(`${baseUrl}/auth/o/token/`, kwargs).then((response) => 
+    {
         setRefresh(response.refresh_token);
         setAuth(response.access_token);
         timer = Date.now();
     });
 }
 
-export function refresh_user(tries = 0) {
+export function refresh_user(tries = 0) 
+{
     const access_token = getAuth();
 
-    post(`${baseUrl}/auth/users/me/`, {}, {"Authorization": `Bearer ${access_token}`}).then((response) => {
+    post(`${baseUrl}/auth/users/me/`, {}, {"Authorization": `Bearer ${access_token}`}).then((response) => 
+    {
         setObj("user", response.results[0]);
-    }).catch((error) => {
+    }).catch((error) => 
+    {
         console.log(error);
         if (tries < 1)
 
-            refreshToken().then(() => {
+            refreshToken().then(() => 
+            {
                 refresh_user(1);
             });
 
@@ -68,19 +78,22 @@ export function refresh_user(tries = 0) {
 
 }
 
-export function setObj(str: string, data: Record<string, unknown> | null) {
+export function setObj(str: string, data: Record<string, unknown> | null) 
+{
     localStorage.setItem(str, JSON.stringify(data));
 
 }
 
-export function getObj(str: string) {
+export function getObj(str: string) 
+{
     const item = localStorage.getItem(str);
     return JSON.parse(item || "{}");
 }
 
 let timer = Date.now();
 
-function makeid(length: number) {
+function makeid(length: number) 
+{
     let result = "";
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     const charactersLength = characters.length;
@@ -134,8 +147,10 @@ export interface AuthState extends ResponsiveState {
 }
 
 export class AuthComponent<P, S extends AuthState>
-    extends ResponsiveComponent <P, S> {
-    constructor(props: P) {
+    extends ResponsiveComponent <P, S> 
+{
+    constructor(props: P) 
+    {
         super(props);
         const auth = getAuth();
         const refresh = getRefresh();
@@ -155,7 +170,8 @@ export class AuthComponent<P, S extends AuthState>
 
     }
 
-    refresh = () => {
+    refresh = () => 
+    {
         const auth = getAuth();
         const refresh = getRefresh();
         const user = getObj("user");
@@ -167,7 +183,8 @@ export class AuthComponent<P, S extends AuthState>
         });
     };
 
-    performAuth = () => {
+    performAuth = () => 
+    {
         const state = "st" + makeid(5);
         const invite = getParam("invite", "", false);
         const kwargs = {
@@ -187,7 +204,8 @@ export class AuthComponent<P, S extends AuthState>
         window.location.href = `${baseUrl}/auth/o/authorize/?` + new URLSearchParams(kwargs);
     };
 
-    removeAuth = () => {
+    removeAuth = () => 
+    {
 
         setRefresh("");
         setAuth("");
@@ -195,7 +213,8 @@ export class AuthComponent<P, S extends AuthState>
         return true;
     };
 
-    refreshAuth = () => {
+    refreshAuth = () => 
+    {
         const state = getQueryVariable("state");
         const refresh_token = getRefresh();
         const kwargs = {
@@ -206,7 +225,8 @@ export class AuthComponent<P, S extends AuthState>
             refresh_token: refresh_token,
             response_type: "token"
         };
-        post(`${baseUrl}/auth/o/token/`, kwargs).then((response) => {
+        post(`${baseUrl}/auth/o/token/`, kwargs).then((response) => 
+        {
             setRefresh(response.refresh_token);
             setAuth(response.access_token);
             timer = Date.now();
@@ -215,8 +235,10 @@ export class AuthComponent<P, S extends AuthState>
 }
 
 
-export class HandleTokenLoc extends AuthComponent<AuthPropsLoc, AuthState> {
-    componentDidMount() {
+export class HandleTokenLoc extends AuthComponent<AuthPropsLoc, AuthState> 
+{
+    componentDidMount() 
+    {
         super.componentDidMount();
         const code = getQueryVariable("code");
         const state = getQueryVariable("state");
@@ -236,12 +258,14 @@ export class HandleTokenLoc extends AuthComponent<AuthPropsLoc, AuthState> {
 
 
         timer = Date.now();
-        post(`${baseUrl}/auth/o/token/`, kwargs).then((response) => {
+        post(`${baseUrl}/auth/o/token/`, kwargs).then((response) => 
+        {
             setAuth(response.access_token);
             setRefresh(response.refresh_token);
             const location = localStorage.getItem(state as string);
 
-            post(`${baseUrl}/auth/users/me/`, {}, {"Authorization": `Bearer ${response.access_token}`}).then((response) => {
+            post(`${baseUrl}/auth/users/me/`, {}, {"Authorization": `Bearer ${response.access_token}`}).then((response) => 
+            {
                 setObj("user", response.results[0]);
                 if (location)
 
@@ -251,7 +275,8 @@ export class HandleTokenLoc extends AuthComponent<AuthPropsLoc, AuthState> {
 
                     this.props.history.push("/");
 
-            }).catch(() => {
+            }).catch(() => 
+            {
                 toast.error("Oops something went wrong", {
                     position: "bottom-center"
                 });
@@ -259,14 +284,16 @@ export class HandleTokenLoc extends AuthComponent<AuthPropsLoc, AuthState> {
             });
 
 
-        }).catch(reason => {
+        }).catch(reason => 
+        {
             console.log(reason);
             refresh_user();
         });
 
     }
 
-    render() {
+    render() 
+    {
         return (
             <Container className="mt-5 pt-5">
                 <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
@@ -277,13 +304,15 @@ export class HandleTokenLoc extends AuthComponent<AuthPropsLoc, AuthState> {
 
 export const HandleToken = withRouter(HandleTokenLoc);
 
-export class HandleInviteLoc extends AuthComponent<AuthPropsLoc, AuthState> {
-    async componentDidMount() {
+export class HandleInviteLoc extends AuthComponent<AuthPropsLoc, AuthState> 
+{
+    async componentDidMount() 
+    {
         super.componentDidMount();
         console.log(this.props.location);
         const invite = getParam("invite", "", true);
         console.log(invite);
-        await post(`${baseUrl}/auth/users/friend/`, {invite}, {"Authorization": `Bearer ${getAuth()}`})
+        await post(`${baseUrl}/auth/users/friend/${invite}`, {"Authorization": `Bearer ${getAuth()}`})
             .then(() => console.log("friend added"))
             .catch((error) => console.log("Oops Something went wrong.", error));
 
@@ -292,7 +321,8 @@ export class HandleInviteLoc extends AuthComponent<AuthPropsLoc, AuthState> {
 
     }
 
-    render() {
+    render() 
+    {
         return (
             <Container className="mt-5 pt-5">
                 <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
