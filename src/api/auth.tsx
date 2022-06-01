@@ -282,7 +282,7 @@ export class HandleInviteLoc extends AuthComponent<AuthPropsLoc, AuthState> {
         super.componentDidMount();
         console.log(this.props.location);
         const invite = getParam("invite", "", true);
-        console.log(invite)
+        console.log(invite);
         await post(`${baseUrl}/auth/users/friend/`, {invite}, {"Authorization": `Bearer ${getAuth()}`})
             .then(() => console.log("friend added"))
             .catch((error) => console.log("Oops Something went wrong.", error));
