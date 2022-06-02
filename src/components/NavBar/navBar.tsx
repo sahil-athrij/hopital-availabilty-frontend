@@ -4,7 +4,7 @@ import {FullScreenSearch} from "../FullScreen/fullScreenSearch";
 import {AuthComponent, AuthState} from "../../api/auth";
 import {getParam} from "../../api/QueryCreator";
 import {CSSTransition} from "react-transition-group";
-import {Container, AppBar, IconButton} from "@mui/material";
+import {Container, AppBar, IconButton, Backdrop} from "@mui/material";
 import {ResponsiveState} from "../ResponsiveComponent";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
@@ -14,6 +14,7 @@ import Badge from "@mui/material/Badge";
 import "./nabar.css";
 // import Avatar from "@mui/material/Avatar";
 import {FullScreenUser} from "../FullScreen/FullScreenUser";
+import {BottomNav} from "./BottomNav";
 
 
 
@@ -116,14 +117,27 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
 
                     <CSSTransition classNames="user-screen" in={this.state.show_user} timeout={300}
                         unmountOnExit>
-                        <FullScreenUser close={() =>
-                        {
-                            this.props.history.goBack();
-                            this.setState({show_user: false});
-                        }}/>
+                        <>
+                            <FullScreenUser close={() =>
+                            {
+                                this.props.history.goBack();
+                                this.setState({show_user: false});
+                            }}/>
+                            <BottomNav/>
+                        </>
                     </CSSTransition>
 
                 </Container>
+
+                <Backdrop
+                    sx={{ color: "#fff", zIndex: 100}}
+                    open={this.state.show_user}
+                    onClick={() =>
+                    {
+                        this.props.history.goBack();
+                        this.setState({show_user: false});
+                    }}
+                />
 
                 {showSearchBar &&
                 <CSSTransition classNames="location-screen" in={this.state.show_search} timeout={300}
@@ -139,7 +153,6 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
                     }}/>
                 </CSSTransition>
                 }
-
             </AppBar>
 
         );
