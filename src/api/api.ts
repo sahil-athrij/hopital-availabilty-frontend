@@ -1,5 +1,8 @@
+import { fi } from "date-fns/locale";
 import {getAuth} from "./auth";
 import {ModelRegistry} from "./model";
+import { getParam, setParam } from "./QueryCreator";
+import { filterTypes, TFilterParams } from "./types";
 
 export const baseUrl = process.env.BASE_URL;
 
@@ -168,6 +171,34 @@ export class ModelObject
 
 }
 
+export class ModelFilterSet<T extends Record<string, any>>{
+
+    params: readonly (keyof T)[] = [];
+
+    constructor(params: (keyof T)[]=[]) {
+        this.params = params;
+    }
+
+    static metaToParams(meta: Record<string,readonly filterTypes[]>){
+            return Object.keys(meta).reduce((params,key)=>([...params,...meta[key].map(fil=>key+`${fil==='exact'?'':'__'+fil}`)]),[] as any)
+    } 
+
+    getParams() {
+        return this.params.reduce((acc, cur) => {
+            const param = getParam(cur as string, "", true);
+            return param === ""?acc: { ...acc, [cur]: param  }
+             },{});
+    }
+
+    setParams(params: Partial<T>) {
+        Object.entries(params).forEach(([k, v]) => this.setParam(k, v))
+    }
+
+    setParam<K extends keyof T>(k: K, v: T[K]) {
+        setParam(k as string, Array.isArray(v) ? v.join(',') : v);
+        return this;
+    }
+}
 
 export default class Model
 {
