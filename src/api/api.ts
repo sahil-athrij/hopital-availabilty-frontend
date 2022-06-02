@@ -187,9 +187,10 @@ export class ModelFilterSet<T extends Record<string, any>>{
     shouldUpdate(oldParams:Partial<T>){
         const curParams:any = this.getUnserialized();
         for(const k in curParams)
-            if(Array.isArray(oldParams[k]))
+            if(Array.isArray(oldParams[k])){
                 if(oldParams[k]!.length !== curParams[k].length || !oldParams[k]!.every((v:string)=>curParams[k].includes(v)))
                     return true;
+            }
             else if(oldParams[k] !== curParams[k])
                 return true;
         if(!Object.keys(oldParams).every(v=>Object.keys(curParams).includes(v)))
