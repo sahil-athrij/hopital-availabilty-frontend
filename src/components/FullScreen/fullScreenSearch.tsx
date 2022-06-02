@@ -119,18 +119,20 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
 
     async SuggestLocationsSearch(event: React.ChangeEvent<HTMLInputElement>)
     {
-        this.setState({query: event.target.value}, this.setPersistence);
-        try
-        {
-            const values = await Marker.filter({ search: this.state.query, limit: 5,...MarkerFilters.getParams() });
-            this.setState({suggestionsSearch: values.results});
-        }
-        catch (e)
-        {
-            toast.error("Internet Not Available", {
-                position: "bottom-center",
-            });
-        }
+        this.setState({query: event.target.value}, async ()=>{
+            this.setPersistence;
+            try
+            {
+               const values = await Marker.filter({ search: this.state.query, limit: 5,...MarkerFilters.getParams() });
+               this.setState({suggestionsSearch: values.results});
+            }
+            catch (e)
+            {
+                toast.error("Internet Not Available", {
+                    position: "bottom-center",
+                });
+            }
+        });
 
     }
 
