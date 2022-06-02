@@ -137,11 +137,20 @@ export class ProfileDetailsLoc extends AuthComponent<AuthPropsLoc, ProfileDetail
     handleInvite = async () =>
     {
         const shareData = {
-            title: "NeedMedi",
-            text: `${this.state.user?.username} Invited you to needmedi.com`,
-            url: `${reactUrl}/invite?invite=${this.state.user?.tokens.private_token}`
-        };
+        title: "NeedMedi",
+        text: `${this.state.user?.first_name} ${this.state.user?.last_name?this.state.user.last_name+" ":""}has invited you to join Needmedi 
 
+Free App to Search & Book Doctors
+
+https://needmedi.com/invite?invite=${this.state.user?.tokens.private_token??""}
+
+Login with Gmail/Google or Facebook Account.
+
+Or create a Login with any Email ID
+
+Labs, Blood donors & more Online Medical Services... coming soon on Needmedi.com`,
+        };
+        
         try
         {
             await navigator.share(shareData);
