@@ -2,7 +2,7 @@ import { fi } from "date-fns/locale";
 import {getAuth} from "./auth";
 import {ModelRegistry} from "./model";
 import { getParam, setParam } from "./QueryCreator";
-import { filterTypes, TFilterParams } from "./types";
+import { filterTypes, TFilterChoiceList } from "./types";
 
 export const baseUrl = process.env.BASE_URL;
 
@@ -174,9 +174,11 @@ export class ModelObject
 export class ModelFilterSet<T extends Record<string, any>>{
 
     params: readonly (keyof T)[] = [];
+    choiceList: TFilterChoiceList<T>;
 
-    constructor(params: (keyof T)[]=[]) {
+    constructor(params: (keyof T)[]=[],c:TFilterChoiceList<T>= {} as TFilterChoiceList<T>) {
         this.params = params;
+        this.choiceList = c;
     }
 
     static metaToParams(meta: Record<string,readonly filterTypes[]>){
@@ -197,6 +199,10 @@ export class ModelFilterSet<T extends Record<string, any>>{
     setParam<K extends keyof T>(k: K, v: T[K]) {
         setParam(k as string, Array.isArray(v) ? v.join(',') : v);
         return this;
+    }
+
+    reset(){
+        this.params.forEach(p=>localStorage.removeItem(p as string));
     }
 }
 

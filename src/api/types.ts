@@ -14,6 +14,7 @@ type MetaKeySpread<O extends Record<keyof M, readonly filterTypes[] | undefined>
 
 export type TFilterParams<T extends Partial<Record<keyof M, readonly filterTypes[]>>, M extends ModelObject> = UnionToIntersection<Partial<MetaKeySpread<T, symbolRem<keyof T>, M>>>
 
+export type TFilterChoiceList<T extends Partial<Record<string,any>>> = {[K in keyof T]:Record<Extract<T[K],string[]>[number],string>}
 
 export type UnionToIntersection<T> = 
   (T extends any ? (x: T) => any : never) extends 

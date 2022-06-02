@@ -1,6 +1,6 @@
 import Model, {baseUrl, filePost, ModelData, ModelFilterSet, ModelObject} from "./api";
 import {getAuth} from "./auth";
-import { TFilterParams } from "./types";
+import { TFilterChoiceList, TFilterParams } from "./types";
 
 interface ImageObject
 {
@@ -48,12 +48,6 @@ export const markerMedicine = {
     'Ho': 'Homeopathy'
 } as const;
 
-type MarkerFilterParams = {
-    type__in:keyof typeof markerTypes,
-    category__in:keyof typeof markerCategories,
-    medicine__in:keyof typeof markerMedicine,
-    ownership__in:keyof typeof markerOwnership
-}
  const markerfilters = {'financial_rating': ['gte', 'lte', 'exact'],
                         'oxygen_rating': ['gte', 'lte', 'exact'], 'ventilator_availability': ['gte', 'lte', 'exact'],
                         'oxygen_availability': ['gte', 'lte', 'exact'], 'icu_availability': ['gte', 'lte', 'exact'],
@@ -61,8 +55,11 @@ type MarkerFilterParams = {
                         'care_rating': ['gte', 'lte', 'exact'], 'covid_rating': ['gte', 'lte', 'exact'],
                         'beds_available': ['gte', 'lte', 'exact'], 'category': ['in'], 'type': ['in'],
                         'ownership': ['in'], 'medicine': ['in']} as const;
+                    
 
 export type TMarkerFilter = TFilterParams<typeof markerfilters,MarkerObject>
+
+const markerFilterChoices: TFilterChoiceList<TMarkerFilter>= {'category__in':markerCategories,'medicine__in':markerMedicine,'type__in':markerTypes,'ownership__in':markerOwnership}
 
 export class MarkerObject extends ModelObject {
     lng = "0";
@@ -474,7 +471,7 @@ export class BloodBankObject extends ModelObject
 
 }
 
-export const MarkerFilters = new ModelFilterSet<TMarkerFilter>(ModelFilterSet.metaToParams(markerfilters));
+export const MarkerFilters = new ModelFilterSet<TMarkerFilter>(ModelFilterSet.metaToParams(markerfilters), markerFilterChoices);
 
 export const Review = new Model(baseUrl + "/api/review/", ReviewObject);
 export const Sus = new Model(baseUrl + "/api/suspicious/", susObject);
