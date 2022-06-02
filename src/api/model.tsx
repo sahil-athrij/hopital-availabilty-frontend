@@ -19,8 +19,32 @@ export interface WorkingTime
     hospital: number
 }
 
-export class MarkerObject extends ModelObject
-{
+const markerCategories = {
+    'E': 'Economy',
+    'N': 'Normal',
+    'S': 'Speacialty',
+    'SS': 'Super Specialty',
+    'U': 'Uncategorized'
+}
+
+const markerTypes = {
+    'H': 'Hospital',
+    'P': 'Pharmacy',
+    'C': 'Clinic',
+    'W': 'Wellness Center',
+    'U': 'Uncategorized'
+}
+const markerOwnership = {
+    'Pu': 'Public',
+    'Pr': 'Private',
+    'Co': 'Co-operative',
+    'U': 'Uncategorized'
+}
+const markerMedicine = {
+    'Ay': 'Ayurveda', 'Al': 'Allopathy',
+    'Ho': 'Homeopathy'
+}
+export class MarkerObject extends ModelObject {
     lng = 0;
     comment: ReviewObject[] = [];
     oxygen_availability = 0;
@@ -40,14 +64,19 @@ export class MarkerObject extends ModelObject
     doctors: DoctorObject[] = [];
     about: string | undefined;
     departments: Array<DepartmentObject> = [];
+    type: keyof typeof markerTypes = 'U';
+    category: keyof typeof markerCategories = 'U';
+    ownership: keyof typeof markerOwnership = 'U';
+    medicine: keyof typeof markerMedicine = 'Al';
 
-    constructor(data: ModelData, baseUrl: string)
-    {
+
+    constructor(data: ModelData, baseUrl: string) {
 
         super(data, baseUrl);
         this.fields = ["id", "Phone", "size", "financial_rating", "avg_cost", "covid_rating", "beds_available", "care_rating",
             "oxygen_rating", "ventilator_availability", "oxygen_availability", "icu_availability", "lat", "lng", "images",
-            "display_address", "name", "datef", "address", "comment", "departments", "doctors"];
+            "display_address", "name", "datef", "address", "comment", "departments", "doctors", "ownership", "type", "medicine",
+            "category"];
         this.getData();
 
     }
@@ -439,7 +468,6 @@ export const Ambulance = new Model(baseUrl + "/internals/ambulance/", AmbulanceO
 export const Appointment = new Model(baseUrl + "/internals/appointment/", AppointmentObject);
 export const BloodBank = new Model(baseUrl + "/internals/blood_bank/", AppointmentObject);
 export const UserSearch = new Model(baseUrl + "/auth/search_users", UserSearchObject);
-
 
 export type ModelRegistry =
     typeof MarkerObject
