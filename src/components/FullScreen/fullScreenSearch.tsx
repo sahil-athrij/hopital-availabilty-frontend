@@ -6,7 +6,7 @@ import {
     LocationSearchProps,
     LocationSearchState
 } from "./FullScreenLocation";
-import {Marker} from "../../api/model";
+import { Marker, markerCategories, markerOwnership, markerMedicine, TMarkerFilter, MarkerFilters } from "../../api/model";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CloseIcon from "@mui/icons-material/Close";
 import {getParam, setParam} from "../../api/QueryCreator";
@@ -24,7 +24,7 @@ import NorthWestIcon from "@mui/icons-material/NorthWest";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
-
+import { PillSelect } from "../inputs/PillSelect";
 
 interface LocationQuerySearchProps extends LocationSearchProps
 {
@@ -53,7 +53,7 @@ interface LocationQuerySearchState extends LocationSearchState
     lng: string,
     query: string,
     display: number | boolean,
-    filters: string[],
+    filters: TMarkerFilter,
     filter_active: boolean,
     location_active: boolean,
 
@@ -68,32 +68,9 @@ const StyledChip = withStyles({
 
 })(Chip);
 
-const bluechip = {
-    background: "#3E64FF", "&:hover": {
-        background: "#3E64FF",
-        color: "white",
-    }, borderRadius: "5px", color: "white", fontSize: "15px", width: "126px", height: "41px"
-};
-
-const greychip = {
-    background: "#F0F0F0",
-    borderRadius: "5px",
-    color: "black",
-    fontSize: "15px",
-    width: "126px",
-    height: "41px"
-};
-
 const departments = ["Cardiology", "Anaesthesiology", "Dermatology", "Endocrinology", "Gastroenterology", "Oncology",
     "Nephrology", "Neurology", "Paediatrics", "Psychiatry", "Pulmonology", "Radiology", "Rheumatology", "Geriatrics", "Gynaecology", "Community Health", "ENT",
     "Dental", "Venerology", "Dietician", "Pathology", "General Physician", "Orthopaedics"];
-
-const types = ["Economy", "Speciality", "Super speciality", "Normal"];
-
-const ownership = ["Private", "Public", "Co-operative"];
-
-const medicine = ["Ayurveda", "Allopathy", "Homeopathy"];
-
 
 export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuerySearchProps, LocationQuerySearchState>
 {
@@ -107,7 +84,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
             suggestionsSearch: [],
             selectedSearch: -1,
             query: getParam("query", "Search Hospital"),
-            filters: [],
+            filters: {},
             filter_active: false,
             location_active: false,
         };
@@ -131,6 +108,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
         setParam("query", this.state.query, "Search Hospital");
         setParam("lat", this.state.lat);
         setParam("lng", this.state.lng);
+        MarkerFilters.setParams(this.state.filters);
         console.log(localStorage.getItem("lat"));
     }
 
@@ -140,7 +118,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
         this.setState({query: event.target.value}, this.setPersistence);
         try
         {
-            const values = await Marker.filter({search: this.state.query, limit: 5});
+            const values = await Marker.filter({ search: this.state.query, limit: 5,...MarkerFilters.getParams() });
             this.setState({suggestionsSearch: values.results});
         }
         catch (e)
@@ -150,24 +128,6 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
             });
         }
 
-    }
-
-    handleChipChange(value: string)
-    {
-        console.log(value);
-        const index = this.state.filters.indexOf(value);
-        const {filters} = this.state;
-        if (index > -1)
-        
-            filters.splice(index, 1);
-        
-        else
-        
-            filters.push(value);
-        
-
-
-        this.setState({filters});
     }
 
 
@@ -310,7 +270,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
 
                     <div className="bottombox w-100 py-1" style={{overflowX: "auto", whiteSpace: "nowrap"}}>
 
-                        {this.state.filters.map((value, index) => (
+                        {Object.values(this.state.filters).map((value, index) => (
                             <StyledChip className="col-xs-4 mx-1" key={index} sx={{
                                 background: " #3E64FF", borderRadius: "5px", color: "white",
                                 fontSize: "8px", width: "76px", height: "21px"
@@ -420,52 +380,36 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                             <CloseIcon sx={{color: "#0338B9"}}/>
                         </IconButton>
                     </div>
-                    {this.state.filters?.length? <Button sx={{width:"fit-content", marginLeft:"auto"}} className="bg-grey d-flex justify-content-end" endIcon={<ClearAllIcon sx={{color: "#0338B9"}}/>} onClick={() =>
+                    {Object.keys(this.state.filters)?.length? <Button sx={{width:"fit-content", marginLeft:"auto"}} className="bg-grey d-flex justify-content-end" endIcon={<ClearAllIcon sx={{color: "#0338B9"}}/>} onClick={() =>
                     {
-                        this.setState({filters: []});
+                        this.setState({filters: {}});
                     }}>
                         clear
                     </Button>:<></>}
                     <div className="filterbottom d-flex flex-column">
                         <div className="filterhead text-center w-100 mb-4 mt-4 ">Types</div>
                         <div className="chips d-flex flex-wrap justify-content-between align-items-center">
-                            {types.map((value, key) => (
-                                <div key={key} className="child mb-2">
-                                    <StyledChip onClick={() => this.handleChipChange(value)}
-                                        sx={this.state.filters.includes(value) ? bluechip : greychip}
-                                        label={value} />
-                                </div>
-                            ))}
+                            
+                            <PillSelect values={markerCategories} onChange={(v) => this.setState({ filters: { ...this.state.filters, category__in: v } })} />
+
                         </div>
                         <div className="filterhead text-center w-100 mb-4 mt-2 ">Departments</div>
                         <div className="chips d-flex flex-wrap justify-content-between align-items-center">
-                            {departments.map((value, key) => (
-                                <div key={key} className="child mb-2">
-                                    <StyledChip onClick={() => this.handleChipChange(value)}
-                                        sx={this.state.filters.includes(value) ? bluechip : greychip}
-                                        label={value} />
-                                </div>
-                            ))}
+                            
+                            <PillSelect values={Object(departments)} onChange={(v) => ""} />
+
                         </div>
                         <div className="filterhead text-center w-100 mb-4 mt-2 ">Ownership</div>
                         <div className="chips d-flex flex-wrap justify-content-between align-items-center">
-                            {ownership.map((value, key) => (
-                                <div key={key} className="child mb-2">
-                                    <StyledChip onClick={() => this.handleChipChange(value)}
-                                        sx={this.state.filters.includes(value) ? bluechip : greychip}
-                                        label={value} />
-                                </div>
-                            ))}
+                            
+                            <PillSelect values={markerOwnership} onChange={(v) => this.setState({ filters: { ...this.state.filters, ownership__in: v } })} />
+
                         </div>
                         <div className="filterhead text-center w-100 mb-4 mt-2 ">Medicine</div>
                         <div className="chips d-flex flex-wrap justify-content-around align-items-center">
-                            {medicine.map((value, key) => (
-                                <div key={key} className="child mb-2">
-                                    <StyledChip onClick={() => this.handleChipChange(value)}
-                                        sx={this.state.filters.includes(value) ? bluechip : greychip}
-                                        label={value} />
-                                </div>
-                            ))}
+                            
+                            <PillSelect values={markerMedicine} onChange={(v) => this.setState({ filters: { ...this.state.filters, medicine__in: v } })} />
+
                         </div>
                     </div>
 
