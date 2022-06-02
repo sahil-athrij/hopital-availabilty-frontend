@@ -45,7 +45,7 @@ const markerMedicine = {
     'Ho': 'Homeopathy'
 }
 export class MarkerObject extends ModelObject {
-    lng = 0;
+    lng = "0";
     comment: ReviewObject[] = [];
     oxygen_availability = 0;
     covid_rating = 0;
@@ -60,7 +60,7 @@ export class MarkerObject extends ModelObject {
     model: Record<string, unknown> = {};
     images: ImageObject[] = [];
     ventilator_availability = 0;
-    lat = 0;
+    lat = "0";
     doctors: DoctorObject[] = [];
     about: string | undefined;
     departments: Array<DepartmentObject> = [];
