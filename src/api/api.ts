@@ -122,6 +122,7 @@ export class ModelObject
     baseUrl;
     id: number;
     fields: string[] = ["id"];
+    filters:readonly string[] = [];
 
     constructor(data: ModelData, baseUrl: string)
     {
@@ -168,7 +169,7 @@ export class ModelObject
 }
 
 
-export default class Model
+export default class Model<T extends InstanceType<ModelRegistry>>
 {
     baseurl: string;
     modelClass: ModelRegistry;
@@ -195,7 +196,7 @@ export default class Model
 
     };
 
-    filter = async (kwargs = {}, auth = false) =>
+    filter = async (kwargs:TFilterArgs<T> = {}, auth = false) =>
     {
         try
         {
@@ -271,3 +272,5 @@ export default class Model
 
 }
 
+type TFilterExtraArgs = { limit: number, offset: number }
+type TFilterArgs<Model extends ModelObject> = Partial<{ [K in Model["filters"][number]]: K extends keyof Model ? Model[K] : string } & TFilterExtraArgs>

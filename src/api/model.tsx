@@ -69,6 +69,7 @@ export class MarkerObject extends ModelObject {
     ownership: keyof typeof markerOwnership = 'U';
     medicine: keyof typeof markerMedicine = 'Al';
 
+    filters = ["type", "category", "ownership", "medicine", "search", "lat", "lng"] as const;
 
     constructor(data: ModelData, baseUrl: string) {
 
@@ -458,7 +459,7 @@ export class BloodBankObject extends ModelObject
 export const Review = new Model(baseUrl + "/api/review/", ReviewObject);
 export const Sus = new Model(baseUrl + "/api/suspicious/", susObject);
 export const Department = new Model(baseUrl + "/internals/departments/", DepartmentObject);
-export const Marker = new Model(baseUrl + "/api/marker/", MarkerObject);
+export const Marker = new Model<MarkerObject>(baseUrl + "/api/marker/", MarkerObject);
 export const Doctor = new Model(baseUrl + "/internals/doctors/", DoctorObject);
 export const Patient = new Model(baseUrl + "/api/patient/", PatientObject);
 export const DepartmentName = new Model(baseUrl + "/internals/department_names/", DepartmentNameObject);
