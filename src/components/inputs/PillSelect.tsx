@@ -4,7 +4,8 @@ import { withStyles } from "@mui/styles";
 
 interface PillSelectProps<T extends { [k: string]: string }> {
     values: T,
-    onChange: (v: (keyof T)[]) => void
+    onChange: (v:keyof T) => void,
+    selected: string[]
 }
 interface PillSelectState {
     selected: string[]
@@ -38,27 +39,13 @@ export class PillSelect<T extends { [k: string]: string }> extends Component<Pil
 {
     constructor(props: PillSelectProps<T>) {
         super(props);
-        this.state = { selected: [] };
-    }
-
-    handleChipChange(value: string) {
-        const index = this.state.selected.indexOf(value);
-        const { selected } = this.state;
-
-        if (index > -1)
-            selected.splice(index, 1);
-        else
-            selected.push(value);
-
-        this.setState({ selected });
-        this.props.onChange(selected);
     }
 
     render() {
         return Object.entries(this.props.values).map(([value, label], key) => (
             <div key={key} className="child mb-2">
-                <StyledChip onClick={() => this.handleChipChange(value)}
-                    sx={this.state.selected.includes(value) ? bluechip : greychip}
+                <StyledChip onClick={() => this.props.onChange(value)}
+                    sx={this.props.selected.includes(value) ? bluechip : greychip}
                     label={label} />
             </div>
         ))

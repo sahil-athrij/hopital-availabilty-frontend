@@ -25,7 +25,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import { PillSelect } from "../inputs/PillSelect";
-
 interface LocationQuerySearchProps extends LocationSearchProps
 {
     close: () => void,
@@ -95,8 +94,13 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
         MarkerFilters.reset();
     }
 
+    componentDidUpdate(){
+        console.log(this.state);
+    }
+
     toggleDrawer = (newOpen: boolean) => () =>
     {
+        console.log("adsasd")
         this.setState({filter_active: newOpen});
     };
 
@@ -116,26 +120,39 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
         console.log(localStorage.getItem("lat"));
     }
 
+    async queryData(){
+        this.setPersistence();
+        try {
+            const values = await Marker.filter({ search: this.state.query, limit: 5, ...MarkerFilters.getParams() });
+            this.setState({ suggestionsSearch: values.results });
+        }
+        catch (e) {
+            toast.error("Internet Not Available", {
+                position: "bottom-center",
+            });
+        }
+    }
 
     async SuggestLocationsSearch(event: React.ChangeEvent<HTMLInputElement>)
     {
         this.setState({query: event.target.value}, async ()=>{
-            this.setPersistence;
-            try
-            {
-               const values = await Marker.filter({ search: this.state.query, limit: 5,...MarkerFilters.getParams() });
-               this.setState({suggestionsSearch: values.results});
-            }
-            catch (e)
-            {
-                toast.error("Internet Not Available", {
-                    position: "bottom-center",
-                });
-            }
+            this.queryData();
         });
 
     }
 
+    handlePillSelect(type:keyof typeof this.state.filters,v: string){
+        const filter = this.state.filters[type]??[].slice();
+        if(Array.isArray(filter)){
+            const index = (filter as string[]).indexOf(v);
+            
+            if (index > -1)
+                filter.splice(index, 1);
+            else
+                (filter as string[]).push(v);
+        }
+        this.setState({ filters:{...this.state.filters,[type]:filter} });            
+    }
 
     handleEnterSearch()
     {
@@ -369,7 +386,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
 
                 <SwipeableDrawer anchor="bottom"
                     open={this.state.filter_active}
-                    onClose={this.toggleDrawer(false)}
+                    onClose={()=>this.toggleDrawer(false)}
                     onOpen={this.toggleDrawer(true)}
                     disableSwipeToOpen={false}
                     ModalProps={{
@@ -380,8 +397,8 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                         Select the tags you want to search
                         <IconButton  onClick={() =>
                         {
-                            this.setState({filter_active: false}
-                            );
+                            this.setState({filter_active: false});
+                            this.queryData();
                         }}>
                             <CloseIcon sx={{color: "#0338B9"}}/>
                         </IconButton>
@@ -397,25 +414,25 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                         <div className="filterhead text-center w-100 mb-4 mt-4 ">Types</div>
                         <div className="chips d-flex flex-wrap justify-content-between align-items-center">
                             
-                            <PillSelect values={MarkerFilters.choiceList.category__in??{}} onChange={(v) => this.setState({ filters: { ...this.state.filters, category__in: v } })} />
+                            <PillSelect values={MarkerFilters.choiceList.category__in??{}} selected={this.state.filters.category__in??[]} onChange={(v) => this.handlePillSelect("category__in",v)} />
 
                         </div>
                         <div className="filterhead text-center w-100 mb-4 mt-2 ">Departments</div>
                         <div className="chips d-flex flex-wrap justify-content-between align-items-center">
                             
-                            <PillSelect values={Object(departments)} onChange={(v) => ""} />
+                            <PillSelect values={Object(departments)} selected={[]} onChange={(v) => ""} />
 
                         </div>
                         <div className="filterhead text-center w-100 mb-4 mt-2 ">Ownership</div>
                         <div className="chips d-flex flex-wrap justify-content-between align-items-center">
                             
-                            <PillSelect values={MarkerFilters.choiceList.ownership__in??{}} onChange={(v) => this.setState({ filters: { ...this.state.filters, ownership__in: v } })} />
+                            <PillSelect values={MarkerFilters.choiceList.ownership__in??{}} selected={this.state.filters.ownership__in??[]} onChange={(v) => this.handlePillSelect("ownership__in",v)} />
 
                         </div>
                         <div className="filterhead text-center w-100 mb-4 mt-2 ">Medicine</div>
                         <div className="chips d-flex flex-wrap justify-content-around align-items-center">
 
-                            <PillSelect values={MarkerFilters.choiceList.medicine__in??{}} onChange={(v) => this.setState({ filters: { ...this.state.filters, medicine__in: v } })} />
+                            <PillSelect values={MarkerFilters.choiceList.medicine__in??{}} selected={this.state.filters.medicine__in??[]} onChange={(v) => this.handlePillSelect("medicine__in",v)} />
 
                         </div>
                     </div>
