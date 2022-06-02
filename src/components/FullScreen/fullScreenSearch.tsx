@@ -83,7 +83,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
             suggestionsSearch: [],
             selectedSearch: -1,
             query: getParam("query", "Search Hospital"),
-            filters: {},
+            filters: {...MarkerFilters.getUnserialized()},
             filter_active: false,
             location_active: false,
         };
@@ -91,7 +91,6 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
     }
 
     componentDidMount(){
-        MarkerFilters.reset();
     }
 
     componentDidUpdate(){
@@ -292,13 +291,17 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                     </div>
 
                     <div className="bottombox w-100 py-1" style={{overflowX: "auto", whiteSpace: "nowrap"}}>
-
-                        {Object.entries(this.state.filters).map(([k,v], index) => (
-                            <StyledChip className="col-xs-4 mx-1" key={index} sx={{
-                                background: " #3E64FF", borderRadius: "5px", color: "white",
-                                fontSize: "8px", width: "76px", height: "21px"
-                            }} label={((MarkerFilters.choiceList as any)[k] as any)[v as any]}/>
-                        ))}
+                        {
+                            Object.entries(this.state.filters).flatMap(([k, v]) => {
+                                return (v as string[]).map((vK, i) =>
+                                (
+                                    <StyledChip className="col-xs-4 mx-1" key={i} sx={{
+                                        background: " #3E64FF", borderRadius: "5px", color: "white",
+                                        fontSize: "8px", width: "76px", height: "21px"
+                                    }} label={((MarkerFilters.choiceList as any)[k] as any)[vK as any]} />
+                                ))
+                            })
+                        }
 
                     </div>
 

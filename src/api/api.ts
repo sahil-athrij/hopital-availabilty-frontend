@@ -185,9 +185,16 @@ export class ModelFilterSet<T extends Record<string, any>>{
             return Object.keys(meta).reduce((params,key)=>([...params,...meta[key].map(fil=>key+`${fil==='exact'?'':'__'+fil}`)]),[] as any)
     } 
 
-    getParams() {
+    getUnserialized(){
         return this.params.reduce((acc, cur) => {
-            const param = getParam(cur as string, "", true);
+            const param = getParam(cur as string, "", false);
+            return param === ""?acc: { ...acc, [cur]: (cur as string).includes('__in')?param.split(','):param  }
+             },{});
+    }
+
+    getParams(from_quey:boolean=false) {
+        return this.params.reduce((acc, cur) => {
+            const param = getParam(cur as string, "", from_quey);
             return param === ""?acc: { ...acc, [cur]: param  }
              },{});
     }
