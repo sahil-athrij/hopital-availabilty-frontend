@@ -292,10 +292,10 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
 
                     <div className="bottombox w-100 py-1" style={{overflowX: "auto", whiteSpace: "nowrap"}}>
                         {
-                            Object.entries(this.state.filters).flatMap(([k, v]) => {
-                                return (v as string[]).map((vK, i) =>
+                            Object.entries(this.state.filters).flatMap(([k, v],i1) => {
+                                return (v as string[]).map((vK, i2) =>
                                 (
-                                    <StyledChip className="col-xs-4 mx-1" key={i} sx={{
+                                    <StyledChip className="col-xs-4 mx-1" key={i1+i2} sx={{
                                         background: " #3E64FF", borderRadius: "5px", color: "white",
                                         fontSize: "8px", width: "76px", height: "21px"
                                     }} label={((MarkerFilters.choiceList as any)[k] as any)[vK as any]} />
