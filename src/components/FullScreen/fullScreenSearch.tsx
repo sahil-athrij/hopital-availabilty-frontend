@@ -6,7 +6,7 @@ import {
     LocationSearchProps,
     LocationSearchState
 } from "./FullScreenLocation";
-import { Marker, markerCategories, markerOwnership, markerMedicine, TMarkerFilter, MarkerFilters } from "../../api/model";
+import { TMarkerFilter, MarkerFilters, Marker } from "../../api/model";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CloseIcon from "@mui/icons-material/Close";
 import {getParam, setParam} from "../../api/QueryCreator";
@@ -89,6 +89,10 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
             location_active: false,
         };
 
+    }
+
+    componentDidMount(){
+        MarkerFilters.reset();
     }
 
     toggleDrawer = (newOpen: boolean) => () =>
@@ -270,11 +274,11 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
 
                     <div className="bottombox w-100 py-1" style={{overflowX: "auto", whiteSpace: "nowrap"}}>
 
-                        {Object.values(this.state.filters).map((value, index) => (
+                        {Object.entries(this.state.filters).map(([k,v], index) => (
                             <StyledChip className="col-xs-4 mx-1" key={index} sx={{
                                 background: " #3E64FF", borderRadius: "5px", color: "white",
                                 fontSize: "8px", width: "76px", height: "21px"
-                            }} label={value}/>
+                            }} label={((MarkerFilters.choiceList as any)[k] as any)[v as any]}/>
                         ))}
 
                     </div>
@@ -382,6 +386,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                     </div>
                     {Object.keys(this.state.filters)?.length? <Button sx={{width:"fit-content", marginLeft:"auto"}} className="bg-grey d-flex justify-content-end" endIcon={<ClearAllIcon sx={{color: "#0338B9"}}/>} onClick={() =>
                     {
+                        MarkerFilters.reset();
                         this.setState({filters: {}});
                     }}>
                         clear
@@ -390,7 +395,7 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                         <div className="filterhead text-center w-100 mb-4 mt-4 ">Types</div>
                         <div className="chips d-flex flex-wrap justify-content-between align-items-center">
                             
-                            <PillSelect values={markerCategories} onChange={(v) => this.setState({ filters: { ...this.state.filters, category__in: v } })} />
+                            <PillSelect values={MarkerFilters.choiceList.category__in??{}} onChange={(v) => this.setState({ filters: { ...this.state.filters, category__in: v } })} />
 
                         </div>
                         <div className="filterhead text-center w-100 mb-4 mt-2 ">Departments</div>
@@ -402,13 +407,13 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
                         <div className="filterhead text-center w-100 mb-4 mt-2 ">Ownership</div>
                         <div className="chips d-flex flex-wrap justify-content-between align-items-center">
                             
-                            <PillSelect values={markerOwnership} onChange={(v) => this.setState({ filters: { ...this.state.filters, ownership__in: v } })} />
+                            <PillSelect values={MarkerFilters.choiceList.ownership__in??{}} onChange={(v) => this.setState({ filters: { ...this.state.filters, ownership__in: v } })} />
 
                         </div>
                         <div className="filterhead text-center w-100 mb-4 mt-2 ">Medicine</div>
                         <div className="chips d-flex flex-wrap justify-content-around align-items-center">
-                            
-                            <PillSelect values={markerMedicine} onChange={(v) => this.setState({ filters: { ...this.state.filters, medicine__in: v } })} />
+
+                            <PillSelect values={MarkerFilters.choiceList.medicine__in??{}} onChange={(v) => this.setState({ filters: { ...this.state.filters, medicine__in: v } })} />
 
                         </div>
                     </div>
