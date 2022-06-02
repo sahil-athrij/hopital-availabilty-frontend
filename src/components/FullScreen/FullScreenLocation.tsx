@@ -4,12 +4,13 @@ import {ReactComponent as MarkerSvg} from "../../images/markersvg.svg";
 import {get} from "../../api/api";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import CloseIcon from "@mui/icons-material/Close";
-import {getParam, setParam} from "../../api/QueryCreator";
+import {createQueryString, getParam, setParam} from "../../api/QueryCreator";
 import {RouteComponentProps} from "react-router";
 import React from "react";
 
 
 import "./location.css";
+import { MarkerFilters } from "../../api/model";
 
 
 export interface LocationSearchProps extends RouteComponentProps<Record<string, string|undefined>> {
@@ -93,6 +94,7 @@ export class LocationSearchBoxLoc<P extends LocationSearchProps, S extends Locat
     searchData = () => 
     {
         this.setPersistence();
+        const filterQStr = createQueryString(MarkerFilters.getParams())
         let query = "";
         if (this.state.query) 
         
@@ -100,14 +102,16 @@ export class LocationSearchBoxLoc<P extends LocationSearchProps, S extends Locat
         
         this.props.history.replace({
             pathname: "/search",
-            search: `query=${query}&loc=${this.state.value}&lat=${this.state.lat}&lng=${this.state.lng}`
+            search: `query=${query}&loc=${this.state.value}&lat=${this.state.lat}&lng=${this.state.lng}` + (!!filterQStr?'&'+createQueryString(MarkerFilters.getParams()):"")
         }
         );
+        /*
         this.props.history.push({
             pathname: "/search",
-            search: `query=${query}&loc=${this.state.value}&lat=${this.state.lat}&lng=${this.state.lng}`
+            search: `query=${query}&loc=${this.state.value}&lat=${this.state.lat}&lng=${this.state.lng}` + createQueryString(MarkerFilters.getParams())
         }
         );
+        */
     };
 
     searchCallBack = () => 

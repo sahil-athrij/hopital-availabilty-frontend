@@ -1,4 +1,3 @@
-import { fi } from "date-fns/locale";
 import {getAuth} from "./auth";
 import {ModelRegistry} from "./model";
 import { getParam, setParam } from "./QueryCreator";
@@ -185,6 +184,19 @@ export class ModelFilterSet<T extends Record<string, any>>{
             return Object.keys(meta).reduce((params,key)=>([...params,...meta[key].map(fil=>key+`${fil==='exact'?'':'__'+fil}`)]),[] as any)
     } 
 
+    shouldUpdate(oldParams:Partial<T>){
+        const curParams:any = this.getUnserialized();
+        for(const k in curParams)
+            if(Array.isArray(oldParams[k]))
+                if(oldParams[k]!.length !== curParams[k].length || !oldParams[k]!.every((v:string)=>curParams[k].includes(v)))
+                    return true;
+            else if(oldParams[k] !== curParams[k])
+                return true;
+        if(!Object.keys(oldParams).every(v=>Object.keys(curParams).includes(v)))
+            return true;
+        return false;
+    }
+
     getUnserialized(){
         return this.params.reduce((acc, cur) => {
             const param = getParam(cur as string, "", false);
@@ -196,7 +208,7 @@ export class ModelFilterSet<T extends Record<string, any>>{
         return this.params.reduce((acc, cur) => {
             const param = getParam(cur as string, "", from_quey);
             return param === ""?acc: { ...acc, [cur]: param  }
-             },{});
+             },{} as Record<keyof T,string>);
     }
 
     setParams(params: Partial<T>) {
