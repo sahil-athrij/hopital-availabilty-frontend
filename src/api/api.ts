@@ -169,7 +169,7 @@ export class ModelObject
 }
 
 
-export default class Model<T extends InstanceType<ModelRegistry>>
+export default class Model
 {
     baseurl: string;
     modelClass: ModelRegistry;
@@ -196,7 +196,7 @@ export default class Model<T extends InstanceType<ModelRegistry>>
 
     };
 
-    filter = async (kwargs:TFilterArgs<T> = {}, auth = false) =>
+    filter = async (kwargs= {}, auth = false) =>
     {
         try
         {
@@ -272,5 +272,3 @@ export default class Model<T extends InstanceType<ModelRegistry>>
 
 }
 
-type TFilterExtraArgs = { limit: number, offset: number }
-type TFilterArgs<Model extends ModelObject> = Partial<{ [K in Model["filters"][number]]: K extends keyof Model ? Model[K] : string } & TFilterExtraArgs>

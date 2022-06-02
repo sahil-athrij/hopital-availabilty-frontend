@@ -19,31 +19,34 @@ export interface WorkingTime
     hospital: number
 }
 
-const markerCategories = {
+export const markerCategories = {
     'E': 'Economy',
     'N': 'Normal',
     'S': 'Speacialty',
     'SS': 'Super Specialty',
     'U': 'Uncategorized'
-}
+} as const;
 
-const markerTypes = {
+export const markerTypes = {
     'H': 'Hospital',
     'P': 'Pharmacy',
     'C': 'Clinic',
     'W': 'Wellness Center',
     'U': 'Uncategorized'
-}
-const markerOwnership = {
+} as const;
+
+export const markerOwnership = {
     'Pu': 'Public',
     'Pr': 'Private',
     'Co': 'Co-operative',
     'U': 'Uncategorized'
-}
-const markerMedicine = {
+} as const; 
+
+export const markerMedicine = {
     'Ay': 'Ayurveda', 'Al': 'Allopathy',
     'Ho': 'Homeopathy'
-}
+} as const;
+
 export class MarkerObject extends ModelObject {
     lng = "0";
     comment: ReviewObject[] = [];
@@ -68,8 +71,6 @@ export class MarkerObject extends ModelObject {
     category: keyof typeof markerCategories = 'U';
     ownership: keyof typeof markerOwnership = 'U';
     medicine: keyof typeof markerMedicine = 'Al';
-
-    filters = ["type", "category", "ownership", "medicine", "search", "lat", "lng"] as const;
 
     constructor(data: ModelData, baseUrl: string) {
 
@@ -459,7 +460,7 @@ export class BloodBankObject extends ModelObject
 export const Review = new Model(baseUrl + "/api/review/", ReviewObject);
 export const Sus = new Model(baseUrl + "/api/suspicious/", susObject);
 export const Department = new Model(baseUrl + "/internals/departments/", DepartmentObject);
-export const Marker = new Model<MarkerObject>(baseUrl + "/api/marker/", MarkerObject);
+export const Marker = new Model(baseUrl + "/api/marker/", MarkerObject);
 export const Doctor = new Model(baseUrl + "/internals/doctors/", DoctorObject);
 export const Patient = new Model(baseUrl + "/api/patient/", PatientObject);
 export const DepartmentName = new Model(baseUrl + "/internals/department_names/", DepartmentNameObject);
