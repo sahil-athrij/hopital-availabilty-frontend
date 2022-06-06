@@ -133,7 +133,7 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
 
                         const loc = getParam("loc", "Select Location");
                         const query = getParam("query", "Search Hospital");
-                        this.props.history.goBack();
+                        //this.props.history.goBack();
                         this.setState({loc: loc, query: query});
                         this.setState({show_search: false});
                     }}/>
