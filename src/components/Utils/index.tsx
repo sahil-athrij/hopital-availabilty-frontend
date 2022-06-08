@@ -118,7 +118,7 @@ export const NineCards =()=>(
 
             <div className="container d-flex justify-content-between my-2 p-0 align-self-center px-2">
 
-                <Link style={{textDecoration:"none"}} className="homecard" to="/addRequest">
+                <Link style={{textDecoration:"none"}} className="homecard" to="/quickRequest">
                     <div >
                         <img src={request} alt=""/>
                         <div className="cardtxt m-0">Request</div>

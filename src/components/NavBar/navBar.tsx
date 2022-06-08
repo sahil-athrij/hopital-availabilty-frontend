@@ -9,6 +9,7 @@ import {ResponsiveState} from "../ResponsiveComponent";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import Badge from "@mui/material/Badge";
+import SearchIcon from '@mui/icons-material/Search';
 
 
 import "./nabar.css";
@@ -78,10 +79,10 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
             !this.props.location.pathname.includes("/addHospital");
         return (
             <AppBar style={{boxShadow: "none"}}
-                className={"navbar text-dark fixed-top " + (showSearchBar ? "bg-white" : "bg-grey")}
+                className={"text-dark fixed-top " + (showSearchBar ? "bg-white" : "bg-grey")}
                 id="navbar">
 
-                <Container className="">
+                <Container className="p-0">
 
 
                     <div className="searchmain d-flex flex-row align-items-center">
@@ -94,19 +95,25 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
                             }}>
                             <MenuIcon/>
                         </IconButton>
-                        <button className="srchtxt flex-grow-1" onClick={() =>
+                        <p className="icon-text">
+                            NeedMedi
+                        </p>
+                        <button className="srchtxt" onClick={() =>
                         {
                             this.props.history.push(currentLocation + "#search");
 
                             this.setState({show_search: !this.state.show_search});
                         }}>
+                            <IconButton>
+                                <SearchIcon/>
+                            </IconButton>
                             Search hospitals
                         </button>
                         <Badge onClick={() =>
                         {
                             this.props.history.push( "/notification");
                         }} badgeContent={0} sx={{marginRight: ".25rem"}} color="primary">
-                            <NotificationsNoneIcon sx={{width:"28px", height : "28px"}} color="disabled" />
+                            <NotificationsNoneIcon sx={{width:"28px", height : "28px"}} color="primary" />
                         </Badge>
                         {/*<Avatar className="mr-2" sx={{width:"28px", height : "28px", marginRight: ".5rem"}}*/}
                         {/*    src={this.state.user?.tokens?.profile || undefined}>{this.state.user ? this.state.user.username ? this.state.user.username[0] : "?" : "?"}</Avatar>*/}
