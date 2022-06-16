@@ -379,13 +379,21 @@ export class PatientObject extends ModelObject
     srfid = "";
     bunum = "";
     uid = -1;
+    request_type: "" | undefined;
+    location: "" | undefined;
+    reason: "" | undefined;
+    attachment: "" | undefined;
+    account_holder: "" | undefined;
+    ifsc: "" | undefined;
+    bank_name: "" | undefined;
+    mobile_number: 0 | undefined;
 
     constructor(data: ModelData, baseUrl: string)
     {
         super(data, baseUrl);
         this.fields = ["id", "Name", "age", "gender", "address", "requirement", "symptoms", "symdays", "spo2", "hospitalday", "oxy_bed", "covidresult",
             "hospitalpref", "attendername", "attenderphone", "relation", "srfid", "bunum", "blood", "bedtype", "ct",
-            "ctscore", "gender_name", "bedtype_name"];
+            "ctscore", "gender_name", "bedtype_name", "request_type", "gender", "location", "reason", "attachment", "account_holder", "bank_name", "mobile_number" ];
         this.getData();
     }
 }

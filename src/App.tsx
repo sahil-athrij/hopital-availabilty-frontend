@@ -41,6 +41,7 @@ import Swiper from "./components/Chat/Swiper";
 import VideoCall from "./components/VideoCall";
 import Notification from "./components/Notification/Notification";
 import {SearchUser} from "./components/Search/SearchUser";
+import { Quickrequest } from "./components/AddPatient/QuickRequest";
 
 
 const theme = createTheme({
@@ -190,6 +191,10 @@ class AppLoc extends React.Component<AppProps>
                         </Route>
                         <Route path={"/addRequest"}>
                             <Addpatient/>
+                            <BottomNav/>
+                        </Route>
+                        <Route path={"/quickRequest"} exact>
+                            <Quickrequest/>
                             <BottomNav/>
                         </Route>
                         <Route path={"/help"}>

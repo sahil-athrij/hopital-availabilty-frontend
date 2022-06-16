@@ -54,8 +54,6 @@ interface AddPatientState extends AuthState {
     hospitalpref: string;
     srfid: string;
     bunum: string;
-
-
 }
 
 
