@@ -4,7 +4,7 @@ import {Carousel} from "react-responsive-carousel";
 import img_1 from "../../images/banner1.svg";
 import img_2 from "../../images/banner2.svg";
 import img_3 from "../../images/banner3.svg";
-import img_4 from "../../images/banner4.svg";
+// import img_4 from "../../images/banner4.svg";
 import "./SlideShow.css";
 
 
