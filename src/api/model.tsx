@@ -1,5 +1,21 @@
+import { number, string } from "prop-types";
 import Model, {baseUrl, filePost, ModelData, ModelObject} from "./api";
 import {getAuth} from "./auth";
+
+export interface DoctorSchedule {
+    date: string,
+    id: number,
+    stats: {
+        total: number,
+        available: number
+    },
+    slots: {
+        id: number,
+        start: string,
+        end: string,
+        booked: boolean,
+    }[]
+}
 
 interface ImageObject
 {
@@ -213,15 +229,16 @@ export class DoctorObject extends ModelObject
     email = "";
     address = "";
     ima_number = "";
-    slots: Array<{ date: string, start: string, end: string }> = [];
+    schedule: DoctorSchedule[] = [];
     ranges: Array<{ start: string, end: string }> = [];
+
 
     constructor(data: ModelData, baseUrl: string)
     {
         super(data, baseUrl);
         this.fields = ["id", "name", "phone_number", "hospital", "department", "user", "working_time",
             "rating", "reviews", "patients", "experience", "specialization", "about", "image", "whatsapp_number",
-            "email", "address", "ima_num", "slots", "ranges"];
+            "email", "address", "ima_num", "ranges","schedule"];
         this.getData();
     }
 
@@ -388,17 +405,15 @@ export class AmbulanceObject extends ModelObject
 
 class AppointmentObject extends ModelObject
 {
-    doctor = -1;
+    doctor = "";
     date = -1;
     start?: string;
     end?: string;
-    approved = false;
-    patient = -1;
 
     constructor(data: ModelData, baseUrl: string)
     {
         super(data, baseUrl);
-        this.fields = ["id", "doctor", "date", "start", "end", "approved", "patient"];
+        this.fields = ["id", "doctor", "date", "start", "end"];
         this.getData();
     }
 }
