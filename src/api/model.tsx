@@ -2,19 +2,11 @@ import { number, string } from "prop-types";
 import Model, {baseUrl, filePost, ModelData, ModelObject} from "./api";
 import {getAuth} from "./auth";
 
-export interface DoctorSchedule {
-    date: string,
-    id: number,
-    stats: {
-        total: number,
-        available: number
-    },
-    slots: {
+export interface Slots {
         id: number,
         start: string,
         end: string,
         booked: boolean,
-    }[]
 }
 
 interface ImageObject
@@ -229,7 +221,6 @@ export class DoctorObject extends ModelObject
     email = "";
     address = "";
     ima_number = "";
-    schedule: DoctorSchedule[] = [];
     ranges: Array<{ start: string, end: string }> = [];
 
 
@@ -441,6 +432,21 @@ export class BloodBankObject extends ModelObject
 
 }
 
+export class DoctorScheduleObject extends MarkerObject{
+    date =  "";
+    doctor = "";
+    id =  -1;
+    slots:Slots[] = [];
+    stats = {available:-1, total: -1};
+    constructor(data: ModelData, baseUrl: string)
+    {
+        super(data, baseUrl);
+        this.fields = ["id", "date", "slots", "stats","doctor"];
+        this.getData();
+    }
+}
+
+
 export const Review = new Model(baseUrl + "/api/review/", ReviewObject);
 export const Sus = new Model(baseUrl + "/api/suspicious/", susObject);
 export const Department = new Model(baseUrl + "/internals/departments/", DepartmentObject);
@@ -454,7 +460,7 @@ export const Ambulance = new Model(baseUrl + "/internals/ambulance/", AmbulanceO
 export const Appointment = new Model(baseUrl + "/internals/appointment/", AppointmentObject);
 export const BloodBank = new Model(baseUrl + "/internals/blood_bank/", AppointmentObject);
 export const UserSearch = new Model(baseUrl + "/auth/search_users", UserSearchObject);
-
+export const DoctorSchedule = new Model(baseUrl + "/internals/doctor_schedule/", AppointmentObject);
 
 export type ModelRegistry =
     typeof MarkerObject

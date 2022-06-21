@@ -1,4 +1,5 @@
 import * as React from "react";
+import './calender.css';
 import {styled} from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
@@ -22,22 +23,33 @@ const CustomPickersDay = styled(PickersDay, {
         prop !== "varient" 
 })<CustomPickerDayProps>(({theme, varient}) => ({
     ...(varient !== null && {
-        border:"1px solid",
+        border:"1px solid #00000000",
         backgroundColor: "#D8E3FF00",
         color: "#000000",
+        fontWeight:"bold",
         "&:hover, &:focus": {
             backgroundColor: theme.palette.primary.dark,
             color:"white"
         }
 
     }), ...(varient === 2 && {
-        borderColor: "#26ed30"
+        borderColor: "#26ed30 !important",
+        "&:hover, &:focus": {
+            backgroundColor: "#26ed30",
+            color:"white"
+        }
     }),
     ...(varient === 1 && {
-        backgroundColor: "#ed9b31"
+        borderColor: "#ed9b31 !important",
+        "&:hover, &:focus": {
+            backgroundColor: "#ed9b31",
+            color:"white"
+        }
     }),
     ...(varient === 0 && {
-        backgroundColor: "#e93a3a"
+        backgroundColor: "#e93a3a",
+        color:"white !important"
+
     }),
 
 })) as React.ComponentType<CustomPickerDayProps>;
@@ -68,11 +80,10 @@ export default function CustomDatePicker({days, onChange}: CustomDatePickerProps
         }
         return (
             <CustomPickersDay
-                sx={{width: "100%", margin:"3px", borderRadius:"6px"}}
+                sx={{width: "100%", borderRadius:"6px"}}
                 {...pickersDayProps}
-                disableMargin
                 varient={varient}
-                disabled={!isInSchedule}
+                disabled={!isInSchedule || varient === 0}
             />
         );
     };
@@ -90,7 +101,6 @@ export default function CustomDatePicker({days, onChange}: CustomDatePickerProps
                     onChange(date);
                 }}
                 renderDay={renderWeekPickerDay}
-                disablePast
                 renderInput={(params) => <TextField {...params} />}
                 inputFormat="'Week of' MMM d"
             />
