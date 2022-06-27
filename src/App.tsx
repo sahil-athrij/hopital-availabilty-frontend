@@ -43,6 +43,9 @@ import Notification from "./components/Notification/Notification";
 import {SearchUser} from "./components/Search/SearchUser";
 import { Quickrequest } from "./components/AddPatient/QuickRequest";
 
+//SREEHARI TRIES
+import SlotArrange from "./components/DoctorDashBoard/SlotArrange";
+
 
 const theme = createTheme({
     palette: {
@@ -238,7 +241,14 @@ class AppLoc extends React.Component<AppProps>
                             <UserPage/>
                             <BottomNav/>
                         </Route>
-
+                          
+                        <Route path={"/doctor"}>
+                            <SlotArrange/>
+                            <BottomNav/>
+                        </Route>
+   
+                         
+     
 
                         {/* If the current URL is /, this route is rendered
             while the rest are ignored */}
@@ -247,7 +257,7 @@ class AppLoc extends React.Component<AppProps>
                             <Index/>
                             <BottomNav/>
                         </Route>
-
+                          
 
                     </Switch>
 
