@@ -1,7 +1,9 @@
 .box{
-    min-height:50px;
-    width: 80%;
-    border:1px solid white;
+    min-height:40px;
+    width: 90%;
+    border:1px solid rgba(128, 128, 128, 0.183);
+    margin-bottom: 8px;
+    background-color:rgba(217, 217, 217, 0.64);
 }
 .check_date{
     display:flex;
@@ -11,5 +13,8 @@
 }
 h5{
     font-size:18px;
-    font-weight:700;    
+    font-weight:600;    
+}
+.date-pad{
+    padding:0 10px;
 }

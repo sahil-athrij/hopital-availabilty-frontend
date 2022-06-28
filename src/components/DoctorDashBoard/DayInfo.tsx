@@ -1,9 +1,11 @@
 import React,{ useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
+import TimePicker from "./TimePicker";
 import "./days.css";
 
 interface dateProp{
     day: string;
+    select?: boolean;
 }
 
 const DayInfo = ({day}:dateProp) => 
@@ -28,9 +30,9 @@ const DayInfo = ({day}:dateProp) =>
             />
         </div> 
         {dateInfo && 
-             <div className="check_date">
-                 <h5>Date 1</h5>
-                 <h5>Date 2</h5>
+             <div className="check_date date-pad">
+                 <TimePicker lab="From"/>
+                 <TimePicker lab="To"/>
              </div>
          }
      </div>
