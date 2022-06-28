@@ -22,3 +22,24 @@
     justify-content: space-between !important;
     align-items: center !important;
 }
+
+.box{
+    min-height:40px;
+    width: 90%;
+    border:1px solid rgba(128, 128, 128, 0.183);
+    margin-bottom: 8px;
+    background-color:rgba(217, 217, 217, 0.64);
+}
+.check_date{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:0 10px;
+}
+h5{
+    font-size:18px;
+    font-weight:600;    
+}
+.date-pad{
+    padding:0 10px;
+}
