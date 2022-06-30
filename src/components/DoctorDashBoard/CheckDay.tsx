@@ -2,6 +2,7 @@ import React, {  useState, useEffect} from "react";
 import Checkbox from "@mui/material/Checkbox";
 import TimePicker from "./TimePicker";
 import "./days.css";
+import { DAYS } from "./SlotArrange";
 
 interface Day{
     el:string;
@@ -38,8 +39,9 @@ interface Day{
          </div> 
          {index === clickIndex && checked && 
               <div className="check_date date-pad">
-                  <TimePicker lab="From"/>
-                  <TimePicker lab="To"/>
+                {/* these to should accpet a array of time in string as the data prop need to change later*/}
+                  <TimePicker lab="From"  data={DAYS}/>
+                  <TimePicker lab="To"  data={DAYS}/>
               </div>
           }
       </div>

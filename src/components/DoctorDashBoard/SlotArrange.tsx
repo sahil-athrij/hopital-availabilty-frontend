@@ -1,26 +1,27 @@
 import React, { Component } from "react";
-import "./topbar.css";
+import "./slotarrange.css";
 import Button from "@mui/material/Button";
 import { Container } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import EventIcon from "@mui/icons-material/Event";
 import { StickyHead } from "../Utils";
 import { withRouter, RouteComponentProps } from "react-router";
 import CheckDay from "./CheckDay";
 import CustomDatePicker from "../Doctor/CustomDatePicker";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import TimePicker from "./TimePicker";
 
-
-
-
-const DAYS: string[] = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-
-
+export const DAYS: string[] = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
 interface State {
   show: boolean;
   clickIndex: number;
   checked: boolean;
   openCalender: boolean;
+  btnVal: string;
+  slote: boolean;
 }
+
 type AppProps = RouteComponentProps;
 class SlotArrange extends Component<AppProps, State>
 {
@@ -30,6 +31,8 @@ class SlotArrange extends Component<AppProps, State>
     clickIndex: 0,
     checked: false,
     openCalender: false,
+    btnVal:"Open",
+    slote:false,
   };
 
   setClickIndex(el: number)
@@ -43,9 +46,19 @@ class SlotArrange extends Component<AppProps, State>
     this.setState({ checked: event.target.checked });
   };
 
+  handleBtnState = ():void =>
+  {
+    this.setState({ openCalender: !this.state.openCalender });
+    if(this.state.openCalender)
+      this.setState({btnVal:"View"});
+    else
+      this.setState({btnVal:"Hide"});
+  };
+
   render() 
   { 
     return (
+      // 90% code in this are Conditionally renderd
       <>
         <StickyHead title="set Weekly Schedule" onClick={() => console.log("submit")} goBack={() => this.props.history.goBack()} />
         <Container className="slot_body">
@@ -56,7 +69,7 @@ class SlotArrange extends Component<AppProps, State>
             );
           })};
           <div className="btn-add">
-            <Button variant="outlined" size="medium" onClick={() => this.setState({ openCalender: !this.state.openCalender })}>
+            <Button variant="outlined" size="small" onClick={()=> this.setState({slote:!this.state.slote})} >
               <div className="btn-cont">
                 <span className="btn-span">
                   <AddIcon />
@@ -65,11 +78,39 @@ class SlotArrange extends Component<AppProps, State>
               </div>
             </Button>
           </div>
-          {this.state.openCalender && <>
-            <div className="cal">
-            <CustomDatePicker ranges={[{start: new Date(), end: new Date()}]} onChange={()=>console.log("changed")}/>
-            </div>
-          </>}
+ 
+         {this.state.slote && 
+         <>
+          <div className="center">
+               <TimePicker lab="Day" data={DAYS}/>
+               {/* these to should accpet a array of time in string as the data prop */}
+               <TimePicker lab="From"  data={DAYS}/>
+               <TimePicker lab="To"  data={DAYS}/>
+          </div>
+         </>
+          
+         }
+
+          {
+            this.state.openCalender &&
+             <>
+              <div className="cal">
+               <CustomDatePicker ranges={[{start: new Date(), end: new Date()}]} onChange={()=>console.log("changed")}/>
+              </div>
+             </>
+          }
+           
+          <div className="btn-add">
+          <Button variant={!this.state.openCalender?"contained":"outlined"} onClick={this.handleBtnState} size="small">
+              <div className="btn-cont">
+                <span className="btn-span">
+                 {this.state.openCalender && <VisibilityOffIcon/>}
+                 {!this.state.openCalender &&  <EventIcon/>}
+                </span>
+                {this.state.btnVal} Schedule
+              </div>
+             </Button>
+          </div>
         </Container>
       </>
 

@@ -1,15 +1,16 @@
 .slot_body{
-    /* background:white; */
-    /* background-color:  #E5E5E5; */
     background:white;
-    min-height:100%;
+    min-height:100vh;
     padding:10px;
+    padding-bottom:30px;
 }
 .btn-add{
-    margin-top:20px;
-    margin-right:20px ;
+    margin:0px 20px;
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
+    align-items:flex-end;
+    justify-content: space-between;
+    height:40px;
 }
 .btn-span{
 
@@ -19,7 +20,7 @@
 .btn-cont{
     width:200px !important;
     display: flex !important;
-    justify-content: space-between !important;
+    justify-content: space-around !important;
     align-items: center !important;
 }
 
@@ -45,4 +46,19 @@ h5{
 }
 .cal {
     margin-top:10px;
+}
+
+.picker-date{
+    width:250px;
+   flex-direction: column;
+}
+.picker-un{
+    display:flex;
+    justify-content:flex-start;
+    margin-left: 5px;
+}
+.center{
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }

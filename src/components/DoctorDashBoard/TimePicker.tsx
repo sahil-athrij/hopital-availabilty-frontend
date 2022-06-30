@@ -7,9 +7,10 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 interface prop {
     lab: string;
+    data: string[];
 }
 
-export default function TimePicker({lab}:prop) 
+export default function TimePicker({lab, data}:prop) 
 {
   const [age, setAge] = React.useState("");
 
@@ -28,9 +29,12 @@ export default function TimePicker({lab}:prop)
           label={lab}
           onChange={handleChange}
         >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+         {data.map(item =>(
+           <>
+             <MenuItem value={item}>{item}</MenuItem>
+           </>
+         ))}
+
         </Select>
       </FormControl>
   );
