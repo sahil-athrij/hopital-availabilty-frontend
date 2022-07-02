@@ -13,6 +13,7 @@ import PrefNSay from "../../images/genderless.svg";
 import {StickyHead} from "../Utils";
 import {toast} from "react-toastify";
 import {Button, Chip, Container, ListItem} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 
 
@@ -258,8 +259,14 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
             console.log(this.state);
             return (
                 <div className="mb-3 ">
+                    <Container className=" tophead fixed-top d-flex justify-content-between p-3 ">
+                        <CloseIcon className="d-flex align-self-center" onClick={() => this.props.history.goBack()}/>
+                        <p className="align-self-center m-0 p-0 text-left flex-grow-1 pl-4"><b>Give Help</b>
+                        </p>
+                    </Container>
+                    <div className=" mb-4 mt-4 pt-4 pb-2">
 
-                    <StickyHead title="Give Help" onClick={() => undefined} goBack={this.props.history.goBack}/>
+                    </div>
                     <ListItem className='d-flex justify-content-around'
                         value={this.state.currenttab}
                     >
