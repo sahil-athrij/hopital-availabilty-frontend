@@ -15,9 +15,11 @@ import {AuthComponent, AuthPropsLoc, AuthState, Friend} from "../../api/auth";
 import {withRouter} from "react-router";
 import Avatar from "@mui/material/Avatar";
 import {Link} from "react-router-dom";
-import WebRTC from "./WebRTC";
+import WebRTC, { MediaTypes } from "./WebRTC";
 import React from "react";
-import {Button} from "@mui/material";
+import {Button as MuiButton} from "@mui/material";
+import { withStyles } from "@mui/styles";
+import { DEFAULT_CONSTRAINTS } from "./constants";
 
 const StyledBox = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "light" ? "#083CBE" : grey[800],
@@ -27,27 +29,36 @@ interface VideoCallState extends AuthState {
     acceptCall: (value: (PromiseLike<boolean> | boolean)) => void;
     openStatus: boolean;
     chatUser: Friend;
-    rtc: WebRTC
+    rtc: WebRTC;
+    video:{enabled:boolean,denied:boolean};
+    audio:{enabled:boolean,denied:boolean};
 }
-
+const Button = withStyles(theme =>({
+root: {
+     color:"white"
+},
+}))(MuiButton);
 class VideoCallLoc extends AuthComponent<AuthPropsLoc, VideoCallState>
 {
     private readonly localVideo = React.createRef<HTMLVideoElement>();
     private readonly remoteVideo = React.createRef<HTMLVideoElement>();
+    private readonly remoteAudio = React.createRef<HTMLAudioElement>();
 
     constructor(props: AuthPropsLoc)
     {
         super(props);
-
-        const chatUser = this.state.user?.chat_friends?.find((friend) => friend.token === this.props.match.params.chatId);
+        console.log(this.props.match.params)
+        const chatUser = this.state.user?.friends?.find((friend) => friend.token === this.props.match.params.chatId);
 
         if (!chatUser || !this.state.user?.tokens.private_token)
-            this.props.history.replace("/chat");
+             this.props.history.replace("/chat");
         else
             this.state = {
                 ...this.state,
                 openStatus: false,
-                chatUser
+                chatUser,
+                video:{enabled:false,denied:false},
+                audio:{enabled:false,denied:false},
             };
     }
 
@@ -58,16 +69,26 @@ class VideoCallLoc extends AuthComponent<AuthPropsLoc, VideoCallState>
         if (!this.state.auth || !this.state.user?.tokens?.private_token)
             return this.performAuth();
 
-        if(this.localVideo.current && this.remoteVideo.current)
-            this.setState({
-                rtc: new WebRTC(
+        if(this.localVideo.current && this.remoteVideo.current && this.remoteAudio.current){
+            const rtc = new WebRTC(
                     this.state.user?.tokens?.private_token,
-                    this.state.chatUser.token,
+                    this.state?.chatUser.token,
                     this.localVideo.current,
                     this.remoteVideo.current,
+                    this.remoteAudio.current,
                     this.notifyUser
                 )
-            });
+            this.setState({rtc});
+            rtc.media.on("audioToggle",(state:boolean)=>{console.log("video",state);this.setState({audio:{enabled:state, denied:false}})})
+            rtc.media.on("videoToggle",(state:boolean)=>{console.log("audio",state);this.setState({video:{enabled:state, denied:false}})})
+            rtc.media.on("permissionDenied",(type)=>{
+                console.log(type+ " denied");
+                if (type === 'video')
+                    this.setState({ video: {  enabled: false,denied: true, } })
+                else if (type === 'audio')
+                    this.setState({ video: {  enabled: false, denied: true} })
+                })
+        }
     }
 
     componentWillUnmount()
@@ -85,9 +106,10 @@ class VideoCallLoc extends AuthComponent<AuthPropsLoc, VideoCallState>
 
     render()
     {
+        console.log(this.state.video, this.state.audio)
         return (
             <>
-                <div style={{zIndex: 50, height: "100vh", color: "#8DB5B4", backgroundColor: "#3E64FF"}}>
+                <div style={{zIndex: 50, height: "100%", color: "#8DB5B4", backgroundColor: "#3E64FF"}}>
                     <div style={{padding: "1rem"}} className="d-flex justify-content-center align-items-center">
                         <Link style={{textDecoration: "none"}} to={`/chat/${this.state.chatUser.token}`}>
                             <KeyboardArrowDownIcon color={"error"} />
@@ -105,12 +127,16 @@ class VideoCallLoc extends AuthComponent<AuthPropsLoc, VideoCallState>
                             {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
                             <video ref={this.localVideo} muted={true} autoPlay={true}/>
                             {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-                            <video ref={this.remoteVideo} autoPlay={true} />
-                            <Button onClick={() => this.state.rtc.makeCall()}>Call</Button>
-                            <Button onClick={() => this.state.acceptCall(true)}>Accept</Button>
-                            <Button onClick={() => this.state.acceptCall(false)}>Reject</Button>
-                            <Button onClick={() => this.state.rtc.tearDown()}>Stop</Button>
-
+                            <video ref={this.remoteVideo} autoPlay={true} playsInline/>
+                            <audio ref={this.remoteAudio} autoPlay/>
+                            <div style={{marginBottom:"40px"}}>
+                                <Button onClick={() => this.state.rtc.makeCall()}>Call</Button>
+                                <Button onClick={() => this.state.rtc.media.toggleCamera(!this.state.video.enabled)}>{"Video " + (this.state.video.enabled ? "On" : "Off")}</Button>
+                                <Button onClick={() => this.state.rtc.media.toggleMic(!this.state.audio.enabled)}>{"Audio " + (this.state.audio.enabled ? "On" : "Off")}</Button>
+                                <Button onClick={() => this.state.acceptCall(true)}>Accept</Button>
+                                <Button onClick={() => this.state.acceptCall(false)}>Reject</Button>
+                                <Button onClick={() => this.state.rtc.tearDown()}>Stop</Button>
+                            </div>
                             <Global
                                 styles={{
                                     ".MuiDrawer-root > .MuiPaper-root": {
@@ -119,7 +145,7 @@ class VideoCallLoc extends AuthComponent<AuthPropsLoc, VideoCallState>
                                     },
                                 }}
                             />
-                            <SwipeableDrawer
+                            {/* <SwipeableDrawer
                                 style={{zIndex: 100}}
                                 anchor="bottom"
                                 open={this.state.openStatus}
@@ -180,7 +206,7 @@ class VideoCallLoc extends AuthComponent<AuthPropsLoc, VideoCallState>
                                     }}
                                 >
                                 </StyledBox>
-                            </SwipeableDrawer>
+                            </SwipeableDrawer> */}
 
                         </>
                     }
