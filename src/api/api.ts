@@ -27,15 +27,16 @@ export async function get(url: string, kwargs = {}, headers = {})
     }
 }
 
-export async function post(url: RequestInfo, kwargs = {}, headers = {})
+export async function post(url: RequestInfo, kwargs:FormData | Record<string, unknown> = {}, headers = {})
 {
+    const isFormdata = kwargs instanceof FormData;
     const response = await fetch(url, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         headers: {
-            "Content-Type": "application/json",
+            ...isFormdata?{}:{"Content-Type": "application/json"},
             ...headers
         },
-        body: JSON.stringify(kwargs)
+        body: isFormdata?kwargs : JSON.stringify(kwargs)
     }
     );
     if (response.status > 300)
@@ -299,8 +300,9 @@ export default class Model
     /**
      * @param {{}} kwargs
      */
-    async create(kwargs = {})
+    async create(kwargs: FormData | Record<string, unknown>)
     {
+        console.log(kwargs)
         try
         {
             const headers = {"Authorization": `Bearer ${getAuth()}`};
