@@ -7,6 +7,7 @@ import Loader from "react-loader-spinner";
 import React from "react";
 import {toast} from "react-toastify";
 import {LanguageObject} from "./model";
+import localforage from "localforage";
 // import localForage from "localforage";
 
 
@@ -206,11 +207,10 @@ export class AuthComponent<P, S extends AuthState>
 
     removeAuth = () =>
     {
-
         setRefresh("");
         setAuth("");
         setObj("user", null);
-        return true;
+        return localforage.clear().then(() => true);
     };
 
     refreshAuth = () =>

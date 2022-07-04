@@ -26,21 +26,22 @@ import {toast} from "react-toastify";
 interface AddPatientState extends AuthState {
     model: PatientObject;
     activeStep: number;
-    public: boolean;
-    skipped: number;
     avail_attender: boolean;
-    avail_hospital: boolean;
+    avail_hospital: boolean; 
+    otherLabel: string;
+    requirementCheck: boolean;
+    gender_name: string;
+    skipped: number;
+
+    public: boolean;
     Name: string;
     age: number;
     gender: string;
     requirement: string;
-    requirementCheck: boolean;
     otherRequirement: string;
-    otherLabel: string;
     address: string;
     symptoms: string;
     covidresult?: number;
-    gender_name: string;
     symdays: string;
     spo2?: number;
     bedtype: number;
@@ -54,6 +55,8 @@ interface AddPatientState extends AuthState {
     hospitalpref: string;
     srfid: string;
     bunum: string;
+    request_type: string;
+    mobile_number: string;
 }
 
 
@@ -102,7 +105,8 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState>
             srfid: "",
             bunum: "",
 
-
+            mobile_number: "",
+            request_type:"M"
         };
 
 
@@ -171,6 +175,11 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState>
                         InputLabelProps={{shrink: true, }} size="small"
                         onChange={(event) =>
                             this.setValue("age", event)}
+                    />
+                    <TextField value={this.state.mobile_number} className="mt-2" fullWidth variant="outlined" label="Mobile no. *"
+                        InputLabelProps={{ shrink: true, }} size="small"
+                        onChange={(event) =>
+                            this.setValue("mobile_number", event)}
                     />
                     <TextField value={this.state.gender} className="mt-4" fullWidth variant="outlined" select label="Gender *"
                         InputLabelProps={{shrink: true, }} size="small"

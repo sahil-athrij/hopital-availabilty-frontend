@@ -1,4 +1,4 @@
-import {Appointment, Doctor, DoctorObject, Patient, PatientObject} from "../../api/model";
+import {Appointment, Doctor, DoctorObject, DoctorSchedule, DoctorScheduleObject, Patient, PatientObject} from "../../api/model";
 
 import "./doctor.css";
 
@@ -32,21 +32,25 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
+import { formatISO, isSameDay } from "date-fns";
 
 
 interface DetailsState extends AuthState
 {
     id: number,
     model: DoctorObject,
+    schedule: DoctorScheduleObject[],
     ready: boolean,
     open_availability: HTMLElement | null,
     popovertext: string,
     show_review: boolean,
     booking: boolean;
-    slot: {date: string, start?: string, end?: string};
-    patient: number;
+    slot: number | null;
+    appointment_date: null | Date;
+    patient: number | null;
     helped: Array<PatientObject>;
     open: boolean;
+    self_booked: boolean
 }
 
 interface StatsProps
@@ -421,9 +425,11 @@ class BookLoc extends AuthComponent<AuthPropsLoc, DetailsState>
             popovertext: "Percentage Probability of Availing the services",
             show_review: false,
             // booking: false,
-            patient: -1,
-            slot: {date: ""},
+            patient: null,
+            slot: null,
+            appointment_date:null,
             open: false,
+            self_booked: false,
         };
     }
 
@@ -433,11 +439,14 @@ class BookLoc extends AuthComponent<AuthPropsLoc, DetailsState>
 
         const docId = Number(this.props.match.params.docId);
         const doctor = await Doctor.get(docId) as DoctorObject;
+        const schedule = await (await DoctorSchedule.filter({doctor__exact:docId,date__gte:formatISO(new Date(),{representation:"date"})}, true)).results.map((obj:any)=>obj.data) as DoctorScheduleObject[];
         const {results} = await Patient.action_general("help", {}, true);
-
-        this.setState({model: doctor, ready: true, id: docId, helped: results, patient: this.state.user?.id || -1});
+        const appointments = await (await Appointment.filter({day__doctor:this.props.match.params.docId},true)).results;
+        
+        this.setState({model: doctor, ready: true, id: docId, helped: results,self_booked: !!appointments.length, schedule});
 
     }
+
 
     async componentDidMount()
     {
@@ -454,20 +463,12 @@ class BookLoc extends AuthComponent<AuthPropsLoc, DetailsState>
 
     async handleBooking()
     {
-        try
-        {
+        try{
             const slot = this.state.slot;
 
-            if(!slot?.date || !slot?.start || !slot?.end)
-                throw new Error("Please select a slot");
-
-            await Appointment.create({
-                doctor: this.state.model.id,
-                date: slot.date,
-                start: slot.start,
-                end: slot.end,
-                patient: this.state.patient
-            });
+            if(!slot)
+                throw new Error("No slot");
+            await Appointment.create({id:slot, patient: this.state.patient})
             this.setState({open: true, });
 
             this.setState({booking: false});
@@ -495,7 +496,6 @@ class BookLoc extends AuthComponent<AuthPropsLoc, DetailsState>
     render()
     {
         const model = this.state.model;
-        // console.log(model);
         return (
             this.state.ready ?
                 <>
@@ -612,29 +612,30 @@ class BookLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                     {/*<Typography variant={"h6"}>Available Time</Typography>*/}
 
                     <CustomDatePicker
-                        ranges={model.ranges && model.ranges.map(({start, end}) => ({start: new Date(start), end: new Date(end)}))}
-                        onChange={(date) => date && this.setState({slot: {date: this.toDjangoDate(date)}})}/>
+                        days={this.state.schedule.map(schedule=>({day:new Date(schedule.date).setHours(0,0,0,0), varient:Math.floor(schedule.stats.available*2/schedule.stats.total) as 0 | 1 | 2}))}
+                        onChange={(date) => {date && this.setState({appointment_date: date});this.setState({slot:null})}}/>
                     <Typography variant={"h6"}>Available Time</Typography>
                     <Container>
 
-                        {/*<div className="row d-flex justify-content-center">*/}
-                        {/*    {this.slots && this.slots.map((slot, i) =>*/}
-                        {/*        <Chip  className="col-4 m-1" key={i}*/}
-                        {/*            label={`${slot.start.slice(0, 5)} - ${slot.end.slice(0, 5)}`}*/}
-                        {/*            variant="filled"*/}
-                        {/*            color={this.state.slot === slot ? "primary" : "default"}*/}
-                        {/*            onClick={() => this.setState({slot: slot})} />*/}
-                        {/*    )}*/}
-                        {/*</div>*/}
+                        <div className="row d-flex justify-content-center">
+                           {this.state.appointment_date && this.state.schedule.find(sch => isSameDay(new Date(sch.date),this.state.appointment_date!))?.slots.map((slot, i) =>
+                                <Chip  className="col-4 m-1" key={i}
+                                    label={`${slot.start.slice(0, 5)} - ${slot.end.slice(0, 5)}`}
+                                    variant="filled"
+                                    disabled={slot.booked}
+                                    color={this.state.slot === slot.id ? "primary" : "default"}
+                                    onClick={() => this.setState({slot: slot.id})} />
+                            )}
+                        </div> 
 
                         <div className="row d-flex justify-content-center">
-                            {model.slots && model.slots.filter(({date}) => this.state.slot.date === date).map((slot, i) =>
+                            {/* {model.schedule && model.schedule.filter(({date}) => this.state.appointment_date === date)[0]?.slots.map((slot, i) =>
                                 <Chip  className="col-4 m-1" key={i}
                                     label={`${slot.start.slice(0, 5)} - ${slot.end.slice(0, 5)}`}
                                     variant="filled"
                                     color={this.state.slot === slot ? "primary" : "default"}
                                     onClick={() => this.setState({slot: slot})} />
-                            )}
+                            )} */}
                         </div>
                         <TextField
                             style={{marginTop: "1rem"}}
@@ -645,7 +646,7 @@ class BookLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                             onChange={(e) => this.setState({patient: Number(e.target.value)})}
                             fullWidth
                         >
-                            <MenuItem value={this.state.user?.id}> Self </MenuItem>
+                            <MenuItem disabled={this.state.self_booked} value={this.state.user?.id}> { `Self ${this.state.self_booked?"(Already booked)":""}` }</MenuItem>
                             {this.state.helped.map(({uid, Name}, i) => (
                                 <MenuItem key={i} value={uid}>
                                     {Name}
@@ -661,7 +662,7 @@ class BookLoc extends AuthComponent<AuthPropsLoc, DetailsState>
                     {/*</Container>*/}
 
                     <Container className="pb-5">
-                        <BigBlueButton text={"Confirm Booking"}
+                        <BigBlueButton disabled={!this.state.slot || !this.state.patient} text={"Confirm Booking"}
                             onClick={() => this.handleBooking()}/>
                     </Container>
 
