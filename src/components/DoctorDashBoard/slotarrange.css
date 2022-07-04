@@ -62,3 +62,33 @@ h5{
     justify-content:center;
     align-items:center;
 }
+.md-box{
+    height:450px;
+    min-width:450px;
+    /* background:rgba(217, 217, 217, 0.64); */
+    background:white;
+    display:flex;
+    justify-content:center;
+    align-items: space-between;
+    flex-direction:column;
+    padding:20px;
+    border-radius: 12px;
+
+}
+.md-main{
+    display: flex;
+    justify-content: space-between;
+ 
+}
+h5{
+  color:gray;  
+}
+
+.symbol{
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  background:rgba(128, 128, 128, 0.847)
+
+}
