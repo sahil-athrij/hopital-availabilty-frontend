@@ -22,7 +22,7 @@ export default function BasicModal({children, open, handleClose}:ModalChild)
         aria-describedby="modal-modal-description"
       >
         <>
-        <div style={{display:"flex", justifyContent: "center", alignItems: "center",height: "80vh"}}>
+        <div style={{display:"flex", justifyContent: "center", alignItems: "center", height: "80vh"}}>
         {children}
         </div>
         </>

@@ -30,7 +30,7 @@ interface Day{
     return (
       <div className="box" key={index}>
         <div className="check_date" >
-            <h5>{el}</h5>
+            <h5 style={{color:"black"}}>{el}</h5>
             <Checkbox
                checked={checked}
                onChange={handleChecked}

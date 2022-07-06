@@ -64,7 +64,7 @@ h5{
 }
 .md-box{
     height:450px;
-    min-width:450px;
+    width:450px;
     /* background:rgba(217, 217, 217, 0.64); */
     background:white;
     display:flex;
@@ -86,9 +86,45 @@ h5{
 
 .symbol{
   cursor: pointer;
-  height: 30px;
-  width: 30px;
+  height: 35px;
+  width: 35px;
   border-radius: 50%;
   background:rgba(128, 128, 128, 0.847)
 
+}
+.sym{
+    font-size: 30px !important;
+}
+.bx{
+    display:flex;
+    justify-content:space-between;
+    background:rgba(217, 217, 217, 0.64);
+    color:black;
+    font-size: 20px;
+    margin-bottom:15px;
+    align-items:center;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius:10px;
+}
+.clo {
+    cursor: pointer !important;
+}
+.btnS{
+   width: 60%;
+   display:flex;
+   justify-content:space-around;
+
+}
+
+@media (max-width:700px){
+    .md-box{
+      width:350px;
+    }
+    .btnS{
+        width: 90%;
+        display:flex;
+        justify-content:space-around;
+     
+     } 
 }

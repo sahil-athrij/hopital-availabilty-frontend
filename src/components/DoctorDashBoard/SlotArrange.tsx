@@ -1,3 +1,7 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { Component } from "react";
 import "./slotarrange.css";
 import Button from "@mui/material/Button";
@@ -12,6 +16,9 @@ import CustomDatePicker from "../Doctor/CustomDatePicker";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import TimePicker from "./TimePicker";
 import Modal from "./Modal";
+import { format } from "date-fns"; 
+import Loader from "react-loader-spinner";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export const DAYS: string[] = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
@@ -24,6 +31,7 @@ interface State {
   slote: boolean;
   openModal:boolean;
   date:Date;
+  loading:boolean;
 }
 
 type AppProps = RouteComponentProps;
@@ -39,6 +47,7 @@ class SlotArrange extends Component<AppProps, State>
     slote:false,
     openModal:true,
     date:new Date(),
+    loading:false,
   };
 
   setClickIndex(el: number)
@@ -71,11 +80,14 @@ class SlotArrange extends Component<AppProps, State>
      this.setState({openModal: !this.state.openModal}); 
   };
 
-  // modal opening unwanted on first render this is the f
+  // modal opening unwanted on first render this is the fix
   componentDidMount()
   {
     this.setState({openModal: false});
   }
+
+  dummeyTime = ["9.00-10.00", "11.00-12.00"];
+
 
   render() 
   { 
@@ -87,14 +99,41 @@ class SlotArrange extends Component<AppProps, State>
       <div className="md-box">
         <div className="md-main">
           <div>
-            <h4>{this.state.date.getDate()}</h4>
+            <h4>{ this.state.date.getDate()},  {format(this.state.date, "MMMM")}</h4>
             <h5>{DAYS[this.state.date.getDay()]}</h5>
           </div>
          <div className="symbol center" onClick={this.handleModal} >
-           <CloseIcon/>
-         </div>
-      
+           <CloseIcon className="sym"/>
+         </div>        
         </div>
+        {this.state.loading &&
+         <>
+         {/* preloader only works when fetching data */}
+        <Container className='mt-5 pt-5 text-center'>
+                <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
+        </Container>
+         </>
+        }
+         {!this.state.loading && 
+          <>
+         <Container className='mt-5 pt-5 text-center'>
+           {
+             this.dummeyTime.map((el, index)=>
+               <div className="bx" key={index}>
+                 <h6>{el}</h6>
+                 <DeleteIcon className="clo"/>
+               </div>
+             )
+           } 
+           <div className="btnS">
+             <Button className="sub" variant="contained">Submit</Button>   
+             <Button className="sub" variant="contained">clear all <DeleteIcon/></Button>   
+           </div>
+
+         </Container>
+          </>
+        }
+        
 
 
       </div>
@@ -113,7 +152,7 @@ class SlotArrange extends Component<AppProps, State>
             <Button variant="outlined" size="small" onClick={()=> this.setState({slote:!this.state.slote})} >
               <div className="btn-cont">
                 <span className="btn-span">
-                  <AddIcon />
+                  <AddIcon/>
                 </span>
                 Add/Remove Slots
               </div>
@@ -161,4 +200,5 @@ class SlotArrange extends Component<AppProps, State>
 }
 
 export default withRouter(SlotArrange);
+
 
