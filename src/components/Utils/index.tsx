@@ -70,10 +70,12 @@ export const StarRating = ({rating}: { rating: number }) => (
     </Container>
 );
 
+
+
 export const StickyHead = ({title, action, onClick, goBack}: StickyHeadProps) => (
     <>
         <Container className=" tophead fixed-top d-flex justify-content-between p-3 ">
-            <CloseIcon className="d-flex align-self-center" onClick={() => goBack()}/>
+            <CloseIcon className="d-flex align-self-center" onClick={() => goBack()} style={{cursor:"pointer"}}/>
             <p className="align-self-center m-0 p-0 text-left flex-grow-1 pl-4"><b>{title}</b>
             </p>
             <Button className="sub" onClick={onClick}

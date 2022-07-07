@@ -1,0 +1,130 @@
+.slot_body{
+    background:white;
+    min-height:100vh;
+    padding:10px;
+    padding-bottom:30px;
+}
+.btn-add{
+    margin:0px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items:flex-end;
+    justify-content: space-between;
+    height:40px;
+}
+.btn-span{
+
+    border-radius: 50%;
+    border:1px solid rgb(98, 98, 216);
+}
+.btn-cont{
+    width:200px !important;
+    display: flex !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+}
+
+.box{
+    min-height:40px;
+    width: 90%;
+    border:1px solid rgba(128, 128, 128, 0.183);
+    margin-bottom: 8px;
+    background-color:rgba(217, 217, 217, 0.64);
+}
+.check_date{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:0 10px;
+}
+h5{
+    font-size:18px;
+    font-weight:600;    
+}
+.date-pad{
+    padding:0 10px;
+}
+.cal {
+    margin-top:10px;
+}
+
+.picker-date{
+    width:250px;
+   flex-direction: column;
+}
+.picker-un{
+    display:flex;
+    justify-content:flex-start;
+    margin-left: 5px;
+}
+.center{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.md-box{
+    height:450px;
+    width:450px;
+    /* background:rgba(217, 217, 217, 0.64); */
+    background:white;
+    display:flex;
+    justify-content:center;
+    align-items: space-between;
+    flex-direction:column;
+    padding:20px;
+    border-radius: 12px;
+
+}
+.md-main{
+    display: flex;
+    justify-content: space-between;
+ 
+}
+h5{
+  color:gray;  
+}
+
+.symbol{
+  cursor: pointer;
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  background:rgba(128, 128, 128, 0.847)
+
+}
+.sym{
+    font-size: 30px !important;
+}
+.bx{
+    display:flex;
+    justify-content:space-between;
+    background:rgba(217, 217, 217, 0.64);
+    color:black;
+    font-size: 20px;
+    margin-bottom:15px;
+    align-items:center;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius:10px;
+}
+.clo {
+    cursor: pointer !important;
+}
+.btnS{
+   width: 60%;
+   display:flex;
+   justify-content:space-around;
+
+}
+
+@media (max-width:700px){
+    .md-box{
+      width:350px;
+    }
+    .btnS{
+        width: 90%;
+        display:flex;
+        justify-content:space-around;
+     
+     } 
+}
