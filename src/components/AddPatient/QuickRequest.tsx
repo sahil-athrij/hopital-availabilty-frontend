@@ -1,6 +1,6 @@
 import {AuthComponent, AuthPropsLoc, AuthState} from "../../api/auth";
 import {StickyHead} from "../Utils";
-import {TextField} from "@mui/material";
+import {Button, TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import {Link} from "react-router-dom";
@@ -9,27 +9,42 @@ import {Patient, PatientObject} from "../../api/model";
 import {withRouter} from "react-router";
 import IconButton from "@mui/material/IconButton";
 import {toast} from "react-toastify";
+import { Control, Controller, SubmitHandler, useForm, UseFormHandleSubmit } from "react-hook-form";
+import HookFormWrapper from "../Form/HookFormWrapper";
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import MUIController from "../Form/MUIControl";
 
 
+
+const financialReq = yup.string().when("request_type",(type,schema)=>type==='FI'?schema.required():schema)
+const schema = yup.object({
+        request_type: yup.string().required().label("Request type"),
+        age: yup.number().typeError("Must be number").required().max(110,"Enter a valid age"),
+        gender: yup.string().required(),
+        address: yup.string().required("Location is required"),
+        mobile_number: yup.string().matches(/^\+?\d{10,14}$/,{message:"Enter a valid mobile number."}).required().label("Mobile number"),
+        reason: yup.string(),
+        account_holder: financialReq.label("Account holder name"),
+        account_no: financialReq.label("Account number"),
+        ifsc: financialReq,
+        bank_name: financialReq.label("Bank name"),
+        Name: yup.string().required().matches(/^[A-Z]+$/i,{message:"Enter a valid name"})
+}).required();
 interface QuickRequestState extends AuthState {
     model: PatientObject;
     patient_data:Partial<{
-        request_type: string;
-        age: number;
-        gender: string;
-        address: string;
-        mobile_number: number;
-        reason: string;
         attachment: File;
         attachment_name: string;
-        account_holder: string;
-        account_no: number;
-        ifsc: string;
-        bank_name: string;
-        Name: string;
-    }>
+    }
+    &
+    yup.InferType<typeof schema>
+    >
     
 }
+
+
+
 
 class QuickRequest extends AuthComponent<AuthPropsLoc, QuickRequestState>
 {
@@ -47,38 +62,31 @@ class QuickRequest extends AuthComponent<AuthPropsLoc, QuickRequestState>
         this.setState({patient_data:{...this.state.patient_data,...obj}});
     }
 
-    saveRequest = async () =>
+    saveRequest = async (data:any) =>
     {
-        const toSend = this.state.patient_data;
+        const toSend = data;
         console.log(toSend)
         //toSend.user = undefined;
 
-        if (this.state.patient_data.request_type && this.state.patient_data.age && this.state.patient_data.gender && this.state.patient_data.address && this.state.patient_data.mobile_number && this.state.patient_data.Name){
-            const formData = new FormData();
-            for ( let key in toSend ) {
-                const d = toSend[key as keyof typeof toSend];
-                if (d !== undefined){
-                    console.log(d);
-                    formData.append(key, typeof d === 'number'? d.toString():d);
-                }
+        const formData = new FormData();
+        for (let key in toSend) {
+            const d = toSend[key as keyof typeof toSend];
+            if (d !== undefined) {
+                console.log(d);
+                formData.append(key, typeof d === 'number' ? d.toString() : d);
             }
-            
-            Patient.create(formData)
-                .then(() =>
-                {
-                    this.props.history.push("/");
-                    toast.success("Successfully added your details", {
-                        position: "bottom-center"
-                    });
-                }).catch((error) =>
-                {
-                    toast.error(error.details, {
-                        position: "bottom-center"
-                    });
+        }
+
+        Patient.create(formData)
+            .then(() => {
+                this.props.history.push("/");
+                toast.success("Successfully added your details", {
+                    position: "bottom-center"
                 });
-            }else
-            toast.error("please enter the required details", {
-                position: "bottom-center"
+            }).catch((error) => {
+                toast.error(error.details, {
+                    position: "bottom-center"
+                });
             });
     };
 
@@ -86,100 +94,170 @@ class QuickRequest extends AuthComponent<AuthPropsLoc, QuickRequestState>
     {
         return (
             <>
-                <StickyHead title="Quick Request" onClick={() => this.saveRequest()} goBack={this.props.history.goBack}/>
-                
-                <div className="m-4">
-                    <TextField value={this.state.patient_data.request_type} className="mt-4" fullWidth variant="outlined" select
-                        label="Request type *"
-                        InputLabelProps={{shrink: true, }}
-                        onChange={({target}) => this.updatePatientData({request_type: target.value})}
-                    >
-                        <MenuItem value={"M"}>Medical Request</MenuItem>
-                        <MenuItem value={"FI"}>Financial Request</MenuItem>
-                        <MenuItem value={"B"}>Blood RequestFormData</MenuItem>
-                        <MenuItem value={"F"}>Food Request</MenuItem>
-                        <MenuItem value={"O"}>other</MenuItem>
-                    </TextField>
-                    <TextField value={this.state.patient_data.Name} className="mt-4" fullWidth variant="outlined"
-                        label="Name *" InputLabelProps={{shrink: true, }}
-                        onChange={({target}) => this.updatePatientData({Name: target.value})}/>
-                    <div className="d-flex justify-content-between">
-                        
-                        <TextField sx={{width: 90}} value={this.state.patient_data.age} className="mt-4" variant="outlined"
-                            label="Age *"
-                            InputLabelProps={{shrink: true, }}
-                            onChange={({target}) => this.updatePatientData({age: Number(target.value)})}/>
-                        <TextField sx={{width: 212}} value={this.state.patient_data.gender} className="mt-4" select
-                            variant="outlined" label="Gender *"
-                            InputLabelProps={{shrink: true, }}
-                            onChange={({target}) => this.updatePatientData({gender: target.value})}
-                        >
-                            <MenuItem value={"M"}>Male</MenuItem>
-                            <MenuItem value={"F"}>Female</MenuItem>
-                            <MenuItem value={"NB"}>Non Binary</MenuItem>
-                            <MenuItem value={"NP"}>Prefer Not to Say</MenuItem>
-                        </TextField>
-                    </div>
-                    <TextField value={this.state.patient_data.address} className="mt-4" fullWidth variant="outlined"
-                        label="Location *" InputLabelProps={{shrink: true, }}
-                        onChange={({target}) => this.updatePatientData({address: target.value})}/>
-                    <TextField value={this.state.patient_data.mobile_number} className="mt-4" fullWidth variant="outlined"
-                        label="Mobile Number *" InputLabelProps={{shrink: true, }}
-                        onChange={({target}) => this.updatePatientData({mobile_number: Number(target.value)})}/>
-                    <TextField value={this.state.patient_data.reason} rows={4} multiline className="mt-4" fullWidth
-                        variant="outlined" label="Reason " InputLabelProps={{shrink: true, }}
-                        onChange={({target}) => this.updatePatientData({reason: target.value})}/>
-                    <label className="d-flex mt-4 align-items-center" htmlFor="icon-button-file">
-                        <IconButton component="span" style={{color: "#222B45", fontSize: "15px", padding: "0"}}>
-                            <AttachFileIcon sx={{transform: "rotate(40deg)"}}/>
-                            Upload Attachment
-                        </IconButton>
-                    </label>
-                    {this.state.patient_data.attachment_name}
-                    <input id="icon-button-file" type="file" name="file"
-                        style={{ visibility: "hidden"}} onChange={({target}) =>
-                        {
-                            const files = target.files;
-                            const reader = new FileReader();
-                            if (files)
-                            {
 
-                                this.updatePatientData({attachment: files[0]});
+                <HookFormWrapper<yup.InferType<typeof schema>> defaultValues={{ request_type: '', Name:'' }} resolver={yupResolver(schema)}>
+                    {
+                        ({ control, handleSubmit }) => {
+                            const submit = handleSubmit((d) => this.saveRequest(d),(err)=>console.log(err));
+                            return <>
+                                <StickyHead title="Quick Request"
+                                    onClick={submit}
+                                    //onClick={() => this.saveRequest()} 
 
-                                this.updatePatientData({attachment_name: files[0].name});
-                                // reader.readAsDataURL(files[0]);
-                                // reader.onload=(e)=>
-                                // {
-                                //     if(e.target)
-                                    
-                                //         this.updatePatientData({attachment: e.target.result});
-                                    
-                                // };
-                            }
-                        }} />
-                    {this.state.patient_data.request_type === "FI" ?
-                        <>
-                            <div className="d-flex">
-                                <b>Please enter Account details</b>
-                            </div>
-                            <TextField value={this.state.patient_data.account_holder} className="mt-4" fullWidth variant="outlined"
-                                label="Name *" InputLabelProps={{shrink: true, }}
-                                onChange={({target}) => this.updatePatientData({account_holder: target.value})}/>
-                            <TextField value={this.state.patient_data.account_no} className="mt-4" fullWidth variant="outlined"
-                                label="Account Number *" InputLabelProps={{shrink: true, }}
-                                onChange={({target}) => this.updatePatientData({account_no: Number(target.value)})}/>
-                            <TextField value={this.state.patient_data.ifsc} className="mt-4" fullWidth variant="outlined"
-                                label="IFSC Code *" InputLabelProps={{shrink: true, }}
-                                onChange={({target}) => this.updatePatientData({ifsc: target.value})}/>
-                            <TextField value={this.state.patient_data.bank_name} className="mt-4" fullWidth variant="outlined"
-                                label="Bank Name *" InputLabelProps={{shrink: true, }}
-                                onChange={({target}) => this.updatePatientData({bank_name: target.value})}/>
-                        </> : <></>}
-                    <div className="d-flex mt-4">
-                        <b>For detailed Medical Request</b>
-                    </div>
-                    <Link className="d-flex mb-3" to={"/addRequest"}>Click Here</Link>
-                </div>
+                                    goBack={this.props.history.goBack} />
+
+                                <div className="m-4">
+                                    <MUIController name='request_type' control={control as any}>
+                                        {
+                                            (props) => <TextField className="mt-4" fullWidth variant="outlined" select
+                                                label="Request type *"
+                                                InputLabelProps={{ shrink: true, }}
+                                                {...props}
+                                            >
+                                                <MenuItem value={"M"}>Medical Request</MenuItem>
+                                                <MenuItem value={"FI"}>Financial Request</MenuItem>
+                                                <MenuItem value={"B"}>Blood Request</MenuItem>
+                                                <MenuItem value={"F"}>Food Request</MenuItem>
+                                                <MenuItem value={"O"}>other</MenuItem>
+                                            </TextField>
+                                        }
+                                    </MUIController>
+                                    <MUIController name='Name' control={control as any}>
+                                        {
+                                            (props) => <TextField className="mt-4" fullWidth variant="outlined"
+                                                label="Name *" InputLabelProps={{ shrink: true, }}
+                                                {...props} />
+                                        }
+                                    </MUIController>
+                                    <div className="d-flex justify-content-between">
+                                        <MUIController name='age' control={control as any}>
+                                            {
+                                                (props) => <TextField sx={{ width: 90 }} className="mt-4" variant="outlined"
+                                                    label="Age *"
+                                                    InputLabelProps={{ shrink: true, }}
+                                                    {...props}
+                                                />
+                                            }
+                                        </MUIController>
+                                        <MUIController name='gender' control={control as any}>
+                                            {
+                                                (props) => <TextField sx={{ width: 212 }} className="mt-4" select
+                                                    variant="outlined" label="Gender *"
+                                                    InputLabelProps={{ shrink: true, }}
+                                                    {...props}
+                                                >
+                                                    <MenuItem value={"M"}>Male</MenuItem>
+                                                    <MenuItem value={"F"}>Female</MenuItem>
+                                                    <MenuItem value={"NB"}>Non Binary</MenuItem>
+                                                    <MenuItem value={"NP"}>Prefer Not to Say</MenuItem>
+                                                </TextField>
+                                            }
+                                        </MUIController>
+
+                                    </div>
+
+
+                                    <MUIController name='address' control={control as any}>
+                                        {
+                                            (props) => <TextField className="mt-4" fullWidth variant="outlined"
+                                                label="Location *" InputLabelProps={{ shrink: true, }}
+                                                {...props}
+                                            />
+                                        }
+                                    </MUIController>
+
+                                    <MUIController name='mobile_number' control={control as any}>
+                                        {
+                                            (props) => <TextField className="mt-4" fullWidth variant="outlined"
+                                                label="Mobile Number *" InputLabelProps={{ shrink: true, }}
+                                                {...props}
+                                            />
+                                        }
+                                    </MUIController>
+
+                                    <MUIController name='reason' control={control as any}>
+                                        {
+                                            (props) => <TextField rows={4} multiline className="mt-4" fullWidth
+                                                variant="outlined" label="Reason " InputLabelProps={{ shrink: true, }}
+                                            />
+                                        }
+                                    </MUIController>
+
+
+                                    <label className="d-flex mt-4 align-items-center" htmlFor="icon-button-file">
+                                        <IconButton component="span" style={{ color: "#222B45", fontSize: "15px", padding: "0" }}>
+                                            <AttachFileIcon sx={{ transform: "rotate(40deg)" }} />
+                                            Upload Attachment
+                                        </IconButton>
+                                    </label>
+                                    {this.state.patient_data.attachment_name}
+                                    <input id="icon-button-file" type="file" name="file"
+                                        style={{ visibility: "hidden" }} onChange={({ target }) => {
+                                            const files = target.files;
+                                            const reader = new FileReader();
+                                            if (files) {
+
+                                                this.updatePatientData({ attachment: files[0] });
+
+                                                this.updatePatientData({ attachment_name: files[0].name });
+                                                // reader.readAsDataURL(files[0]);
+                                                // reader.onload=(e)=>
+                                                // {
+                                                //     if(e.target)
+
+                                                //         this.updatePatientData({attachment: e.target.result});
+
+                                                // };
+                                            }
+                                        }} />
+                                    {this.state.patient_data.request_type === "FI" ?
+                                        <>
+                                            <div className="d-flex">
+                                                <b>Please enter Account details</b>
+                                            </div>
+                                            <MUIController name='account_holder' control={control as any}>
+                                                {
+                                                    (props) => <TextField className="mt-4" fullWidth variant="outlined"
+                                                        label="Name *" InputLabelProps={{ shrink: true, }}
+                                                        {...props} />
+                                                }
+                                            </MUIController>
+                                            <MUIController name='account_no' control={control as any}>
+                                                {
+                                                    (props) => <TextField className="mt-4" fullWidth variant="outlined"
+                                                        label="Account Number *" InputLabelProps={{ shrink: true, }}
+                                                        {...props} />
+                                                }
+                                            </MUIController>
+
+                                            <MUIController name='ifsc' control={control as any}>
+                                                {
+                                                    (props) => <TextField className="mt-4" fullWidth variant="outlined"
+                                                        label="IFSC Code *" InputLabelProps={{ shrink: true, }}
+                                                        {...props} />
+                                                }
+                                            </MUIController>
+                                            <MUIController name='bank_name' control={control as any}>
+                                                {
+                                                    (props) => <TextField className="mt-4" fullWidth variant="outlined"
+                                                        label="Bank Name *" InputLabelProps={{ shrink: true, }}
+                                                        {...props} />
+                                                }
+                                            </MUIController>
+
+                                        </> : <></>}
+                                    <div className="d-flex mt-4">
+                                        <b>For detailed Medical Request</b>
+                                    </div>
+                                    <Link className="d-flex mb-3" to={"/addRequest"}>Click Here</Link>
+                                </div>
+                            </>
+                        }
+                    }
+                </HookFormWrapper>
+
+                    
+                    
             </>
         );
     }
