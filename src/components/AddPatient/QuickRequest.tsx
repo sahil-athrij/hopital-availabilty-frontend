@@ -11,25 +11,25 @@ import IconButton from "@mui/material/IconButton";
 import {toast} from "react-toastify";
 import { Control, Controller, SubmitHandler, useForm, UseFormHandleSubmit } from "react-hook-form";
 import HookFormWrapper from "../Form/HookFormWrapper";
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import MUIController from "../Form/MUIControl";
 
 
 
-const financialReq = yup.string().when("request_type",(type,schema)=>type==='FI'?schema.required():schema)
+const financialReq = yup.string().when("request_type", (type, schema)=>type==="FI"?schema.required():schema);
 const schema = yup.object({
-        request_type: yup.string().required().label("Request type"),
-        age: yup.number().typeError("Must be number").required().max(110,"Enter a valid age"),
-        gender: yup.string().required(),
-        address: yup.string().required("Location is required"),
-        mobile_number: yup.string().matches(/^\+?\d{10,14}$/,{message:"Enter a valid mobile number."}).required().label("Mobile number"),
-        reason: yup.string(),
-        account_holder: financialReq.label("Account holder name"),
-        account_no: financialReq.label("Account number"),
-        ifsc: financialReq,
-        bank_name: financialReq.label("Bank name"),
-        Name: yup.string().required().matches(/^[A-Z]+$/i,{message:"Enter a valid name"})
+    request_type: yup.string().required().label("Request type"),
+    age: yup.number().typeError("Must be number").required().max(110, "Enter a valid age"),
+    gender: yup.string().required(),
+    address: yup.string().required("Location is required"),
+    mobile_number: yup.string().matches(/^\+?\d{10,14}$/, {message:"Enter a valid mobile number."}).required().label("Mobile number"),
+    reason: yup.string(),
+    account_holder: financialReq.label("Account holder name"),
+    account_no: financialReq.label("Account number"),
+    ifsc: financialReq,
+    bank_name: financialReq.label("Bank name"),
+    Name: yup.string().required().matches(/^[A-Z]+$/i, {message:"Enter a valid name"})
 }).required();
 interface QuickRequestState extends AuthState {
     model: PatientObject;
@@ -40,6 +40,7 @@ interface QuickRequestState extends AuthState {
     &
     yup.InferType<typeof schema>
     >
+    financial_active: boolean
     
 }
 
@@ -58,32 +59,37 @@ class QuickRequest extends AuthComponent<AuthPropsLoc, QuickRequestState>
         };
     }
 
-    updatePatientData = (obj: typeof this.state.patient_data)=>{
-        this.setState({patient_data:{...this.state.patient_data,...obj}});
-    }
+    updatePatientData = (obj: typeof this.state.patient_data)=>
+    {
+        this.setState({patient_data:{...this.state.patient_data, ...obj}});
+    };
 
     saveRequest = async (data:any) =>
     {
         const toSend = data;
-        console.log(toSend)
+        console.log(toSend);
         //toSend.user = undefined;
 
         const formData = new FormData();
-        for (let key in toSend) {
+        for (const key in toSend) 
+        {
             const d = toSend[key as keyof typeof toSend];
-            if (d !== undefined) {
+            if (d !== undefined) 
+            {
                 console.log(d);
-                formData.append(key, typeof d === 'number' ? d.toString() : d);
+                formData.append(key, typeof d === "number" ? d.toString() : d);
             }
         }
 
         Patient.create(formData)
-            .then(() => {
+            .then(() => 
+            {
                 this.props.history.push("/");
                 toast.success("Successfully added your details", {
                     position: "bottom-center"
                 });
-            }).catch((error) => {
+            }).catch((error) => 
+            {
                 toast.error(error.details, {
                     position: "bottom-center"
                 });
@@ -95,10 +101,11 @@ class QuickRequest extends AuthComponent<AuthPropsLoc, QuickRequestState>
         return (
             <>
 
-                <HookFormWrapper<yup.InferType<typeof schema>> defaultValues={{ request_type: '', Name:'' }} resolver={yupResolver(schema)}>
+                <HookFormWrapper<yup.InferType<typeof schema>> defaultValues={{ request_type: "", Name:"" }} resolver={yupResolver(schema)}>
                     {
-                        ({ control, handleSubmit }) => {
-                            const submit = handleSubmit((d) => this.saveRequest(d),(err)=>console.log(err));
+                        ({ control, handleSubmit, getValues }) => 
+                        {
+                            const submit = handleSubmit((d) => this.saveRequest(d), (err)=>console.log(err));
                             return <>
                                 <StickyHead title="Quick Request"
                                     onClick={submit}
@@ -113,6 +120,10 @@ class QuickRequest extends AuthComponent<AuthPropsLoc, QuickRequestState>
                                                 label="Request type *"
                                                 InputLabelProps={{ shrink: true, }}
                                                 {...props}
+                                                onChange={(e)=>{
+                                                    props.onChange(e.target.value);
+                                                    this.forceUpdate();
+                                                }}
                                             >
                                                 <MenuItem value={"M"}>Medical Request</MenuItem>
                                                 <MenuItem value={"FI"}>Financial Request</MenuItem>
@@ -179,6 +190,7 @@ class QuickRequest extends AuthComponent<AuthPropsLoc, QuickRequestState>
                                         {
                                             (props) => <TextField rows={4} multiline className="mt-4" fullWidth
                                                 variant="outlined" label="Reason " InputLabelProps={{ shrink: true, }}
+                                                {...props}
                                             />
                                         }
                                     </MUIController>
@@ -192,10 +204,12 @@ class QuickRequest extends AuthComponent<AuthPropsLoc, QuickRequestState>
                                     </label>
                                     {this.state.patient_data.attachment_name}
                                     <input id="icon-button-file" type="file" name="file"
-                                        style={{ visibility: "hidden" }} onChange={({ target }) => {
+                                        style={{ visibility: "hidden" }} onChange={({ target }) => 
+                                        {
                                             const files = target.files;
                                             const reader = new FileReader();
-                                            if (files) {
+                                            if (files) 
+                                            {
 
                                                 this.updatePatientData({ attachment: files[0] });
 
@@ -210,7 +224,7 @@ class QuickRequest extends AuthComponent<AuthPropsLoc, QuickRequestState>
                                                 // };
                                             }
                                         }} />
-                                    {this.state.patient_data.request_type === "FI" ?
+                                    {getValues("request_type") === "FI" ?
                                         <>
                                             <div className="d-flex">
                                                 <b>Please enter Account details</b>
@@ -251,7 +265,7 @@ class QuickRequest extends AuthComponent<AuthPropsLoc, QuickRequestState>
                                     </div>
                                     <Link className="d-flex mb-3" to={"/addRequest"}>Click Here</Link>
                                 </div>
-                            </>
+                            </>;
                         }
                     }
                 </HookFormWrapper>
