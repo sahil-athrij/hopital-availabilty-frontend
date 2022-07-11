@@ -8,4 +8,5 @@ export const TYPE_ICECANDIDATE = "ICE CANDIDATE";
 export const TYPE_CALL_REJECT = "REJECT CALL";
 export const TYPE_REGISTER = "REGISTER";
 export const TYPE_CALL_END = "END CALL";
+export const TYPE_DESCRIPTION = "DESCRIPTION";
 

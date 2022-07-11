@@ -15,6 +15,8 @@ import {Avatar, Tab} from "@mui/material";
 import {AuthComponent, AuthPropsLoc, AuthState, refresh_user} from "../../api/auth";
 import {withRouter} from "react-router";
 import SignalConnection from "./lib";
+import ReplyIcon from "@mui/icons-material/Reply";
+import Account from "../../images/doctorhead.jpg";
 
 interface TabPanelProps
 {
@@ -81,7 +83,8 @@ class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState>
     componentWillUnmount()
     {
         super.componentWillUnmount();
-        this.state.connection.tareDown();
+        if (this.state.connection)
+            this.state.connection.tareDown();
     }
 
     getTime = (date: Date) => date.toLocaleTimeString("en-US", {hour: "numeric", minute: "numeric", hour12: true});
@@ -150,44 +153,45 @@ class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState>
                                             }}>{this.state.user?.username ? this.state.user.username[0] : "?"}</Avatar>
                                     </div>
 
-                                    {/*<div className="chat-main d-flex flex-wrap justify-content-around m-2 pb-2"*/}
-                                    {/*    style={{maxHeight: "30vh", overflow: "auto"}}>*/}
+                                    <div className="chat-main d-flex flex-wrap justify-content-around m-2 pb-2"
+                                        style={{maxHeight: "30vh", overflow: "auto"}}>
 
-                                    {/*    <div className="p-1" style={{*/}
-                                    {/*        width: "40%",*/}
-                                    {/*        height: "50%",*/}
-                                    {/*        background: "#F7F7F7",*/}
-                                    {/*        marginTop: "1rem",*/}
-                                    {/*        borderRadius: "8px"*/}
-                                    {/*    }}>*/}
-                                    {/*        <div className="d-flex p-2">*/}
-                                    {/*            <div style={{marginRight: "1rem", height: "2.5rem"}} className="d-flex">*/}
-                                    {/*                <img style={{borderRadius: "100%", alignItems: "center"}}*/}
-                                    {/*                    src={Account} alt={"profile"}/>*/}
-                                    {/*                <div style={{*/}
-                                    {/*                    width: "10px",*/}
-                                    {/*                    height: "10px",*/}
-                                    {/*                    borderRadius: "50%",*/}
-                                    {/*                    background: "#4CE417",*/}
-                                    {/*                    alignSelf: "end",*/}
-                                    {/*                    marginBottom: "1px",*/}
-                                    {/*                    marginLeft: "-13px"*/}
-                                    {/*                }}/>*/}
-                                    {/*            </div>*/}
-                                    {/*            <p style={{fontSize: ".8rem", textAlign: "left", color: "#1B1A57"}}>Name*/}
-                                    {/*                of a person</p>*/}
-                                    {/*        </div>*/}
+                                        {/*<div className="p-1" style={{*/}
+                                        {/*    width: "40%",*/}
+                                        {/*    height: "50%",*/}
+                                        {/*    background: "#F7F7F7",*/}
+                                        {/*    marginTop: "1rem",*/}
+                                        {/*    borderRadius: "8px"*/}
+                                        {/*}}>*/}
+                                        {/*    <div className="d-flex p-2">*/}
+                                        {/*        <div style={{marginRight: "1rem", height: "2.5rem"}} className="d-flex">*/}
+                                        {/*            <img style={{borderRadius: "100%", alignItems: "center"}}*/}
+                                        {/*                src={Account} alt={"profile"}/>*/}
+                                        {/*            <div style={{*/}
+                                        {/*                width: "10px",*/}
+                                        {/*                height: "10px",*/}
+                                        {/*                borderRadius: "50%",*/}
+                                        {/*                background: "#4CE417",*/}
+                                        {/*                alignSelf: "end",*/}
+                                        {/*                marginBottom: "1px",*/}
+                                        {/*                marginLeft: "-13px"*/}
+                                        {/*            }}/>*/}
+                                        {/*        </div>*/}
+                                        {/*        <p style={{fontSize: ".8rem", textAlign: "left", color: "#1B1A57"}}>Name*/}
+                                        {/*            of a person</p>*/}
+                                        {/*    </div>*/}
 
-                                    {/*        <div className="d-flex justify-content-center align-items-center px-2 mb-2">*/}
-                                    {/*            <ReplyIcon sx={{height: "1rem"}} color="action"/>*/}
-                                    {/*            <p className="d-flex justify-content-center align-items-center mb-0"*/}
-                                    {/*                style={{fontSize: ".7rem", textAlign: "left", color: "#4F5E7B"}}>Some*/}
-                                    {/*                chat here...</p>*/}
-                                    {/*        </div>*/}
-                                    {/*    </div>*/}
+                                        {/*    <div className="d-flex justify-content-center align-items-center px-2 mb-2">*/}
+                                        {/*        <ReplyIcon sx={{height: "1rem"}} color="action"/>*/}
+                                        {/*        <p className="d-flex justify-content-center align-items-center mb-0"*/}
+                                        {/*            style={{fontSize: ".7rem", textAlign: "left", color: "#4F5E7B"}}>Some*/}
+                                        {/*            chat here...</p>*/}
+                                        {/*    </div>*/}
+                                        {/*</div>*/}
+                                                                                
 
 
-                                    {/*</div>*/}
+                                    </div>
 
                                 </div>
 
@@ -195,7 +199,7 @@ class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState>
 
 
                             <div className="m-2" style={{
-                                boxShadow: "0px -8px 32px rgba(70, 96, 135, 0.1)",
+                                boxShadow: "rgb(70 96 135 / 10%) -4px -18px 32px",
                                 borderRadius: "16px 16px 0 0",
                                 bottom: "0",
                                 minHeight: "33vh", // TODO: This was 37 vh
@@ -220,7 +224,7 @@ class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState>
                                 <div className="chat-main" style={{height: "35vh", overflow: "auto"}}>
                                     {this.state.user?.chat_friends?.map((friend, i) =>
                                         (<Link to={`/chat/${friend.token}`} key={i}>
-                                            <div className="d-flex">
+                                            <div className="d-flex mb-2">
                                                 <div className="ms-2 me-1 d-flex">
                                                     {/*<img className="align-items-center"*/}
                                                     {/*    style={{borderRadius: "100%", height: "3rem"}} src={Account}*/}
@@ -274,7 +278,7 @@ class SwiperLoc extends AuthComponent<AuthPropsLoc, SwiperState>
                         </div>
                     </TabPanel>
                     <TabPanel value={this.state.value} index={1}>
-                        Resents
+                        Recent calls
                     </TabPanel>
                     <TabPanel value={this.state.value} index={2}>
                         Call

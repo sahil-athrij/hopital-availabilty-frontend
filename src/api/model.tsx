@@ -1,5 +1,14 @@
-import Model, {baseUrl, filePost, ModelData, ModelObject} from "./api";
+import { number, string } from "prop-types";
+import Model, {baseUrl, filePost, ModelData, ModelObject, ModelFilterSet} from "./api";
 import {getAuth} from "./auth";
+import { TFilterChoiceList, TFilterParams } from "./types";
+
+export interface Slots {
+        id: number,
+        start: string,
+        end: string,
+        booked: boolean,
+}
 
 interface ImageObject
 {
@@ -19,9 +28,49 @@ export interface WorkingTime
     hospital: number
 }
 
-export class MarkerObject extends ModelObject
-{
-    lng = 0;
+export const markerCategories = {
+    'E': 'Economy',
+    'N': 'Normal',
+    'S': 'Speacialty',
+    'SS': 'Super Specialty',
+    'U': 'Uncategorized'
+} as const;
+
+export const markerTypes = {
+    'H': 'Hospital',
+    'P': 'Pharmacy',
+    'C': 'Clinic',
+    'W': 'Wellness Center',
+    'U': 'Uncategorized'
+} as const;
+
+export const markerOwnership = {
+    'Pu': 'Public',
+    'Pr': 'Private',
+    'Co': 'Co-operative',
+    'U': 'Uncategorized'
+} as const; 
+
+export const markerMedicine = {
+    'Ay': 'Ayurveda', 'Al': 'Allopathy',
+    'Ho': 'Homeopathy'
+} as const;
+
+ const markerfilters = {'financial_rating': ['gte', 'lte', 'exact'],
+                        'oxygen_rating': ['gte', 'lte', 'exact'], 'ventilator_availability': ['gte', 'lte', 'exact'],
+                        'oxygen_availability': ['gte', 'lte', 'exact'], 'icu_availability': ['gte', 'lte', 'exact'],
+                        'avg_cost': ['gte', 'lte', 'exact'],
+                        'care_rating': ['gte', 'lte', 'exact'], 'covid_rating': ['gte', 'lte', 'exact'],
+                        'beds_available': ['gte', 'lte', 'exact'], 'category': ['in'], 'type': ['in'],
+                        'ownership': ['in'], 'medicine': ['in']} as const;
+                    
+
+export type TMarkerFilter = TFilterParams<typeof markerfilters,MarkerObject>
+
+const markerFilterChoices: TFilterChoiceList<TMarkerFilter>= {'category__in':markerCategories,'medicine__in':markerMedicine,'type__in':markerTypes,'ownership__in':markerOwnership}
+
+export class MarkerObject extends ModelObject {
+    lng = "0";
     comment: ReviewObject[] = [];
     oxygen_availability = 0;
     covid_rating = 0;
@@ -36,18 +85,22 @@ export class MarkerObject extends ModelObject
     model: Record<string, unknown> = {};
     images: ImageObject[] = [];
     ventilator_availability = 0;
-    lat = 0;
+    lat = "0";
     doctors: DoctorObject[] = [];
     about: string | undefined;
     departments: Array<DepartmentObject> = [];
+    type: keyof typeof markerTypes = 'U';
+    category: keyof typeof markerCategories = 'U';
+    ownership: keyof typeof markerOwnership = 'U';
+    medicine: keyof typeof markerMedicine = 'Al';
 
-    constructor(data: ModelData, baseUrl: string)
-    {
+    constructor(data: ModelData, baseUrl: string) {
 
         super(data, baseUrl);
         this.fields = ["id", "Phone", "size", "financial_rating", "avg_cost", "covid_rating", "beds_available", "care_rating",
             "oxygen_rating", "ventilator_availability", "oxygen_availability", "icu_availability", "lat", "lng", "images",
-            "display_address", "name", "datef", "address", "comment", "departments", "doctors"];
+            "display_address", "name", "datef", "address", "comment", "departments", "doctors", "ownership", "type", "medicine",
+            "category"];
         this.getData();
 
     }
@@ -159,6 +212,40 @@ export class DepartmentObject extends ModelObject
 
 }
 
+// export class UserSearchObject extends ModelObject
+// {
+//     id: -1;
+//     first_name: string;
+//     last_name: string;
+//     private_token: string;
+//
+//     constructor(data: ModelData, baseUrl: string)
+//     {
+//         super(data, baseUrl);
+//         this.fields = ["id", "first_name", "last_name", "private_token"];
+//         this.getData();
+//     }
+//
+// }
+export class UserSearchObject extends ModelObject
+{
+    id = -1;
+    first_name= "";
+    last_name="";
+    private_token ="";
+    image ="";
+
+
+    constructor(data: ModelData, baseUrl: string)
+    {
+        super(data, baseUrl);
+        this.fields = ["id", "first_name", "last_name", "private_token", "image"];
+        this.getData();
+    }
+
+}
+
+
 export class DoctorObject extends ModelObject
 {
     id = -1;
@@ -179,15 +266,15 @@ export class DoctorObject extends ModelObject
     email = "";
     address = "";
     ima_number = "";
-    slots: Array<{ date: string, start: string, end: string }> = [];
     ranges: Array<{ start: string, end: string }> = [];
+
 
     constructor(data: ModelData, baseUrl: string)
     {
         super(data, baseUrl);
         this.fields = ["id", "name", "phone_number", "hospital", "department", "user", "working_time",
             "rating", "reviews", "patients", "experience", "specialization", "about", "image", "whatsapp_number",
-            "email", "address", "ima_num", "slots", "ranges"];
+            "email", "address", "ima_num", "ranges","schedule"];
         this.getData();
     }
 
@@ -300,13 +387,21 @@ export class PatientObject extends ModelObject
     srfid = "";
     bunum = "";
     uid = -1;
+    request_type: "" | undefined;
+    location: "" | undefined;
+    reason: "" | undefined;
+    attachment: "" | undefined;
+    account_holder: "" | undefined;
+    ifsc: "" | undefined;
+    bank_name: "" | undefined;
+    mobile_number: 0 | undefined;
 
     constructor(data: ModelData, baseUrl: string)
     {
         super(data, baseUrl);
         this.fields = ["id", "Name", "age", "gender", "address", "requirement", "symptoms", "symdays", "spo2", "hospitalday", "oxy_bed", "covidresult",
             "hospitalpref", "attendername", "attenderphone", "relation", "srfid", "bunum", "blood", "bedtype", "ct",
-            "ctscore", "gender_name", "bedtype_name"];
+            "ctscore", "gender_name", "bedtype_name", "request_type", "gender", "location", "reason", "attachment", "account_holder", "bank_name", "mobile_number" ];
         this.getData();
     }
 }
@@ -354,17 +449,15 @@ export class AmbulanceObject extends ModelObject
 
 class AppointmentObject extends ModelObject
 {
-    doctor = -1;
+    doctor = "";
     date = -1;
     start?: string;
     end?: string;
-    approved = false;
-    patient = -1;
 
     constructor(data: ModelData, baseUrl: string)
     {
         super(data, baseUrl);
-        this.fields = ["id", "doctor", "date", "start", "end", "approved", "patient"];
+        this.fields = ["id", "doctor", "date", "start", "end"];
         this.getData();
     }
 }
@@ -392,6 +485,23 @@ export class BloodBankObject extends ModelObject
 
 }
 
+export class DoctorScheduleObject extends MarkerObject{
+    date =  "";
+    doctor = "";
+    id =  -1;
+    slots:Slots[] = [];
+    stats = {available:-1, total: -1};
+    constructor(data: ModelData, baseUrl: string)
+    {
+        super(data, baseUrl);
+        this.fields = ["id", "date", "slots", "stats","doctor"];
+        this.getData();
+    }
+}
+
+export const MarkerFilters = new ModelFilterSet<TMarkerFilter>(ModelFilterSet.metaToParams(markerfilters), markerFilterChoices);
+
+
 export const Review = new Model(baseUrl + "/api/review/", ReviewObject);
 export const Sus = new Model(baseUrl + "/api/suspicious/", susObject);
 export const Department = new Model(baseUrl + "/internals/departments/", DepartmentObject);
@@ -404,7 +514,8 @@ export const Language = new Model(baseUrl + "/api/language/", LanguageObject);
 export const Ambulance = new Model(baseUrl + "/internals/ambulance/", AmbulanceObject);
 export const Appointment = new Model(baseUrl + "/internals/appointment/", AppointmentObject);
 export const BloodBank = new Model(baseUrl + "/internals/blood_bank/", AppointmentObject);
-
+export const UserSearch = new Model(baseUrl + "/auth/search_users", UserSearchObject);
+export const DoctorSchedule = new Model(baseUrl + "/internals/doctor_schedule/", AppointmentObject);
 
 export type ModelRegistry =
     typeof MarkerObject
@@ -417,3 +528,5 @@ export type ModelRegistry =
     | typeof AppointmentObject
     | typeof AmbulanceObject
     | typeof BloodBankObject
+    | typeof UserSearchObject
+

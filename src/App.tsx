@@ -18,7 +18,7 @@ import {ThemeProvider} from "@mui/styles";
 import {green, pink} from "@mui/material/colors";
 import {Privacy} from "./components/Privacy/Privacy";
 import {Add} from "./components/AddHospital/Add";
-import {DoctorComponent} from "./components/Doctor/Doctor";
+import {DoctorComponent, BookingComponent} from "./components/Doctor/Doctor";
 import {AddDoctorComponent} from "./components/AddDoctor/AddDoctor";
 import {AddDepartmentComponent} from "./components/AddDepartment/AddDepartment";
 import {Addpatient} from "./components/AddPatient/AddPatient";
@@ -39,6 +39,12 @@ import {AddAmbulanceComponent} from "./components/Ambulance/AddAmbulance";
 import Chat from "./components/Chat";
 import Swiper from "./components/Chat/Swiper";
 import VideoCall from "./components/VideoCall";
+import Notification from "./components/Notification/Notification";
+import {SearchUser} from "./components/Search/SearchUser";
+import { Quickrequest } from "./components/AddPatient/QuickRequest";
+
+//SREEHARI TRIES
+import SlotArrange from "./components/DoctorDashBoard/SlotArrange";
 
 
 const theme = createTheme({
@@ -126,19 +132,24 @@ class AppLoc extends React.Component<AppProps>
                         <Route path="/chat" exact><Swiper/><BottomNav/></Route>
                         <Route path="/doctor/add/:hospital"><AddDoctorComponent/><BottomNav/></Route>
                         <Route path="/department/add/:hospital"><AddDepartmentComponent/><BottomNav/></Route>
-                        <Route path="/doctor/:docId"><DoctorComponent/><BottomNav/></Route> {/* Show details about a doctor */}
+                        <Route path="/doctor/:docId" exact><DoctorComponent/><BottomNav/></Route> {/* Show details about a doctor */}
+                        <Route path="/doctor/:docId/book"><BookingComponent/></Route> {/* Show booing doctor */}
                         <Route path="/doctor/add/:hospital" ><AddDoctorComponent/><BottomNav/></Route>
                         <Route path="/addFriend/:token" ><AddFriendComponent/><BottomNav/></Route>
+                        <Route path="/notification" ><Notification/></Route>
 
                         <Route path="/details/reviews/:hspId">
                             <AddHospitalReview/>
                             <BottomNav/>
                         </Route>
                         <Route path="/details/:hspId"> <Details/></Route>{/* Show details about a hospital */}
-                        <Route path="/search">
+                        <Route path="/search" exact>
                             <NavBar/>
                             <Search/>
                             <BottomNav/>
+                        </Route>
+                        <Route path="/searchuser">
+                            <SearchUser/>
                         </Route>
 
                         <Route path="/ambulance">
@@ -185,6 +196,10 @@ class AppLoc extends React.Component<AppProps>
                             <Addpatient/>
                             <BottomNav/>
                         </Route>
+                        <Route path={"/quickRequest"} exact>
+                            <Quickrequest/>
+                            <BottomNav/>
+                        </Route>
                         <Route path={"/help"}>
                             <Givehelp/>
                             <BottomNav/>
@@ -226,7 +241,14 @@ class AppLoc extends React.Component<AppProps>
                             <UserPage/>
                             <BottomNav/>
                         </Route>
-
+                          
+                        <Route path={"/doctor"}>
+                            <SlotArrange/>
+                            <BottomNav/>
+                        </Route>
+   
+                         
+     
 
                         {/* If the current URL is /, this route is rendered
             while the rest are ignored */}
@@ -235,7 +257,7 @@ class AppLoc extends React.Component<AppProps>
                             <Index/>
                             <BottomNav/>
                         </Route>
-
+                          
 
                     </Switch>
 

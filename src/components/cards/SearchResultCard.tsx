@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Marker, MarkerObject} from "../../api/model";
+import {Marker, MarkerFilters, MarkerObject, TMarkerFilter} from "../../api/model";
 import { Container, Avatar} from "@mui/material";
 import {Link} from "react-router-dom";
 import {withRouter} from "react-router";
@@ -26,7 +26,6 @@ class SearchCardsLoc extends Component<SearchCardsProps>
 
     render() 
     {
-        console.log(this.props.model.images);
 
         return (
             <Link style={{textDecoration: "none"}} className='text-dark' to={"/details/" + this.props.model.id}>
@@ -128,7 +127,8 @@ interface SearchResultsState extends ResponsiveState {
     reset: boolean,
     loc: string,
     query: string,
-    offset: number
+    offset: number,
+    filters:TMarkerFilter
 }
 
 export class SearchResultsLoc extends Component<SearchResultsProp, SearchResultsState> 
@@ -137,7 +137,7 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
     constructor(props: SearchResultsProp) 
     {
         super(props);
-        this.state = {...this.state, models: [], next: "", reset: false, loc: "", query: "", offset: 0};
+        this.state = {...this.state, models: [], next: "", reset: false, loc: "", query: "", offset: 0,filters:{...MarkerFilters.getUnserialized()}};
 
     }
 
@@ -148,7 +148,7 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
         const lat = getParam("lat", "",);
         const lng = getParam("lng", "",);
         const query = getParam("query", "Search Hospital",);
-        Marker.filter({search: query, lat: lat, lng: lng, limit: 10}).then((markers) => 
+        Marker.filter({search: query, lat: lat, lng: lng, limit: 10,...MarkerFilters.getParams(true)}).then((markers) => 
         {
             const next = markers.next;
             const results = markers.results;
@@ -162,6 +162,7 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
         });
 
         this.setState({reset: false});
+        console.log("mounted")
     }
 
     componentDidUpdate()
@@ -170,19 +171,17 @@ export class SearchResultsLoc extends Component<SearchResultsProp, SearchResults
         const lat = getParam("lat",);
         const lng = getParam("lng",);
         const query = getParam("query", "Search Hospital",);
-
-        if (this.state.loc !== loc || this.state.query !== query) 
+        if (this.state.loc !== loc || this.state.query !== query || MarkerFilters.shouldUpdate(this.state.filters)) 
         {
-
             if (this.state.reset) 
             
                 this.setState({reset: false});
             
             this.props.updateParent();
-            Marker.filter({search: query, lat: lat, lng: lng, limit: 10}).then((markers) => 
+            Marker.filter({search: query, lat: lat, lng: lng, limit: 10,...MarkerFilters.getParams()}).then((markers) => 
             {
                 const {results, next} = markers;
-                this.setState({models: results, next: next, reset: true, loc: loc, query: query, offset: 10});
+                this.setState({models: results, next: next, reset: true, loc: loc, query: query, offset: 10,filters:MarkerFilters.getUnserialized()});
             }).catch(() =>
             {
                 toast.error("Oops something went wrong", {

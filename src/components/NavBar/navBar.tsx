@@ -4,14 +4,18 @@ import {FullScreenSearch} from "../FullScreen/fullScreenSearch";
 import {AuthComponent, AuthState} from "../../api/auth";
 import {getParam} from "../../api/QueryCreator";
 import {CSSTransition} from "react-transition-group";
-import {Container, AppBar, IconButton} from "@mui/material";
+import {Container, AppBar, IconButton, Backdrop} from "@mui/material";
 import {ResponsiveState} from "../ResponsiveComponent";
 import MenuIcon from "@mui/icons-material/Menu";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import Badge from "@mui/material/Badge";
+import SearchIcon from '@mui/icons-material/Search';
 
 
 import "./nabar.css";
-import Avatar from "@mui/material/Avatar";
+// import Avatar from "@mui/material/Avatar";
 import {FullScreenUser} from "../FullScreen/FullScreenUser";
+import {BottomNav} from "./BottomNav";
 
 
 
@@ -73,13 +77,12 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
         const showSearchBar = !this.props.location.pathname.includes("/details") &&       //to hide search bar in details, profiles, addhospital
             !this.props.location.pathname.includes("/profile") &&
             !this.props.location.pathname.includes("/addHospital");
-        console.log(this.state.user?.username);
         return (
             <AppBar style={{boxShadow: "none"}}
-                className={"navbar text-dark fixed-top " + (showSearchBar ? "bg-white" : "bg-grey")}
+                className={"text-dark fixed-top " + (showSearchBar ? "bg-white" : "bg-grey")}
                 id="navbar">
 
-                <Container className="">
+                <Container className="p-0">
 
 
                     <div className="searchmain d-flex flex-row align-items-center">
@@ -92,16 +95,28 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
                             }}>
                             <MenuIcon/>
                         </IconButton>
-                        <button className="srchtxt flex-grow-1" onClick={() =>
+                        <p className="icon-text">
+                            NeedMedi
+                        </p>
+                        <button className="srchtxt" onClick={() =>
                         {
                             this.props.history.push(currentLocation + "#search");
 
                             this.setState({show_search: !this.state.show_search});
                         }}>
+                            <IconButton>
+                                <SearchIcon/>
+                            </IconButton>
                             Search hospitals
                         </button>
-                        <Avatar className="mr-2" sx={{width:"28px", height : "28px", marginRight: ".5rem"}}
-                            src={this.state.user?.tokens?.profile || undefined}>{this.state.user ? this.state.user.username ? this.state.user.username[0] : "?" : "?"}</Avatar>
+                        <Badge onClick={() =>
+                        {
+                            this.props.history.push( "/notification");
+                        }} badgeContent={0} sx={{marginRight: ".25rem"}} color="primary">
+                            <NotificationsNoneIcon sx={{width:"28px", height : "28px"}} color="primary" />
+                        </Badge>
+                        {/*<Avatar className="mr-2" sx={{width:"28px", height : "28px", marginRight: ".5rem"}}*/}
+                        {/*    src={this.state.user?.tokens?.profile || undefined}>{this.state.user ? this.state.user.username ? this.state.user.username[0] : "?" : "?"}</Avatar>*/}
 
                         
                     </div>
@@ -109,14 +124,27 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
 
                     <CSSTransition classNames="user-screen" in={this.state.show_user} timeout={300}
                         unmountOnExit>
-                        <FullScreenUser close={() =>
-                        {
-                            this.props.history.goBack();
-                            this.setState({show_user: false});
-                        }}/>
+                        <>
+                            <FullScreenUser close={() =>
+                            {
+                                this.props.history.goBack();
+                                this.setState({show_user: false});
+                            }}/>
+                            <BottomNav/>
+                        </>
                     </CSSTransition>
 
                 </Container>
+
+                <Backdrop
+                    sx={{ color: "#fff", zIndex: 100}}
+                    open={this.state.show_user}
+                    onClick={() =>
+                    {
+                        this.props.history.goBack();
+                        this.setState({show_user: false});
+                    }}
+                />
 
                 {showSearchBar &&
                 <CSSTransition classNames="location-screen" in={this.state.show_search} timeout={300}
@@ -126,13 +154,12 @@ export class NavBarLoc extends AuthComponent<NavBarProp, NavBarState>
 
                         const loc = getParam("loc", "Select Location");
                         const query = getParam("query", "Search Hospital");
-                        this.props.history.goBack();
+                        //this.props.history.goBack();
                         this.setState({loc: loc, query: query});
                         this.setState({show_search: false});
                     }}/>
                 </CSSTransition>
                 }
-
             </AppBar>
 
         );

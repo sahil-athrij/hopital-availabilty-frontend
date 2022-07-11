@@ -9,45 +9,51 @@ import isSameDay from "date-fns/isSameDay";
 import isWithinInterval from "date-fns/isWithinInterval";
 
 type CustomPickerDayProps = PickersDayProps<Date> & {
-    dayIsBetween: boolean;
-    isFirstDay: boolean;
-    isLastDay: boolean;
+    varient:0 | 1 | 2 | null
 };
 
 interface CustomDatePickerProps{
-    ranges: Array<{start: Date, end: Date}>;
+    days: {day:Date | number, varient: 0 | 1 | 2}[]
     onChange: (date:Date|null) => unknown
 }
 
 const CustomPickersDay = styled(PickersDay, {
     shouldForwardProp: (prop) =>
-        prop !== "dayIsBetween" && prop !== "isFirstDay" && prop !== "isLastDay",
-})<CustomPickerDayProps>(({theme, dayIsBetween, isFirstDay, isLastDay}) => ({
-    ...(dayIsBetween && {
-        borderRadius: 0 ,
-        backgroundColor: "#D8E3FF",
-        color: "#0047FF",
-        height: "44px",
+        prop !== "varient" 
+})<CustomPickerDayProps>(({theme, varient}) => ({
+    ...(varient !== null && {
+        border:"1px solid #00000000",
+        backgroundColor: "#D8E3FF00",
+        color: "#000000",
+        fontWeight:"bold",
         "&:hover, &:focus": {
             backgroundColor: theme.palette.primary.dark,
-        },
+            color:"white"
+        }
+
+    }), ...(varient === 2 && {
+        borderColor: "#26ed30 !important",
+        "&:hover, &:focus": {
+            backgroundColor: "#26ed30",
+            color:"white"
+        }
     }),
-    ...(isFirstDay && {
-        backgroundColor: "#D8E3FF",
-        color: "#0047FF",
-        height: "44px",
-        borderRadius: "0",
-        borderTopLeftRadius: "6px",
-        borderBottomLeftRadius: "6px",
+    ...(varient === 1 && {
+        borderColor: "#ed9b31 !important",
+        "&:hover, &:focus": {
+            backgroundColor: "#ed9b31",
+            color:"white"
+        }
     }),
-    ...(isLastDay && {
-        backgroundColor: "#D8E3FF",
-        borderTopRightRadius: "6px",
-        borderBottomRightRadius: "6px",
+    ...(varient === 0 && {
+        backgroundColor: "#e93a3a",
+        color:"white !important"
+
     }),
+
 })) as React.ComponentType<CustomPickerDayProps>;
 
-export default function CustomDatePicker({ranges, onChange}: CustomDatePickerProps)
+export default function CustomDatePicker({days, onChange}: CustomDatePickerProps)
 {
     const [value, setValue] = React.useState<Date | null>(new Date());
 
@@ -57,30 +63,26 @@ export default function CustomDatePicker({ranges, onChange}: CustomDatePickerPro
         pickersDayProps: PickersDayProps<Date>,
     ) =>
     {
-        if (!value)
+         if (!value)
             return <PickersDay {...pickersDayProps} />;
 
-        let first = false, last = false, middle = false;
+        let isInSchedule = false; let varient = null;
 
-        for (const {start, end} of ranges)
+        for (const {day,varient:v} of days)
         {
-            first = isSameDay(date, start);
-            last = isSameDay(date, end);
-            middle = isWithinInterval(date, {start, end});
-
-            if(first || last || middle)
+            isInSchedule = isSameDay(date, day);
+            
+            if(isInSchedule){
+                varient = v;
                 break;
+            }
         }
-
         return (
-
             <CustomPickersDay
-                sx={{width: "100%"}}
+                sx={{width: "100%", borderRadius:"6px"}}
                 {...pickersDayProps}
-                disableMargin
-                dayIsBetween={middle}
-                isFirstDay={first}
-                isLastDay={last}
+                varient={varient}
+                disabled={!isInSchedule || varient === 0}
             />
         );
     };
