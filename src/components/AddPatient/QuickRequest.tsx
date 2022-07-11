@@ -29,19 +29,12 @@ const schema = yup.object({
     account_no: financialReq.label("Account number"),
     ifsc: financialReq,
     bank_name: financialReq.label("Bank name"),
-    Name: yup.string().required().matches(/^[A-Z]+$/i, {message:"Enter a valid name"})
+    Name: yup.string().required().matches(/^[A-Z ]+$/i, {message:"Enter a valid name"}),
 }).required();
 interface QuickRequestState extends AuthState {
     model: PatientObject;
-    patient_data:Partial<{
-        attachment: File;
-        attachment_name: string;
-    }
-    &
-    yup.InferType<typeof schema>
-    >
-    financial_active: boolean
-    
+    attachment_name: string;
+    attachment: File
 }
 
 
@@ -55,18 +48,13 @@ class QuickRequest extends AuthComponent<AuthPropsLoc, QuickRequestState>
         super(props);
         this.state = {
             ...this.state,
-            patient_data: {}
         };
     }
 
-    updatePatientData = (obj: typeof this.state.patient_data)=>
-    {
-        this.setState({patient_data:{...this.state.patient_data, ...obj}});
-    };
 
-    saveRequest = async (data:any) =>
+    saveRequest  = async (data:any)=>
     {
-        const toSend = data;
+        const toSend = {...data, attachment:this.state.attachment};
         console.log(toSend);
         //toSend.user = undefined;
 
@@ -101,11 +89,20 @@ class QuickRequest extends AuthComponent<AuthPropsLoc, QuickRequestState>
         return (
             <>
 
-                <HookFormWrapper<yup.InferType<typeof schema>> defaultValues={{ request_type: "", Name:"" }} resolver={yupResolver(schema)}>
+                <HookFormWrapper<yup.InferType<typeof schema>>
+                    defaultValues={{
+                        request_type: "", 
+                        Name: this.state.user?.first_name + " " + this.state.user?.last_name,
+                        mobile_number: this.state.user?.tokens.phone_number, 
+                        address: this.state.user?.tokens.address,
+                        age: this.state.user?.tokens.age, 
+                        gender: this.state.user?.tokens.gender
+                    }}
+                    resolver={yupResolver(schema)}>
                     {
                         ({ control, handleSubmit, getValues }) => 
                         {
-                            const submit = handleSubmit((d) => this.saveRequest(d), (err)=>console.log(err));
+                            const submit = handleSubmit((d) => this.saveRequest.bind(this)(d), (err)=>console.log(err));
                             return <>
                                 <StickyHead title="Quick Request"
                                     onClick={submit}
@@ -202,18 +199,17 @@ class QuickRequest extends AuthComponent<AuthPropsLoc, QuickRequestState>
                                             Upload Attachment
                                         </IconButton>
                                     </label>
-                                    {this.state.patient_data.attachment_name}
+                                    {this.state.attachment_name}
                                     <input id="icon-button-file" type="file" name="file"
                                         style={{ visibility: "hidden" }} onChange={({ target }) => 
                                         {
                                             const files = target.files;
-                                            const reader = new FileReader();
                                             if (files) 
                                             {
-
-                                                this.updatePatientData({ attachment: files[0] });
-
-                                                this.updatePatientData({ attachment_name: files[0].name });
+                                                console.log(files);
+                                                this.setState({ attachment: files[0] });
+                                                
+                                                this.setState({ attachment_name: files[0].name });
                                                 // reader.readAsDataURL(files[0]);
                                                 // reader.onload=(e)=>
                                                 // {
