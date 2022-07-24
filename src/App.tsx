@@ -222,7 +222,7 @@ class AppLoc extends React.Component<AppProps> {
             </Route>
             <Route path={"/help/:id"}>
               {/* <Givehelp/> */}
-              {/* <BottomNav /> */}
+              <BottomNav />
               <ViewHelp />
             </Route>
             <Route path={"/searchdoctor"}>

@@ -1,0 +1,42 @@
+.med-line {
+  display: flex !important;
+  justify-content: space-between;
+}
+
+.med-h {
+  color: rgba(7, 59, 190, 1);
+  font-family: "Nunito", "sans-serif";
+}
+hr {
+  width: 100% !important;
+  height: 5px !important;
+  color: rgba(7, 59, 190, 1);
+}
+
+.infopt {
+  display: flex;
+}
+.inpt {
+  display: flex;
+}
+.col {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: rgba(240, 240, 240, 0.4);
+}
+
+.h2 {
+  text-align: left;
+  font-weight: bold;
+  font-size: 25px;
+}
+.result {
+  margin-left: 4px;
+  color: rgba(7, 59, 190, 1);
+}
+.cen {
+  align-items: center;
+  justify-content: center !important;
+}

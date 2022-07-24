@@ -14,11 +14,13 @@ import { StickyHead } from "../Utils";
 import { toast } from "react-toastify";
 import { Button, Chip, Container, ListItem } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import Loader from "react-loader-spinner";
 
-interface PatientState extends AuthState {
+export interface PatientState extends AuthState {
   models: PatientObject[];
   helped_models: PatientObject[];
   currenttab: number;
+  isLoading: boolean;
 }
 
 export type AuthPropsLoc = RouteComponentProps<
@@ -31,6 +33,7 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState> {
     this.state = {
       ...this.state,
       currenttab: 0,
+      isLoading: true,
     };
   }
   styles = [
@@ -59,6 +62,7 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState> {
       const results = patients.results;
       this.setState({ helped_models: results });
     });
+    this.setState({ isLoading: false });
   }
 
   getgender = (gender: string) => {
