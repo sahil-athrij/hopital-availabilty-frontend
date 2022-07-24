@@ -48,7 +48,7 @@ export class PillSelect<T extends { [k: string]: string }> extends Component<Pil
                     sx={this.props.selected.includes(value) ? bluechip : greychip}
                     label={label} />
             </div>
-        ))
+        ));
     }
 }
 

@@ -54,6 +54,6 @@ export function setParam(param: string, value: string, default_value = "")
     
 }
 
-export function createQueryString(params:Record<string,string>){
+export function createQueryString(params:Record<string, string>){
     return new URLSearchParams(params).toString();
 }

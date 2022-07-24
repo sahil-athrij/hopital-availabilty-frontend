@@ -68,7 +68,7 @@ export default function CustomDatePicker({days, onChange}: CustomDatePickerProps
 
         let isInSchedule = false; let varient = null;
 
-        for (const {day,varient:v} of days)
+        for (const {day, varient:v} of days)
         {
             isInSchedule = isSameDay(date, day);
             

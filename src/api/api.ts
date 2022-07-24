@@ -176,13 +176,13 @@ export class ModelFilterSet<T extends Record<string, any>>{
     params: readonly (keyof T)[] = [];
     choiceList: TFilterChoiceList<T>;
 
-    constructor(params: (keyof T)[]=[],c:TFilterChoiceList<T>= {} as TFilterChoiceList<T>) {
+    constructor(params: (keyof T)[]=[], c:TFilterChoiceList<T>= {} as TFilterChoiceList<T>) {
         this.params = params;
         this.choiceList = c;
     }
 
-    static metaToParams(meta: Record<string,readonly filterTypes[]>){
-            return Object.keys(meta).reduce((params,key)=>([...params,...meta[key].map(fil=>key+`${fil==='exact'?'':'__'+fil}`)]),[] as any)
+    static metaToParams(meta: Record<string, readonly filterTypes[]>){
+            return Object.keys(meta).reduce((params, key)=>([...params, ...meta[key].map(fil=>key+`${fil==="exact"?"":"__"+fil}`)]), [] as any);
     } 
 
     shouldUpdate(oldParams:Partial<T>){
@@ -202,23 +202,23 @@ export class ModelFilterSet<T extends Record<string, any>>{
     getUnserialized(){
         return this.params.reduce((acc, cur) => {
             const param = getParam(cur as string, "", false);
-            return param === ""?acc: { ...acc, [cur]: (cur as string).includes('__in')?param.split(','):param  }
-             },{});
+            return param === ""?acc: { ...acc, [cur]: (cur as string).includes("__in")?param.split(","):param  };
+             }, {});
     }
 
-    getParams(from_quey:boolean=false) {
+    getParams(from_quey=false) {
         return this.params.reduce((acc, cur) => {
             const param = getParam(cur as string, "", from_quey);
-            return param === ""?acc: { ...acc, [cur]: param  }
-             },{} as Record<keyof T,string>);
+            return param === ""?acc: { ...acc, [cur]: param  };
+             }, {} as Record<keyof T, string>);
     }
 
     setParams(params: Partial<T>) {
-        Object.entries(params).forEach(([k, v]) => this.setParam(k, v))
+        Object.entries(params).forEach(([k, v]) => this.setParam(k, v));
     }
 
     setParam<K extends keyof T>(k: K, v: T[K]) {
-        setParam(k as string, Array.isArray(v) ? v.join(',') : v);
+        setParam(k as string, Array.isArray(v) ? v.join(",") : v);
         return this;
     }
 
@@ -302,7 +302,7 @@ export default class Model
      */
     async create(kwargs: FormData | Record<string, unknown>)
     {
-        console.log(kwargs)
+        console.log(kwargs);
         try
         {
             const headers = {"Authorization": `Bearer ${getAuth()}`};

@@ -30,8 +30,8 @@ interface VideoCallState extends AuthState {
     openStatus: boolean;
     chatUser: Friend;
     rtc: WebRTC;
-    video:{enabled:boolean,denied:boolean};
-    audio:{enabled:boolean,denied:boolean};
+    video:{enabled:boolean, denied:boolean};
+    audio:{enabled:boolean, denied:boolean};
 }
 const Button = withStyles(theme =>({
 root: {
@@ -47,7 +47,7 @@ class VideoCallLoc extends AuthComponent<AuthPropsLoc, VideoCallState>
     constructor(props: AuthPropsLoc)
     {
         super(props);
-        console.log(this.props.match.params)
+        console.log(this.props.match.params);
         const chatUser = this.state.user?.friends?.find((friend) => friend.token === this.props.match.params.chatId);
 
         if (!chatUser || !this.state.user?.tokens.private_token)
@@ -57,8 +57,8 @@ class VideoCallLoc extends AuthComponent<AuthPropsLoc, VideoCallState>
                 ...this.state,
                 openStatus: false,
                 chatUser,
-                video:{enabled:false,denied:false},
-                audio:{enabled:false,denied:false},
+                video:{enabled:false, denied:false},
+                audio:{enabled:false, denied:false},
             };
     }
 
@@ -77,17 +77,17 @@ class VideoCallLoc extends AuthComponent<AuthPropsLoc, VideoCallState>
                     this.remoteVideo.current,
                     this.remoteAudio.current,
                     this.notifyUser
-                )
+                );
             this.setState({rtc});
-            rtc.media.on("audioToggle",(state:boolean)=>{console.log("video",state);this.setState({audio:{enabled:state, denied:false}})})
-            rtc.media.on("videoToggle",(state:boolean)=>{console.log("audio",state);this.setState({video:{enabled:state, denied:false}})})
-            rtc.media.on("permissionDenied",(type)=>{
+            rtc.media.on("audioToggle", (state:boolean)=>{console.log("video", state);this.setState({audio:{enabled:state, denied:false}});});
+            rtc.media.on("videoToggle", (state:boolean)=>{console.log("audio", state);this.setState({video:{enabled:state, denied:false}});});
+            rtc.media.on("permissionDenied", (type)=>{
                 console.log(type+ " denied");
-                if (type === 'video')
-                    this.setState({ video: {  enabled: false,denied: true, } })
-                else if (type === 'audio')
-                    this.setState({ video: {  enabled: false, denied: true} })
-                })
+                if (type === "video")
+                    this.setState({ video: {  enabled: false, denied: true, } });
+                else if (type === "audio")
+                    this.setState({ video: {  enabled: false, denied: true} });
+                });
         }
     }
 
@@ -106,7 +106,7 @@ class VideoCallLoc extends AuthComponent<AuthPropsLoc, VideoCallState>
 
     render()
     {
-        console.log(this.state.video, this.state.audio)
+        console.log(this.state.video, this.state.audio);
         return (
             <>
                 <div style={{zIndex: 50, height: "100%", color: "#8DB5B4", backgroundColor: "#3E64FF"}}>

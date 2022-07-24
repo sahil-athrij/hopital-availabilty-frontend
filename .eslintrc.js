@@ -43,7 +43,7 @@ module.exports = {
     "eol-last": "warn",
     eqeqeq: "error",
     "prefer-const": "error",
-    "brace-style": ["error", "allman"],
-    indent: ["error", 4],
+    // "brace-style": ["error", "allman"],
+    // indent: ["error", 4],
   },
 };

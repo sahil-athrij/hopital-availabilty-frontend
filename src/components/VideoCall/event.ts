@@ -4,19 +4,19 @@ interface EventsMap {
 
 export class Events<Events extends EventsMap>
 {
-    events: Partial<{[E in keyof Events]: Events[E][]} > = {}
+    events: Partial<{[E in keyof Events]: Events[E][]} > = {};
 
     emit<K extends keyof Events>(event: K, ...args: [...Parameters<Events[K]>]) {
-        let callbacks = this.events[event] || []
-        for (let i = 0, length = callbacks.length; i < length; i++) {
-            callbacks[i](...args)
-        }
+        const callbacks = this.events[event] || [];
+        for (let i = 0, length = callbacks.length; i < length; i++) 
+            callbacks[i](...args);
+        
     }
 
     on<K extends keyof Events>(event: K, cb: Events[K]) {
-        this.events[event]?.push(cb) || (this.events[event] = [cb])
+        this.events[event]?.push(cb) || (this.events[event] = [cb]);
         return () => {
-            this.events[event] = this.events[event]?.filter(i => cb !== i)
-        }
+            this.events[event] = this.events[event]?.filter(i => cb !== i);
+        };
     }
 }
