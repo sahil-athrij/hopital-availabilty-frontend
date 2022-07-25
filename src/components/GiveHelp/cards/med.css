@@ -40,3 +40,27 @@ hr {
   align-items: center;
   justify-content: center !important;
 }
+.bill {
+  cursor: pointer;
+  height: 100px;
+  width: 100px;
+  margin-right: 40px;
+}
+.imgbill {
+  height: 90px;
+  width: 120px;
+}
+.stack-bill {
+  background: rgba(62, 100, 255, 1);
+  display: flex;
+  width: 120px;
+  justify-content: space-around;
+  align-items: center;
+}
+.textbill {
+  font-size: 11.5px;
+  color: white;
+}
+.pdf {
+  font-size: 10px !important;
+}

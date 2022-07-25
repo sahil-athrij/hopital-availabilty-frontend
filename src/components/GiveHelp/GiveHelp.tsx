@@ -10,11 +10,9 @@ import CovidNeg from "../../images/corneg.svg";
 import Bloodgrp from "../../images/bloodgroup.svg";
 import TransGen from "../../images/TransGend.svg";
 import PrefNSay from "../../images/genderless.svg";
-import { StickyHead } from "../Utils";
 import { toast } from "react-toastify";
 import { Button, Chip, Container, ListItem } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import Loader from "react-loader-spinner";
 
 export interface PatientState extends AuthState {
   models: PatientObject[];
