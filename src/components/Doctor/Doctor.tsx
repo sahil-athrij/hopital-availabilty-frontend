@@ -463,7 +463,8 @@ class BookLoc extends AuthComponent<AuthPropsLoc, DetailsState>
 
     async handleBooking()
     {
-        try{
+        try
+        {
             const slot = this.state.slot;
 
             if(!slot)
@@ -613,12 +614,15 @@ class BookLoc extends AuthComponent<AuthPropsLoc, DetailsState>
 
                     <CustomDatePicker
                         days={this.state.schedule.map(schedule=>({day:new Date(schedule.date).setHours(0, 0, 0, 0), varient:Math.floor(schedule.stats.available*2/schedule.stats.total) as 0 | 1 | 2}))}
-                        onChange={(date) => {date && this.setState({appointment_date: date});this.setState({slot:null});}}/>
+                        onChange={(date) => 
+                        {
+                            date && this.setState({appointment_date: date});this.setState({slot:null});
+                        }}/>
                     <Typography variant={"h6"}>Available Time</Typography>
                     <Container>
 
                         <div className="row d-flex justify-content-center">
-                           {this.state.appointment_date && this.state.schedule.find(sch => isSameDay(new Date(sch.date), this.state.appointment_date!))?.slots.map((slot, i) =>
+                            {this.state.appointment_date && this.state.schedule.find(sch => isSameDay(new Date(sch.date), this.state.appointment_date!))?.slots.map((slot, i) =>
                                 <Chip  className="col-4 m-1" key={i}
                                     label={`${slot.start.slice(0, 5)} - ${slot.end.slice(0, 5)}`}
                                     variant="filled"

@@ -90,10 +90,12 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
 
     }
 
-    componentDidMount(){
+    componentDidMount()
+    {
     }
 
-    componentDidUpdate(){
+    componentDidUpdate()
+    {
         console.log(this.state);
     }
 
@@ -119,13 +121,16 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
         console.log(localStorage.getItem("lat"));
     }
 
-    async queryData(){
+    async queryData()
+    {
         this.setPersistence();
-        try {
+        try 
+        {
             const values = await Marker.filter({ search: this.state.query, limit: 5, ...MarkerFilters.getParams() });
             this.setState({ suggestionsSearch: values.results });
         }
-        catch (e) {
+        catch (e) 
+        {
             toast.error("Internet Not Available", {
                 position: "bottom-center",
             });
@@ -134,15 +139,18 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
 
     async SuggestLocationsSearch(event: React.ChangeEvent<HTMLInputElement>)
     {
-        this.setState({query: event.target.value}, async ()=>{
+        this.setState({query: event.target.value}, async ()=>
+        {
             this.queryData();
         });
 
     }
 
-    handlePillSelect(type:keyof typeof this.state.filters, v: string){
+    handlePillSelect(type:keyof typeof this.state.filters, v: string)
+    {
         const filter = this.state.filters[type]??[].slice();
-        if(Array.isArray(filter)){
+        if(Array.isArray(filter))
+        {
             const index = (filter as string[]).indexOf(v);
             
             if (index > -1)
@@ -292,14 +300,15 @@ export class LocationQuerySearchBoxLoc extends LocationSearchBoxLoc<LocationQuer
 
                     <div className="bottombox w-100 py-1" style={{overflowX: "auto", whiteSpace: "nowrap"}}>
                         {
-                            Object.entries(this.state.filters).flatMap(([k, v], i1) => {
+                            Object.entries(this.state.filters).flatMap(([k, v], i1) => 
+                            {
                                 return (v as string[]).map((vK, i2) =>
-                                (
-                                    <StyledChip className="col-xs-4 mx-1" key={i1+i2} sx={{
-                                        background: " #3E64FF", borderRadius: "5px", color: "white",
-                                        fontSize: "8px", width: "76px", height: "21px"
-                                    }} label={((MarkerFilters.choiceList as any)[k] as any)[vK as any]} />
-                                ));
+                                    (
+                                        <StyledChip className="col-xs-4 mx-1" key={i1+i2} sx={{
+                                            background: " #3E64FF", borderRadius: "5px", color: "white",
+                                            fontSize: "8px", width: "76px", height: "21px"
+                                        }} label={((MarkerFilters.choiceList as any)[k] as any)[vK as any]} />
+                                    ));
                             })
                         }
 

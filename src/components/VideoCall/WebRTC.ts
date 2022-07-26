@@ -55,17 +55,25 @@ export default class WebRTC
             resolve();
         });
 
-        socket.onmessage = ({data}) => {console.log(JSON.parse(data), "recieved");this.onMessage(JSON.parse(data));};
+        socket.onmessage = ({data}) => 
+        {
+            console.log(JSON.parse(data), "recieved");this.onMessage(JSON.parse(data));
+        };
 
-        this.send = (type, data: unknown) => opened.then(() => {socket.send(JSON.stringify({type, data, metadata}));console.log({type, data, metadata}, "sent");});
+        this.send = (type, data: unknown) => opened.then(() => 
+        {
+            socket.send(JSON.stringify({type, data, metadata}));console.log({type, data, metadata}, "sent");
+        });
 
         this.peer = new RTCPeerConnection({iceServers: DEFAULT_ICE_SERVERS});
         this.peerReady = new Promise((resolve) => this.peer.onnegotiationneeded = resolve);
 
         this.peer.onicecandidate = ({candidate}) => candidate && this.send(TYPE_ICECANDIDATE, candidate);
-        this.peer.ontrack = ({streams}) => {
+        this.peer.ontrack = ({streams}) => 
+        {
             console.log("got stream", streams[0]);
-            if(streams[0]){
+            if(streams[0])
+            {
                 this.remoteAudio.srcObject = new MediaStream([streams[0].getAudioTracks()[0]]);
                 this.remoteVideo.srcObject  = new MediaStream([streams[0].getVideoTracks()[0]]);
             }
@@ -81,39 +89,51 @@ export default class WebRTC
             socket.close();
             this.peer.close();
         };
-        this.peer.addEventListener("connectionstatechange", event => {
+        this.peer.addEventListener("connectionstatechange", event => 
+        {
             console.log(this.peer.connectionState);
-            if (this.peer.connectionState === "connected") {
+            if (this.peer.connectionState === "connected") 
+            {
                 this.connected = true;
                 console.log("yaay connected");
-            }else
+            }
+            else
                 this.connected = false;
             
         });
     }
 
-    async makeCall(){
+    async makeCall()
+    {
         this.peer.addEventListener("negotiationneeded", ()=>this.createOffer());
         this.createOffer();
         this.polite = true;
     }
 
-    async createOffer(){
-        try {
+    async createOffer()
+    {
+        try 
+        {
             this.makingOffer = true;
             const offer = await this.peer.createOffer();
             if (this.peer.signalingState != "stable") return;
             await this.peer.setLocalDescription(offer);
             this.send(TYPE_DESCRIPTION, this.peer.localDescription);
-        } catch (e) {
+        }
+        catch (e) 
+        {
             console.log(`ONN ${e}`);
-        } finally {
+        }
+        finally 
+        {
             this.makingOffer = false;
         }
     }
 
-    private async handleDescription(description: RTCSessionDescriptionInit){
-        if (description) {
+    private async handleDescription(description: RTCSessionDescriptionInit)
+    {
+        if (description) 
+        {
             const offerCollision = description.type == "offer" &&
                 (this.makingOffer || this.peer.signalingState != "stable");
 
@@ -126,25 +146,29 @@ export default class WebRTC
                     this.peer.setLocalDescription({ type: "rollback" }),
                     this.peer.setRemoteDescription(description)
                 ]);
-             else 
+            else 
                 await this.peer.setRemoteDescription(description);
             
-            if (description.type == "offer") {
+            if (description.type == "offer") 
+            {
                 await this.peer.setLocalDescription(await this.peer.createAnswer());
                 this.send(TYPE_DESCRIPTION, this.peer.localDescription);
             }
         }
     }
 
-    private async setUpMedia() {
+    private async setUpMedia() 
+    {
         await this.media.setMediaStream("video");
         await this.media.setMediaStream("audio");
         this.handleTrackFromMedia("video");
         this.handleTrackFromMedia("audio");
     }
 
-    private handleTrackFromMedia(type: MediaTypes){
-        if (type === "video" && this.media.videoTrack) {
+    private handleTrackFromMedia(type: MediaTypes)
+    {
+        if (type === "video" && this.media.videoTrack) 
+        {
             this.videoRTCRtpSender = this.addTrack(this.media.videoTrack);
             this.localVideo.srcObject = new MediaStream([this.media.videoTrack]);
         }
@@ -153,13 +177,15 @@ export default class WebRTC
         
     }
 
-    private addTrack(track: MediaStreamTrack) {
+    private addTrack(track: MediaStreamTrack) 
+    {
         console.log(this.mediaStream, track);
         console.log(this.peer.connectionState);
         return this.peer.addTrack(track, this.mediaStream);
     }
 
-    private removeStream(type: MediaTypes){
+    private removeStream(type: MediaTypes)
+    {
         if(type === "video" && this.videoRTCRtpSender)
             this.peer.removeTrack(this.videoRTCRtpSender);
         else if(type === "audio"&& this.audioRTCRtpSender)
@@ -201,18 +227,23 @@ type MediaEvents = {
 }
 
 export type MediaTypes = "video" | "audio"
-class Media{
+class Media
+{
     videoTrack?: MediaStreamTrack;
     audioTrack?: MediaStreamTrack;
     private deniedSources: {audio?: boolean, video?: boolean} = {};
     private emitter: Events<MediaEvents> = new Events();
     private devices:{video?:string, audio?:string} = {};
 
-    async setMediaStream(type:MediaTypes){
-        if (type === "video"){
+    async setMediaStream(type:MediaTypes)
+    {
+        if (type === "video")
+        {
             this.videoTrack = await this.getTrack("video", this.devices["video"]);
-            if (this.videoTrack) {
-                this.videoTrack.addEventListener("ended", () => {
+            if (this.videoTrack) 
+            {
+                this.videoTrack.addEventListener("ended", () => 
+                {
                     delete this.videoTrack;
                     this.emitter.emit("videoToggle", false);
                     this.emitter.emit("streamEnd", "video");
@@ -220,10 +251,14 @@ class Media{
                 this.emitter.emit("videoToggle", true);
             }
             return this.videoTrack;
-        }else if (type === "audio"){
+        }
+        else if (type === "audio")
+        {
             this.audioTrack = await this.getTrack("audio", this.devices["audio"]);   
-            if (this.audioTrack) {
-                this.audioTrack.addEventListener("ended", () => {
+            if (this.audioTrack) 
+            {
+                this.audioTrack.addEventListener("ended", () => 
+                {
                     delete this.videoTrack;
                     this.emitter.emit("audioToggle", false);
                     this.emitter.emit("streamEnd", "audio");
@@ -235,53 +270,68 @@ class Media{
     }
 
 
-    on<E extends keyof MediaEvents>(event: E, callback: MediaEvents[E]) {
+    on<E extends keyof MediaEvents>(event: E, callback: MediaEvents[E]) 
+    {
         return this.emitter.on(event, callback);
     }
 
     private async getTrack(type: MediaTypes, devId?: string)
     {
-        try{
+        try
+        {
             const stream = await navigator.mediaDevices.getUserMedia({ [type]: devId ? { deviceId: { exact: devId } } : true });
             if(this.deniedSources[type])
                 this.deniedSources[type] = false;
             return stream.getTracks()[0];
-        }catch(e: any){
-            if(e.name === "NotAllowedError" || e.name == "SecurityError"){
+        }
+        catch(e: any)
+        {
+            if(e.name === "NotAllowedError" || e.name == "SecurityError")
+            {
                 this.deniedSources[type] = true;
                 this.emitter.emit("permissionDenied", type);
-            }else
+            }
+            else
                 throw e;
             
         }
     }
     
 
-    async toggleCamera(state:boolean){
-        if(this.videoTrack){
+    async toggleCamera(state:boolean)
+    {
+        if(this.videoTrack)
+        {
             this.videoTrack.enabled = state;
             this.emitter.emit("videoToggle", state);
-        }else
-            if(await this.setMediaStream("video")){
-                this.emitter.emit("newStream", "video");
-                this.emitter.emit("videoToggle", true);
-            }
+        }
+        else
+        if(await this.setMediaStream("video"))
+        {
+            this.emitter.emit("newStream", "video");
+            this.emitter.emit("videoToggle", true);
+        }
         
     }
 
-    async toggleMic(state:boolean){
-        if(this.audioTrack){
+    async toggleMic(state:boolean)
+    {
+        if(this.audioTrack)
+        {
             this.audioTrack.enabled = state;
             this.emitter.emit("audioToggle", state);
-        }else
-            if(await this.setMediaStream("audio")){
-                this.emitter.emit("newStream", "audio");
-                this.emitter.emit("audioToggle", true);
-            }
+        }
+        else
+        if(await this.setMediaStream("audio"))
+        {
+            this.emitter.emit("newStream", "audio");
+            this.emitter.emit("audioToggle", true);
+        }
         
     }  
 
-    end(){
+    end()
+    {
         this.videoTrack?.stop();
         this.audioTrack?.stop();
         delete this.audioTrack;

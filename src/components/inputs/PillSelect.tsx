@@ -37,11 +37,13 @@ const greychip = {
 
 export class PillSelect<T extends { [k: string]: string }> extends Component<PillSelectProps<T>, PillSelectState>
 {
-    constructor(props: PillSelectProps<T>) {
+    constructor(props: PillSelectProps<T>) 
+    {
         super(props);
     }
 
-    render() {
+    render() 
+    {
         return Object.entries(this.props.values).map(([value, label], key) => (
             <div key={key} className="child mb-2">
                 <StyledChip onClick={() => this.props.onChange(value)}

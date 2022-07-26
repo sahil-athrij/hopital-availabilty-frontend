@@ -56,20 +56,21 @@ export const markerMedicine = {
     "Ho": "Homeopathy"
 } as const;
 
- const markerfilters = {"financial_rating": ["gte", "lte", "exact"],
-                        "oxygen_rating": ["gte", "lte", "exact"], "ventilator_availability": ["gte", "lte", "exact"],
-                        "oxygen_availability": ["gte", "lte", "exact"], "icu_availability": ["gte", "lte", "exact"],
-                        "avg_cost": ["gte", "lte", "exact"],
-                        "care_rating": ["gte", "lte", "exact"], "covid_rating": ["gte", "lte", "exact"],
-                        "beds_available": ["gte", "lte", "exact"], "category": ["in"], "type": ["in"],
-                        "ownership": ["in"], "medicine": ["in"]} as const;
+const markerfilters = {"financial_rating": ["gte", "lte", "exact"],
+    "oxygen_rating": ["gte", "lte", "exact"], "ventilator_availability": ["gte", "lte", "exact"],
+    "oxygen_availability": ["gte", "lte", "exact"], "icu_availability": ["gte", "lte", "exact"],
+    "avg_cost": ["gte", "lte", "exact"],
+    "care_rating": ["gte", "lte", "exact"], "covid_rating": ["gte", "lte", "exact"],
+    "beds_available": ["gte", "lte", "exact"], "category": ["in"], "type": ["in"],
+    "ownership": ["in"], "medicine": ["in"]} as const;
                     
 
 export type TMarkerFilter = TFilterParams<typeof markerfilters, MarkerObject>
 
 const markerFilterChoices: TFilterChoiceList<TMarkerFilter>= {"category__in":markerCategories, "medicine__in":markerMedicine, "type__in":markerTypes, "ownership__in":markerOwnership};
 
-export class MarkerObject extends ModelObject {
+export class MarkerObject extends ModelObject 
+{
     lng = "0";
     comment: ReviewObject[] = [];
     oxygen_availability = 0;
@@ -94,7 +95,8 @@ export class MarkerObject extends ModelObject {
     ownership: keyof typeof markerOwnership = "U";
     medicine: keyof typeof markerMedicine = "Al";
 
-    constructor(data: ModelData, baseUrl: string) {
+    constructor(data: ModelData, baseUrl: string) 
+    {
 
         super(data, baseUrl);
         this.fields = ["id", "Phone", "size", "financial_rating", "avg_cost", "covid_rating", "beds_available", "care_rating",
@@ -485,7 +487,8 @@ export class BloodBankObject extends ModelObject
 
 }
 
-export class DoctorScheduleObject extends MarkerObject{
+export class DoctorScheduleObject extends MarkerObject
+{
     date =  "";
     doctor = "";
     id =  -1;

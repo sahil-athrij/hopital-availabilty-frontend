@@ -63,7 +63,7 @@ export default function CustomDatePicker({days, onChange}: CustomDatePickerProps
         pickersDayProps: PickersDayProps<Date>,
     ) =>
     {
-         if (!value)
+        if (!value)
             return <PickersDay {...pickersDayProps} />;
 
         let isInSchedule = false; let varient = null;
@@ -72,7 +72,8 @@ export default function CustomDatePicker({days, onChange}: CustomDatePickerProps
         {
             isInSchedule = isSameDay(date, day);
             
-            if(isInSchedule){
+            if(isInSchedule)
+            {
                 varient = v;
                 break;
             }

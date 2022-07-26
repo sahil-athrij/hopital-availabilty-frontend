@@ -6,22 +6,23 @@ interface Help {
   help?: () => void;
 }
 
-const Card: FC<Help> = ({ children, help }) => {
-  return (
-    <div className="center mt-5 coldir">
-      <div className="box-card  sha">
-        {children}
-        <div className="btns">
-          <Button className="sub subbt" variant="contained">
+const Card: FC<Help> = ({ children, help }) => 
+{
+    return (
+        <div className="center mt-5 coldir">
+            <div className="box-card  sha">
+                {children}
+                <div className="btns">
+                    <Button className="sub subbt" variant="contained">
             Decline
-          </Button>
-          <Button className="sub subbt" onClick={help} variant="contained">
+                    </Button>
+                    <Button className="sub subbt" onClick={help} variant="contained">
             Accept
-          </Button>
+                    </Button>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Card;
