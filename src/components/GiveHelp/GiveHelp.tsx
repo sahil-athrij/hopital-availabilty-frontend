@@ -102,23 +102,7 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
 
     };
 
-    givehelp = async (obj: PatientObject) =>
-    {
-        try
-        {
-            await obj.modify("help/");
-            toast.success("Thank you for helping out", {
-                position: "bottom-center"
-            });
-        }
-        catch (error)
-        {
-            console.error(error);
-            toast.error((error as { details: string }).details, {
-                position: "bottom-center"
-            });
-        }
-    };
+    
 
     fields=()=>
     {
