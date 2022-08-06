@@ -389,7 +389,7 @@ export class PatientObject extends ModelObject
     srfid = "";
     bunum = "";
     uid = -1;
-    request_type: "" | undefined;
+    request_type: "M" | "FI" | "O" | "F" | "B" | undefined;
     location: "" | undefined;
     reason: "" | undefined;
     attachment: "" | undefined;

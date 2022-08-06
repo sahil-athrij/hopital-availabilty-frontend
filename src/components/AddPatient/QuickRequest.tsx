@@ -86,6 +86,10 @@ class QuickRequest extends AuthComponent<AuthPropsLoc, QuickRequestState>
 
     render()
     {
+        if(!this.state.auth){
+            this.performAuth();
+            return <></>;
+        }
         return (
             <>
 
