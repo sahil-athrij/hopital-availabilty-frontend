@@ -15,20 +15,27 @@ import { Button, Chip, Container, ListItem } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 export interface PatientState extends AuthState {
-  models: PatientObject[];
-  helped_models: PatientObject[];
-  currenttab: number;
-  isLoading: boolean;
+    models: PatientObject[];
+    helped_models: PatientObject[];
+    currenttab: number;
+    isLoading: boolean;
 }
+const getType = (type: string) => {
+    if (type === "M")
+        return "Medical"
+    else if (type === "FI")
+        return "Financial"
+    else if (type === "B")
+        return "Blood"
+    else if (type === "O")
+        return "Other"
 
-export type AuthPropsLoc = RouteComponentProps<
-  Record<string, string | undefined>
->;
+}
+export type AuthPropsLoc = RouteComponentProps<Record<string, string | undefined>>;
 
-export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState> 
+export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
 {
-    constructor(props: AuthPropsLoc) 
-    {
+    constructor(props: AuthPropsLoc) {
         super(props);
         this.state = {
             ...this.state,
@@ -36,6 +43,7 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
             isLoading: true,
         };
     }
+
     styles = [
         {
             background: "linear-gradient(180deg, #0338B9 0%, #3E64FF 100%)",
@@ -53,40 +61,38 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
     ];
     tab_name = ["Requests", "Helped by you"];
 
-    componentDidMount() 
-    {
-        Patient.action_general("all", {}, true).then((patients) => 
-        {
+    componentDidMount() {
+        Patient.action_general("all", {}, true).then((patients) => {
             const results = patients.results;
             this.setState({ models: results });
         });
-        Patient.action_general("help", {}, true).then((patients) => 
-        {
+        Patient.action_general("help", {}, true).then((patients) => {
             const results = patients.results;
             this.setState({ helped_models: results });
         });
         this.setState({ isLoading: false });
     }
 
-    getgender = (gender: string) => 
-    {
-        if (gender === "M") return <img src={Maleicon} alt="" />;
-        else if (gender === "F") return <img src={Femaleicon} alt="" />;
-        else if (gender === "NB") return <img src={TransGen} alt="" />;
+    getgender = (gender: string) => {
+        if (gender === "M") {
+            return <img src={Maleicon} alt="" />;
+        }
+        else if (gender === "F") {
+            return <img src={Femaleicon} alt="" />;
+        }
+        else if (gender === "NB") {
+            return <img src={TransGen} alt="" />;
+        }
         else if (gender === "NP") return <img src={PrefNSay} alt="" />;
     };
 
-    givehelp = async (obj: PatientObject) => 
-    {
-        try 
-        {
+    givehelp = async (obj: PatientObject) => {
+        try {
             await obj.modify("help/");
             toast.success("Thank you for helping out", {
                 position: "bottom-center",
             });
-        }
-        catch (error) 
-        {
+        } catch (error) {
             console.error(error);
             toast.error((error as { details: string }).details, {
                 position: "bottom-center",
@@ -94,122 +100,82 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
         }
     };
 
-    fields = () => 
-    {
-        if (this.state.currenttab === 0)
+    fields = () => {
+        let model;
+        if (this.state.currenttab === 0) {
+            model = this.state.models
+        } else if (this.state.currenttab === 1) {
+            model = this.state.helped_models
+        }
+
+        if (model) {
             return (
                 <Container className="maincont">
-                    {this.state.models
-                        ? this.state.models.map((obj, key) => (
+                    {
+                        model.map((obj, key) => (
                             <div key={key}>
                                 <div className="mx-1">
-                                    <div className="maincard d-flex flex-row justify-content-between ">
-                                        <div className="  lefttxt  ">
-                                            <h1 className="title m-0">
-                                                {obj.Name}
-                                                {this.getgender(obj.gender)}
-                                            </h1>
-                                            <div className="subtitle">
-                                                <div>Symptoms:{obj.symptoms}</div>
-                                                <div>Since:{obj.symdays}</div>
+                                    <div className="maincard ">
+                                        <div className="card-heading">{getType(obj.request_type!) + " request"}</div>
+                                        <div className="d-flex flex-row justify-content-between ">
+                                            <div className="lefttxt">
+                                                <h1 className="title m-0">
+                                                    {obj.Name}
+                                                    {this.getgender(obj.gender)}
+                                                </h1>
+
+                                                <div className="subtitle">
+                                                    <div>Language:{this.state.user?.tokens.language?.map(l => l.name).join(", ")}</div>
+                                                </div>
+                                                <div className="subtitle">
+                                                    <div>Description :{obj.reason}</div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className=" subtitle  pt-4 ">
-                                            <div className="mt-1">
-                                                {obj.blood} <img src={Bloodgrp} alt="" />
-                                            </div>
-                                            <div className="mt-1">
-                          Covid:
-                                                {obj.covidresult ? (
-                                                    <img src={CovidPos} alt="" />
-                                                ) : (
-                                                    <img src={CovidNeg} alt="" />
-                                                )}
-                                            </div>
-                                            <div className="mt-1">CT score:{obj.ctscore}</div>
-                                            <Button
-                                                //   onClick={() => this.givehelp(obj)}
-                                                onClick={() =>
-                                                    this.props.history.push(`/help/${obj.id}`)
+                                            <div className="lefttxt ">
+                                                {
+                                                    obj.request_type === "M" && <div className="subtitle">
+                                                        <div>Symptoms:{obj.symptoms}</div>
+                                                        <div>Since:{obj.symdays}</div>
+
+                                                    </div>
                                                 }
-                                                sx={{
-                                                    borderRadius: "10px",
-                                                    marginBottom: "1rem",
-                                                    textTransform: "none",
-                                                    paddingX: "1.25rem",
-                                                    paddingY: ".25rem",
-                                                    marginTop: ".5rem",
-                                                }}
-                                                className="helpbutn"
-                                                variant="contained"
-                                            >
-                          View
-                                            </Button>
+                                            </div>
+                                            <div className=" subtitle  pt-4 ">
+                                                {
+
+                                                    obj.request_type === "B" && <div className="mt-1">
+                                                        <div>Blood group:{obj.blood}</div>
+                                                    </div>
+                                                }
+                                                <Button
+                                                    //   onClick={() => this.givehelp(obj)}
+                                                    onClick={() =>
+                                                        this.props.history.push(`/help/${obj.id}`)
+                                                    }
+                                                    sx={{
+                                                        borderRadius: "10px",
+                                                        marginBottom: "1rem",
+                                                        textTransform: "none",
+                                                        paddingX: "1.25rem",
+                                                        paddingY: ".25rem",
+                                                        marginTop: ".5rem",
+                                                    }}
+                                                    className="helpbutn"
+                                                    variant="contained"
+                                                >
+                                                    View
+                                                </Button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                         ))
-                        : null}
-                </Container>
-            );
-        if (this.state.currenttab === 1)
-            return (
-                <Container className="maincont">
-                    {this.state.helped_models
-                        ? this.state.helped_models.map((obj, key) => (
-                            <div key={key}>
-                                <div className="mx-1">
-                                    <div className="maincard d-flex flex-row justify-content-between ">
-                                        <div className="  lefttxt  ">
-                                            <h1 className="title m-0">
-                                                {obj.Name}
-                                                {this.getgender(obj.gender)}
-                                            </h1>
-                                            <div className="subtitle">
-                                                <div>Symptoms:{obj.symptoms}</div>
-                                                <div>Since:{obj.symdays}</div>
-                                            </div>
-                                        </div>
-                                        <div className=" subtitle  pt-4 ">
-                                            <div className="mt-1">
-                                                {obj.blood} <img src={Bloodgrp} alt="" />
-                                            </div>
-                                            <div className="mt-1">
-                          Covid:
-                                                {obj.covidresult ? (
-                                                    <img src={CovidPos} alt="" />
-                                                ) : (
-                                                    <img src={CovidNeg} alt="" />
-                                                )}
-                                            </div>
-                                            <div className="mt-1">CT score:{obj.ctscore}</div>
-                                            <Button
-                                                //   onClick={() => this.givehelp(obj)}
-                                                onClick={() =>
-                                                    this.props.history.push(`/help/${obj.id}`)
-                                                }
-                                                sx={{
-                                                    borderRadius: "10px",
-                                                    marginBottom: "1rem",
-                                                    textTransform: "none",
-                                                    paddingX: "1.25rem",
-                                                    paddingY: ".25rem",
-                                                    marginTop: ".5rem",
-                                                }}
-                                                className="helpbutn"
-                                                variant="contained"
-                                            >
-                          View
-                                            </Button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                        : null}
-                </Container>
-            );
+                    }
+                </Container >
+            )
+        }
     };
 
     // savePatient = async () => {
@@ -236,22 +202,18 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
     //             position: 'bottom-center'
     //         })
     // }
-    handleChange = () => 
-    {
+    handleChange = () => {
         this.setState({
             currenttab: this.state.currenttab + 1,
         });
     };
 
-    render() 
-    {
-        if (!this.state.auth) 
-        {
+    render() {
+        if (!this.state.auth) {
             this.performAuth();
             return <></>;
         }
-        else 
-        {
+        else {
             console.log(this.state);
             return (
                 <div className="mb-3 ">
@@ -263,7 +225,7 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
                         <p className="align-self-center m-0 p-0 text-left flex-grow-1 pl-4">
                             <b>Give Help</b>
                         </p>
-                    </Container>
+                    </Container>22.5
                     <div className=" mb-4 mt-4 pt-4 pb-2"></div>
                     <ListItem
                         className="d-flex justify-content-around"
