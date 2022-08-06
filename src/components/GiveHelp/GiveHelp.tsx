@@ -253,4 +253,5 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
     }
 }
 
-export const Givehelp = withRouter(GiveHelp);
+const Givehelp = withRouter(GiveHelp);
+export default Givehelp
