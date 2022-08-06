@@ -20,29 +20,42 @@ import { Privacy } from "./components/Privacy/Privacy";
 import { Add } from "./components/AddHospital/Add";
 import { DoctorComponent, BookingComponent } from "./components/Doctor/Doctor";
 import { AddDoctorComponent } from "./components/AddDoctor/AddDoctor";
-import { AddDepartmentComponent } from "./components/AddDepartment/AddDepartment";
-import { Addpatient } from "./components/AddPatient/AddPatient";
-import { Givehelp } from "./components/GiveHelp/GiveHelp";
+//import { AddDepartmentComponent } from "./components/AddDepartment/AddDepartment";
+//import { Addpatient } from "./components/AddPatient/AddPatient";
+
+const AddDepartmentComponent = React.lazy(() => import("./components/AddDepartment/AddDepartment"));
+const Addpatient = React.lazy(() => import("./components/AddPatient/AddPatient"));
+const Chat = React.lazy(() => import("./components/Chat"));
+const Swiper = React.lazy(() => import("./components/Chat/Swiper"));
+const VideoCall = React.lazy(() => import("./components/VideoCall"));
+const Notification = React.lazy(() => import("./components/Notification/Notification"));
+const ViewHelp = React.lazy(() => import("./components/GiveHelp/help/View"));
+const Givehelp = React.lazy(() => import("./components/GiveHelp/GiveHelp"));
+const SearchNurse = React.lazy(() => import("./components/Nurses/SearchNurse"));
+const SearchAmbulance = React.lazy(() => import("./components/Ambulance/SearchAmbulance"));
+const Searchdoctor = React.lazy(() => import("./components/Doctor/Searchdoctor"));
+
+//import { Givehelp } from "./components/GiveHelp/GiveHelp";
 import { AddHospitalReview } from "./components/AddReview/AddHospitalReview";
 import { createTheme } from "@mui/material/styles";
-import Searchdoctor from "./components/Doctor/Searchdoctor";
+//import Searchdoctor from "./components/Doctor/Searchdoctor";
 import { NavBar } from "./components/NavBar/navBar";
-import SearchNurse from "./components/Nurses/SearchNurse";
+//import SearchNurse from "./components/Nurses/SearchNurse";
 import { AddNurseComponent } from "./components/Nurses/AddNurse";
 import { NurseComponent } from "./components/Nurses/Nurse";
 import { UserPage } from "./components/User/Login";
 import { EditPage } from "./components/profile/edit";
-import SearchAmbulance from "./components/Ambulance/SearchAmbulance";
+//import SearchAmbulance from "./components/Ambulance/SearchAmbulance";
 import { AddFriendComponent } from "./components/AddFriend/AddFriend";
 import { AddAmbulanceComponent } from "./components/Ambulance/AddAmbulance";
 
-import Chat from "./components/Chat";
-import Swiper from "./components/Chat/Swiper";
-import VideoCall from "./components/VideoCall";
-import Notification from "./components/Notification/Notification";
+//import Chat from "./components/Chat";
+//import Swiper from "./components/Chat/Swiper";
+//import VideoCall from "./components/VideoCall";
+//import Notification from "./components/Notification/Notification";
 import { SearchUser } from "./components/Search/SearchUser";
 import { Quickrequest } from "./components/AddPatient/QuickRequest";
-import ViewHelp from "./components/GiveHelp/help/View";
+//import ViewHelp from "./components/GiveHelp/help/View";
 //SREEHARI TRIES
 import SlotArrange from "./components/DoctorDashBoard/SlotArrange";
 
@@ -56,21 +69,25 @@ const theme = createTheme({
     },
 });
 
+function Suspense({ children }: { children: React.ReactNode }) {
+    return <React.Suspense fallback={<>LOADING...</>}>
+        {children}
+    </React.Suspense>
+}
 interface AppRouterProps {
-  title: string; // This one is coming from the router
+    title: string; // This one is coming from the router
 }
 
 type AppProps = RouteComponentProps<AppRouterProps>;
 
-class AppLoc extends React.Component<AppProps> 
+class AppLoc extends React.Component<AppProps>
 {
     /**
    * Initialize props
    * Set the location into history stack
    */
 
-    constructor(props: AppProps) 
-    {
+    constructor(props: AppProps) {
         super(props);
         const location = this.props.location.pathname + this.props.location.search;
         this.props.history.replace(location);
@@ -80,8 +97,7 @@ class AppLoc extends React.Component<AppProps>
     /**
    * componentDidMount() method allows us to execute the React code even after component is rendered
    */
-    componentDidMount() 
-    {
+    componentDidMount() {
         getParam("lat", "", true);
         getParam("lng", "", true);
         getParam("loc", "Search Location", true);
@@ -91,16 +107,14 @@ class AppLoc extends React.Component<AppProps>
     /**
    * componentDidUpdate() method use to execute the code when the state of component changes
    */
-    componentDidUpdate() 
-    {
+    componentDidUpdate() {
         getParam("lat", "", true);
         getParam("lng", "", true);
         getParam("loc", "Search Location", true);
         getParam("query", "Search Hospital", true);
     }
 
-    render() 
-    {
+    render() {
         return (
             <div className="App">
                 {/*
@@ -121,13 +135,21 @@ class AppLoc extends React.Component<AppProps>
 
                     <Switch>
                         <Route path="/chat/:chatId">
-                            <Chat />
+                            <Suspense>
+                                <Chat />
+                            </Suspense>
+
                         </Route>
                         <Route path="/video_call/:chatId">
-                            <VideoCall />
+                            <Suspense>
+                                <VideoCall />
+                            </Suspense>
+
                         </Route>
                         <Route path="/chat" exact>
-                            <Swiper />
+                            <Suspense>
+                                <Swiper />
+                            </Suspense>
                             <BottomNav />
                         </Route>
                         <Route path="/doctor/add/:hospital">
@@ -156,7 +178,9 @@ class AppLoc extends React.Component<AppProps>
                             <BottomNav />
                         </Route>
                         <Route path="/notification">
-                            <Notification />
+                            <Suspense>
+                                <Notification />
+                            </Suspense>
                         </Route>
                         <Route path="/details/reviews/:hspId">
                             <AddHospitalReview />
@@ -176,7 +200,9 @@ class AppLoc extends React.Component<AppProps>
                             <SearchUser />
                         </Route>
                         <Route path="/ambulance">
-                            <SearchAmbulance />
+                            <Suspense>
+                                <SearchAmbulance />
+                            </Suspense>
                             <BottomNav />
                         </Route>
                         <Route path={"/profile/edit"}>
@@ -214,7 +240,9 @@ class AppLoc extends React.Component<AppProps>
                             <BottomNav />
                         </Route>
                         <Route path={"/addRequest"}>
-                            <Addpatient />
+                            <Suspense>
+                                <Addpatient />
+                            </Suspense>
                             <BottomNav />
                         </Route>
                         <Route path={"/quickRequest"} exact>
@@ -222,20 +250,28 @@ class AppLoc extends React.Component<AppProps>
                             <BottomNav />
                         </Route>
                         <Route path={"/help"} exact>
-                            <Givehelp />
+                            <Suspense>
+                                <Givehelp />
+                            </Suspense>
                             <BottomNav />
                         </Route>
                         <Route path={"/help/:id"}>
                             {/* <Givehelp/> */}
                             <BottomNav />
-                            <ViewHelp />
+                            <Suspense>
+                                <ViewHelp />
+                            </Suspense>
                         </Route>
                         <Route path={"/searchdoctor"}>
-                            <Searchdoctor />
+                            <Suspense>
+                                <Searchdoctor />
+                            </Suspense>
                             <BottomNav />
                         </Route>
                         <Route path={"/searchnurse"}>
-                            <SearchNurse />
+                            <Suspense>
+                                <SearchNurse />
+                            </Suspense>
                             <BottomNav />
                         </Route>
                         <Route path={"/addnurse/"}>
