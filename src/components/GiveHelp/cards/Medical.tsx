@@ -5,6 +5,7 @@ import "./med.css";
 import { toast } from "react-toastify";
 
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import { useHistory } from "react-router";
 export interface Pat {
   user: PatientObject;
 }
@@ -19,7 +20,11 @@ const getType= (type:string)=>{
         return "Other"                     
                                                 
 }
-const givehelp = async (obj: PatientObject) => 
+
+const Medical = ({ user }: Pat) => 
+{
+    const history = useHistory();
+    const givehelp = async (obj: PatientObject) => 
     {
         try 
         {
@@ -27,6 +32,7 @@ const givehelp = async (obj: PatientObject) =>
             toast.success("Thank you for helping out", {
                 position: "bottom-center",
             });
+            history.push("/help");
         }
         catch (error) 
         {
@@ -36,9 +42,6 @@ const givehelp = async (obj: PatientObject) =>
             });
         }
     };
-const Medical = ({ user }: Pat) => 
-{
-    console.log(user);
     const image =
     "https://s3-alpha-sig.figma.com/img/b239/cd59/a18c70b877211a4e109c17fa9dc080b9?Expires=1659916800&Signature=cRUWUOQzQyqWKnReFYoDwTqZh6elr-nNWsU0jlDBGXv2g81xLcKv6NSVq~1DEPD7pngn58rW3etQR3iGs92z~lQMGKpHg5Abc6BpsdwwvdFoMHDyT-9OLNkSTKGNm0rB5yMmhAriDCzxW0HTGoZUbLpR7uLgbb1L61iqiYV-jtqgJ9ofwTWUNR7LjiHykgwwZxKGPfUNXUzIzrvY0WJOyqULajZwkdnQsoAwtp56NXKWwGeRNINlVzd-P~RwFxCI-xZd6mijx8NKcG0x7OrCMU~oWMY0sTlPZf~uKcilrXT32NsjT-CNaUdwE22hPcoL-psx9jZM8JLn2mv9VR0opQ__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA";
     return (
