@@ -1,25 +1,25 @@
 import "./bootstrap.min.css";
-import { Index } from "./components/Index";
+import {Index} from "./components/Index";
 import React from "react";
-import { Route, RouteComponentProps, Switch, withRouter } from "react-router";
-import { Search } from "./pages/search";
-import { getParam } from "./api/QueryCreator";
-import { Details } from "./components/Details/Details";
-import { HandleInvite, HandleToken, refresh_user } from "./api/auth";
+import {Route, RouteComponentProps, Switch, withRouter} from "react-router";
+import {Search} from "./pages/search";
+import {getParam} from "./api/QueryCreator";
+import {Details} from "./components/Details/Details";
+import {HandleInvite, HandleToken, refresh_user} from "./api/auth";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import { Profile } from "./components/profile/Profile";
-import { ToastContainer } from "react-toastify";
+import {Profile} from "./components/profile/Profile";
+import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 import "./App.css";
-import { BottomNav } from "./components/NavBar/BottomNav";
+import {BottomNav} from "./components/NavBar/BottomNav";
 
-import { ThemeProvider } from "@mui/styles";
-import { green, pink } from "@mui/material/colors";
-import { Privacy } from "./components/Privacy/Privacy";
-import { Add } from "./components/AddHospital/Add";
-import { DoctorComponent, BookingComponent } from "./components/Doctor/Doctor";
-import { AddDoctorComponent } from "./components/AddDoctor/AddDoctor";
+import {ThemeProvider} from "@mui/styles";
+import {green, pink} from "@mui/material/colors";
+import {Privacy} from "./components/Privacy/Privacy";
+import {Add} from "./components/AddHospital/Add";
+import {DoctorComponent, BookingComponent} from "./components/Doctor/Doctor";
+import {AddDoctorComponent} from "./components/AddDoctor/AddDoctor";
 //import { AddDepartmentComponent } from "./components/AddDepartment/AddDepartment";
 //import { Addpatient } from "./components/AddPatient/AddPatient";
 
@@ -36,25 +36,25 @@ const SearchAmbulance = React.lazy(() => import("./components/Ambulance/SearchAm
 const Searchdoctor = React.lazy(() => import("./components/Doctor/Searchdoctor"));
 
 //import { Givehelp } from "./components/GiveHelp/GiveHelp";
-import { AddHospitalReview } from "./components/AddReview/AddHospitalReview";
-import { createTheme } from "@mui/material/styles";
+import {AddHospitalReview} from "./components/AddReview/AddHospitalReview";
+import {createTheme} from "@mui/material/styles";
 //import Searchdoctor from "./components/Doctor/Searchdoctor";
-import { NavBar } from "./components/NavBar/navBar";
+import {NavBar} from "./components/NavBar/navBar";
 //import SearchNurse from "./components/Nurses/SearchNurse";
-import { AddNurseComponent } from "./components/Nurses/AddNurse";
-import { NurseComponent } from "./components/Nurses/Nurse";
-import { UserPage } from "./components/User/Login";
-import { EditPage } from "./components/profile/edit";
+import {AddNurseComponent} from "./components/Nurses/AddNurse";
+import {NurseComponent} from "./components/Nurses/Nurse";
+import {UserPage} from "./components/User/Login";
+import {EditPage} from "./components/profile/edit";
 //import SearchAmbulance from "./components/Ambulance/SearchAmbulance";
-import { AddFriendComponent } from "./components/AddFriend/AddFriend";
-import { AddAmbulanceComponent } from "./components/Ambulance/AddAmbulance";
+import {AddFriendComponent} from "./components/AddFriend/AddFriend";
+import {AddAmbulanceComponent} from "./components/Ambulance/AddAmbulance";
 
 //import Chat from "./components/Chat";
 //import Swiper from "./components/Chat/Swiper";
 //import VideoCall from "./components/VideoCall";
 //import Notification from "./components/Notification/Notification";
-import { SearchUser } from "./components/Search/SearchUser";
-import { Quickrequest } from "./components/AddPatient/QuickRequest";
+import {SearchUser} from "./components/Search/SearchUser";
+import {Quickrequest} from "./components/AddPatient/QuickRequest";
 //import ViewHelp from "./components/GiveHelp/help/View";
 //SREEHARI TRIES
 import SlotArrange from "./components/DoctorDashBoard/SlotArrange";
@@ -69,23 +69,23 @@ const theme = createTheme({
     },
 });
 
-function Suspense({ children }: { children: React.ReactNode }) {
+function Suspense({children}: { children: React.ReactNode }) {
     return <React.Suspense fallback={<>LOADING...</>}>
         {children}
-    </React.Suspense>
+    </React.Suspense>;
 }
+
 interface AppRouterProps {
     title: string; // This one is coming from the router
 }
 
 type AppProps = RouteComponentProps<AppRouterProps>;
 
-class AppLoc extends React.Component<AppProps>
-{
+class AppLoc extends React.Component<AppProps> {
     /**
-   * Initialize props
-   * Set the location into history stack
-   */
+     * Initialize props
+     * Set the location into history stack
+     */
 
     constructor(props: AppProps) {
         super(props);
@@ -95,8 +95,8 @@ class AppLoc extends React.Component<AppProps>
     }
 
     /**
-   * componentDidMount() method allows us to execute the React code even after component is rendered
-   */
+     * componentDidMount() method allows us to execute the React code even after component is rendered
+     */
     componentDidMount() {
         getParam("lat", "", true);
         getParam("lng", "", true);
@@ -105,8 +105,8 @@ class AppLoc extends React.Component<AppProps>
     }
 
     /**
-   * componentDidUpdate() method use to execute the code when the state of component changes
-   */
+     * componentDidUpdate() method use to execute the code when the state of component changes
+     */
     componentDidUpdate() {
         getParam("lat", "", true);
         getParam("lng", "", true);
@@ -136,178 +136,185 @@ class AppLoc extends React.Component<AppProps>
                     <Switch>
                         <Route path="/chat/:chatId">
                             <Suspense>
-                                <Chat />
+                                <Chat/>
                             </Suspense>
 
                         </Route>
                         <Route path="/video_call/:chatId">
                             <Suspense>
-                                <VideoCall />
+                                <VideoCall/>
                             </Suspense>
 
                         </Route>
                         <Route path="/chat" exact>
                             <Suspense>
-                                <Swiper />
+                                <Swiper/>
                             </Suspense>
-                            <BottomNav />
+                            <BottomNav/>
                         </Route>
                         <Route path="/doctor/add/:hospital">
-                            <AddDoctorComponent />
-                            <BottomNav />
+                            <AddDoctorComponent/>
+                            <BottomNav/>
                         </Route>
                         <Route path="/department/add/:hospital">
-                            <AddDepartmentComponent />
-                            <BottomNav />
+                            <AddDepartmentComponent/>
+                            <BottomNav/>
                         </Route>
                         <Route path="/doctor/:docId" exact>
-                            <DoctorComponent />
-                            <BottomNav />
+                            <DoctorComponent/>
+                            <BottomNav/>
                         </Route>{" "}
                         {/* Show details about a doctor */}
                         <Route path="/doctor/:docId/book">
-                            <BookingComponent />
+                            <BookingComponent/>
                         </Route>{" "}
                         {/* Show booing doctor */}
                         <Route path="/doctor/add/:hospital">
-                            <AddDoctorComponent />
-                            <BottomNav />
+                            <AddDoctorComponent/>
+                            <BottomNav/>
                         </Route>
                         <Route path="/addFriend/:token">
-                            <AddFriendComponent />
-                            <BottomNav />
+                            <AddFriendComponent/>
+                            <BottomNav/>
                         </Route>
                         <Route path="/notification">
                             <Suspense>
-                                <Notification />
+                                <Notification/>
                             </Suspense>
                         </Route>
                         <Route path="/details/reviews/:hspId">
-                            <AddHospitalReview />
-                            <BottomNav />
+                            <AddHospitalReview/>
+                            <BottomNav/>
                         </Route>
                         <Route path="/details/:hspId">
                             {" "}
-                            <Details />
+                            <Details/>
                         </Route>
                         {/* Show details about a hospital */}
                         <Route path="/search" exact>
-                            <NavBar />
-                            <Search />
-                            <BottomNav />
+                            <NavBar/>
+                            <Search/>
+                            <BottomNav/>
                         </Route>
                         <Route path="/searchuser">
-                            <SearchUser />
+                            <SearchUser/>
                         </Route>
                         <Route path="/ambulance">
                             <Suspense>
-                                <SearchAmbulance />
+                                <SearchAmbulance/>
                             </Suspense>
-                            <BottomNav />
+                            <BottomNav/>
                         </Route>
                         <Route path={"/profile/edit"}>
-                            <EditPage />
-                            <BottomNav />
+                            <EditPage/>
+                            <BottomNav/>
                         </Route>
                         {/* If the current URL is /profile, this route is rendered
             while the rest are ignored */}
                         <Route path="/profile/">
-                            <Profile />
-                            <BottomNav />
+                            <Profile/>
+                            <BottomNav/>
                             {/* If the current URL is /set_token, this route is rendered
             while the rest are ignored */}
                         </Route>
                         <Route path="/set_token/">
-                            <HandleToken />
-                            <BottomNav />
+                            <HandleToken/>
+                            <BottomNav/>
                         </Route>
                         {/* If the current URL is /invite, this route is rendered
             while the rest are ignored */}
                         <Route path="/invite/">
-                            <HandleInvite />
-                            <BottomNav />
+                            <HandleInvite/>
+                            <BottomNav/>
                         </Route>
                         {/* If the current URL is /AddHospital, this route is rendered
             while the rest are ignored */}
                         <Route path="/AddHospital/">
-                            <Add />
-                            <BottomNav />
+                            <Add/>
+                            <BottomNav/>
                         </Route>
                         {/* If the current URL is /privacypolicy, this route is rendered
             while the rest are ignored */}
                         <Route path="/privacypolicy/">
-                            <Privacy />
-                            <BottomNav />
+                            <Privacy/>
+                            <BottomNav/>
                         </Route>
                         <Route path={"/addRequest"}>
                             <Suspense>
-                                <Addpatient />
+                                <Addpatient/>
                             </Suspense>
-                            <BottomNav />
+                            <BottomNav/>
                         </Route>
                         <Route path={"/quickRequest"} exact>
-                            <Quickrequest />
-                            <BottomNav />
+                            <Quickrequest/>
+                            <BottomNav/>
                         </Route>
                         <Route path={"/help"} exact>
                             <Suspense>
-                                <Givehelp />
+                                <Givehelp/>
                             </Suspense>
-                            <BottomNav />
+                            <BottomNav/>
                         </Route>
                         <Route path={"/help/:id"}>
                             {/* <Givehelp/> */}
-                            <BottomNav />
+                            <BottomNav/>
                             <Suspense>
-                                <ViewHelp />
+                                <ViewHelp/>
+                            </Suspense>
+                        </Route>
+                        <Route path={"/help/me/:id"}>
+
+                            <BottomNav/>
+                            <Suspense>
+                                <ViewHelp me={true} />
                             </Suspense>
                         </Route>
                         <Route path={"/searchdoctor"}>
                             <Suspense>
-                                <Searchdoctor />
+                                <Searchdoctor/>
                             </Suspense>
-                            <BottomNav />
+                            <BottomNav/>
                         </Route>
                         <Route path={"/searchnurse"}>
                             <Suspense>
-                                <SearchNurse />
+                                <SearchNurse/>
                             </Suspense>
-                            <BottomNav />
+                            <BottomNav/>
                         </Route>
                         <Route path={"/addnurse/"}>
-                            <AddNurseComponent />
-                            <BottomNav />
+                            <AddNurseComponent/>
+                            <BottomNav/>
                         </Route>
                         <Route path="/searchambulance">
-                            <SearchAmbulance />
-                            <BottomNav />
+                            <SearchAmbulance/>
+                            <BottomNav/>
                         </Route>
                         <Route path="/addambulance">
-                            <AddAmbulanceComponent />
-                            <BottomNav />
+                            <AddAmbulanceComponent/>
+                            <BottomNav/>
                         </Route>
                         <Route path={"/adddoctor"}>
-                            <AddDoctorComponent withoutHospital={true} />
-                            <BottomNav />
+                            <AddDoctorComponent withoutHospital={true}/>
+                            <BottomNav/>
                         </Route>
                         <Route path="/nurse/:nurseId">
-                            <NurseComponent />
-                            <BottomNav />
+                            <NurseComponent/>
+                            <BottomNav/>
                         </Route>
                         <Route path={"/user"}>
-                            <UserPage />
-                            <BottomNav />
+                            <UserPage/>
+                            <BottomNav/>
                         </Route>
                         <Route path={"/doctor"}>
-                            <SlotArrange />
-                            <BottomNav />
+                            <SlotArrange/>
+                            <BottomNav/>
                         </Route>
                         {/* If the current URL is /, this route is rendered
             while the rest are ignored */}
                         <Route path="/">
-                            <NavBar />
-                            <Index />
-                            <BottomNav />
+                            <NavBar/>
+                            <Index/>
+                            <BottomNav/>
                         </Route>
                     </Switch>
                 </ThemeProvider>

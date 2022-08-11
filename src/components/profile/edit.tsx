@@ -5,7 +5,7 @@ import {withRouter} from "react-router";
 
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
-    import {Avatar, Container, TextField, Autocomplete, MenuItem} from "@mui/material";
+import {Avatar, Container, TextField, Autocomplete, MenuItem} from "@mui/material";
 
 import * as React from "react";
 import "./edit.css";
@@ -67,7 +67,8 @@ class Edit extends AuthComponent<AuthPropsLoc, EditState>
         this.fileInput = React.createRef();
     }
 
-    componentWillMount(){
+    componentWillMount()
+    {
         if(!this.state.user)
             this.props.history.push("/");
     }
@@ -75,8 +76,8 @@ class Edit extends AuthComponent<AuthPropsLoc, EditState>
     {
         if (!this.state.user)
             return;
-        const {first_name, last_name,...tokens} = d;
-        const user: DeepPartial<typeof this.state.user> = {...this.state.user, first_name, last_name, tokens:{...this.state.user.tokens,...tokens}}
+        const {first_name, last_name, ...tokens} = d;
+        const user: DeepPartial<typeof this.state.user> = {...this.state.user, first_name, last_name, tokens:{...this.state.user.tokens, ...tokens}};
         const access_token = getAuth();
 
         return patch(`${baseUrl}/auth/users/me/`, user, {"Authorization": `Bearer ${access_token}`}).then(({results}) =>
@@ -145,8 +146,8 @@ class Edit extends AuthComponent<AuthPropsLoc, EditState>
 
     render()
     {
-        console.log(this.state.user?.tokens)
-        const user = this.state.user!
+        console.log(this.state.user?.tokens);
+        const user = this.state.user!;
         return (
             <HookFormWrapper<yup.InferType<typeof schema>>
                 defaultValues={{
@@ -159,7 +160,8 @@ class Edit extends AuthComponent<AuthPropsLoc, EditState>
                 }}
                 resolver={yupResolver(schema)}>
                 {
-                    ({ control, handleSubmit, getValues, register }) => {
+                    ({ control, handleSubmit, getValues, register }) => 
+                    {
                         const submit = handleSubmit((d) => this.save(d), (err)=>console.log(err));
 
                         return (
@@ -185,7 +187,8 @@ class Edit extends AuthComponent<AuthPropsLoc, EditState>
                                                         variant="standard"
                                                         InputProps={{
                                                             endAdornment: (
-                                                                <button onClick={() => {
+                                                                <button onClick={() => 
+                                                                {
                                                                     this.setState({
                                                                         ...this.state,
                                                                         user: { ...user, first_name: "" }
@@ -209,7 +212,8 @@ class Edit extends AuthComponent<AuthPropsLoc, EditState>
                                                         variant="standard"
                                                         InputProps={{
                                                             endAdornment: (
-                                                                <button onClick={() => {
+                                                                <button onClick={() => 
+                                                                {
                                                                     this.setState({
                                                                         ...this.state,
                                                                         user: { ...user, last_name: "" }
@@ -223,76 +227,77 @@ class Edit extends AuthComponent<AuthPropsLoc, EditState>
                                                 }
                                             </MUIController>
                                         </div>
-                                            {/*<p className="txthead mt-3">EMAIL</p>*/}
-                                            {/*<div className="d-flex justify-content-between flex-row align-items-center">*/}
-                                            {/*    <TextField*/}
-                                            {/*        value={this.state.user?.email}*/}
-                                            {/*        fullWidth*/}
-                                            {/*        onChange={({target}) => this.setState({*/}
-                                            {/*            ...this.state,*/}
-                                            {/*            user: {...this.state.user, email: target.value} as User*/}
-                                            {/*        })}*/}
-                                            {/*        variant="standard"*/}
-                                            {/*        InputProps={{*/}
-                                            {/*            endAdornment: (*/}
-                                            {/*                <button onClick={() =>*/}
-                                            {/*                {*/}
-                                            {/*                    this.setState({*/}
-                                            {/*                        ...this.state,*/}
-                                            {/*                        user: {...this.state.user, email: ""} as User*/}
-                                            {/*                    });*/}
-                                            {/*                }}>*/}
-                                            {/*                    <HighlightOffIcon/>*/}
-                                            {/*                </button>*/}
-                                            {/*            ),*/}
-                                            {/*        }}*/}
-                                            {/*    />*/}
-                                            {/*</div>*/}
-                                            <p className="txthead mt-3">PHONE</p>
-                                            <div className="d-flex justify-content-between flex-row align-items-center">
-                                                <MUIController name='phone_number' control={control as any}>
-                                                    {
-                                                        (props) => <TextField
-                                                            fullWidth
-                                                            {...props}
-                                                            variant="standard"
-                                                            InputProps={{
-                                                                endAdornment: (
-                                                                    <button onClick={() => {
-                                                                        this.setState({
-                                                                            ...this.state,
-                                                                            user: {
-                                                                                ...user,
-                                                                                tokens: { ...user.tokens, phone_number: "" }
-                                                                            }
-                                                                        });
-                                                                    }}>
-                                                                        <HighlightOffIcon />
-                                                                    </button>
-                                                                ),
-                                                            }}
-                                                        />
-                                                    }
-                                                </MUIController>
-                                            </div>
-                                            <div className="d-flex justify-content-between flex-row align-items-center"></div>
-                                            <MUIController name='gender' control={control as any}>
+                                        {/*<p className="txthead mt-3">EMAIL</p>*/}
+                                        {/*<div className="d-flex justify-content-between flex-row align-items-center">*/}
+                                        {/*    <TextField*/}
+                                        {/*        value={this.state.user?.email}*/}
+                                        {/*        fullWidth*/}
+                                        {/*        onChange={({target}) => this.setState({*/}
+                                        {/*            ...this.state,*/}
+                                        {/*            user: {...this.state.user, email: target.value} as User*/}
+                                        {/*        })}*/}
+                                        {/*        variant="standard"*/}
+                                        {/*        InputProps={{*/}
+                                        {/*            endAdornment: (*/}
+                                        {/*                <button onClick={() =>*/}
+                                        {/*                {*/}
+                                        {/*                    this.setState({*/}
+                                        {/*                        ...this.state,*/}
+                                        {/*                        user: {...this.state.user, email: ""} as User*/}
+                                        {/*                    });*/}
+                                        {/*                }}>*/}
+                                        {/*                    <HighlightOffIcon/>*/}
+                                        {/*                </button>*/}
+                                        {/*            ),*/}
+                                        {/*        }}*/}
+                                        {/*    />*/}
+                                        {/*</div>*/}
+                                        <p className="txthead mt-3">PHONE</p>
+                                        <div className="d-flex justify-content-between flex-row align-items-center">
+                                            <MUIController name='phone_number' control={control as any}>
                                                 {
-                                                    (props) => <TextField sx={{ width: 212 }}
-                                                        className="mt-4"
-                                                        select
-                                                        variant="outlined"
-                                                        label="Gender *"
-                                                        InputLabelProps={{ shrink: true, }}
+                                                    (props) => <TextField
+                                                        fullWidth
                                                         {...props}
-                                                    >
-                                                        <MenuItem value={"M"}>Male</MenuItem>
-                                                        <MenuItem value={"F"}>Female</MenuItem>
-                                                        <MenuItem value={"NB"}>Non Binary</MenuItem>
-                                                        <MenuItem value={"NP"}>Prefer Not to Say</MenuItem>
-                                                    </TextField>
+                                                        variant="standard"
+                                                        InputProps={{
+                                                            endAdornment: (
+                                                                <button onClick={() => 
+                                                                {
+                                                                    this.setState({
+                                                                        ...this.state,
+                                                                        user: {
+                                                                            ...user,
+                                                                            tokens: { ...user.tokens, phone_number: "" }
+                                                                        }
+                                                                    });
+                                                                }}>
+                                                                    <HighlightOffIcon />
+                                                                </button>
+                                                            ),
+                                                        }}
+                                                    />
                                                 }
                                             </MUIController>
+                                        </div>
+                                        <div className="d-flex justify-content-between flex-row align-items-center"></div>
+                                        <MUIController name='gender' control={control as any}>
+                                            {
+                                                (props) => <TextField sx={{ width: 212 }}
+                                                    className="mt-4"
+                                                    select
+                                                    variant="outlined"
+                                                    label="Gender *"
+                                                    InputLabelProps={{ shrink: true, }}
+                                                    {...props}
+                                                >
+                                                    <MenuItem value={"M"}>Male</MenuItem>
+                                                    <MenuItem value={"F"}>Female</MenuItem>
+                                                    <MenuItem value={"NB"}>Non Binary</MenuItem>
+                                                    <MenuItem value={"NP"}>Prefer Not to Say</MenuItem>
+                                                </TextField>
+                                            }
+                                        </MUIController>
                                         </div>
                                         <MUIController name='age' control={control as any}>
                                             {
@@ -304,13 +309,13 @@ class Edit extends AuthComponent<AuthPropsLoc, EditState>
                                             }
                                         </MUIController>
                                         <MUIController name='address' control={control as any}>
-                                        {
-                                            (props) => <TextField className="mt-4" fullWidth variant="outlined"
-                                                label="Location *" InputLabelProps={{ shrink: true, }}
-                                                {...props}
-                                            />
-                                        }
-                                    </MUIController>
+                                            {
+                                                (props) => <TextField className="mt-4" fullWidth variant="outlined"
+                                                    label="Location *" InputLabelProps={{ shrink: true, }}
+                                                    {...props}
+                                                />
+                                            }
+                                        </MUIController>
                                         <div className="d-flex justify-content-between flex-row align-items-center">
                                             <p className="txthead mt-3">LANGUAGES</p>
                                             <div className="d-flex justify-content-between flex-row align-items-center">
@@ -345,7 +350,7 @@ class Edit extends AuthComponent<AuthPropsLoc, EditState>
                                     </Container>
                                 }
                             </div>
-                        )
+                        );
                     }
                 }
             </HookFormWrapper>

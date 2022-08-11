@@ -1,6 +1,6 @@
-import { Patient, PatientObject } from "../../api/model";
-import { AuthComponent, AuthState } from "../../api/auth";
-import { RouteComponentProps, withRouter } from "react-router";
+import {Patient, PatientObject} from "../../api/model";
+import {AuthComponent, AuthState} from "../../api/auth";
+import {RouteComponentProps, withRouter} from "react-router";
 import * as React from "react";
 import "./GiveHelp.css";
 import Maleicon from "../../images/male.svg";
@@ -10,8 +10,8 @@ import CovidNeg from "../../images/corneg.svg";
 import Bloodgrp from "../../images/bloodgroup.svg";
 import TransGen from "../../images/TransGend.svg";
 import PrefNSay from "../../images/genderless.svg";
-import { toast } from "react-toastify";
-import { Button, Chip, Container, ListItem } from "@mui/material";
+import {toast} from "react-toastify";
+import {Button, Chip, Container, ListItem} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 export interface PatientState extends AuthState {
@@ -20,21 +20,21 @@ export interface PatientState extends AuthState {
     currenttab: number;
     isLoading: boolean;
 }
+
 const getType = (type: string) => {
     if (type === "M")
-        return "Medical"
+        return "Medical";
     else if (type === "FI")
-        return "Financial"
+        return "Financial";
     else if (type === "B")
-        return "Blood"
+        return "Blood";
     else if (type === "O")
-        return "Other"
+        return "Other";
 
-}
+};
 export type AuthPropsLoc = RouteComponentProps<Record<string, string | undefined>>;
 
-export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
-{
+export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState> {
     constructor(props: AuthPropsLoc) {
         super(props);
         this.state = {
@@ -64,26 +64,29 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
     componentDidMount() {
         Patient.action_general("all", {}, true).then((patients) => {
             const results = patients.results;
-            this.setState({ models: results });
+            this.setState({models: results});
         });
         Patient.action_general("help", {}, true).then((patients) => {
             const results = patients.results;
-            this.setState({ helped_models: results });
+            this.setState({helped_models: results});
         });
-        this.setState({ isLoading: false });
+        this.setState({isLoading: false});
     }
 
     getgender = (gender: string) => {
-        if (gender === "M") {
-            return <img src={Maleicon} alt="" />;
-        }
-        else if (gender === "F") {
-            return <img src={Femaleicon} alt="" />;
-        }
-        else if (gender === "NB") {
-            return <img src={TransGen} alt="" />;
-        }
-        else if (gender === "NP") return <img src={PrefNSay} alt="" />;
+        if (gender === "M")
+
+            return <img src={Maleicon} alt=""/>;
+
+        else if (gender === "F")
+
+            return <img src={Femaleicon} alt=""/>;
+
+        else if (gender === "NB")
+
+            return <img src={TransGen} alt=""/>;
+
+        else if (gender === "NP") return <img src={PrefNSay} alt=""/>;
     };
 
     givehelp = async (obj: PatientObject) => {
@@ -102,13 +105,17 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
 
     fields = () => {
         let model;
-        if (this.state.currenttab === 0) {
-            model = this.state.models
-        } else if (this.state.currenttab === 1) {
-            model = this.state.helped_models
-        }
+        if (this.state.currenttab === 0)
 
-        if (model) {
+            model = this.state.models;
+
+        else if (this.state.currenttab === 1)
+
+            model = this.state.helped_models;
+        console.log(model);
+
+        if (model)
+
             return (
                 <Container className="maincont">
                     {
@@ -150,7 +157,7 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
                                                 <Button
                                                     //   onClick={() => this.givehelp(obj)}
                                                     onClick={() =>
-                                                        this.props.history.push(`/help/${obj.id}`)
+                                                        this.props.history.push(`/help/${this.state.currenttab === 1 ? "me/" : ""}${obj.id}`)
                                                     }
                                                     sx={{
                                                         borderRadius: "10px",
@@ -173,9 +180,9 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
 
                         ))
                     }
-                </Container >
-            )
-        }
+                </Container>
+            );
+
     };
 
     // savePatient = async () => {
@@ -212,8 +219,7 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
         if (!this.state.auth) {
             this.performAuth();
             return <></>;
-        }
-        else {
+        } else {
             console.log(this.state);
             return (
                 <div className="mb-3 ">
@@ -254,4 +260,4 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState>
 }
 
 const Givehelp = withRouter(GiveHelp);
-export default Givehelp
+export default Givehelp;

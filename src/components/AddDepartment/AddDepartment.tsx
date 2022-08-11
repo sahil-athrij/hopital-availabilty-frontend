@@ -94,4 +94,4 @@ class AddDepartmentLoc extends AuthComponent<AuthPropsLoc, AddDepartmentState>
 }
 
 const AddDepartmentComponent = withRouter(AddDepartmentLoc);
-export default AddDepartmentComponent
+export default AddDepartmentComponent;

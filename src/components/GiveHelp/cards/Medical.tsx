@@ -9,15 +9,16 @@ import { useHistory } from "react-router";
 export interface Pat {
   user: PatientObject;
 }
-const getType= (type:string)=>{
+const getType= (type:string)=>
+{
     if(type === "M")
-        return "Medical"
+        return "Medical";
     else if(type === "FI")
-        return "Financial"
-                     else if(type === "B")
-        return "Blood"                           
-                           else if(type === "O")
-        return "Other"                     
+        return "Financial";
+    else if(type === "B")
+        return "Blood";                           
+    else if(type === "O")
+        return "Other";                     
                                                 
 }
 
@@ -83,7 +84,7 @@ const Medical = ({ user }: Pat) =>
                         </div>
                     </a>
                     }
-                </div> 
+                </div>
                 {user.request_type as any === "FI" && <div className="col cen">
                     <div className="inpt">
                         <p>Account holder name:</p>
@@ -104,25 +105,25 @@ const Medical = ({ user }: Pat) =>
                 </div>}
                 {
                     user.request_type as any === "M" && <div className="col cen">
-                    <div className="inpt">
-                        <p>Syptoms:</p>
-                        <span className="result">{user.symptoms}</span>
+                        <div className="inpt">
+                            <p>Syptoms:</p>
+                            <span className="result">{user.symptoms}</span>
+                        </div>
+                        <div className="inpt">
+                            <p>Bed type:</p>
+                            <span className="result">{user.bedtype_name}</span>
+                        </div>
                     </div>
-                    <div className="inpt">
-                        <p>Bed type:</p>
-                        <span className="result">{user.bedtype_name}</span>
-                    </div>
-                </div>
 
                 }
-                                {
+                {
                     user.request_type as any === "M" || user.request_type as any === "B" && <div className="col cen">
 
-                    <div className="inpt">
-                        <p>Blood group:</p>
-                        <span className="result">{user.blood}</span>
+                        <div className="inpt">
+                            <p>Blood group:</p>
+                            <span className="result">{user.blood}</span>
+                        </div>
                     </div>
-                </div>
 
                 }
             </Card>
