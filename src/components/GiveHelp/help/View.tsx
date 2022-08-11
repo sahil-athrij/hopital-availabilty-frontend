@@ -44,6 +44,7 @@ class ViewHelp extends AuthComponent<NewProps, NewState> {
     };
 
     componentDidMount() {
+        console.log(this, this.props.me);
         Patient.action_general(this.props.me ? "help" : "all", {}, true).then((patients) => {
             const id: string = this.props.match.params.id as string;
             if (!id) this.props.history.push("/help");
@@ -51,8 +52,7 @@ class ViewHelp extends AuthComponent<NewProps, NewState> {
             this.setState({model: results});
             const user = results.find((el: PatientObject) => el.id === parseInt(id));
             console.log(results);
-
-            if (!user) this.props.history.push("/help");
+            // if (!user) this.props.history.push("/help");
             this.setState({model: user});
             this.setState({isLoading: false});
             console.log(this.state.model);

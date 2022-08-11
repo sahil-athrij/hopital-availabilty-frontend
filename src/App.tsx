@@ -263,10 +263,10 @@ class AppLoc extends React.Component<AppProps> {
                             </Suspense>
                         </Route>
                         <Route path={"/help/me/:id"}>
-                            {/* <Givehelp/> */}
+
                             <BottomNav/>
                             <Suspense>
-                                <ViewHelp me/>
+                                <ViewHelp me={true} />
                             </Suspense>
                         </Route>
                         <Route path={"/searchdoctor"}>

@@ -157,7 +157,7 @@ export class GiveHelp extends AuthComponent<AuthPropsLoc, PatientState> {
                                                 <Button
                                                     //   onClick={() => this.givehelp(obj)}
                                                     onClick={() =>
-                                                        this.props.history.push(`/help/${this.state.currenttab === 1 && "me/"}${obj.id}`)
+                                                        this.props.history.push(`/help/${this.state.currenttab === 1 ? "me/" : ""}${obj.id}`)
                                                     }
                                                     sx={{
                                                         borderRadius: "10px",
