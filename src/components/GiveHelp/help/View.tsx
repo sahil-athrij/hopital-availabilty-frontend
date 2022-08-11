@@ -1,24 +1,27 @@
-import { Container } from "@mui/system";
+import {Container} from "@mui/system";
 import React from "react";
 import Loader from "react-loader-spinner";
-import { withRouter } from "react-router";
-import { toast } from "react-toastify";
-import { AuthComponent, AuthState } from "../../../api/auth";
-import { Patient, PatientObject } from "../../../api/model";
-import { StickyHead } from "../../Utils";
+import {withRouter} from "react-router";
+import {toast} from "react-toastify";
+import {AuthComponent, AuthState} from "../../../api/auth";
+import {Patient, PatientObject} from "../../../api/model";
+import {StickyHead} from "../../Utils";
 import Medical from "../cards/Medical";
-import { AuthPropsLoc } from "../GiveHelp";
+import {AuthPropsLoc} from "../GiveHelp";
 import CloseIcon from "@mui/icons-material/Close";
 
-interface NewProp extends AuthState {
-  model: PatientObject;
-  isLoading: boolean;
+interface NewState extends AuthState {
+    model: PatientObject;
+    isLoading: boolean;
 }
 
-class ViewHelp extends AuthComponent<AuthPropsLoc, NewProp> 
-{
-    constructor(props: AuthPropsLoc) 
-    {
+interface NewProps extends AuthPropsLoc {
+
+    me?: boolean;
+}
+
+class ViewHelp extends AuthComponent<NewProps, NewState> {
+    constructor(props: AuthPropsLoc) {
         super(props);
         this.state = {
             ...this.state,
@@ -26,17 +29,13 @@ class ViewHelp extends AuthComponent<AuthPropsLoc, NewProp>
         };
     }
 
-    givehelp = async (obj: PatientObject) => 
-    {
-        try 
-        {
+    givehelp = async (obj: PatientObject) => {
+        try {
             await obj.modify("help/");
             toast.success("Thank you for helping out", {
                 position: "bottom-center",
             });
-        }
-        catch (error) 
-        {
+        } catch (error) {
             console.error(error);
             toast.error((error as { details: string }).details, {
                 position: "bottom-center",
@@ -44,24 +43,23 @@ class ViewHelp extends AuthComponent<AuthPropsLoc, NewProp>
         }
     };
 
-    componentDidMount() 
-    {
-        Patient.action_general("all", {}, true).then((patients) => 
-        {
+    componentDidMount() {
+        Patient.action_general(this.props.me ? "help" : "all", {}, true).then((patients) => {
             const id: string = this.props.match.params.id as string;
             if (!id) this.props.history.push("/help");
             const results = patients.results;
-            this.setState({ model: results });
+            this.setState({model: results});
             const user = results.find((el: PatientObject) => el.id === parseInt(id));
+            console.log(results);
+
             if (!user) this.props.history.push("/help");
-            this.setState({ model: user });
-            this.setState({ isLoading: false });
+            this.setState({model: user});
+            this.setState({isLoading: false});
             console.log(this.state.model);
         });
     }
 
-    render() 
-    {
+    render() {
         if (this.state.isLoading)
             return (
                 <>
@@ -75,13 +73,13 @@ class ViewHelp extends AuthComponent<AuthPropsLoc, NewProp>
                                 <b>Give Help</b>
                             </p>
                         </Container>
-                        <Loader type="Bars" color="#3a77ff" height={50} width={50} />
+                        <Loader type="Bars" color="#3a77ff" height={50} width={50}/>
                     </Container>
                 </>
             );
         return (
             <>
-                <Medical user={this.state.model} />
+                <Medical user={this.state.model}/>
                 <Container className=" tophead fixed-top d-flex justify-content-between p-3 ">
                     <CloseIcon
                         className="d-flex align-self-center"

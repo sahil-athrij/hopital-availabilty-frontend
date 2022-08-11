@@ -570,6 +570,6 @@ export class AddPatient extends AuthComponent<AuthPropsLoc, AddPatientState>
     }
 }
 
-const Addpatient = withRouter(AddPatient!)
+const Addpatient = withRouter(AddPatient!);
 
-export default Addpatient
+export default Addpatient;
